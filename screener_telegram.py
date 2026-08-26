@@ -10,7 +10,7 @@ import telebot
 # ============================================
 # ✅ USE YOUR CORRECT BOT TOKEN
 # ============================================
-BOT_TOKEN = os.environ.get('BOT_TOKEN', "YOUR_CORRECT_TOKEN_HERE")
+BOT_TOKEN = os.environ.get('BOT_TOKEN', "8753313590:AAFdhJQTTRFP-NLc8dtEqbZu0vQLSpA6fY")
 YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 # ============================================
 
