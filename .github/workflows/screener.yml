@@ -1,1 +1,30 @@
+name: Stock Breakout Screener
 
+on:
+  schedule:
+    # Runs every 30 minutes during US market hours (9:30am-4pm ET)
+    # Cron is in UTC. This covers 13:30-20:00 UTC (adjusts automatically
+    # for ET, not for daylight saving - see note below).
+    - cron: '0,30 13-20 * * 1-5'
+  workflow_dispatch: {}   # lets you also trigger it manually from GitHub
+
+jobs:
+  run-screener:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install yfinance pandas requests
+
+      - name: Run screener
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python screener_telegram.py
