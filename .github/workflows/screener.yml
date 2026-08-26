@@ -1,12 +1,12 @@
-name: Stock Screener Bot
+name: NSE Stock Screener
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+    - cron: '*/30 * * * *'  # Runs every 30 minutes
+  workflow_dispatch:  # Allows manual run
 
 jobs:
-  run-screener:
+  scan-stocks:
     runs-on: ubuntu-latest
     
     steps:
