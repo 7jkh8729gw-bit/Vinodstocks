@@ -1,113 +1,272 @@
 import yfinance as yf
 import pandas as pd
 import numpy as np
+import time
+import threading
+import requests
+from datetime import datetime
+import telebot
 
+# ============================================
+# YOUR BOT DETAILS - ALREADY FILLED IN
+# ============================================
+BOT_TOKEN = "8753313590:AAFdhJQTTRFP-NLc8dtEqbZu0vQLSpA6fY"
+YOUR_CHAT_ID = "5261154533"
+# ============================================
+
+# Initialize Telegram bot
+bot = telebot.TeleBot(BOT_TOKEN)
+
+print("=" * 50)
+print("🤖 NSE STOCK SCREENER BOT")
+print("=" * 50)
+print(f"📱 Bot Name: @Vinodstocks_bot")
+print(f"🆔 Chat ID: {YOUR_CHAT_ID}")
+print("=" * 50)
+
+# ============================================
+# NSE STOCK LIST - GETS ALL NSE STOCKS
+# ============================================
+def get_all_nse_stocks():
+    """Get all NSE stock symbols"""
+    print("📊 Fetching NSE stock list...")
+    try:
+        url = "https://www.nseindia.com/api/equity-stockIndices?index=SECURITIES%20IN%20F%26O"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            'Accept': 'application/json',
+        }
+        response = requests.get(url, headers=headers, timeout=30)
+        
+        if response.status_code == 200:
+            data = response.json()
+            symbols = []
+            for item in data.get('data', []):
+                symbol = item.get('symbol')
+                if symbol:
+                    symbols.append(symbol)
+            print(f"✅ Found {len(symbols)} NSE stocks")
+            return symbols
+        else:
+            print(f"⚠️ Using fallback list")
+            return get_fallback_stocks()
+    except:
+        print("⚠️ Using fallback list")
+        return get_fallback_stocks()
+
+def get_fallback_stocks():
+    """Fallback list of major NSE stocks"""
+    return [
+        'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK',
+        'HINDUNILVR', 'ITC', 'SBIN', 'BHARTIARTL', 'KOTAKBANK',
+        'LT', 'HCLTECH', 'AXISBANK', 'MARUTI', 'SUNPHARMA',
+        'TITAN', 'WIPRO', 'ULTRACEMCO', 'BAJFINANCE', 'NTPC',
+        'POWERGRID', 'M&M', 'TATAMOTORS', 'TATASTEEL', 'JSWSTEEL',
+        'TECHM', 'NESTLEIND', 'ONGC', 'HDFC', 'ADANIPORTS',
+        'ADANIENT', 'DMART', 'SBILIFE', 'HINDALCO', 'BRITANNIA'
+    ]
+
+# ============================================
+# SCREENING FUNCTIONS
+# ============================================
 def calculate_dema(data, period):
-    """Calculate Double Exponential Moving Average (DEMA)"""
+    """Calculate Double Exponential Moving Average"""
     ema1 = data.ewm(span=period, adjust=False).mean()
     ema2 = ema1.ewm(span=period, adjust=False).mean()
-    dema = 2 * ema1 - ema2
-    return dema
+    return 2 * ema1 - ema2
 
-def check_stock_conditions(symbol):
-    """
-    Check if a stock meets all screening conditions
-    Returns: (bool, dict) - (pass/fail, details)
-    """
+def check_stock(symbol):
+    """Check if a stock meets ALL conditions"""
     try:
-        # Fetch stock data
-        ticker = yf.Ticker(symbol)
+        ticker = yf.Ticker(f"{symbol}.NS")
         info = ticker.info
-        hist = ticker.history(period="6mo")  # Enough for 200-day DEMA
+        hist = ticker.history(period="6mo")
         
-        # 1. Market Cap > 1000 (in millions or crores, adjust as needed)
+        # 1. Market Cap > 1000 Crore
         market_cap = info.get('marketCap', 0)
         if market_cap == 0:
-            # Try alternative field
             market_cap = info.get('enterpriseValue', 0)
-        market_cap_in_millions = market_cap / 1_000_000  # Convert to millions
+        market_cap_crores = market_cap / 10_000_000
         
-        # 2. Close Price > 100
+        # 2. Price > 100
         current_price = info.get('regularMarketPrice', info.get('currentPrice', 0))
         
-        # 3. Day % Change: 0 to 15%
-        previous_close = info.get('regularMarketPreviousClose', 0)
-        if previous_close > 0:
-            day_change_pct = ((current_price - previous_close) / previous_close) * 100
+        # 3. Day Change: 0 to 15%
+        prev_close = info.get('regularMarketPreviousClose', 0)
+        if prev_close > 0:
+            day_change = ((current_price - prev_close) / prev_close) * 100
         else:
-            day_change_pct = 0
-            
-        # 4. Daily Volume > 200,000
-        daily_volume = info.get('regularMarketVolume', 0)
+            day_change = 0
         
-        # 5. Month Average Volume > 500,000
-        avg_volume_3m = info.get('averageDailyVolume3Month', 0)
+        # 4. Volume > 200,000
+        volume = info.get('regularMarketVolume', 0)
         
-        # 6. % Away from 52-Week High: 0-10%
+        # 5. 3M Avg Volume > 500,000
+        avg_volume = info.get('averageDailyVolume3Month', 0)
+        
+        # 6. 0-10% from 52W High
         high_52w = info.get('fiftyTwoWeekHigh', 0)
         if high_52w > 0:
             pct_from_high = ((high_52w - current_price) / high_52w) * 100
         else:
-            pct_from_high = 100  # Fail if no data
+            pct_from_high = 100
         
-        # 7. Calculate DEMAs (need at least 200 days of data)
+        # 7. Calculate DEMAs
         if len(hist) >= 200:
-            dema_10 = calculate_dema(hist['Close'], 10)
-            dema_50 = calculate_dema(hist['Close'], 50)
-            dema_200 = calculate_dema(hist['Close'], 200)
-            
-            latest_dema_10 = dema_10.iloc[-1]
-            latest_dema_50 = dema_50.iloc[-1]
-            latest_dema_200 = dema_200.iloc[-1]
-            
-            cond_10_50 = latest_dema_10 > latest_dema_50
-            cond_50_200 = latest_dema_50 > latest_dema_200
+            dema_10 = calculate_dema(hist['Close'], 10).iloc[-1]
+            dema_50 = calculate_dema(hist['Close'], 50).iloc[-1]
+            dema_200 = calculate_dema(hist['Close'], 200).iloc[-1]
+            cond_10_50 = dema_10 > dema_50
+            cond_50_200 = dema_50 > dema_200
         else:
+            dema_10 = 0
+            dema_50 = 0
+            dema_200 = 0
             cond_10_50 = False
             cond_50_200 = False
         
         # Check ALL conditions
         conditions_met = (
-            market_cap_in_millions > 1000 and
+            market_cap_crores > 1000 and
             current_price > 100 and
-            0 <= day_change_pct <= 15 and
-            daily_volume > 200000 and
-            avg_volume_3m > 500000 and
+            0 <= day_change <= 15 and
+            volume > 200000 and
+            avg_volume > 500000 and
             0 <= pct_from_high <= 10 and
             cond_10_50 and
             cond_50_200
         )
         
-        # Prepare details for alert message
-        details = {
-            'symbol': symbol,
-            'price': current_price,
-            'market_cap_millions': market_cap_in_millions,
-            'day_change_pct': day_change_pct,
-            'volume': daily_volume,
-            'avg_volume_3m': avg_volume_3m,
-            'pct_from_high': pct_from_high,
-            'dema_10': latest_dema_10 if len(hist) >= 200 else 'N/A',
-            'dema_50': latest_dema_50 if len(hist) >= 200 else 'N/A',
-            'dema_200': latest_dema_200 if len(hist) >= 200 else 'N/A'
-        }
-        
-        return conditions_met, details
-        
-    except Exception as e:
-        print(f"Error checking {symbol}: {e}")
+        if conditions_met:
+            details = {
+                'symbol': symbol,
+                'price': current_price,
+                'market_cap': market_cap_crores,
+                'day_change': day_change,
+                'volume': volume,
+                'avg_volume': avg_volume,
+                'pct_from_high': pct_from_high,
+                'dema_10': dema_10,
+                'dema_50': dema_50,
+                'dema_200': dema_200
+            }
+            return True, details
+        return False, {}
+            
+    except:
         return False, {}
 
 def format_alert_message(details):
-    """Format the alert message for Telegram"""
-    message = f"🚨 *SCREENER ALERT: {details['symbol']}* 🚨\n\n"
-    message += f"📊 *Current Price:* ${details['price']:.2f}\n"
-    message += f"💼 *Market Cap:* ${details['market_cap_millions']:.1f}M\n"
-    message += f"📈 *Day Change:* {details['day_change_pct']:.2f}%\n"
-    message += f"📊 *Volume:* {details['volume']:,}\n"
-    message += f"📊 *3M Avg Volume:* {details['avg_volume_3m']:,}\n"
-    message += f"📉 *From 52W High:* {details['pct_from_high']:.2f}%\n"
-    message += f"📈 *10 DEMA:* {details['dema_10']:.2f} (50 DEMA: {details['dema_50']:.2f})\n"
-    message += f"📈 *50 DEMA:* {details['dema_50']:.2f} (200 DEMA: {details['dema_200']:.2f})\n"
-    message += "\n✅ *All screening conditions met!*"
-    return message
+    """Format alert message for Telegram"""
+    msg = f"🚨 *SCREENER ALERT: {details['symbol']}* 🚨\n\n"
+    msg += f"💰 *Price:* ₹{details['price']:.2f}\n"
+    msg += f"📊 *Market Cap:* ₹{details['market_cap']:.1f} Cr\n"
+    msg += f"📈 *Day Change:* {details['day_change']:.2f}%\n"
+    msg += f"📊 *Volume:* {details['volume']:,}\n"
+    msg += f"📊 *3M Avg Volume:* {details['avg_volume']:,}\n"
+    msg += f"📉 *From 52W High:* {details['pct_from_high']:.2f}%\n"
+    msg += f"📈 *10 DEMA:* {details['dema_10']:.2f}\n"
+    msg += f"📈 *50 DEMA:* {details['dema_50']:.2f}\n"
+    msg += f"📈 *200 DEMA:* {details['dema_200']:.2f}\n"
+    msg += "\n✅ *All conditions met!*"
+    return msg
+
+# ============================================
+# MAIN SCANNER
+# ============================================
+def run_scanner():
+    """Main scanner loop"""
+    stocks = get_all_nse_stocks()
+    print(f"📊 Monitoring {len(stocks)} stocks")
+    alert_log = {}
+    COOLDOWN_MINUTES = 60
+    
+    while True:
+        try:
+            print(f"\n🕐 Scan: {datetime.now().strftime('%H:%M:%S')}")
+            alerts_sent = 0
+            
+            for symbol in stocks:
+                if symbol in alert_log:
+                    if (time.time() - alert_log[symbol]) / 60 < COOLDOWN_MINUTES:
+                        continue
+                
+                passed, details = check_stock(symbol)
+                
+                if passed:
+                    msg = format_alert_message(details)
+                    try:
+                        bot.send_message(YOUR_CHAT_ID, msg, parse_mode='Markdown')
+                        alerts_sent += 1
+                        alert_log[symbol] = time.time()
+                        print(f"✅ ALERT: {symbol}")
+                    except:
+                        pass
+                
+                time.sleep(0.3)
+            
+            print(f"✅ Done. Alerts: {alerts_sent}")
+            time.sleep(60 * 5)
+            
+        except Exception as e:
+            print(f"❌ Error: {e}")
+            time.sleep(60)
+
+# ============================================
+# TELEGRAM COMMANDS
+# ============================================
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    welcome_text = """
+🤖 *Vinodstocks NSE Screener*
+
+I scan ALL NSE stocks for:
+✅ Market Cap > ₹1000 Cr
+✅ Price > ₹100
+✅ Day Change: 0-15%
+✅ Volume > 200,000
+✅ 3M Avg Vol > 500,000
+✅ 0-10% from 52W High
+✅ 10 DEMA > 50 DEMA
+✅ 50 DEMA > 200 DEMA
+
+Commands:
+/start - Show this
+/status - Check status
+
+I'll alert you when ANY stock meets ALL conditions!
+"""
+    bot.reply_to(message, welcome_text, parse_mode='Markdown')
+
+@bot.message_handler(commands=['status'])
+def check_status(message):
+    status_text = f"""
+📊 *Scanner Status*
+✅ Running
+🕐 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
+"""
+    bot.reply_to(message, status_text, parse_mode='Markdown')
+
+# ============================================
+# RUN BOT
+# ============================================
+if __name__ == "__main__":
+    # Send test message
+    try:
+        bot.send_message(YOUR_CHAT_ID, "🤖 Bot online! Starting NSE scanner...")
+        print("✅ Test message sent!")
+    except:
+        print("⚠️ Could not send test message")
+    
+    # Start scanner
+    scanner_thread = threading.Thread(target=run_scanner, daemon=True)
+    scanner_thread.start()
+    
+    print("\n" + "=" * 50)
+    print("🤖 Bot running: @Vinodstocks_bot")
+    print("📊 Scanning NSE stocks")
+    print("⏹️ Press Ctrl+C to stop")
+    print("=" * 50 + "\n")
+    
+    # Start bot
+    bot.polling(none_stop=True)
