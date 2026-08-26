@@ -8,9 +8,9 @@ from datetime import datetime
 import telebot
 
 # ============================================
-# YOUR BOT DETAILS - ALREADY FILLED IN
+# YOUR BOT DETAILS - CONFIRMED WORKING
 # ============================================
-BOT_TOKEN = os.environ.get('BOT_TOKEN', "8753313590:AAFdhJQTTRFP-NLc8dtEqbZu0vQLSpA6fY")
+BOT_TOKEN = os.environ.get('BOT_TOKEN', "8752957835:AAGGIz2F17tIviD_lDRmEcVSRIvBScew_bY")
 YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 # ============================================
 
@@ -30,7 +30,6 @@ try:
 except Exception as e:
     print(f"❌ Bot connection failed: {e}")
     print("Please check your BOT_TOKEN")
-    print("Get your token from @BotFather with /token command")
     exit(1)
 
 # ============================================
@@ -59,8 +58,8 @@ def get_all_nse_stocks():
         else:
             print(f"⚠️ Using fallback list")
             return get_fallback_stocks()
-    except:
-        print("⚠️ Using fallback list")
+    except Exception as e:
+        print(f"⚠️ Error fetching NSE stocks: {e}")
         return get_fallback_stocks()
 
 def get_fallback_stocks():
@@ -162,7 +161,7 @@ def check_stock(symbol):
             return True, details
         return False, {}
             
-    except:
+    except Exception as e:
         return False, {}
 
 def format_alert_message(details):
@@ -181,10 +180,10 @@ def format_alert_message(details):
     return msg
 
 # ============================================
-# MAIN SCANNER - SIMPLIFIED FOR GITHUB ACTIONS
+# MAIN SCANNER - RUNS ONCE AND EXITS
 # ============================================
 def run_scanner():
-    """Single scan - runs once and exits"""
+    """Single scan - runs once and exits (for GitHub Actions)"""
     print("📊 Fetching NSE stock list...")
     stocks = get_all_nse_stocks()
     
@@ -198,7 +197,7 @@ def run_scanner():
     alerts_sent = 0
     
     for i, symbol in enumerate(stocks):
-        # Show progress
+        # Show progress every 50 stocks
         if (i + 1) % 50 == 0:
             print(f"📊 Progress: {i+1}/{len(stocks)} stocks checked...")
         
@@ -211,7 +210,7 @@ def run_scanner():
                 alerts_sent += 1
                 print(f"✅ ALERT: {symbol}")
             except Exception as e:
-                print(f"❌ Failed to send alert: {e}")
+                print(f"❌ Failed to send alert for {symbol}: {e}")
         
         # Rate limiting
         time.sleep(0.3)
@@ -219,6 +218,34 @@ def run_scanner():
     print("-" * 50)
     print(f"✅ Scan complete. Alerts sent: {alerts_sent}")
     print("=" * 50)
+
+# ============================================
+# TELEGRAM COMMANDS (for when run locally)
+# ============================================
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    welcome_text = """
+🤖 *NSE Stock Screener*
+
+I scan NSE stocks for:
+✅ Market Cap > ₹1000 Cr
+✅ Price > ₹100
+✅ Day Change: 0-15%
+✅ Volume > 200,000
+✅ 3M Avg Vol > 500,000
+✅ 0-10% from 52W High
+✅ 10 DEMA > 50 DEMA
+✅ 50 DEMA > 200 DEMA
+
+I'll alert you when ANY stock meets ALL conditions!
+"""
+    bot.reply_to(message, welcome_text, parse_mode='Markdown')
+
+@bot.message_handler(commands=['chatid'])
+def send_chatid(message):
+    """Send the user their chat ID"""
+    chat_id = message.chat.id
+    bot.reply_to(message, f"Your Chat ID is: `{chat_id}`", parse_mode='Markdown')
 
 # ============================================
 # RUN
