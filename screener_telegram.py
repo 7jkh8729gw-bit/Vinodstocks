@@ -8,7 +8,7 @@ from datetime import datetime
 import telebot
 
 # ============================================
-# ✅ USE YOUR CORRECT BOT TOKEN
+# YOUR BOT DETAILS - ALREADY FILLED IN
 # ============================================
 BOT_TOKEN = os.environ.get('BOT_TOKEN', "8753313590:AAFdhJQTTRFP-NLc8dtEqbZu0vQLSpA6fY")
 YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
@@ -30,6 +30,7 @@ try:
 except Exception as e:
     print(f"❌ Bot connection failed: {e}")
     print("Please check your BOT_TOKEN")
+    print("Get your token from @BotFather with /token command")
     exit(1)
 
 # ============================================
@@ -68,7 +69,10 @@ def get_fallback_stocks():
         'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK',
         'HINDUNILVR', 'ITC', 'SBIN', 'BHARTIARTL', 'KOTAKBANK',
         'LT', 'HCLTECH', 'AXISBANK', 'MARUTI', 'SUNPHARMA',
-        'TITAN', 'WIPRO', 'ULTRACEMCO', 'BAJFINANCE', 'NTPC'
+        'TITAN', 'WIPRO', 'ULTRACEMCO', 'BAJFINANCE', 'NTPC',
+        'POWERGRID', 'M&M', 'TATAMOTORS', 'TATASTEEL', 'JSWSTEEL',
+        'TECHM', 'NESTLEIND', 'ONGC', 'HDFC', 'ADANIPORTS',
+        'ADANIENT', 'DMART', 'SBILIFE', 'HINDALCO', 'BRITANNIA'
     ]
 
 # ============================================
@@ -180,7 +184,7 @@ def format_alert_message(details):
 # MAIN SCANNER - SIMPLIFIED FOR GITHUB ACTIONS
 # ============================================
 def run_scanner():
-    """Single scan - runs once and exits (for GitHub Actions)"""
+    """Single scan - runs once and exits"""
     print("📊 Fetching NSE stock list...")
     stocks = get_all_nse_stocks()
     
@@ -217,7 +221,7 @@ def run_scanner():
     print("=" * 50)
 
 # ============================================
-# RUN - SIMPLIFIED FOR GITHUB ACTIONS
+# RUN
 # ============================================
 if __name__ == "__main__":
     print("🚀 Starting NSE Stock Screener...")
