@@ -1,17 +1,17 @@
+import os
 import yfinance as yf
 import pandas as pd
 import numpy as np
 import time
-import threading
 import requests
 from datetime import datetime
 import telebot
 
 # ============================================
-# YOUR BOT DETAILS - ALREADY FILLED IN
+# ✅ USE YOUR CORRECT BOT TOKEN
 # ============================================
-BOT_TOKEN = "8753313590:AAFdhJQTTRFP-NLc8dtEqbZu0vQLSpA6fY"
-YOUR_CHAT_ID = "5261154533"
+BOT_TOKEN = os.environ.get('BOT_TOKEN', "YOUR_CORRECT_TOKEN_HERE")
+YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 # ============================================
 
 # Initialize Telegram bot
@@ -20,12 +20,20 @@ bot = telebot.TeleBot(BOT_TOKEN)
 print("=" * 50)
 print("🤖 NSE STOCK SCREENER BOT")
 print("=" * 50)
-print(f"📱 Bot Name: @Vinodstocks_bot")
-print(f"🆔 Chat ID: {YOUR_CHAT_ID}")
-print("=" * 50)
+
+# Test connection
+try:
+    bot_info = bot.get_me()
+    print(f"✅ Bot connected: @{bot_info.username}")
+    print(f"🆔 Chat ID: {YOUR_CHAT_ID}")
+    print("=" * 50)
+except Exception as e:
+    print(f"❌ Bot connection failed: {e}")
+    print("Please check your BOT_TOKEN")
+    exit(1)
 
 # ============================================
-# NSE STOCK LIST - GETS ALL NSE STOCKS
+# NSE STOCK LIST
 # ============================================
 def get_all_nse_stocks():
     """Get all NSE stock symbols"""
@@ -60,10 +68,7 @@ def get_fallback_stocks():
         'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK',
         'HINDUNILVR', 'ITC', 'SBIN', 'BHARTIARTL', 'KOTAKBANK',
         'LT', 'HCLTECH', 'AXISBANK', 'MARUTI', 'SUNPHARMA',
-        'TITAN', 'WIPRO', 'ULTRACEMCO', 'BAJFINANCE', 'NTPC',
-        'POWERGRID', 'M&M', 'TATAMOTORS', 'TATASTEEL', 'JSWSTEEL',
-        'TECHM', 'NESTLEIND', 'ONGC', 'HDFC', 'ADANIPORTS',
-        'ADANIENT', 'DMART', 'SBILIFE', 'HINDALCO', 'BRITANNIA'
+        'TITAN', 'WIPRO', 'ULTRACEMCO', 'BAJFINANCE', 'NTPC'
     ]
 
 # ============================================
@@ -172,101 +177,59 @@ def format_alert_message(details):
     return msg
 
 # ============================================
-# MAIN SCANNER
+# MAIN SCANNER - SIMPLIFIED FOR GITHUB ACTIONS
 # ============================================
 def run_scanner():
-    """Main scanner loop"""
+    """Single scan - runs once and exits (for GitHub Actions)"""
+    print("📊 Fetching NSE stock list...")
     stocks = get_all_nse_stocks()
-    print(f"📊 Monitoring {len(stocks)} stocks")
-    alert_log = {}
-    COOLDOWN_MINUTES = 60
     
-    while True:
-        try:
-            print(f"\n🕐 Scan: {datetime.now().strftime('%H:%M:%S')}")
-            alerts_sent = 0
-            
-            for symbol in stocks:
-                if symbol in alert_log:
-                    if (time.time() - alert_log[symbol]) / 60 < COOLDOWN_MINUTES:
-                        continue
-                
-                passed, details = check_stock(symbol)
-                
-                if passed:
-                    msg = format_alert_message(details)
-                    try:
-                        bot.send_message(YOUR_CHAT_ID, msg, parse_mode='Markdown')
-                        alerts_sent += 1
-                        alert_log[symbol] = time.time()
-                        print(f"✅ ALERT: {symbol}")
-                    except:
-                        pass
-                
-                time.sleep(0.3)
-            
-            print(f"✅ Done. Alerts: {alerts_sent}")
-            time.sleep(60 * 5)
-            
-        except Exception as e:
-            print(f"❌ Error: {e}")
-            time.sleep(60)
+    if not stocks:
+        print("❌ No stocks found")
+        return
+    
+    print(f"📊 Monitoring {len(stocks)} stocks...")
+    print("-" * 50)
+    
+    alerts_sent = 0
+    
+    for i, symbol in enumerate(stocks):
+        # Show progress
+        if (i + 1) % 50 == 0:
+            print(f"📊 Progress: {i+1}/{len(stocks)} stocks checked...")
+        
+        passed, details = check_stock(symbol)
+        
+        if passed:
+            msg = format_alert_message(details)
+            try:
+                bot.send_message(YOUR_CHAT_ID, msg, parse_mode='Markdown')
+                alerts_sent += 1
+                print(f"✅ ALERT: {symbol}")
+            except Exception as e:
+                print(f"❌ Failed to send alert: {e}")
+        
+        # Rate limiting
+        time.sleep(0.3)
+    
+    print("-" * 50)
+    print(f"✅ Scan complete. Alerts sent: {alerts_sent}")
+    print("=" * 50)
 
 # ============================================
-# TELEGRAM COMMANDS
-# ============================================
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    welcome_text = """
-🤖 *Vinodstocks NSE Screener*
-
-I scan ALL NSE stocks for:
-✅ Market Cap > ₹1000 Cr
-✅ Price > ₹100
-✅ Day Change: 0-15%
-✅ Volume > 200,000
-✅ 3M Avg Vol > 500,000
-✅ 0-10% from 52W High
-✅ 10 DEMA > 50 DEMA
-✅ 50 DEMA > 200 DEMA
-
-Commands:
-/start - Show this
-/status - Check status
-
-I'll alert you when ANY stock meets ALL conditions!
-"""
-    bot.reply_to(message, welcome_text, parse_mode='Markdown')
-
-@bot.message_handler(commands=['status'])
-def check_status(message):
-    status_text = f"""
-📊 *Scanner Status*
-✅ Running
-🕐 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
-"""
-    bot.reply_to(message, status_text, parse_mode='Markdown')
-
-# ============================================
-# RUN BOT
+# RUN - SIMPLIFIED FOR GITHUB ACTIONS
 # ============================================
 if __name__ == "__main__":
-    # Send test message
+    print("🚀 Starting NSE Stock Screener...")
+    
+    # Send startup notification
     try:
-        bot.send_message(YOUR_CHAT_ID, "🤖 Bot online! Starting NSE scanner...")
-        print("✅ Test message sent!")
-    except:
-        print("⚠️ Could not send test message")
+        bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running...")
+        print("✅ Startup notification sent!")
+    except Exception as e:
+        print(f"⚠️ Could not send notification: {e}")
     
-    # Start scanner
-    scanner_thread = threading.Thread(target=run_scanner, daemon=True)
-    scanner_thread.start()
+    # Run the scanner
+    run_scanner()
     
-    print("\n" + "=" * 50)
-    print("🤖 Bot running: @Vinodstocks_bot")
-    print("📊 Scanning NSE stocks")
-    print("⏹️ Press Ctrl+C to stop")
-    print("=" * 50 + "\n")
-    
-    # Start bot
-    bot.polling(none_stop=True)
+    print("✅ Screener completed successfully!")
