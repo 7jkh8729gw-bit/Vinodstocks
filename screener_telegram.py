@@ -1,11 +1,11 @@
 import os
-import yfinance as yf
 import pandas as pd
 import numpy as np
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import telebot
-from datasets import load_dataset
+from PKNSETools.Benny.NSE import NSE
+from PKNSETools import nseStockDataFetcher, get_Company_History_Data, getTodayData
 
 # ============================================
 # YOUR BOT DETAILS
@@ -17,7 +17,7 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 print("=" * 70)
-print("🤖 NSE STOCK SCREENER - VERIFIED FORMULAS")
+print("🤖 NSE STOCK SCREENER - PKNSETools VERSION")
 print("=" * 70)
 
 try:
@@ -28,28 +28,26 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# GET NSE STOCKS
+# GET NSE STOCKS - Using PKNSETools
 # ============================================
 def get_nse_stocks():
+    """Fetch all NSE stocks using PKNSETools"""
     print("📊 Loading NSE stocks...")
     try:
-        ds = load_dataset("tickertruth/nse-india-security-master", data_files="data/nse_security_master.csv")
-        df = ds["train"].to_pandas()
-        symbols = df[df["active_flag"] == True]["nse_symbol"].tolist()
-        print(f"✅ Loaded {len(symbols)} stocks")
-        return symbols
+        fetcher = nseStockDataFetcher()
+        # Index 12 = All NSE equities [citation:1][citation:4]
+        all_stocks = fetcher.fetchStockCodes(12)
+        print(f"✅ Loaded {len(all_stocks)} stocks")
+        return all_stocks
     except Exception as e:
-        print(f"⚠️ Error: {e}")
-        return ['VINCOFE', 'IOLCP', 'ALEMBICLTD', 'KOTAKBANK', 'DCBBANK', 'SKIPPER', 'JINDALSAW']
+        print(f"⚠️ Error: {e}, using fallback")
+        return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK', 'KOTAKBANK']
 
 # ============================================
-# CHARTINK-STYLE DEMA (Verified)
+# CHARTINK-STYLE DEMA
 # ============================================
 def chartink_dema(data, period):
-    """
-    Chartink DEMA formula: DEMA = 2 * EMA - EMA(EMA)
-    Verified: ✅ Matches Chartink exactly
-    """
+    """Match Chartink's DEMA calculation exactly"""
     if len(data) < period:
         return None
     ema = data.ewm(span=period, adjust=False).mean()
@@ -58,28 +56,29 @@ def chartink_dema(data, period):
     return dema
 
 # ============================================
-# CHECK STOCK - ALL 10 FILTERS (VERIFIED)
+# CHECK STOCK - Using PKNSETools
 # ============================================
 def check_stock(symbol):
-    """
-    ALL 10 Chartink filters - Verified formulas
-    """
+    """Check ALL 10 Chartink filters using PKNSETools"""
     try:
-        ticker = yf.Ticker(f"{symbol}.NS")
-        info = ticker.info
-        hist = ticker.history(period="6mo")
+        # Initialize NSE API client
+        nse = NSE(download_folder="./data")
         
-        # Filter 1: Market Cap >= 1000 Cr
-        market_cap = info.get('marketCap', 0) / 10_000_000
-        cond1 = market_cap >= 1000
+        # Get real-time quote
+        quote = nse.quote(symbol)
+        price_info = quote.get('priceInfo', {})
         
-        # Filter 2: Close >= 100
-        price = info.get('regularMarketPrice', 0)
+        # 1. Market Cap (from quote)
+        market_cap_raw = quote.get('marketCap', 0)
+        market_cap_crores = market_cap_raw / 10000000 if market_cap_raw > 0 else 0
+        cond1 = market_cap_crores >= 1000
+        
+        # 2. Price >= 100
+        price = price_info.get('lastPrice', 0)
         cond2 = price >= 100
         
-        # Filter 3 & 4: Day Change 0-15%
-        # Formula: (Close - 1D ago Close) / 1D ago Close * 100
-        prev_close = info.get('regularMarketPreviousClose', 0)
+        # 3 & 4. Day Change 0-15%
+        prev_close = price_info.get('previousClose', 0)
         if prev_close > 0:
             day_change = ((price - prev_close) / prev_close) * 100
         else:
@@ -87,24 +86,35 @@ def check_stock(symbol):
         cond3 = day_change >= 0
         cond4 = day_change < 15
         
-        # Filter 5: Volume >= 200,000
-        volume = info.get('regularMarketVolume', 0)
+        # 5. Volume >= 200,000
+        volume = quote.get('totalTradedVolume', 0)
         cond5 = volume >= 200000
         
-        # Filter 6: SMA(Volume, 21) > 500,000
-        avg_volume = hist['Volume'].tail(21).mean() if len(hist) >= 21 else 0
+        # 6. 21-Day Avg Volume from historical data
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=180)
+        
+        hist = get_Company_History_Data(
+            company=symbol,
+            from_date=start_date.strftime('%d-%m-%Y'),
+            to_date=end_date.strftime('%d-%m-%Y')
+        )
+        
+        if len(hist) >= 21:
+            avg_volume = hist['Volume'].tail(21).mean()
+        else:
+            avg_volume = 0
         cond6 = avg_volume > 500000
         
-        # Filter 7: Max(252, High) / Close - 1 <= 0.10
-        high_52w = info.get('fiftyTwoWeekHigh', 0)
+        # 7. Within 10% of 52W High
+        high_52w = price_info.get('weekHigh', 0)
         if high_52w > 0:
             pct_from_high = (high_52w / price) - 1
         else:
             pct_from_high = 100
         cond7 = pct_from_high <= 0.10
         
-        # Filter 8: DEMA(50) / DEMA(200) >= 1
-        # Filter 9: DEMA(10) / DEMA(50) >= 1
+        # 8 & 9. DEMA calculations
         cond8 = False
         cond9 = False
         if len(hist) >= 200:
@@ -120,17 +130,17 @@ def check_stock(symbol):
                     cond8 = (d50_val / d200_val) >= 1.0
                     cond9 = (d10_val / d50_val) >= 1.0
         
-        # Filter 10: Volume / SMA(Volume, 21) >= 1.5
+        # 10. Volume Ratio >= 1.5x
         volume_ratio = volume / avg_volume if avg_volume > 0 else 0
         cond10 = volume_ratio >= 1.5
         
-        # ALL conditions must pass
+        # ALL conditions
         passed = cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10
         
         return {
             'symbol': symbol,
             'passed': passed,
-            'market_cap': market_cap,
+            'market_cap': market_cap_crores,
             'price': price,
             'day_change': day_change,
             'volume': volume,
@@ -149,7 +159,7 @@ def check_stock(symbol):
 # MAIN SCANNER
 # ============================================
 def run_scanner():
-    print("\n🚀 Starting full scan...")
+    print("\n🚀 Starting full scan with PKNSETools...")
     print("-" * 70)
     
     stocks = get_nse_stocks()
@@ -172,11 +182,11 @@ def run_scanner():
             except:
                 pass
         
-        if (i + 1) % 100 == 0:
+        if (i + 1) % 50 == 0:
             elapsed = time.time() - start_time
             print(f"📊 Progress: {i+1}/{len(stocks)} ({elapsed:.1f}s)")
         
-        time.sleep(0.15)
+        time.sleep(0.3)
     
     print("-" * 70)
     print(f"✅ Scan complete! Found {alerts} stocks passing ALL 10 conditions.")
@@ -185,7 +195,7 @@ def run_scanner():
     if passing:
         print(f"\n📋 Stocks that passed:")
         for r in passing:
-            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%, Vol Ratio: {r['volume_ratio']:.2f}x")
+            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%")
         
         try:
             stock_list = "\n".join([f"✅ {r['symbol']}" for r in passing])
@@ -199,39 +209,24 @@ def run_scanner():
             bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found* matching all 10 conditions today.", parse_mode='Markdown')
         except:
             pass
-        
-        print("   Showing reasons for first 5 failures:\n")
-        for r in results[:5]:
-            if not r.get('passed', False) and 'error' not in r:
-                print(f"  ❌ {r['symbol']}:")
-                print(f"     Market Cap: {'✅' if r['cond1'] else '❌'}")
-                print(f"     Price: {'✅' if r['cond2'] else '❌'}")
-                print(f"     Day Change: {'✅' if r['cond3'] and r['cond4'] else '❌'}")
-                print(f"     Volume: {'✅' if r['cond5'] else '❌'}")
-                print(f"     Avg Vol: {'✅' if r['cond6'] else '❌'}")
-                print(f"     52W High: {'✅' if r['cond7'] else '❌'}")
-                print(f"     DEMA 50/200: {'✅' if r['cond8'] else '❌'}")
-                print(f"     DEMA 10/50: {'✅' if r['cond9'] else '❌'}")
-                print(f"     Volume Ratio: {'✅' if r['cond10'] else '❌'}")
-                print()
 
 # ============================================
 # TELEGRAM COMMANDS
 # ============================================
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "🤖 NSE Stock Screener is running!\n\n📊 Scans all NSE stocks every 10 minutes\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
+    bot.reply_to(message, "🤖 NSE Stock Screener is running with PKNSETools!\n\n📊 Scans all NSE stocks every 10 minutes\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
 
 @bot.message_handler(commands=['status'])
 def status(message):
-    bot.reply_to(message, "✅ Scanner is active.\n🔄 Scans every 10 minutes.\n📊 All formulas verified against Chartink.")
+    bot.reply_to(message, "✅ Scanner is active.\n🔄 Scans every 10 minutes.\n📊 Using PKNSETools for reliable NSE data.")
 
 # ============================================
 # RUN
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running!\n📊 All 10 filters verified against Chartink.", parse_mode='Markdown')
+        bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running with PKNSETools!", parse_mode='Markdown')
     except:
         pass
     
