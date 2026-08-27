@@ -11,8 +11,8 @@ from datasets import load_dataset
 # ============================================
 # YOUR DOUBLE BOTTOM BOT DETAILS
 # ============================================
-BOT_TOKEN = "8845742478:AAFQ_WRTUeMa5brPkiJHYevnWjLyg-fo6aQ"
-YOUR_CHAT_ID = "5261154533"
+BOT_TOKEN = os.environ.get('DOUBLE_BOTTOM_BOT_TOKEN', "8845742478:AAFQ_WRTUeMa5brPkiJHYevnWjLyg-fo6aQ")
+YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 # ============================================
 
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -233,7 +233,6 @@ def run_scanner():
             alerts += 1
             print(f"✅ {symbol} - DOUBLE BOTTOM FOUND!")
             try:
-                # SIMPLIFIED ALERT: Only stock name
                 bot.send_message(YOUR_CHAT_ID, f"🔔 *{symbol}*", parse_mode='Markdown')
             except:
                 pass
