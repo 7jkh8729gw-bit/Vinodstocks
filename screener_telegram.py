@@ -14,97 +14,84 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 print("=" * 60)
-print("🧪 TEST MODE: 5 STOCKS, 1 FILTER")
+print("🧪 TEST: 5 STOCKS, 2 FILTERS")
 print("=" * 60)
 
 # Test connection
 try:
     bot_info = bot.get_me()
     print(f"✅ Bot connected: @{bot_info.username}")
-    print(f"✅ Chat ID: {YOUR_CHAT_ID}")
-    print("=" * 60)
 except Exception as e:
     print(f"❌ Bot connection failed: {e}")
     exit(1)
 
 # ============================================
-# TEST STOCKS (Only 5 stocks)
+# TEST STOCKS
 # ============================================
 TEST_STOCKS = ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK']
 
 # ============================================
-# SIMPLE CHECK - Only 1 condition
+# CHECK WITH 2 FILTERS
 # ============================================
-def check_simple(symbol):
+def check_stock(symbol):
     """
-    Only checks: Price >= 100
-    This should return TRUE for all test stocks
+    Filters:
+    1. Price >= 100
+    2. Volume > 200,000
     """
     try:
         ticker = yf.Ticker(f"{symbol}.NS")
         info = ticker.info
+        
         price = info.get('regularMarketPrice', 0)
+        volume = info.get('regularMarketVolume', 0)
         
-        # Only 1 condition: Price >= 100
-        passed = price >= 100
+        # Check both conditions
+        passed = price >= 100 and volume > 200000
         
-        print(f"  {symbol}: ₹{price:.2f} -> {'✅ PASS' if passed else '❌ FAIL'}")
+        print(f"  {symbol}: ₹{price:.2f}, Vol: {volume:,} -> {'✅ PASS' if passed else '❌ FAIL'}")
         
-        return passed, price
+        return passed, price, volume
         
     except Exception as e:
         print(f"  {symbol}: ❌ ERROR - {e}")
-        return False, 0
+        return False, 0, 0
 
 # ============================================
 # MAIN TEST
 # ============================================
 def run_test():
-    print("\n🚀 Running simple test...")
+    print("\n🚀 Running test with 2 filters...")
     print("-" * 40)
     
     alerts_sent = 0
     
     for symbol in TEST_STOCKS:
         print(f"\n📊 Checking {symbol}...")
-        passed, price = check_simple(symbol)
+        passed, price, volume = check_stock(symbol)
         
         if passed:
             try:
-                # Send alert to Telegram
-                msg = f"🧪 *TEST ALERT: {symbol}* \nPrice: ₹{price:.2f} ✅"
+                msg = f"🧪 *ALERT: {symbol}*\nPrice: ₹{price:.2f}\nVolume: {volume:,}"
                 bot.send_message(YOUR_CHAT_ID, msg, parse_mode='Markdown')
                 alerts_sent += 1
-                print(f"  ✅ ALERT SENT to Telegram!")
+                print(f"  ✅ ALERT SENT!")
             except Exception as e:
                 print(f"  ❌ Telegram error: {e}")
         
-        time.sleep(0.5)  # Small delay
+        time.sleep(0.5)
     
     print("\n" + "-" * 40)
     print(f"✅ Test complete! Alerts sent: {alerts_sent}/{len(TEST_STOCKS)}")
-    print("=" * 60)
-
-# ============================================
-# TELEGRAM COMMANDS
-# ============================================
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, "🧪 Test mode is running! Check GitHub Actions logs.")
-
-@bot.message_handler(commands=['status'])
-def status(message):
-    bot.reply_to(message, f"🧪 Test mode: {len(TEST_STOCKS)} stocks, 1 filter (Price >= 100)")
 
 # ============================================
 # RUN
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🧪 Test mode started! Checking 5 stocks with 1 filter...")
-        print("✅ Startup message sent!")
-    except Exception as e:
-        print(f"⚠️ Could not send: {e}")
+        bot.send_message(YOUR_CHAT_ID, "🧪 Testing with 2 filters...")
+    except:
+        pass
     
     run_test()
-    print("✅ Test complete!")
+    print("✅ Done!")
