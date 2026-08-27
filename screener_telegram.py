@@ -20,16 +20,16 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 # Initialize Telegram bot
 bot = telebot.TeleBot(BOT_TOKEN)
 
-print("=" * 60)
-print("🤖 NSE STOCK SCREENER BOT (CHARTINK MATCH)")
-print("=" * 60)
+print("=" * 70)
+print("🤖 NSE STOCK SCREENER BOT (DEBUG MODE)")
+print("=" * 70)
 
 # Test connection
 try:
     bot_info = bot.get_me()
     print(f"✅ Bot connected: @{bot_info.username}")
     print(f"🆔 Chat ID: {YOUR_CHAT_ID}")
-    print("=" * 60)
+    print("=" * 70)
 except Exception as e:
     print(f"❌ Bot connection failed: {e}")
     exit(1)
@@ -78,7 +78,7 @@ def get_all_nse_stocks():
         return get_fallback_stocks()
 
 def get_fallback_stocks():
-    return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK', 'HINDUNILVR']
+    return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK', 'HINDUNILVR', 'WEL', 'ALEMBIC']
 
 # ============================================
 # DEMA CALCULATION
@@ -112,10 +112,9 @@ def build_initial_cache(symbols):
                 dema_50 = calculate_dema(hist['Close'], 50).iloc[-1]
                 dema_200 = calculate_dema(hist['Close'], 200).iloc[-1]
                 
-                # Calculate 21-day SMA for volume (last 21 trading days)
+                # Calculate 21-day SMA for volume
                 avg_volume_21 = hist['Volume'].tail(21).mean()
                 
-                # Store all data
                 cache[symbol] = {
                     'dema_10': dema_10,
                     'dema_50': dema_50,
@@ -135,6 +134,91 @@ def build_initial_cache(symbols):
     return cache
 
 # ============================================
+# TEST SPECIFIC STOCKS (DEBUG FUNCTION)
+# ============================================
+def test_specific_stocks():
+    """Test specific stocks and print detailed debug output"""
+    print("\n" + "=" * 70)
+    print("🧪 TESTING SPECIFIC STOCKS FROM CHARTINK")
+    print("=" * 70)
+    
+    test_symbols = ['WEL', 'ALEMBIC', 'RELIANCE', 'TCS', 'HDFCBANK']
+    
+    for symbol in test_symbols:
+        print(f"\n📊 Testing: {symbol}")
+        print("-" * 50)
+        
+        try:
+            ticker = yf.Ticker(f"{symbol}.NS")
+            info = ticker.info
+            hist = ticker.history(period="6mo")
+            
+            # Calculate all values
+            market_cap = info.get('marketCap', 0)
+            if market_cap == 0:
+                market_cap = info.get('enterpriseValue', 0)
+            market_cap_crores = market_cap / 10_000_000
+            
+            current_price = info.get('regularMarketPrice', info.get('currentPrice', 0))
+            
+            prev_close = info.get('regularMarketPreviousClose', 0)
+            if prev_close > 0:
+                day_change = ((current_price - prev_close) / prev_close) * 100
+            else:
+                day_change = 0
+            
+            volume = info.get('regularMarketVolume', 0)
+            
+            if len(hist) >= 21:
+                avg_volume_21 = hist['Volume'].tail(21).mean()
+            else:
+                avg_volume_21 = 0
+            
+            high_52w = info.get('fiftyTwoWeekHigh', 0)
+            if high_52w > 0:
+                pct_from_high = (high_52w / current_price) - 1
+            else:
+                pct_from_high = 100
+            
+            if len(hist) >= 200:
+                dema_10 = calculate_dema(hist['Close'], 10).iloc[-1]
+                dema_50 = calculate_dema(hist['Close'], 50).iloc[-1]
+                dema_200 = calculate_dema(hist['Close'], 200).iloc[-1]
+            else:
+                dema_10 = dema_50 = dema_200 = 0
+            
+            volume_ratio = volume / avg_volume_21 if avg_volume_21 > 0 else 0
+            
+            # Check conditions
+            cond1 = market_cap_crores >= 1000
+            cond2 = current_price >= 100
+            cond3 = day_change >= 0
+            cond4 = day_change < 15
+            cond5 = volume >= 200000
+            cond6 = avg_volume_21 > 500000
+            cond7 = pct_from_high <= 0.10
+            cond8 = (dema_50 / dema_200) >= 1 if dema_200 > 0 else False
+            cond9 = (dema_10 / dema_50) >= 1 if dema_50 > 0 else False
+            cond10 = volume_ratio >= 1.5
+            
+            # Print debug
+            print(f"  1️⃣ Market Cap: ₹{market_cap_crores:.1f} Cr {'✅' if cond1 else '❌'} (need ≥ 1000)")
+            print(f"  2️⃣ Price: ₹{current_price:.2f} {'✅' if cond2 else '❌'} (need ≥ 100)")
+            print(f"  3️⃣ Day Change: {day_change:.2f}% {'✅' if cond3 and cond4 else '❌'} (need 0-15%)")
+            print(f"  4️⃣ Volume: {volume:,} {'✅' if cond5 else '❌'} (need ≥ 200,000)")
+            print(f"  5️⃣ 21-Day Avg Vol: {avg_volume_21:,.0f} {'✅' if cond6 else '❌'} (need > 500,000)")
+            print(f"  6️⃣ From 52W High: {pct_from_high*100:.2f}% {'✅' if cond7 else '❌'} (need ≤ 10%)")
+            print(f"  7️⃣ DEMA(50)/DEMA(200): {(dema_50/dema_200):.3f} {'✅' if cond8 else '❌'} (need ≥ 1)")
+            print(f"  8️⃣ DEMA(10)/DEMA(50): {(dema_10/dema_50):.3f} {'✅' if cond9 else '❌'} (need ≥ 1)")
+            print(f"  9️⃣ Volume Ratio: {volume_ratio:.2f}x {'✅' if cond10 else '❌'} (need ≥ 1.5x)")
+            
+            all_pass = cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10
+            print(f"  RESULT: {'✅ ALL PASSED!' if all_pass else '❌ FAILED'}")
+            
+        except Exception as e:
+            print(f"  ❌ Error: {e}")
+
+# ============================================
 # STOCK CHECK - ALL 10 CHARTINK FILTERS
 # ============================================
 def check_stock(symbol, cache_data):
@@ -150,86 +234,48 @@ def check_stock(symbol, cache_data):
         info = ticker.info
         hist = ticker.history(period="6mo")
         
-        # ============================================
-        # FILTER 1: Market Cap >= 1000 Cr
-        # ============================================
+        # Calculate all values
         market_cap = info.get('marketCap', 0)
         if market_cap == 0:
             market_cap = info.get('enterpriseValue', 0)
         market_cap_crores = market_cap / 10_000_000
-        cond1 = market_cap_crores >= 1000
         
-        # ============================================
-        # FILTER 2: Close >= 100
-        # ============================================
         current_price = info.get('regularMarketPrice', info.get('currentPrice', 0))
-        cond2 = current_price >= 100
         
-        # ============================================
-        # FILTER 3 & 4: Day Change 0% to 15%
-        # ============================================
         prev_close = info.get('regularMarketPreviousClose', 0)
         if prev_close > 0:
             day_change = ((current_price - prev_close) / prev_close) * 100
         else:
             day_change = 0
-        cond3 = day_change >= 0  # >= 0%
-        cond4 = day_change < 15  # < 15%
         
-        # ============================================
-        # FILTER 5: Volume >= 200,000
-        # ============================================
         volume = info.get('regularMarketVolume', 0)
-        cond5 = volume >= 200000
-        
-        # ============================================
-        # FILTER 6: SMA(Volume, 21) > 500,000
-        # ============================================
         avg_volume_21 = cache_data.get('avg_volume_21', 0)
-        cond6 = avg_volume_21 > 500000
         
-        # ============================================
-        # FILTER 7: Max(252, High) / Close - 1 <= 0.10
-        # ============================================
         high_52w = info.get('fiftyTwoWeekHigh', 0)
         if high_52w > 0:
             pct_from_high = (high_52w / current_price) - 1
         else:
             pct_from_high = 100
-        cond7 = pct_from_high <= 0.10  # Within 10% of 52W high
         
-        # ============================================
-        # FILTER 8: DEMA(50) / DEMA(200) >= 1
-        # ============================================
         dema_10 = cache_data.get('dema_10', 0)
         dema_50 = cache_data.get('dema_50', 0)
         dema_200 = cache_data.get('dema_200', 0)
         
-        if dema_200 > 0:
-            cond8 = (dema_50 / dema_200) >= 1.000
-        else:
-            cond8 = False
+        volume_ratio = volume / avg_volume_21 if avg_volume_21 > 0 else 0
         
-        # ============================================
-        # FILTER 9: DEMA(10) / DEMA(50) >= 1
-        # ============================================
-        if dema_50 > 0:
-            cond9 = (dema_10 / dema_50) >= 1.000
-        else:
-            cond9 = False
+        # Check conditions
+        cond1 = market_cap_crores >= 1000
+        cond2 = current_price >= 100
+        cond3 = day_change >= 0
+        cond4 = day_change < 15
+        cond5 = volume >= 200000
+        cond6 = avg_volume_21 > 500000
+        cond7 = pct_from_high <= 0.10
+        cond8 = (dema_50 / dema_200) >= 1 if dema_200 > 0 else False
+        cond9 = (dema_10 / dema_50) >= 1 if dema_50 > 0 else False
+        cond10 = volume_ratio >= 1.5
         
-        # ============================================
-        # FILTER 10: Volume / SMA(Volume, 21) >= 1.5
-        # ============================================
-        if avg_volume_21 > 0:
-            volume_ratio = volume / avg_volume_21
-            cond10 = volume_ratio >= 1.5  # ✅ CHANGED FROM 15 TO 1.5
-        else:
-            cond10 = False
-        
-        # ============================================
-        # CHECK ALL 10 CONDITIONS
-        # ============================================
+        # Check ALL conditions
         conditions_met = (
             cond1 and cond2 and cond3 and cond4 and cond5 and
             cond6 and cond7 and cond8 and cond9 and cond10
@@ -247,11 +293,7 @@ def check_stock(symbol, cache_data):
                 'pct_from_high': pct_from_high * 100,
                 'dema_10': dema_10,
                 'dema_50': dema_50,
-                'dema_200': dema_200,
-                'cond1': cond1, 'cond2': cond2, 'cond3': cond3,
-                'cond4': cond4, 'cond5': cond5, 'cond6': cond6,
-                'cond7': cond7, 'cond8': cond8, 'cond9': cond9,
-                'cond10': cond10
+                'dema_200': dema_200
             }
             return True, details
         return False, {}
@@ -267,9 +309,16 @@ def format_alert_message(details):
 # MAIN SCANNER
 # ============================================
 def run_scanner():
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 70)
     print("🚀 STARTING MAIN SCANNER")
-    print("=" * 60)
+    print("=" * 70)
+    
+    # FIRST: Test specific stocks from Chartink
+    test_specific_stocks()
+    
+    print("\n" + "=" * 70)
+    print("📊 NOW SCANNING ALL STOCKS")
+    print("=" * 70)
     
     stocks = get_all_nse_stocks()
     
@@ -288,17 +337,19 @@ def run_scanner():
         cache['last_cache_update'] = datetime.now().strftime('%Y-%m-%d')
         save_cache(cache)
     
-    print("-" * 60)
+    print("-" * 70)
     print("⚡ Scanning all stocks...")
-    print("-" * 60)
+    print("-" * 70)
     
     alerts_sent = 0
     total_stocks = len(stocks)
+    stocks_with_cache = 0
     
     for i, symbol in enumerate(stocks):
         cache_data = cache.get(symbol) if cache else None
         
         if cache_data is not None and cache_data != 'last_cache_update':
+            stocks_with_cache += 1
             passed, details = check_stock(symbol, cache_data)
             
             if passed:
@@ -312,13 +363,16 @@ def run_scanner():
         
         # Progress every 100 stocks
         if (i + 1) % 100 == 0:
-            print(f"📊 Progress: {i+1}/{total_stocks} stocks checked...")
+            print(f"📊 Progress: {i+1}/{total_stocks} stocks checked... ({stocks_with_cache} with cache)")
         
         time.sleep(0.2)
     
-    print("-" * 60)
-    print(f"✅ Scan complete! Alerts sent: {alerts_sent}")
-    print("=" * 60)
+    print("-" * 70)
+    print(f"✅ Scan complete!")
+    print(f"   Total stocks checked: {total_stocks}")
+    print(f"   Stocks with cache: {stocks_with_cache}")
+    print(f"   Alerts sent: {alerts_sent}")
+    print("=" * 70)
 
 # ============================================
 # TELEGRAM COMMANDS
@@ -379,33 +433,55 @@ def test_stock(message):
     symbol = args[1].upper()
     bot.reply_to(message, f"🔍 Testing {symbol}...")
     
-    cache = load_cache()
-    cache_data = cache.get(symbol) if cache else None
-    
-    if cache_data is None or cache_data == 'last_cache_update':
-        bot.reply_to(message, f"❌ No cached data for {symbol}")
-        return
-    
-    passed, details = check_stock(symbol, cache_data)
-    
-    if passed:
-        bot.send_message(message.chat.id, f"✅ {symbol} PASSED all 10 conditions!", parse_mode='Markdown')
-    else:
-        # Show which conditions failed
-        fail_msg = f"❌ {symbol} failed:\n"
-        if not details.get('cond1', False): fail_msg += "❌ Market Cap < 1000 Cr\n"
-        if not details.get('cond2', False): fail_msg += "❌ Price < 100\n"
-        if not details.get('cond3', False): fail_msg += "❌ Day Change < 0%\n"
-        if not details.get('cond4', False): fail_msg += "❌ Day Change ≥ 15%\n"
-        if not details.get('cond5', False): fail_msg += "❌ Volume < 200,000\n"
-        if not details.get('cond6', False): fail_msg += "❌ 21-Day Avg Vol ≤ 500,000\n"
-        if not details.get('cond7', False): fail_msg += f"❌ >10% from 52W High\n"
-        if not details.get('cond8', False): fail_msg += "❌ DEMA(50)/DEMA(200) < 1\n"
-        if not details.get('cond9', False): fail_msg += "❌ DEMA(10)/DEMA(50) < 1\n"
-        if not details.get('cond10', False): 
-            ratio = details.get('volume_ratio', 0)
-            fail_msg += f"❌ Volume ratio: {ratio:.2f}x (need ≥ 1.5x)\n"
-        bot.reply_to(message, fail_msg)
+    try:
+        # Fetch live data directly
+        ticker = yf.Ticker(f"{symbol}.NS")
+        info = ticker.info
+        hist = ticker.history(period="6mo")
+        
+        market_cap = info.get('marketCap', 0) / 10_000_000
+        current_price = info.get('regularMarketPrice', 0)
+        prev_close = info.get('regularMarketPreviousClose', 0)
+        day_change = ((current_price - prev_close) / prev_close) * 100 if prev_close > 0 else 0
+        volume = info.get('regularMarketVolume', 0)
+        avg_volume = hist['Volume'].tail(21).mean() if len(hist) >= 21 else 0
+        high_52w = info.get('fiftyTwoWeekHigh', 0)
+        pct_from_high = (high_52w / current_price) - 1 if high_52w > 0 else 100
+        
+        if len(hist) >= 200:
+            dema_10 = calculate_dema(hist['Close'], 10).iloc[-1]
+            dema_50 = calculate_dema(hist['Close'], 50).iloc[-1]
+            dema_200 = calculate_dema(hist['Close'], 200).iloc[-1]
+        else:
+            dema_10 = dema_50 = dema_200 = 0
+        
+        volume_ratio = volume / avg_volume if avg_volume > 0 else 0
+        
+        msg = f"📊 *DEBUG: {symbol}*\n\n"
+        msg += f"1️⃣ Market Cap: ₹{market_cap:.1f} Cr {'✅' if market_cap >= 1000 else '❌'} (need ≥ 1000)\n"
+        msg += f"2️⃣ Price: ₹{current_price:.2f} {'✅' if current_price >= 100 else '❌'} (need ≥ 100)\n"
+        msg += f"3️⃣ Day Change: {day_change:.2f}% {'✅' if 0 <= day_change < 15 else '❌'} (need 0-15%)\n"
+        msg += f"4️⃣ Volume: {volume:,} {'✅' if volume >= 200000 else '❌'} (need ≥ 200,000)\n"
+        msg += f"5️⃣ 21-Day Avg Vol: {avg_volume:,.0f} {'✅' if avg_volume > 500000 else '❌'} (need > 500,000)\n"
+        msg += f"6️⃣ From 52W High: {pct_from_high*100:.2f}% {'✅' if pct_from_high <= 0.10 else '❌'} (need ≤ 10%)\n"
+        msg += f"7️⃣ DEMA(50)/DEMA(200): {(dema_50/dema_200):.3f} {'✅' if dema_50/dema_200 >= 1 else '❌'} (need ≥ 1)\n"
+        msg += f"8️⃣ DEMA(10)/DEMA(50): {(dema_10/dema_50):.3f} {'✅' if dema_10/dema_50 >= 1 else '❌'} (need ≥ 1)\n"
+        msg += f"9️⃣ Volume Ratio: {volume_ratio:.2f}x {'✅' if volume_ratio >= 1.5 else '❌'} (need ≥ 1.5x)\n"
+        
+        all_pass = (
+            market_cap >= 1000 and current_price >= 100 and 
+            0 <= day_change < 15 and volume >= 200000 and
+            avg_volume > 500000 and pct_from_high <= 0.10 and
+            dema_50/dema_200 >= 1 and dema_10/dema_50 >= 1 and
+            volume_ratio >= 1.5
+        )
+        
+        msg += f"\n{'✅ ALL CONDITIONS MET!' if all_pass else '❌ Some conditions failed'}"
+        
+        bot.reply_to(message, msg, parse_mode='Markdown')
+        
+    except Exception as e:
+        bot.reply_to(message, f"❌ Error testing {symbol}: {e}")
 
 @bot.message_handler(commands=['chatid'])
 def send_chatid(message):
@@ -431,7 +507,7 @@ def send_help(message):
 # RUN
 # ============================================
 if __name__ == "__main__":
-    print("🚀 Starting NSE Stock Screener...")
+    print("🚀 Starting NSE Stock Screener (Debug Mode)...")
     
     try:
         bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running with all 10 Chartink filters!")
