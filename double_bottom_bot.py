@@ -19,7 +19,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "double_bottom_cache.pkl"
 
 print("=" * 70)
-print("🔍 DOUBLE BOTTOM SCANNER (UPDATED)")
+print("🔍 DOUBLE BOTTOM SCANNER (FINAL - WITH DOWTREND)")
 print("=" * 70)
 
 try:
@@ -59,7 +59,6 @@ def chartink_dema(data, period):
 # MACD CALCULATION
 # ============================================
 def calculate_macd(close_prices):
-    """Calculate MACD and check if it's bullish (MACD > Signal)"""
     if len(close_prices) < 26:
         return False
     
@@ -75,17 +74,82 @@ def calculate_macd(close_prices):
     return False
 
 # ============================================
-# UPDATED DOUBLE BOTTOM DETECTION
+# CHECK UPPER WICK CONDITION
 # ============================================
-def detect_double_bottom(close_prices, lookback=30):
+def check_upper_wick(ohlc_data, lookback=5, max_wick_percent=5):
+    if len(ohlc_data) < lookback:
+        return False
+    
+    recent = ohlc_data[-lookback:]
+    
+    for candle in recent:
+        high = candle[0]
+        low = candle[1]
+        close = candle[2]
+        
+        candle_range = high - low
+        if candle_range <= 0:
+            return False
+        
+        upper_wick = high - close
+        upper_wick_pct = (upper_wick / candle_range) * 100
+        
+        if upper_wick_pct > max_wick_percent:
+            return False
+    
+    return True
+
+# ============================================
+# CHECK DOWNTREND BEFORE DOUBLE BOTTOM
+# ============================================
+def check_downtrend(close_prices, lookback=90, max_high_drop=0.15):
     """
-    UPDATED: Double bottom detection with:
-    - Second low must be higher than first low
-    - 5% similarity limit
-    - Peak must be at least 5% higher than average of two lows
+    Check if there was a downtrend before the double bottom pattern.
+    - Lookback: 90 days before the pattern
+    - Price must have dropped at least 15% from its high
+    """
+    if len(close_prices) < lookback + 60:
+        return False, 0
+    
+    # Get prices before the double bottom (first 90 days of the lookback)
+    pre_pattern = close_prices[-lookback-60:-60]
+    
+    if len(pre_pattern) < 30:
+        return False, 0
+    
+    # Find the highest price in the pre-pattern period
+    high_price = max(pre_pattern)
+    current_price = pre_pattern[-1]
+    
+    # Calculate drop from high
+    drop_pct = (high_price - current_price) / high_price
+    
+    # Check if drop is at least 15%
+    if drop_pct >= max_high_drop:
+        return True, drop_pct * 100
+    
+    return False, 0
+
+# ============================================
+# FINAL DOUBLE BOTTOM DETECTION
+# ============================================
+def detect_double_bottom(ohlc_data, close_prices, lookback=60, max_low_diff=0.03, peak_min_pct=0.05):
+    """
+    FINAL: Double bottom detection with:
+    - Must appear after a downtrend (15%+ drop from high)
+    - Minimum 60 days between lows
+    - Max 3% difference between lows
+    - Peak at least 5% higher than avg of lows
+    - Second low higher than first
+    - Upper wick condition on last 5 candles
     - Immediate breakout alert
     """
-    if len(close_prices) < lookback:
+    if len(close_prices) < lookback + 90:
+        return False, {}
+    
+    # First, check if there was a downtrend before the pattern
+    has_downtrend, drop_pct = check_downtrend(close_prices)
+    if not has_downtrend:
         return False, {}
     
     recent = close_prices[-lookback:]
@@ -111,26 +175,35 @@ def detect_double_bottom(close_prices, lookback=30):
     if low2[1] <= low1[1]:
         return False, {}
     
-    # CONDITION 2: Lows must be within 5% of each other
+    # CONDITION 2: Lows must be within 3% of each other
     diff_pct = abs((low2[1] - low1[1]) / low1[1])
-    if diff_pct > 0.05:
+    if diff_pct > max_low_diff:
+        return False, {}
+    
+    # CONDITION 3: Minimum 60 days between lows
+    days_between = low2[0] - low1[0]
+    if days_between < 60:
         return False, {}
     
     # Find peak between the two lows
     peak_price = max(recent[low1[0]:low2[0]+1])
     
-    # CONDITION 3: Peak must be at least 5% higher than average of two lows
+    # CONDITION 4: Peak must be at least 5% higher than average of two lows
     avg_low = (low1[1] + low2[1]) / 2
     peak_vs_avg = (peak_price - avg_low) / avg_low
-    if peak_vs_avg < 0.05:
+    if peak_vs_avg < peak_min_pct:
         return False, {}
     
-    # CONDITION 4: Immediate breakout alert - check if price is at or above peak
+    # CONDITION 5: Upper wick check on last 5 candles
+    if not check_upper_wick(ohlc_data, lookback=5, max_wick_percent=5):
+        return False, {}
+    
+    # CONDITION 6: Immediate breakout alert
     current_price = recent[-1]
     if current_price < peak_price:
-        return False, {}  # No breakout yet
+        return False, {}
     
-    # Breakout confirmed - send alert immediately
+    # All conditions passed!
     return True, {
         'low1': low1[1],
         'low2': low2[1],
@@ -139,8 +212,10 @@ def detect_double_bottom(close_prices, lookback=30):
         'peak_vs_avg_pct': peak_vs_avg * 100,
         'current': current_price,
         'breakout_pct': ((current_price - peak_price) / peak_price) * 100,
-        'days_between': low2[0] - low1[0],
-        'low_strength': 'Second low higher than first' if low2[1] > low1[1] else 'Equal lows'
+        'days_between': days_between,
+        'low_diff_pct': diff_pct * 100,
+        'drop_pct': drop_pct,
+        'low_strength': 'Second low higher than first ✅' if low2[1] > low1[1] else 'Equal lows'
     }
 
 # ============================================
@@ -168,7 +243,10 @@ def build_cache(stocks):
                         'dema_200': d200.iloc[-1],
                         'avg_volume': avg_volume,
                         'last_update': datetime.now().strftime('%Y-%m-%d'),
-                        'close_prices': hist['Close'].tolist()[-200:]
+                        'close_prices': hist['Close'].tolist()[-200:],
+                        'ohlc_data': list(zip(hist['High'].tolist()[-80:], 
+                                             hist['Low'].tolist()[-80:], 
+                                             hist['Close'].tolist()[-80:]))
                     }
         except:
             pass
@@ -182,7 +260,7 @@ def build_cache(stocks):
     return cache
 
 # ============================================
-# UPDATED CHECK STOCK
+# CHECK STOCK
 # ============================================
 def check_double_bottom(symbol, cache):
     try:
@@ -201,12 +279,13 @@ def check_double_bottom(symbol, cache):
         volume = info.get('regularMarketVolume', 0)
         
         close_prices = cached.get('close_prices', [])
+        ohlc_data = cached.get('ohlc_data', [])
         avg_volume = cached.get('avg_volume', 0)
         dema_50 = cached.get('dema_50', 0)
         dema_200 = cached.get('dema_200', 0)
         
-        # Check double bottom pattern (updated)
-        has_pattern, pattern_details = detect_double_bottom(close_prices)
+        # Check double bottom pattern with downtrend check
+        has_pattern, pattern_details = detect_double_bottom(ohlc_data, close_prices)
         
         if not has_pattern:
             return {'symbol': symbol, 'passed': False}
@@ -216,7 +295,7 @@ def check_double_bottom(symbol, cache):
         cond2 = price >= 100
         cond3 = volume >= 2.0 * avg_volume if avg_volume > 0 else False
         cond4 = dema_50 > dema_200
-        cond5 = calculate_macd(close_prices)  # MACD bullish
+        cond5 = calculate_macd(close_prices)
         
         passed = cond1 and cond2 and cond3 and cond4 and cond5
         
@@ -237,6 +316,8 @@ def check_double_bottom(symbol, cache):
             'peak_vs_avg_pct': pattern_details.get('peak_vs_avg_pct', 0),
             'breakout_pct': pattern_details.get('breakout_pct', 0),
             'days_between': pattern_details.get('days_between', 0),
+            'low_diff_pct': pattern_details.get('low_diff_pct', 0),
+            'drop_pct': pattern_details.get('drop_pct', 0),
             'low_strength': pattern_details.get('low_strength', '')
         }
         
@@ -247,7 +328,7 @@ def check_double_bottom(symbol, cache):
 # MAIN SCANNER
 # ============================================
 def run_scanner():
-    print("\n🚀 Starting Double Bottom scan (UPDATED)...")
+    print("\n🚀 Starting Double Bottom scan (WITH DOWNTEND)...")
     print("-" * 70)
     
     stocks = get_all_nse_stocks()
@@ -283,8 +364,11 @@ def run_scanner():
             details = (
                 f"🔔 *DOUBLE BOTTOM DETECTED!*\n"
                 f"📊 *{symbol}*\n\n"
+                f"📉 Prior Drop: {result['drop_pct']:.1f}% (Downtrend ✅)\n"
                 f"📉 First Bottom: ₹{result['low1']:.2f}\n"
                 f"📉 Second Bottom: ₹{result['low2']:.2f} (Higher ✅)\n"
+                f"📊 Low Diff: {result['low_diff_pct']:.2f}% (≤3% ✅)\n"
+                f"📅 Days Between: {result['days_between']} days (≥60 ✅)\n"
                 f"📊 Avg Low: ₹{result['avg_low']:.2f}\n"
                 f"📈 Peak: ₹{result['peak']:.2f}\n"
                 f"📈 Peak vs Avg: {result['peak_vs_avg_pct']:.2f}% (≥5% ✅)\n"
@@ -323,15 +407,18 @@ def run_scanner():
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message, 
-        "🔍 *Double Bottom Scanner (UPDATED)*\n\n"
-        "📊 *New Conditions:*\n"
-        "• Second low must be HIGHER than first low\n"
-        "• Lows within 5% of each other\n"
-        "• Peak must be ≥5% higher than average of two lows\n"
+        "🔍 *Double Bottom Scanner (With Downtrend)*\n\n"
+        "📊 *Conditions:*\n"
+        "• Price must drop ≥15% before pattern (downtrend)\n"
+        "• Minimum 60 days between lows\n"
+        "• Max 3% difference between lows\n"
+        "• Second low HIGHER than first\n"
+        "• Peak ≥5% higher than avg of lows\n"
+        "• Upper wick ≤5% on last 5 candles\n"
         "• IMMEDIATE alert on breakout\n"
         "• Volume spike ≥ 2.0x\n"
-        "• MACD must be BULLISH (open)\n"
-        "• Golden Cross (50 DEMA > 200 DEMA)\n"
+        "• MACD bullish (open)\n"
+        "• Golden Cross\n"
         "• Price ≥ ₹100\n"
         "• Market Cap ≥ ₹1000 Cr",
         parse_mode='Markdown'
@@ -352,9 +439,10 @@ def status(message):
         f"✅ *Scanner Status*\n"
         f"📦 Cache: {cache_size} stocks\n"
         f"🔄 Scans every 10 minutes\n"
-        f"📊 MACD: Required (bullish)\n"
-        f"📈 Volume Spike: ≥ 2.0x\n"
-        f"📊 Peak vs Avg: ≥ 5%",
+        f"📉 Downtrend required: ≥15% drop\n"
+        f"📅 Min days between lows: 60\n"
+        f"📊 Max low diff: 3%\n"
+        f"📈 Volume Spike: ≥ 2.0x",
         parse_mode='Markdown'
     )
 
@@ -363,7 +451,7 @@ def status(message):
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🔍 Double Bottom Scanner (UPDATED) is running!", parse_mode='Markdown')
+        bot.send_message(YOUR_CHAT_ID, "🔍 Double Bottom Scanner (With Downtrend) is running!", parse_mode='Markdown')
     except:
         pass
     
