@@ -63,17 +63,12 @@ def calculate_macd(close_prices):
     if len(close_prices) < 26:
         return False
     
-    # Calculate EMA
     ema_12 = pd.Series(close_prices).ewm(span=12, adjust=False).mean()
     ema_26 = pd.Series(close_prices).ewm(span=26, adjust=False).mean()
     
-    # MACD Line = 12 EMA - 26 EMA
     macd_line = ema_12 - ema_26
-    
-    # Signal Line = 9 EMA of MACD Line
     signal_line = macd_line.ewm(span=9, adjust=False).mean()
     
-    # Check if MACD > Signal (bullish open)
     if len(macd_line) > 0 and len(signal_line) > 0:
         return macd_line.iloc[-1] > signal_line.iloc[-1]
     
@@ -87,6 +82,7 @@ def detect_double_bottom(close_prices, lookback=30):
     UPDATED: Double bottom detection with:
     - Second low must be higher than first low
     - 5% similarity limit
+    - Peak must be at least 5% higher than average of two lows
     - Immediate breakout alert
     """
     if len(close_prices) < lookback:
@@ -123,11 +119,13 @@ def detect_double_bottom(close_prices, lookback=30):
     # Find peak between the two lows
     peak_price = max(recent[low1[0]:low2[0]+1])
     
-    # Peak must be at least 3% higher than the lows
-    if peak_price < low1[1] * 1.03:
+    # CONDITION 3: Peak must be at least 5% higher than average of two lows
+    avg_low = (low1[1] + low2[1]) / 2
+    peak_vs_avg = (peak_price - avg_low) / avg_low
+    if peak_vs_avg < 0.05:
         return False, {}
     
-    # CONDITION 3: Immediate breakout alert - check if price is at or above peak
+    # CONDITION 4: Immediate breakout alert - check if price is at or above peak
     current_price = recent[-1]
     if current_price < peak_price:
         return False, {}  # No breakout yet
@@ -136,7 +134,9 @@ def detect_double_bottom(close_prices, lookback=30):
     return True, {
         'low1': low1[1],
         'low2': low2[1],
+        'avg_low': avg_low,
         'peak': peak_price,
+        'peak_vs_avg_pct': peak_vs_avg * 100,
         'current': current_price,
         'breakout_pct': ((current_price - peak_price) / peak_price) * 100,
         'days_between': low2[0] - low1[0],
@@ -211,15 +211,12 @@ def check_double_bottom(symbol, cache):
         if not has_pattern:
             return {'symbol': symbol, 'passed': False}
         
-        # CONDITION 4: Volume Spike >= 2.0x (UPDATED from 1.5x)
+        # Additional conditions
         cond1 = market_cap_raw >= 1000
         cond2 = price >= 100
         cond3 = volume >= 2.0 * avg_volume if avg_volume > 0 else False
         cond4 = dema_50 > dema_200
-        
-        # CONDITION 5: MACD should be open (bullish)
-        macd_bullish = calculate_macd(close_prices)
-        cond5 = macd_bullish
+        cond5 = calculate_macd(close_prices)  # MACD bullish
         
         passed = cond1 and cond2 and cond3 and cond4 and cond5
         
@@ -232,10 +229,12 @@ def check_double_bottom(symbol, cache):
             'volume_ratio': volume / avg_volume if avg_volume > 0 else 0,
             'market_cap': market_cap_raw,
             'golden_cross': cond4,
-            'macd_bullish': macd_bullish,
+            'macd_bullish': cond5,
             'low1': pattern_details.get('low1', 0),
             'low2': pattern_details.get('low2', 0),
+            'avg_low': pattern_details.get('avg_low', 0),
             'peak': pattern_details.get('peak', 0),
+            'peak_vs_avg_pct': pattern_details.get('peak_vs_avg_pct', 0),
             'breakout_pct': pattern_details.get('breakout_pct', 0),
             'days_between': pattern_details.get('days_between', 0),
             'low_strength': pattern_details.get('low_strength', '')
@@ -285,8 +284,10 @@ def run_scanner():
                 f"🔔 *DOUBLE BOTTOM DETECTED!*\n"
                 f"📊 *{symbol}*\n\n"
                 f"📉 First Bottom: ₹{result['low1']:.2f}\n"
-                f"📉 Second Bottom: ₹{result['low2']:.2f} (Higher than first ✅)\n"
-                f"📈 Breakout Level: ₹{result['peak']:.2f}\n"
+                f"📉 Second Bottom: ₹{result['low2']:.2f} (Higher ✅)\n"
+                f"📊 Avg Low: ₹{result['avg_low']:.2f}\n"
+                f"📈 Peak: ₹{result['peak']:.2f}\n"
+                f"📈 Peak vs Avg: {result['peak_vs_avg_pct']:.2f}% (≥5% ✅)\n"
                 f"💰 Current Price: ₹{result['price']:.2f}\n"
                 f"📊 Breakout: {result['breakout_pct']:.2f}%\n"
                 f"📈 Volume Spike: {result['volume_ratio']:.2f}x\n"
@@ -326,8 +327,9 @@ def start(message):
         "📊 *New Conditions:*\n"
         "• Second low must be HIGHER than first low\n"
         "• Lows within 5% of each other\n"
+        "• Peak must be ≥5% higher than average of two lows\n"
         "• IMMEDIATE alert on breakout\n"
-        "• Volume spike ≥ 2.0x (increased from 1.5x)\n"
+        "• Volume spike ≥ 2.0x\n"
         "• MACD must be BULLISH (open)\n"
         "• Golden Cross (50 DEMA > 200 DEMA)\n"
         "• Price ≥ ₹100\n"
@@ -351,7 +353,8 @@ def status(message):
         f"📦 Cache: {cache_size} stocks\n"
         f"🔄 Scans every 10 minutes\n"
         f"📊 MACD: Required (bullish)\n"
-        f"📈 Volume Spike: ≥ 2.0x",
+        f"📈 Volume Spike: ≥ 2.0x\n"
+        f"📊 Peak vs Avg: ≥ 5%",
         parse_mode='Markdown'
     )
 
