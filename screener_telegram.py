@@ -17,7 +17,7 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 print("=" * 70)
-print("🤖 NSE STOCK SCREENER - FULL NSE LIST")
+print("🤖 NSE STOCK SCREENER")
 print("=" * 70)
 
 try:
@@ -28,42 +28,27 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# GET FULL NSE STOCK LIST - Multiple Methods
+# GET NSE STOCK LIST FROM RELIABLE SOURCE
 # ============================================
 def get_nse_stocks():
-    """Fetch complete NSE stock list using multiple methods"""
+    """Fetch NSE stock list from reliable source"""
     print("📊 Fetching NSE stock list...")
     
-    # Method 1: Try PKNSETools
-    try:
-        from PKNSETools import nseStockDataFetcher
-        fetcher = nseStockDataFetcher()
-        stocks = fetcher.fetchStockCodes(12)
-        print(f"✅ Loaded {len(stocks)} stocks from PKNSETools")
-        return stocks
-    except:
-        pass
-    
-    # Method 2: Try nsetools
-    try:
-        import nsetools
-        nse = nsetools.Nse()
-        stocks = nse.get_stock_codes()
-        stock_list = [symbol for symbol, name in stocks.items() if name is not None]
-        print(f"✅ Loaded {len(stock_list)} stocks from nsetools")
-        return stock_list
-    except:
-        pass
-    
-    # Method 3: Try NSE India API
+    # Try NSE India API
     try:
         url = "https://www.nseindia.com/api/equity-stockIndices?index=SECURITIES%20IN%20F%26O"
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
             'Accept': 'application/json',
+            'Accept-Language': 'en-US,en;q=0.9',
         }
+        
+        # First get a session cookie
         session = requests.Session()
-        session.get('https://www.nseindia.com', headers=headers, timeout=10)
+        session.get('https://www.nseindia.com', headers=headers)
+        time.sleep(1)
+        
+        # Then fetch data
         response = session.get(url, headers=headers, timeout=30)
         
         if response.status_code == 200:
@@ -78,46 +63,48 @@ def get_nse_stocks():
     except Exception as e:
         print(f"⚠️ NSE API error: {e}")
     
-    # Method 4: Fallback - Major stocks only
+    # Fallback: Major NSE stocks
     print("⚠️ Using fallback stock list")
     return get_fallback_stocks()
 
 def get_fallback_stocks():
-    """Major NSE stocks for fallback"""
+    """Major NSE stocks (active symbols)"""
     return [
         'RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK',
         'KOTAKBANK', 'HINDUNILVR', 'ITC', 'SBIN', 'BHARTIARTL',
         'LT', 'HCLTECH', 'AXISBANK', 'MARUTI', 'SUNPHARMA',
         'TITAN', 'WIPRO', 'ULTRACEMCO', 'BAJFINANCE', 'NTPC',
-        'POWERGRID', 'M&M', 'TATAMOTORS', 'TATASTEEL', 'JSWSTEEL',
-        'TECHM', 'NESTLEIND', 'ONGC', 'HDFC', 'ADANIPORTS',
+        'POWERGRID', 'M&M', 'TATASTEEL', 'JSWSTEEL',
+        'TECHM', 'NESTLEIND', 'ONGC', 'ADANIPORTS',
         'ADANIENT', 'DMART', 'SBILIFE', 'HINDALCO', 'BRITANNIA',
         'DRREDDY', 'GRASIM', 'EICHERMOT', 'BAJAJFINSV', 'ASIANPAINT',
-        'VINCOFE', 'IOLCP', 'ALEMBICLTD', 'DCBBANK', 'SKIPPER', 'JINDALSAW'
+        'VINCOFE', 'IOLCP', 'ALEMBICLTD', 'DCBBANK', 'SKIPPER', 'JINDALSAW',
+        'WELCORP', 'WEL', 'HDFCLIFE', 'HDFCAMC', 'SHRIRAMFIN'
     ]
 
 # ============================================
 # CHARTINK-STYLE DEMA
 # ============================================
 def chartink_dema(data, period):
-    """Match Chartink's DEMA calculation exactly"""
     if len(data) < period:
         return None
     ema = data.ewm(span=period, adjust=False).mean()
     ema2 = ema.ewm(span=period, adjust=False).mean()
-    dema = 2 * ema - ema2
-    return dema
+    return 2 * ema - ema2
 
 # ============================================
 # CHECK STOCK
 # ============================================
 def check_stock(symbol):
-    """Check ALL 10 Chartink filters"""
     try:
         import yfinance as yf
         ticker = yf.Ticker(f"{symbol}.NS")
         info = ticker.info
         hist = ticker.history(period="6mo")
+        
+        # Skip if no data
+        if not info or len(hist) == 0:
+            return {'symbol': symbol, 'passed': False, 'error': 'No data'}
         
         # 1. Market Cap >= 1000 Cr
         market_cap_raw = info.get('marketCap', 0)
@@ -125,12 +112,12 @@ def check_stock(symbol):
         cond1 = market_cap_crores >= 1000
         
         # 2. Price >= 100
-        price = info.get('regularMarketPrice', 0)
+        price = info.get('regularMarketPrice', info.get('currentPrice', 0))
         cond2 = price >= 100
         
         # 3 & 4. Day Change 0-15%
         prev_close = info.get('regularMarketPreviousClose', 0)
-        if prev_close > 0:
+        if prev_close > 0 and price > 0:
             day_change = ((price - prev_close) / prev_close) * 100
         else:
             day_change = 0
@@ -150,7 +137,7 @@ def check_stock(symbol):
         
         # 7. Within 10% of 52W High
         high_52w = info.get('fiftyTwoWeekHigh', 0)
-        if high_52w > 0:
+        if high_52w > 0 and price > 0:
             pct_from_high = (high_52w / price) - 1
         else:
             pct_from_high = 100
@@ -176,7 +163,6 @@ def check_stock(symbol):
         volume_ratio = volume / avg_volume if avg_volume > 0 else 0
         cond10 = volume_ratio >= 1.5
         
-        # ALL conditions
         passed = cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10
         
         return {
@@ -224,7 +210,7 @@ def run_scanner():
             except:
                 pass
         
-        if (i + 1) % 50 == 0:
+        if (i + 1) % 20 == 0:
             elapsed = time.time() - start_time
             print(f"📊 Progress: {i+1}/{len(stocks)} ({elapsed:.1f}s)")
         
@@ -257,11 +243,11 @@ def run_scanner():
 # ============================================
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "🤖 NSE Stock Screener is running!\n\n📊 Scans ALL NSE stocks every 10 minutes\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
+    bot.reply_to(message, "🤖 NSE Stock Screener is running!\n\n📊 Scans NSE stocks\n📋 10 filters\n🚨 Alerts when conditions pass")
 
 @bot.message_handler(commands=['status'])
 def status(message):
-    bot.reply_to(message, "✅ Scanner is active.\n🔄 Scans every 10 minutes.\n📊 Scans ALL NSE stocks.")
+    bot.reply_to(message, "✅ Scanner active.\n🔄 Scans every 10 minutes.")
 
 # ============================================
 # RUN
