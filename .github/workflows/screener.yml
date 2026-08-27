@@ -1,9 +1,9 @@
-name: NSE Stock Screener  # Updated: Force re-register
+name: NSE Stock Screener
 
 on:
   schedule:
-    - cron: '*/10 * * * *'  # Runs every 10 minutes
-  workflow_dispatch:        # Allows manual run
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
 
 jobs:
   scan-stocks:
@@ -23,11 +23,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy telebot yfinance datasets
       
+      - name: Download previous cache
+        uses: actions/download-artifact@v4
+        with:
+          name: stock-cache
+          path: .
+        continue-on-error: true
+      
       - name: Run screener
         run: python screener_telegram.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-
-Fix auto-scan: Force re-register workflow
-          
+      
+      - name: Upload cache
+        uses: actions/upload-artifact@v4
+        with:
+          name: stock-cache
+          path: stock_cache.pkl
+          retention-days: 7
