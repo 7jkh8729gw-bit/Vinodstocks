@@ -26,5 +26,5 @@ jobs:
       - name: Run double bottom scanner
         run: python double_bottom_bot.py
         env:
-          BOT_TOKEN: ${{ secrets.DOUBLE_BOTTOM_BOT_TOKEN }}
+          DOUBLE_BOTTOM_BOT_TOKEN: ${{ secrets.DOUBLE_BOTTOM_BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
