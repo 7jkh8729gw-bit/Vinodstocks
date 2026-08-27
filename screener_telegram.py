@@ -1,9 +1,11 @@
 import os
 import yfinance as yf
 import pandas as pd
+import numpy as np
 import time
 from datetime import datetime
 import telebot
+from datasets import load_dataset
 
 # ============================================
 # YOUR BOT DETAILS
@@ -14,9 +16,9 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-print("=" * 60)
-print("🧪 TEST: 5 STOCKS, ALL 10 FILTERS")
-print("=" * 60)
+print("=" * 70)
+print("🧪 TEST: FIND STOCKS THAT PASS TODAY (Yahoo Data)")
+print("=" * 70)
 
 try:
     bot_info = bot.get_me()
@@ -26,9 +28,19 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# TEST STOCKS
+# GET NSE STOCKS
 # ============================================
-TEST_STOCKS = ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK']
+def get_nse_stocks():
+    print("📊 Loading NSE stocks...")
+    try:
+        ds = load_dataset("tickertruth/nse-india-security-master", data_files="data/nse_security_master.csv")
+        df = ds["train"].to_pandas()
+        symbols = df[df["active_flag"] == True]["nse_symbol"].tolist()
+        print(f"✅ Loaded {len(symbols)} stocks")
+        return symbols[:100]  # Only first 100 for testing
+    except Exception as e:
+        print(f"⚠️ Error: {e}")
+        return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK', 'KOTAKBANK']
 
 # ============================================
 # DEMA CALCULATION
@@ -44,9 +56,7 @@ def calculate_dema(data, period):
 # CHECK WITH ALL 10 FILTERS
 # ============================================
 def check_stock(symbol):
-    """
-    ALL 10 Chartink filters
-    """
+    """Check ALL 10 Chartink filters using Yahoo data"""
     try:
         ticker = yf.Ticker(f"{symbol}.NS")
         info = ticker.info
@@ -86,6 +96,8 @@ def check_stock(symbol):
         cond7 = pct_from_high <= 0.10
         
         # 8 & 9. DEMA calculations
+        cond8 = False
+        cond9 = False
         if len(hist) >= 200:
             dema_10 = calculate_dema(hist['Close'], 10)
             dema_50 = calculate_dema(hist['Close'], 50)
@@ -95,85 +107,105 @@ def check_stock(symbol):
                 d10 = dema_10.iloc[-1]
                 d50 = dema_50.iloc[-1]
                 d200 = dema_200.iloc[-1]
-                cond8 = d50 / d200 >= 1 if d200 > 0 else False
-                cond9 = d10 / d50 >= 1 if d50 > 0 else False
-            else:
-                cond8 = False
-                cond9 = False
-        else:
-            cond8 = False
-            cond9 = False
+                if d200 > 0 and d50 > 0:
+                    cond8 = d50 / d200 >= 1
+                    cond9 = d10 / d50 >= 1
         
         # 10. Volume Ratio >= 1.5x
         volume_ratio = volume / avg_volume if avg_volume > 0 else 0
         cond10 = volume_ratio >= 1.5
         
-        # ALL conditions must pass
+        # ALL conditions
         passed = cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10
         
-        # Print debug
-        print(f"\n📊 {symbol}:")
-        print(f"  1️⃣ Market Cap: ₹{market_cap:.1f} Cr {'✅' if cond1 else '❌'}")
-        print(f"  2️⃣ Price: ₹{price:.2f} {'✅' if cond2 else '❌'}")
-        print(f"  3️⃣ Day Change: {day_change:.2f}% {'✅' if cond3 and cond4 else '❌'}")
-        print(f"  4️⃣ Volume: {volume:,} {'✅' if cond5 else '❌'}")
-        print(f"  5️⃣ Avg Vol: {avg_volume:,.0f} {'✅' if cond6 else '❌'}")
-        print(f"  6️⃣ From 52W High: {pct_from_high*100:.2f}% {'✅' if cond7 else '❌'}")
-        if 'd50' in locals() and 'd200' in locals() and d200 > 0:
-            print(f"  7️⃣ DEMA(50)/DEMA(200): {(d50/d200):.3f} {'✅' if cond8 else '❌'}")
-        else:
-            print(f"  7️⃣ DEMA(50)/DEMA(200): N/A {'❌'}")
-        if 'd10' in locals() and 'd50' in locals() and d50 > 0:
-            print(f"  8️⃣ DEMA(10)/DEMA(50): {(d10/d50):.3f} {'✅' if cond9 else '❌'}")
-        else:
-            print(f"  8️⃣ DEMA(10)/DEMA(50): N/A {'❌'}")
-        print(f"  9️⃣ Volume Ratio: {volume_ratio:.2f}x {'✅' if cond10 else '❌'}")
-        print(f"  RESULT: {'✅ PASS' if passed else '❌ FAIL'}")
-        
-        return passed
+        return {
+            'symbol': symbol,
+            'passed': passed,
+            'market_cap': market_cap,
+            'price': price,
+            'day_change': day_change,
+            'volume': volume,
+            'avg_volume': avg_volume,
+            'pct_from_high': pct_from_high * 100,
+            'volume_ratio': volume_ratio,
+            'cond1': cond1, 'cond2': cond2, 'cond3': cond3,
+            'cond4': cond4, 'cond5': cond5, 'cond6': cond6,
+            'cond7': cond7, 'cond8': cond8, 'cond9': cond9, 'cond10': cond10
+        }
         
     except Exception as e:
-        print(f"  {symbol}: ❌ ERROR - {e}")
-        return False
+        return {'symbol': symbol, 'passed': False, 'error': str(e)}
 
 # ============================================
 # MAIN TEST
 # ============================================
 def run_test():
-    print("\n🚀 Testing all 10 filters on 5 stocks...")
-    print("-" * 40)
+    print("\n🚀 Scanning first 100 NSE stocks for today's data...")
+    print("-" * 70)
     
-    alerts_sent = 0
+    stocks = get_nse_stocks()
+    print(f"📊 Checking {len(stocks)} stocks...")
+    print("-" * 70)
     
-    for symbol in TEST_STOCKS:
-        if check_stock(symbol):
-            try:
-                bot.send_message(YOUR_CHAT_ID, f"🚨 *ALERT: {symbol}* (All 10 filters passed!)", parse_mode='Markdown')
-                alerts_sent += 1
-                print(f"  ✅ ALERT SENT!")
-            except Exception as e:
-                print(f"  ❌ Telegram error: {e}")
+    results = []
+    alerts = 0
+    
+    for i, symbol in enumerate(stocks):
+        result = check_stock(symbol)
+        results.append(result)
         
-        time.sleep(0.5)
+        if result.get('passed', False):
+            alerts += 1
+            print(f"✅ {symbol} - PASSED ALL 10!")
+            try:
+                bot.send_message(YOUR_CHAT_ID, f"🚨 *{symbol}* (Today's data)", parse_mode='Markdown')
+            except:
+                pass
+        
+        # Show progress
+        if (i + 1) % 20 == 0:
+            print(f"📊 Progress: {i+1}/{len(stocks)}")
+        
+        time.sleep(0.1)
     
-    print("\n" + "-" * 40)
-    print(f"✅ Test complete! Alerts sent: {alerts_sent}/{len(TEST_STOCKS)}")
-
-# ============================================
-# TELEGRAM COMMANDS
-# ============================================
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, "🧪 Testing all 10 filters on 5 stocks!")
+    print("-" * 70)
+    print(f"✅ Scan complete! Found {alerts} stocks passing ALL 10 conditions today.")
+    
+    # Summary of passing stocks
+    passing = [r for r in results if r.get('passed', False)]
+    if passing:
+        print(f"\n📋 Stocks that passed:")
+        for r in passing:
+            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%")
+    else:
+        print("\n⚠️ No stocks passed ALL 10 conditions today.")
+        print("   This is expected if market is down or volume is low.")
+        
+        # Show why they failed (sample of first 5)
+        print("\n📊 Sample failures (first 5 stocks):")
+        for r in results[:5]:
+            if not r.get('passed', False) and 'error' not in r:
+                print(f"\n  ❌ {r['symbol']}:")
+                print(f"     Market Cap: {'✅' if r['cond1'] else '❌'}")
+                print(f"     Price: {'✅' if r['cond2'] else '❌'}")
+                print(f"     Day Change: {'✅' if r['cond3'] and r['cond4'] else '❌'}")
+                print(f"     Volume: {'✅' if r['cond5'] else '❌'}")
+                print(f"     Avg Vol: {'✅' if r['cond6'] else '❌'}")
+                print(f"     52W High: {'✅' if r['cond7'] else '❌'}")
+                print(f"     DEMA 50/200: {'✅' if r['cond8'] else '❌'}")
+                print(f"     DEMA 10/50: {'✅' if r['cond9'] else '❌'}")
+                print(f"     Volume Ratio: {'✅' if r['cond10'] else '❌'}")
 
 # ============================================
 # RUN
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🧪 Testing ALL 10 filters on 5 stocks...")
+        bot.send_message(YOUR_CHAT_ID, "🧪 Scanning NSE stocks with Yahoo data...")
     except:
         pass
     
+    start_time = time.time()
     run_test()
+    print(f"\n⏱️ Total time: {time.time() - start_time:.1f} seconds")
     print("✅ Done!")
