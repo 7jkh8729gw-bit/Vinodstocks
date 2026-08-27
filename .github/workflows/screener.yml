@@ -1,9 +1,9 @@
-name: NSE Stock Screener
+name: NSE Stock Screener  # Updated: Force re-register
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
-  workflow_dispatch:
+    - cron: '*/10 * * * *'  # Runs every 10 minutes
+  workflow_dispatch:        # Allows manual run
 
 jobs:
   scan-stocks:
@@ -28,10 +28,6 @@ jobs:
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-      
-      - name: Upload cache
-        uses: actions/upload-artifact@v4
-        with:
-          name: stock-cache
-          path: stock_cache.pkl
-          retention-days: 7
+
+Fix auto-scan: Force re-register workflow
+          
