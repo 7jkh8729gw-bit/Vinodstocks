@@ -17,7 +17,7 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 print("=" * 70)
-print("🧪 TEST: FIND STOCKS THAT PASS TODAY (Yahoo Data)")
+print("🧪 TEST: RELAXED DEMA CONDITIONS")
 print("=" * 70)
 
 try:
@@ -53,10 +53,10 @@ def calculate_dema(data, period):
     return 2 * ema1 - ema2
 
 # ============================================
-# CHECK WITH ALL 10 FILTERS
+# CHECK WITH RELAXED CONDITIONS
 # ============================================
 def check_stock(symbol):
-    """Check ALL 10 Chartink filters using Yahoo data"""
+    """Check conditions with RELAXED DEMA (just need > 0)"""
     try:
         ticker = yf.Ticker(f"{symbol}.NS")
         info = ticker.info
@@ -95,9 +95,9 @@ def check_stock(symbol):
             pct_from_high = 100
         cond7 = pct_from_high <= 0.10
         
-        # 8 & 9. DEMA calculations
-        cond8 = False
-        cond9 = False
+        # 8 & 9. RELAXED DEMA (just need them to exist, not crossing)
+        cond8 = True
+        cond9 = True
         if len(hist) >= 200:
             dema_10 = calculate_dema(hist['Close'], 10)
             dema_50 = calculate_dema(hist['Close'], 50)
@@ -107,9 +107,15 @@ def check_stock(symbol):
                 d10 = dema_10.iloc[-1]
                 d50 = dema_50.iloc[-1]
                 d200 = dema_200.iloc[-1]
-                if d200 > 0 and d50 > 0:
-                    cond8 = d50 / d200 >= 1
-                    cond9 = d10 / d50 >= 1
+                # Just need them to be valid values
+                cond8 = d50 > 0 and d200 > 0
+                cond9 = d10 > 0 and d50 > 0
+            else:
+                cond8 = False
+                cond9 = False
+        else:
+            cond8 = False
+            cond9 = False
         
         # 10. Volume Ratio >= 1.5x
         volume_ratio = volume / avg_volume if avg_volume > 0 else 0
@@ -140,7 +146,7 @@ def check_stock(symbol):
 # MAIN TEST
 # ============================================
 def run_test():
-    print("\n🚀 Scanning first 100 NSE stocks for today's data...")
+    print("\n🚀 Scanning with RELAXED DEMA conditions (just need valid values)...")
     print("-" * 70)
     
     stocks = get_nse_stocks()
@@ -156,9 +162,9 @@ def run_test():
         
         if result.get('passed', False):
             alerts += 1
-            print(f"✅ {symbol} - PASSED ALL 10!")
+            print(f"✅ {symbol} - PASSED ALL 10 (with relaxed DEMA)!")
             try:
-                bot.send_message(YOUR_CHAT_ID, f"🚨 *{symbol}* (Today's data)", parse_mode='Markdown')
+                bot.send_message(YOUR_CHAT_ID, f"🚨 *{symbol}* (Relaxed DEMA)", parse_mode='Markdown')
             except:
                 pass
         
@@ -169,39 +175,25 @@ def run_test():
         time.sleep(0.1)
     
     print("-" * 70)
-    print(f"✅ Scan complete! Found {alerts} stocks passing ALL 10 conditions today.")
+    print(f"✅ Scan complete! Found {alerts} stocks with relaxed DEMA conditions.")
     
     # Summary of passing stocks
     passing = [r for r in results if r.get('passed', False)]
     if passing:
-        print(f"\n📋 Stocks that passed:")
+        print(f"\n📋 Stocks that passed (relaxed DEMA):")
         for r in passing:
-            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%")
+            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%, Vol Ratio: {r['volume_ratio']:.2f}x")
     else:
-        print("\n⚠️ No stocks passed ALL 10 conditions today.")
-        print("   This is expected if market is down or volume is low.")
-        
-        # Show why they failed (sample of first 5)
-        print("\n📊 Sample failures (first 5 stocks):")
-        for r in results[:5]:
-            if not r.get('passed', False) and 'error' not in r:
-                print(f"\n  ❌ {r['symbol']}:")
-                print(f"     Market Cap: {'✅' if r['cond1'] else '❌'}")
-                print(f"     Price: {'✅' if r['cond2'] else '❌'}")
-                print(f"     Day Change: {'✅' if r['cond3'] and r['cond4'] else '❌'}")
-                print(f"     Volume: {'✅' if r['cond5'] else '❌'}")
-                print(f"     Avg Vol: {'✅' if r['cond6'] else '❌'}")
-                print(f"     52W High: {'✅' if r['cond7'] else '❌'}")
-                print(f"     DEMA 50/200: {'✅' if r['cond8'] else '❌'}")
-                print(f"     DEMA 10/50: {'✅' if r['cond9'] else '❌'}")
-                print(f"     Volume Ratio: {'✅' if r['cond10'] else '❌'}")
+        print("\n⚠️ Still no stocks passed with relaxed DEMA.")
+        print("   The main bottleneck is likely the Volume Ratio (>= 1.5x)")
+        print("   or the 52W High condition.")
 
 # ============================================
 # RUN
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🧪 Scanning NSE stocks with Yahoo data...")
+        bot.send_message(YOUR_CHAT_ID, "🧪 Testing with relaxed DEMA conditions...")
     except:
         pass
     
