@@ -4,8 +4,18 @@ import numpy as np
 import time
 from datetime import datetime, timedelta
 import telebot
-from PKNSETools.Benny.NSE import NSE
-from PKNSETools import nseStockDataFetcher, get_Company_History_Data, getTodayData
+
+# ============================================
+# PKNSETools - Correct imports
+# ============================================
+try:
+    from PKNSETools.Benny.NSE import NSE
+    from PKNSETools import getTodayData
+    print("✅ PKNSETools imported successfully")
+except Exception as e:
+    print(f"⚠️ PKNSETools import error: {e}")
+    print("⚠️ Falling back to yfinance...")
+    import yfinance as yf
 
 # ============================================
 # YOUR BOT DETAILS
@@ -17,7 +27,7 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 print("=" * 70)
-print("🤖 NSE STOCK SCREENER - PKNSETools VERSION")
+print("🤖 NSE STOCK SCREENER - FIXED VERSION")
 print("=" * 70)
 
 try:
@@ -28,20 +38,38 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# GET NSE STOCKS - Using PKNSETools
+# GET NSE STOCKS - Multiple Methods
 # ============================================
 def get_nse_stocks():
-    """Fetch all NSE stocks using PKNSETools"""
+    """Fetch NSE stocks using multiple methods"""
     print("📊 Loading NSE stocks...")
+    
+    # Method 1: Try PKNSETools
     try:
+        from PKNSETools import nseStockDataFetcher
         fetcher = nseStockDataFetcher()
-        # Index 12 = All NSE equities [citation:1][citation:4]
-        all_stocks = fetcher.fetchStockCodes(12)
-        print(f"✅ Loaded {len(all_stocks)} stocks")
-        return all_stocks
-    except Exception as e:
-        print(f"⚠️ Error: {e}, using fallback")
-        return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK', 'KOTAKBANK']
+        stocks = fetcher.fetchStockCodes(12)  # 12 = All equities
+        print(f"✅ Loaded {len(stocks)} stocks from PKNSETools")
+        return stocks
+    except:
+        pass
+    
+    # Method 2: Try NSE Python library
+    try:
+        import nsetools
+        nse = nsetools.Nse()
+        stocks = nse.get_stock_codes()
+        stock_list = list(stocks.keys())
+        print(f"✅ Loaded {len(stock_list)} stocks from nsetools")
+        return stock_list
+    except:
+        pass
+    
+    # Method 3: Fallback to major stocks
+    print("⚠️ Using fallback stock list")
+    return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK', 
+            'KOTAKBANK', 'HINDUNILVR', 'ITC', 'SBIN', 'BHARTIARTL',
+            'VINCOFE', 'IOLCP', 'ALEMBICLTD', 'DCBBANK', 'SKIPPER', 'JINDALSAW']
 
 # ============================================
 # CHARTINK-STYLE DEMA
@@ -56,29 +84,47 @@ def chartink_dema(data, period):
     return dema
 
 # ============================================
-# CHECK STOCK - Using PKNSETools
+# CHECK STOCK - Works with PKNSETools OR yfinance
 # ============================================
 def check_stock(symbol):
-    """Check ALL 10 Chartink filters using PKNSETools"""
+    """Check ALL 10 Chartink filters"""
     try:
-        # Initialize NSE API client
-        nse = NSE(download_folder="./data")
+        # Try PKNSETools first
+        try:
+            from PKNSETools.Benny.NSE import NSE
+            nse = NSE(download_folder="./data")
+            quote = nse.quote(symbol)
+            price_info = quote.get('priceInfo', {})
+            
+            market_cap_raw = quote.get('marketCap', 0)
+            price = price_info.get('lastPrice', 0)
+            prev_close = price_info.get('previousClose', 0)
+            volume = quote.get('totalTradedVolume', 0)
+            high_52w = price_info.get('weekHigh', 0)
+            data_source = "PKNSETools"
+            
+        except:
+            # Fallback to yfinance
+            import yfinance as yf
+            ticker = yf.Ticker(f"{symbol}.NS")
+            info = ticker.info
+            hist = ticker.history(period="6mo")
+            
+            market_cap_raw = info.get('marketCap', 0)
+            price = info.get('regularMarketPrice', 0)
+            prev_close = info.get('regularMarketPreviousClose', 0)
+            volume = info.get('regularMarketVolume', 0)
+            high_52w = info.get('fiftyTwoWeekHigh', 0)
+            data_source = "yfinance"
         
-        # Get real-time quote
-        quote = nse.quote(symbol)
-        price_info = quote.get('priceInfo', {})
-        
-        # 1. Market Cap (from quote)
-        market_cap_raw = quote.get('marketCap', 0)
+        # 1. Market Cap >= 1000 Cr
         market_cap_crores = market_cap_raw / 10000000 if market_cap_raw > 0 else 0
         cond1 = market_cap_crores >= 1000
         
         # 2. Price >= 100
-        price = price_info.get('lastPrice', 0)
         cond2 = price >= 100
         
         # 3 & 4. Day Change 0-15%
-        prev_close = price_info.get('previousClose', 0)
         if prev_close > 0:
             day_change = ((price - prev_close) / prev_close) * 100
         else:
@@ -87,27 +133,37 @@ def check_stock(symbol):
         cond4 = day_change < 15
         
         # 5. Volume >= 200,000
-        volume = quote.get('totalTradedVolume', 0)
         cond5 = volume >= 200000
         
-        # 6. 21-Day Avg Volume from historical data
-        end_date = datetime.now()
-        start_date = end_date - timedelta(days=180)
+        # Get historical data for DEMA and Avg Volume
+        hist = None
+        try:
+            from PKNSETools import get_Company_History_Data
+            end_date = datetime.now()
+            start_date = end_date - timedelta(days=180)
+            hist = get_Company_History_Data(
+                company=symbol,
+                from_date=start_date.strftime('%d-%m-%Y'),
+                to_date=end_date.strftime('%d-%m-%Y')
+            )
+            data_source = "PKNSETools"
+        except:
+            try:
+                import yfinance as yf
+                ticker = yf.Ticker(f"{symbol}.NS")
+                hist = ticker.history(period="6mo")
+                data_source = "yfinance"
+            except:
+                hist = None
         
-        hist = get_Company_History_Data(
-            company=symbol,
-            from_date=start_date.strftime('%d-%m-%Y'),
-            to_date=end_date.strftime('%d-%m-%Y')
-        )
-        
-        if len(hist) >= 21:
+        # 6. 21-Day Avg Volume > 500,000
+        if hist is not None and len(hist) >= 21:
             avg_volume = hist['Volume'].tail(21).mean()
         else:
             avg_volume = 0
         cond6 = avg_volume > 500000
         
         # 7. Within 10% of 52W High
-        high_52w = price_info.get('weekHigh', 0)
         if high_52w > 0:
             pct_from_high = (high_52w / price) - 1
         else:
@@ -117,7 +173,7 @@ def check_stock(symbol):
         # 8 & 9. DEMA calculations
         cond8 = False
         cond9 = False
-        if len(hist) >= 200:
+        if hist is not None and len(hist) >= 200:
             d10 = chartink_dema(hist['Close'], 10)
             d50 = chartink_dema(hist['Close'], 50)
             d200 = chartink_dema(hist['Close'], 200)
@@ -147,6 +203,7 @@ def check_stock(symbol):
             'avg_volume': avg_volume,
             'pct_from_high': pct_from_high * 100,
             'volume_ratio': volume_ratio,
+            'data_source': data_source,
             'cond1': cond1, 'cond2': cond2, 'cond3': cond3,
             'cond4': cond4, 'cond5': cond5, 'cond6': cond6,
             'cond7': cond7, 'cond8': cond8, 'cond9': cond9, 'cond10': cond10
@@ -159,7 +216,7 @@ def check_stock(symbol):
 # MAIN SCANNER
 # ============================================
 def run_scanner():
-    print("\n🚀 Starting full scan with PKNSETools...")
+    print("\n🚀 Starting full scan...")
     print("-" * 70)
     
     stocks = get_nse_stocks()
@@ -195,7 +252,7 @@ def run_scanner():
     if passing:
         print(f"\n📋 Stocks that passed:")
         for r in passing:
-            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%")
+            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}% (via {r.get('data_source', 'unknown')})")
         
         try:
             stock_list = "\n".join([f"✅ {r['symbol']}" for r in passing])
@@ -215,18 +272,18 @@ def run_scanner():
 # ============================================
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "🤖 NSE Stock Screener is running with PKNSETools!\n\n📊 Scans all NSE stocks every 10 minutes\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
+    bot.reply_to(message, "🤖 NSE Stock Screener is running!\n\n📊 Scans NSE stocks every 10 minutes\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
 
 @bot.message_handler(commands=['status'])
 def status(message):
-    bot.reply_to(message, "✅ Scanner is active.\n🔄 Scans every 10 minutes.\n📊 Using PKNSETools for reliable NSE data.")
+    bot.reply_to(message, "✅ Scanner is active.\n🔄 Scans every 10 minutes.\n📊 Using reliable data sources.")
 
 # ============================================
 # RUN
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running with PKNSETools!", parse_mode='Markdown')
+        bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running!", parse_mode='Markdown')
     except:
         pass
     
