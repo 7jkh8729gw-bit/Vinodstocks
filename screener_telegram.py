@@ -16,10 +16,10 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 # ============================================
 
 bot = telebot.TeleBot(BOT_TOKEN)
-CACHE_FILE = "pattern_score_cache.pkl"
+CACHE_FILE = "screener_cache.pkl"
 
 print("=" * 70)
-print("🎯 FINAL PATTERN SCORING SCREENER")
+print("🎯 NSE SCREENER - FINAL VERSION")
 print("=" * 70)
 
 try:
@@ -115,10 +115,92 @@ def calculate_atr(high_prices, low_prices, close_prices, period=14):
     tr = np.maximum(tr1, np.maximum(tr2, tr3))
     return np.mean(tr)
 
+def calculate_adx(high_prices, low_prices, close_prices, period=14):
+    if len(close_prices) < period + 1:
+        return 0
+    high = np.array(high_prices[-period-1:])
+    low = np.array(low_prices[-period-1:])
+    close = np.array(close_prices[-period-1:])
+    
+    up_move = high[1:] - high[:-1]
+    down_move = low[:-1] - low[1:]
+    
+    plus_dm = np.where((up_move > down_move) & (up_move > 0), up_move, 0)
+    minus_dm = np.where((down_move > up_move) & (down_move > 0), down_move, 0)
+    
+    tr1 = high[1:] - low[1:]
+    tr2 = abs(high[1:] - close[:-1])
+    tr3 = abs(low[1:] - close[:-1])
+    tr = np.maximum(tr1, np.maximum(tr2, tr3))
+    
+    atr = np.mean(tr)
+    if atr == 0:
+        return 0
+    
+    plus_di = 100 * (np.mean(plus_dm) / atr)
+    minus_di = 100 * (np.mean(minus_dm) / atr)
+    
+    dx = 100 * abs(plus_di - minus_di) / (plus_di + minus_di)
+    adx = np.mean(dx)
+    
+    return adx
+
 # ============================================
-# PATTERN DETECTION
+# CORE 10 FILTERS (MUST PASS ALL)
 # ============================================
-def detect_double_bottom_market(close_prices, high_prices, low_prices, lookback=120):
+def check_core_filters(info, cached):
+    try:
+        price = info.get('regularMarketPrice', info.get('currentPrice', 0))
+        market_cap = cached.get('market_cap', 0)
+        prev_close = info.get('regularMarketPreviousClose', 0)
+        volume = info.get('regularMarketVolume', 0)
+        high_52w = info.get('fiftyTwoWeekHigh', 0)
+        
+        avg_volume = cached.get('avg_volume', 0)
+        dema_10 = cached.get('dema_10', 0)
+        dema_50 = cached.get('dema_50', 0)
+        dema_200 = cached.get('dema_200', 0)
+        
+        if prev_close > 0 and price > 0:
+            day_change = ((price - prev_close) / prev_close) * 100
+        else:
+            day_change = 0
+        
+        volume_ratio = volume / avg_volume if avg_volume > 0 else 0
+        
+        # ALL 10 filters
+        cond1 = market_cap >= 1000
+        cond2 = price >= 100
+        cond3 = day_change >= 0
+        cond4 = day_change < 15
+        cond5 = volume >= 200000
+        cond6 = avg_volume > 500000
+        cond7 = high_52w > 0 and (high_52w / price) - 1 <= 0.10
+        cond8 = dema_200 > 0 and (dema_50 / dema_200) >= 1.0
+        cond9 = dema_50 > 0 and (dema_10 / dema_50) >= 1.0
+        cond10 = volume_ratio >= 1.5
+        
+        all_pass = cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10
+        
+        return {
+            'all_pass': all_pass,
+            'price': price,
+            'day_change': day_change,
+            'volume_ratio': volume_ratio,
+            'market_cap': market_cap,
+            'volume': volume,
+            'avg_volume': avg_volume,
+            'cond1': cond1, 'cond2': cond2, 'cond3': cond3, 'cond4': cond4,
+            'cond5': cond5, 'cond6': cond6, 'cond7': cond7, 'cond8': cond8,
+            'cond9': cond9, 'cond10': cond10
+        }
+    except:
+        return None
+
+# ============================================
+# PATTERN DETECTION (Bonus)
+# ============================================
+def detect_double_bottom(close_prices, high_prices, low_prices, lookback=120):
     if len(close_prices) < lookback:
         return False, 0, {}
     
@@ -138,7 +220,6 @@ def detect_double_bottom_market(close_prices, high_prices, low_prices, lookback=
         return False, 0, {}
     
     recent = close_prices[-lookback:]
-    
     lows = []
     for i in range(3, len(recent) - 3):
         if recent[i] == min(recent[i-3:i+4]):
@@ -152,7 +233,6 @@ def detect_double_bottom_market(close_prices, high_prices, low_prices, lookback=
     
     if low1[1] <= 0 or low2[1] <= 0:
         return False, 0, {}
-    
     if low2[1] <= low1[1]:
         return False, 0, {}
     
@@ -189,115 +269,51 @@ def detect_double_bottom_market(close_prices, high_prices, low_prices, lookback=
         'peak': peak_price,
         'drop_pct': drop_pct * 100,
         'days_between': days_between,
-        'diff_pct': diff_pct * 100,
-        'peak_vs_avg': peak_vs_avg * 100,
-        'volatility_pct': volatility_pct
+        'pattern_type': 'Double Bottom'
     }
-
-def detect_inverse_head_shoulders(close_prices, lookback=90):
-    if len(close_prices) < lookback:
-        return False, 0
-    recent = close_prices[-lookback:]
-    lows = []
-    for i in range(5, len(recent) - 5):
-        if recent[i] == min(recent[i-5:i+6]):
-            lows.append((i, recent[i]))
-    if len(lows) < 3:
-        return False, 0
-    left_shoulder = lows[-3]
-    head = lows[-2]
-    right_shoulder = lows[-1]
-    if head[1] >= left_shoulder[1] or head[1] >= right_shoulder[1]:
-        return False, 0
-    shoulder_diff = abs((right_shoulder[1] - left_shoulder[1]) / left_shoulder[1])
-    if shoulder_diff > 0.05:
-        return False, 0
-    neckline_left = max(recent[left_shoulder[0]:head[0]+1])
-    neckline_right = max(recent[head[0]:right_shoulder[0]+1])
-    neckline = min(neckline_left, neckline_right)
-    if right_shoulder[1] >= neckline:
-        return False, 0
-    if recent[-1] < neckline:
-        return False, 0
-    return True, 25
-
-def detect_triple_bottom(close_prices, lookback=90):
-    if len(close_prices) < lookback:
-        return False, 0
-    recent = close_prices[-lookback:]
-    lows = []
-    for i in range(5, len(recent) - 5):
-        if recent[i] == min(recent[i-5:i+6]):
-            lows.append((i, recent[i]))
-    if len(lows) < 3:
-        return False, 0
-    bottom1 = lows[-3]
-    bottom2 = lows[-2]
-    bottom3 = lows[-1]
-    avg_bottom = (bottom1[1] + bottom2[1] + bottom3[1]) / 3
-    diff1 = abs((bottom1[1] - avg_bottom) / avg_bottom)
-    diff2 = abs((bottom2[1] - avg_bottom) / avg_bottom)
-    diff3 = abs((bottom3[1] - avg_bottom) / avg_bottom)
-    if diff1 > 0.03 or diff2 > 0.03 or diff3 > 0.03:
-        return False, 0
-    if len(close_prices) > lookback + 30:
-        high_before = max(close_prices[-lookback-30:-lookback])
-        if high_before > bottom1[1] * 1.15:
-            return True, 20
-    return False, 0
 
 def detect_bullish_engulfing(open_prices, close_prices):
     if len(open_prices) < 2 or len(close_prices) < 2:
-        return False, 0
+        return False, 0, {}
+    
     last_open = open_prices[-1]
     prev_open = open_prices[-2]
     last_close = close_prices[-1]
     prev_close = close_prices[-2]
+    
     if prev_close >= prev_open:
-        return False, 0
+        return False, 0, {}
     if last_close <= last_open:
-        return False, 0
+        return False, 0, {}
     if last_open > prev_close and last_close < prev_open:
-        return False, 0
+        return False, 0, {}
     if last_open <= prev_close and last_close >= prev_open:
-        return True, 10
-    return False, 0
+        return True, 10, {'pattern_type': 'Bullish Engulfing'}
+    
+    return False, 0, {}
 
 def detect_morning_star(open_prices, close_prices, high_prices, low_prices):
     if len(open_prices) < 3:
-        return False, 0
+        return False, 0, {}
+    
     if close_prices[-3] >= open_prices[-3]:
-        return False, 0
+        return False, 0, {}
+    
     body2 = abs(close_prices[-2] - open_prices[-2])
     range2 = high_prices[-2] - low_prices[-2]
     if range2 == 0 or body2 / range2 > 0.3:
-        return False, 0
+        return False, 0, {}
+    
     if open_prices[-2] >= close_prices[-3]:
-        return False, 0
+        return False, 0, {}
     if close_prices[-1] <= open_prices[-1]:
-        return False, 0
+        return False, 0, {}
+    
     mid_point = (open_prices[-3] + close_prices[-3]) / 2
     if close_prices[-1] < mid_point:
-        return False, 0
-    return True, 10
-
-def detect_hammer(open_prices, close_prices, high_prices, low_prices):
-    if len(open_prices) < 1:
-        return False, 0
-    last_open = open_prices[-1]
-    last_close = close_prices[-1]
-    last_high = high_prices[-1]
-    last_low = low_prices[-1]
-    body = abs(last_close - last_open)
-    lower_shadow = min(last_open, last_close) - last_low
-    upper_shadow = last_high - max(last_open, last_close)
-    if body == 0:
-        return False, 0
-    if lower_shadow < 2 * body:
-        return False, 0
-    if upper_shadow > body * 0.1:
-        return False, 0
-    return True, 5
+        return False, 0, {}
+    
+    return True, 10, {'pattern_type': 'Morning Star'}
 
 # ============================================
 # BUILD CACHE
@@ -315,11 +331,13 @@ def build_cache(stocks):
             hist = ticker.history(period="1y")
             
             if len(hist) >= 200 and info:
+                d10 = chartink_dema(hist['Close'], 10)
                 d50 = chartink_dema(hist['Close'], 50)
                 d200 = chartink_dema(hist['Close'], 200)
                 
-                if d50 is not None and d200 is not None:
+                if d10 is not None and d50 is not None and d200 is not None:
                     cache[symbol] = {
+                        'dema_10': d10.iloc[-1],
                         'dema_50': d50.iloc[-1],
                         'dema_200': d200.iloc[-1],
                         'avg_volume': hist['Volume'].tail(21).mean() if len(hist) >= 21 else 0,
@@ -327,7 +345,6 @@ def build_cache(stocks):
                         'open_prices': hist['Open'].tolist()[-200:],
                         'high_prices': hist['High'].tolist()[-200:],
                         'low_prices': hist['Low'].tolist()[-200:],
-                        'volumes': hist['Volume'].tolist()[-200:],
                         'market_cap': info.get('marketCap', 0) / 10000000,
                         'last_update': datetime.now().strftime('%Y-%m-%d')
                     }
@@ -354,153 +371,142 @@ def score_stock(symbol, cached):
         if not info:
             return None
         
-        price = info.get('regularMarketPrice', info.get('currentPrice', 0))
-        prev_close = info.get('regularMarketPreviousClose', 0)
-        volume = info.get('regularMarketVolume', 0)
-        market_cap = cached.get('market_cap', 0)
+        # Check core filters
+        filter_result = check_core_filters(info, cached)
+        if not filter_result or not filter_result['all_pass']:
+            return None
         
+        # Get data for patterns
         close_prices = cached.get('close_prices', [])
         open_prices = cached.get('open_prices', [])
         high_prices = cached.get('high_prices', [])
         low_prices = cached.get('low_prices', [])
-        avg_volume = cached.get('avg_volume', 0)
-        dema_50 = cached.get('dema_50', 0)
-        dema_200 = cached.get('dema_200', 0)
         
         if len(close_prices) < 100:
             return None
         
+        # Calculate indicators
         rsi = calculate_rsi(close_prices)
         macd_bullish = calculate_macd(close_prices)
-        volume_ratio = volume / avg_volume if avg_volume > 0 else 0
+        adx = calculate_adx(high_prices, low_prices, close_prices)
+        atr = calculate_atr(high_prices, low_prices, close_prices)
+        price = filter_result['price']
         
-        if prev_close > 0 and price > 0:
-            day_change = ((price - prev_close) / prev_close) * 100
-        else:
-            day_change = 0
-        
-        score = 0
-        signals = []
+        # Pattern detection (bonus)
+        patterns = []
+        pattern_score = 0
+        pattern_details = {}
         
         # Double Bottom
-        db_pass, db_score, db_details = detect_double_bottom_market(
-            close_prices, high_prices, low_prices
-        )
+        db_pass, db_score, db_details = detect_double_bottom(close_prices, high_prices, low_prices)
         if db_pass:
-            score += db_score
-            signals.append(f"Double Bottom ({db_details['days_between']}d)")
-        
-        # Inverse Head & Shoulders
-        ihs_pass, ihs_score = detect_inverse_head_shoulders(close_prices)
-        if ihs_pass:
-            score += ihs_score
-            signals.append("Inv H&S")
-        
-        # Triple Bottom
-        tb_pass, tb_score = detect_triple_bottom(close_prices)
-        if tb_pass:
-            score += tb_score
-            signals.append("Triple Bottom")
+            patterns.append(db_details['pattern_type'])
+            pattern_score += db_score
+            pattern_details['double_bottom'] = db_details
         
         # Bullish Engulfing
-        be_pass, be_score = detect_bullish_engulfing(open_prices, close_prices)
+        be_pass, be_score, be_details = detect_bullish_engulfing(open_prices, close_prices)
         if be_pass:
-            score += be_score
-            signals.append("Bullish Engulfing")
+            patterns.append(be_details['pattern_type'])
+            pattern_score += be_score
+            pattern_details['engulfing'] = be_details
         
         # Morning Star
-        ms_pass, ms_score = detect_morning_star(open_prices, close_prices, high_prices, low_prices)
+        ms_pass, ms_score, ms_details = detect_morning_star(open_prices, close_prices, high_prices, low_prices)
         if ms_pass:
-            score += ms_score
-            signals.append("Morning Star")
+            patterns.append(ms_details['pattern_type'])
+            pattern_score += ms_score
+            pattern_details['morning_star'] = ms_details
         
-        # Hammer
-        hm_pass, hm_score = detect_hammer(open_prices, close_prices, high_prices, low_prices)
-        if hm_pass:
-            score += hm_score
-            signals.append("Hammer")
-        
-        # RSI
-        if rsi is not None and 30 <= rsi <= 50:
-            score += 5
-            signals.append(f"RSI: {rsi:.1f}")
-        
-        # MACD
-        if macd_bullish:
-            score += 5
-            signals.append("MACD Bullish")
-        
-        # Volume
-        if volume_ratio >= 2.0:
-            score += 5
-            signals.append(f"Vol: {volume_ratio:.1f}x")
-        
-        # Golden Cross
-        if dema_50 > dema_200:
-            score += 5
-            signals.append("Golden Cross")
-        
-        # Price
-        if price >= 100:
-            score += 2
-        
-        # Market Cap
-        if market_cap >= 1000:
-            score += 2
-        
-        # Day Change
-        if day_change > 0:
-            score += 2
-            signals.append("Green Day")
-        
-        score = min(score, 100)
-        
-        if score >= 70:
-            strength = "🚨 STRONG BUY"
-        elif score >= 50:
-            strength = "📈 MODERATE BUY"
-        elif score >= 30:
-            strength = "📊 WATCHLIST"
+        # Determine grade
+        if pattern_score >= 25:
+            grade = "🚨 STRONG BUY + PATTERN"
+        elif pattern_score >= 15:
+            grade = "📈 BUY + PATTERN"
         else:
-            strength = "🔍 MONITOR"
+            grade = "📈 STRONG FILTER PASS"
+        
+        # Trade Plan
+        buy_price = price
+        stop_loss = price - (atr * 1.5)
+        target1 = price + (atr * 2.0)
+        target2 = price + (atr * 3.5)
+        target3 = price + (atr * 5.0)
         
         return {
             'symbol': symbol,
-            'score': score,
-            'strength': strength,
-            'signals': signals,
+            'grade': grade,
+            'pattern_score': pattern_score,
+            'patterns': patterns,
+            'pattern_details': pattern_details,
             'price': price,
-            'day_change': day_change,
-            'volume_ratio': volume_ratio,
+            'day_change': filter_result['day_change'],
+            'volume_ratio': filter_result['volume_ratio'],
+            'market_cap': filter_result['market_cap'],
             'rsi': rsi,
             'macd_bullish': macd_bullish,
-            'market_cap': market_cap,
-            'db_pass': db_pass,
-            'db_details': db_details if db_pass else {}
+            'adx': adx,
+            'atr': atr,
+            'buy_price': round(buy_price, 2),
+            'stop_loss': round(stop_loss, 2),
+            'target1': round(target1, 2),
+            'target2': round(target2, 2),
+            'target3': round(target3, 2),
+            'risk_reward': round((target1 - buy_price) / (buy_price - stop_loss), 2) if buy_price > stop_loss else 0
         }
         
     except Exception as e:
         return None
 
 # ============================================
+# FORMAT ALERT
+# ============================================
+def format_alert(result):
+    details = (
+        f"{result['grade']}\n"
+        f"📊 *{result['symbol']}*\n\n"
+        f"💰 Price: ₹{result['price']:.2f}\n"
+        f"📈 Day Change: {result['day_change']:.2f}%\n"
+        f"📊 Volume: {result['volume_ratio']:.2f}x\n"
+        f"📊 RSI: {result['rsi']:.1f}\n"
+        f"📊 MACD: {'✅ Bullish' if result['macd_bullish'] else '❌'}\n"
+        f"📊 ADX: {result['adx']:.1f}\n"
+        f"💼 Market Cap: ₹{result['market_cap']:.2f} Cr\n"
+        f"📊 Pattern Score: {result['pattern_score']}\n"
+    )
+    
+    if result['patterns']:
+        details += f"🔔 *Patterns: {', '.join(result['patterns'])}*\n"
+    
+    details += (
+        f"\n📈 *Trade Plan*\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"💰 Buy: ₹{result['buy_price']:.2f}\n"
+        f"🛑 Stop Loss: ₹{result['stop_loss']:.2f}\n"
+        f"━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🎯 T1: ₹{result['target1']:.2f} (R:R {result['risk_reward']:.2f})\n"
+        f"🎯 T2: ₹{result['target2']:.2f}\n"
+        f"🎯 T3: ₹{result['target3']:.2f}\n"
+    )
+    
+    return details
+
+# ============================================
 # MAIN SCANNER
 # ============================================
 def run_scanner():
-    print("\n🚀 Starting Pattern Scoring Scan...")
+    print("\n🚀 Starting scan...")
     print("-" * 70)
     
     stocks = get_all_nse_stocks()
     print(f"📊 Checking {len(stocks)} stocks...")
     
-    # Load cache
     cache = load_cache()
     
-    # Build cache if empty or outdated
     if not cache:
         cache = build_cache(stocks)
         save_cache(cache)
     else:
-        # Check if cache needs update (daily)
         last_update = cache.get('_last_update', '')
         if last_update:
             try:
@@ -512,12 +518,11 @@ def run_scanner():
             except:
                 pass
     
-    # Add last update timestamp
     cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
     save_cache(cache)
     
     print("-" * 70)
-    print("⚡ Scoring stocks using cached data...")
+    print("⚡ Scoring stocks...")
     print("-" * 70)
     
     results = []
@@ -529,7 +534,7 @@ def run_scanner():
             continue
         
         result = score_stock(symbol, cached)
-        if result and result['score'] >= 30:
+        if result:
             results.append(result)
         
         if (i + 1) % 100 == 0:
@@ -538,25 +543,22 @@ def run_scanner():
         
         time.sleep(0.03)
     
-    results.sort(key=lambda x: x['score'], reverse=True)
+    # Sort by pattern score
+    results.sort(key=lambda x: x['pattern_score'], reverse=True)
     
     print("-" * 70)
-    print(f"✅ Scan complete! Found {len(results)} stocks with score ≥ 30")
+    print(f"✅ Scan complete! Found {len(results)} stocks passing ALL 10 filters")
     print(f"⏱️ Time taken: {time.time() - start_time:.1f} seconds")
     
     if results:
-        top_stocks = results[:10]
+        top_stocks = results[:15]
         
-        # Summary message
-        summary = f"📊 *TOP {len(top_stocks)} SIGNALS*\n\n"
+        summary = f"📊 *TOP {len(top_stocks)} STOCKS (ALL 10 FILTERS)*\n\n"
         for r in top_stocks:
-            summary += f"{r['strength']}\n"
-            summary += f"📊 {r['symbol']} - Score: {r['score']}/100\n"
-            if r.get('signals'):
-                summary += f"   Signals: {', '.join(r['signals'][:4])}\n"
-            if r.get('db_details'):
-                db = r['db_details']
-                summary += f"   DB: {db['days_between']}d, Drop: {db['drop_pct']:.1f}%\n"
+            summary += f"{r['grade']}\n"
+            summary += f"📊 {r['symbol']} - Pattern Score: {r['pattern_score']}\n"
+            summary += f"   Patterns: {', '.join(r['patterns']) if r['patterns'] else 'None'}\n"
+            summary += f"   R:R: {r['risk_reward']:.2f}\n"
             summary += "\n"
         
         try:
@@ -564,40 +566,18 @@ def run_scanner():
         except:
             pass
         
-        # Detailed alerts for high score stocks
-        for r in top_stocks:
-            if r['score'] >= 70:
-                details = (
-                    f"{r['strength']}\n"
-                    f"📊 *{r['symbol']}*\n\n"
-                    f"💰 Price: ₹{r['price']:.2f}\n"
-                    f"📈 Day Change: {r['day_change']:.2f}%\n"
-                    f"📊 Volume: {r['volume_ratio']:.2f}x\n"
-                    f"📊 RSI: {r['rsi']:.1f}\n"
-                    f"📊 MACD: {'✅' if r['macd_bullish'] else '❌'}\n"
-                    f"💼 Market Cap: ₹{r['market_cap']:.2f} Cr\n"
-                    f"📊 Score: {r['score']}/100\n\n"
-                    f"🎯 Signals: {', '.join(r['signals'])}"
-                )
-                
-                if r.get('db_details'):
-                    db = r['db_details']
-                    details += (
-                        f"\n\n🔔 *Double Bottom Details*\n"
-                        f"  Drop: {db['drop_pct']:.1f}%\n"
-                        f"  Days: {db['days_between']} days\n"
-                        f"  Low Diff: {db['diff_pct']:.2f}%\n"
-                        f"  Peak vs Avg: {db['peak_vs_avg']:.2f}%"
-                    )
-                
+        # Detailed alerts for top performers
+        for r in top_stocks[:10]:
+            if r['pattern_score'] >= 15 or len(r['patterns']) >= 2:
+                details = format_alert(r)
                 try:
                     bot.send_message(YOUR_CHAT_ID, details, parse_mode='Markdown')
                 except:
                     pass
     
-    if not results:
+    else:
         try:
-            bot.send_message(YOUR_CHAT_ID, "📊 *No high-confidence signals found* today.", parse_mode='Markdown')
+            bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed ALL 10 filters today.*", parse_mode='Markdown')
         except:
             pass
 
@@ -607,19 +587,19 @@ def run_scanner():
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message, 
-        "🎯 *Pattern Scoring Screener*\n\n"
-        "📊 *Scores stocks on:*\n"
-        "• Double Bottom (flexible 10-90 days)\n"
-        "• Inverse Head & Shoulders (25)\n"
-        "• Triple Bottom (20)\n"
-        "• Bullish Engulfing (10)\n"
-        "• Morning Star (10)\n"
-        "• Hammer (5)\n"
-        "• RSI, MACD, Volume, etc.\n\n"
-        "📈 *Score Levels:*\n"
-        "• 70+ = 🚨 STRONG BUY\n"
-        "• 50-69 = 📈 MODERATE BUY\n"
-        "• 30-49 = 📊 WATCHLIST",
+        "🎯 *NSE Screener - Final Version*\n\n"
+        "📊 *10 Filters (MUST pass all)*\n"
+        "🔔 *Patterns as bonus advantage*\n"
+        "📈 *Trade Plan with Targets*\n\n"
+        "• Market Cap ≥ 1000 Cr\n"
+        "• Price ≥ 100\n"
+        "• Day Change 0-15%\n"
+        "• Volume ≥ 200,000\n"
+        "• Avg Vol > 500,000\n"
+        "• Within 10% of 52W High\n"
+        "• 50 DEMA > 200 DEMA\n"
+        "• 10 DEMA > 50 DEMA\n"
+        "• Volume Ratio ≥ 1.5x",
         parse_mode='Markdown'
     )
 
@@ -637,8 +617,7 @@ def status(message):
     bot.reply_to(message, 
         f"✅ *Scanner Status*\n"
         f"📦 Cache: {cache_size} stocks\n"
-        f"🔄 Scans every 10 minutes\n"
-        f"📊 Market Guidelines applied",
+        f"🔄 Scans every 10 minutes",
         parse_mode='Markdown'
     )
 
@@ -647,7 +626,7 @@ def status(message):
 # ============================================
 if __name__ == "__main__":
     try:
-        bot.send_message(YOUR_CHAT_ID, "🎯 Pattern Scoring Screener is running!", parse_mode='Markdown')
+        bot.send_message(YOUR_CHAT_ID, "🎯 NSE Screener is running!", parse_mode='Markdown')
     except:
         pass
     
