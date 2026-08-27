@@ -2,10 +2,9 @@ import os
 import pandas as pd
 import numpy as np
 import time
-import json
-import requests
 from datetime import datetime, timedelta
 import telebot
+import yfinance as yf
 
 # ============================================
 # YOUR BOT DETAILS
@@ -17,7 +16,7 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 print("=" * 70)
-print("🤖 NSE STOCK SCREENER - FINAL")
+print("🤖 NSE STOCK SCREENER - FINAL VERSION")
 print("=" * 70)
 
 try:
@@ -28,87 +27,25 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# GET NSE STOCKS - WORKING VERSION
+# GET NSE STOCKS - Using nsetools
 # ============================================
 def get_nse_stocks():
-    """Fetch ALL NSE stocks from reliable source"""
+    """Fetch ALL NSE stocks using nsetools"""
     print("📊 Fetching NSE stock list...")
     
-    # Method 1: NSE India API
-    try:
-        url = "https://www.nseindia.com/api/equity-stockIndices?index=SECURITIES%20IN%20F%26O"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/json',
-            'Accept-Language': 'en-US,en;q=0.9',
-        }
-        
-        # Get session cookie
-        session = requests.Session()
-        session.get('https://www.nseindia.com', headers=headers, timeout=10)
-        time.sleep(1)
-        
-        # Fetch data
-        response = session.get(url, headers=headers, timeout=30)
-        
-        if response.status_code == 200:
-            data = response.json()
-            stocks = []
-            for item in data.get('data', []):
-                symbol = item.get('symbol')
-                if symbol:
-                    stocks.append(symbol)
-            print(f"✅ Loaded {len(stocks)} stocks from NSE API")
-            return stocks
-        else:
-            print(f"⚠️ NSE API returned: {response.status_code}")
-    except Exception as e:
-        print(f"⚠️ NSE API error: {e}")
-    
-    # Method 2: Try nsetools library
     try:
         import nsetools
         nse = nsetools.Nse()
-        all_stocks = nse.get_stock_codes()
-        stocks = [s for s in all_stocks.keys() if all_stocks[s] is not None]
-        print(f"✅ Loaded {len(stocks)} stocks from nsetools")
-        return stocks
+        stocks = nse.get_stock_codes()
+        # Get only valid symbols (remove None values)
+        stock_list = [symbol for symbol, name in stocks.items() if name is not None]
+        print(f"✅ Loaded {len(stock_list)} stocks from nsetools")
+        return stock_list
     except Exception as e:
         print(f"⚠️ nsetools error: {e}")
     
-    # Method 3: Try PKNSETools
-    try:
-        from PKNSETools import nseStockDataFetcher
-        fetcher = nseStockDataFetcher()
-        stocks = fetcher.fetchStockCodes(12)
-        print(f"✅ Loaded {len(stocks)} stocks from PKNSETools")
-        return stocks
-    except Exception as e:
-        print(f"⚠️ PKNSETools error: {e}")
-    
-    # Method 4: Use Hugging Face dataset
-    try:
-        from datasets import load_dataset
-        ds = load_dataset("tickertruth/nse-india-security-master", data_files="data/nse_security_master.csv")
-        df = ds["train"].to_pandas()
-        stocks = df[df["active_flag"] == True]["nse_symbol"].tolist()
-        print(f"✅ Loaded {len(stocks)} stocks from Hugging Face")
-        return stocks
-    except Exception as e:
-        print(f"⚠️ Hugging Face error: {e}")
-    
-    # Method 5: Download CSV from reliable source
-    try:
-        csv_url = "https://raw.githubusercontent.com/marketcalls/nse-stock-list/main/stock-list.csv"
-        df = pd.read_csv(csv_url)
-        stocks = df['Symbol'].tolist()
-        print(f"✅ Loaded {len(stocks)} stocks from GitHub CSV")
-        return stocks
-    except Exception as e:
-        print(f"⚠️ CSV error: {e}")
-    
-    # Final fallback
-    print("⚠️ Using fallback stock list")
+    # Fallback
+    print("⚠️ Using fallback list")
     return get_fallback_stocks()
 
 def get_fallback_stocks():
@@ -123,17 +60,13 @@ def get_fallback_stocks():
         'ADANIENT', 'DMART', 'SBILIFE', 'HINDALCO', 'BRITANNIA',
         'DRREDDY', 'GRASIM', 'EICHERMOT', 'BAJAJFINSV', 'ASIANPAINT',
         'VINCOFE', 'IOLCP', 'ALEMBICLTD', 'DCBBANK', 'SKIPPER', 'JINDALSAW',
-        'WELCORP', 'HDFCLIFE', 'HDFCAMC', 'SHRIRAMFIN', 'MOTHERSON',
-        'PIDILITIND', 'DIVISLAB', 'COALINDIA', 'UPL', 'BAJAJ-AUTO',
-        'HEROMOTOCO', 'APOLLOHOSP', 'BERGEPAINT', 'HAVELLS', 'SIEMENS',
-        'TATACONSUM', 'TATAPOWER', 'VEDL', 'NMDC', 'PEL',
-        'INDUSINDBK', 'BANDHANBNK', 'FEDERALBNK', 'PNB', 'CANBK'
+        'WELCORP', 'HDFCLIFE', 'HDFCAMC', 'SHRIRAMFIN', 'MOTHERSON'
     ]
 
 # ============================================
-# CHARTINK-STYLE DEMA
+# DEMA CALCULATION
 # ============================================
-def chartink_dema(data, period):
+def calculate_dema(data, period):
     if len(data) < period:
         return None
     ema = data.ewm(span=period, adjust=False).mean()
@@ -141,29 +74,32 @@ def chartink_dema(data, period):
     return 2 * ema - ema2
 
 # ============================================
-# CHECK STOCK
+# CHECK STOCK - Using nsetools for live data
 # ============================================
 def check_stock(symbol):
+    """Check stock using nsetools for live data"""
     try:
-        import yfinance as yf
+        import nsetools
+        nse = nsetools.Nse()
+        
+        # Get live quote from nsetools
+        quote = nse.get_quote(symbol)
+        
+        # Get historical data from yfinance (only for DEMA)
         ticker = yf.Ticker(f"{symbol}.NS")
-        info = ticker.info
         hist = ticker.history(period="6mo")
         
-        if not info or len(hist) == 0:
-            return {'symbol': symbol, 'passed': False, 'error': 'No data'}
-        
         # 1. Market Cap >= 1000 Cr
-        market_cap_raw = info.get('marketCap', 0)
+        market_cap_raw = quote.get('marketCap', 0)
         market_cap_crores = market_cap_raw / 10000000 if market_cap_raw > 0 else 0
         cond1 = market_cap_crores >= 1000
         
         # 2. Price >= 100
-        price = info.get('regularMarketPrice', info.get('currentPrice', 0))
+        price = quote.get('lastPrice', 0)
         cond2 = price >= 100
         
         # 3 & 4. Day Change 0-15%
-        prev_close = info.get('regularMarketPreviousClose', 0)
+        prev_close = quote.get('previousClose', 0)
         if prev_close > 0 and price > 0:
             day_change = ((price - prev_close) / prev_close) * 100
         else:
@@ -172,7 +108,7 @@ def check_stock(symbol):
         cond4 = day_change < 15
         
         # 5. Volume >= 200,000
-        volume = info.get('regularMarketVolume', 0)
+        volume = quote.get('totalTradedVolume', 0)
         cond5 = volume >= 200000
         
         # 6. 21-Day Avg Volume > 500,000
@@ -183,7 +119,7 @@ def check_stock(symbol):
         cond6 = avg_volume > 500000
         
         # 7. Within 10% of 52W High
-        high_52w = info.get('fiftyTwoWeekHigh', 0)
+        high_52w = quote.get('weekHigh52', 0)
         if high_52w > 0 and price > 0:
             pct_from_high = (high_52w / price) - 1
         else:
@@ -194,9 +130,9 @@ def check_stock(symbol):
         cond8 = False
         cond9 = False
         if len(hist) >= 200:
-            d10 = chartink_dema(hist['Close'], 10)
-            d50 = chartink_dema(hist['Close'], 50)
-            d200 = chartink_dema(hist['Close'], 200)
+            d10 = calculate_dema(hist['Close'], 10)
+            d50 = calculate_dema(hist['Close'], 50)
+            d200 = calculate_dema(hist['Close'], 200)
             
             if d10 is not None and d50 is not None and d200 is not None:
                 d10_val = d10.iloc[-1]
@@ -241,14 +177,11 @@ def run_scanner():
     print(f"📊 Checking {len(stocks)} stocks...")
     print("-" * 70)
     
-    results = []
     alerts = 0
     start_time = time.time()
-    checked = 0
     
     for i, symbol in enumerate(stocks):
         result = check_stock(symbol)
-        results.append(result)
         
         if result.get('passed', False):
             alerts += 1
@@ -258,7 +191,6 @@ def run_scanner():
             except:
                 pass
         
-        checked += 1
         if (i + 1) % 20 == 0:
             elapsed = time.time() - start_time
             print(f"📊 Progress: {i+1}/{len(stocks)} ({elapsed:.1f}s)")
@@ -266,22 +198,9 @@ def run_scanner():
         time.sleep(0.15)
     
     print("-" * 70)
-    print(f"✅ Scan complete! Checked {checked} stocks. Found {alerts} passing.")
+    print(f"✅ Scan complete! Found {alerts} stocks passing.")
     
-    passing = [r for r in results if r.get('passed', False)]
-    if passing:
-        print(f"\n📋 Stocks that passed:")
-        for r in passing:
-            print(f"  ✅ {r['symbol']}: ₹{r['price']:.2f}, {r['day_change']:.2f}%")
-        
-        try:
-            stock_list = "\n".join([f"✅ {r['symbol']}" for r in passing])
-            bot.send_message(YOUR_CHAT_ID, f"📊 *Stocks Found: {len(passing)}*\n\n{stock_list}", parse_mode='Markdown')
-        except:
-            pass
-    else:
-        print("\n⚠️ No stocks passed ALL 10 conditions today.")
-        
+    if alerts == 0:
         try:
             bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found* matching all 10 conditions today.", parse_mode='Markdown')
         except:
@@ -292,7 +211,7 @@ def run_scanner():
 # ============================================
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "🤖 NSE Stock Screener is running!\n\n📊 Scans NSE stocks\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
+    bot.reply_to(message, "🤖 NSE Stock Screener is running!\n\n📊 Scans ALL NSE stocks\n📋 10 filters matching Chartink\n🚨 Alerts when ALL conditions pass")
 
 @bot.message_handler(commands=['status'])
 def status(message):
