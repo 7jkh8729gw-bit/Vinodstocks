@@ -1,12 +1,3 @@
-You are absolutely right. The bot is still checking only 49 stocks because nsetools is not able to fetch the full stock list on GitHub Actions (likely due to network restrictions or API changes).
-
-Let me give you a final working solution that will get ALL NSE stocks reliably.
-
----
-
-📝 FINAL CODE - Uses Direct NSE API + Hugging Face Dataset
-
-```python
 import os
 import pandas as pd
 import numpy as np
@@ -271,55 +262,3 @@ if __name__ == "__main__":
     
     run_scanner()
     print("\n✅ Done!")
-```
-
----
-
-📋 FINAL WORKFLOW
-
-```yaml
-name: NSE Stock Screener
-
-on:
-  schedule:
-    - cron: '*/10 * * * *'
-  workflow_dispatch:
-
-jobs:
-  scan-stocks:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install pandas numpy telebot yfinance requests datasets nsetools
-      
-      - name: Run screener
-        run: python screener_telegram.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-```
-
----
-
-✅ Summary
-
-Method Success Rate
-NSE API ✅ Should work with proper headers
-Hugging Face ✅ Most reliable, 2389 stocks
-GitHub CSV ✅ Backup
-nsetools ✅ Last resort
-
----
-
-Replace your code and run. This WILL get all stocks! 🚀
