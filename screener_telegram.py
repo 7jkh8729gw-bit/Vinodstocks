@@ -118,21 +118,24 @@ def build_initial_cache(symbols):
                 dema_50 = calculate_dema(hist['Close'], 50).iloc[-1]
                 dema_200 = calculate_dema(hist['Close'], 200).iloc[-1]
                 
+                # Calculate 1 Month Average Volume (21 trading days)
+                avg_volume_1m = hist['Volume'].tail(21).mean()
+                
                 # Store all necessary data
                 cache[symbol] = {
                     'dema_10': dema_10,
                     'dema_50': dema_50,
                     'dema_200': dema_200,
+                    'avg_volume_1m': avg_volume_1m,
                     'last_checked': datetime.now().strftime('%Y-%m-%d'),
-                    'historical_close': hist['Close'].tolist()  # Keep for future updates
+                    'historical_close': hist['Close'].tolist()
                 }
             else:
-                cache[symbol] = None  # Not enough data
+                cache[symbol] = None
                 
         except Exception as e:
             cache[symbol] = None
         
-        # Rate limiting
         time.sleep(0.3)
     
     print(f"✅ Cache built for {len([k for k, v in cache.items() if v is not None])} stocks")
@@ -141,7 +144,7 @@ def build_initial_cache(symbols):
 def update_stock_check(symbol, cache_data):
     """
     Check if a stock meets ALL conditions
-    Uses cached data for DEMAs, only fetches latest price
+    Uses cached data for DEMAs and 1M Avg Volume
     """
     try:
         if cache_data is None:
@@ -150,9 +153,6 @@ def update_stock_check(symbol, cache_data):
         # Fetch only today's data (much faster)
         ticker = yf.Ticker(f"{symbol}.NS")
         info = ticker.info
-        
-        # Get today's data
-        today_hist = ticker.history(period="1d")
         
         # 1. Market Cap > 1000 Crore
         market_cap = info.get('marketCap', 0)
@@ -170,11 +170,11 @@ def update_stock_check(symbol, cache_data):
         else:
             day_change = 0
         
-        # 4. Volume > 200,000
+        # 4. Daily Volume > 200,000
         volume = info.get('regularMarketVolume', 0)
         
-        # 5. 3M Avg Volume > 500,000
-        avg_volume = info.get('averageDailyVolume3Month', 0)
+        # 5. 1 Month Average Volume > 500,000 (FROM CACHE)
+        avg_volume_1m = cache_data.get('avg_volume_1m', 0)
         
         # 6. 0-10% from 52W High
         high_52w = info.get('fiftyTwoWeekHigh', 0)
@@ -193,7 +193,7 @@ def update_stock_check(symbol, cache_data):
             current_price > 100 and
             0 <= day_change <= 15 and
             volume > 200000 and
-            avg_volume > 500000 and
+            avg_volume_1m > 500000 and
             0 <= pct_from_high <= 10 and
             cond_10_50 and
             cond_50_200
@@ -206,7 +206,7 @@ def update_stock_check(symbol, cache_data):
                 'market_cap': market_cap_crores,
                 'day_change': day_change,
                 'volume': volume,
-                'avg_volume': avg_volume,
+                'avg_volume_1m': avg_volume_1m,
                 'pct_from_high': pct_from_high,
                 'dema_10': cache_data['dema_10'],
                 'dema_50': cache_data['dema_50'],
@@ -232,8 +232,8 @@ def should_update_cache():
         if cache and 'last_cache_update' in cache:
             last_update = datetime.strptime(cache['last_cache_update'], '%Y-%m-%d')
             if (datetime.now() - last_update).days < 1:
-                return False  # Cache is fresh
-    return True  # Need to update
+                return False
+    return True
 
 def update_full_cache(symbols):
     """Update the entire cache (daily)"""
@@ -241,7 +241,6 @@ def update_full_cache(symbols):
     cache = load_cache()
     
     if cache:
-        # Keep existing data, just update
         for symbol in symbols:
             if symbol in cache and cache[symbol] is not None:
                 try:
@@ -252,10 +251,12 @@ def update_full_cache(symbols):
                         dema_10 = calculate_dema(hist['Close'], 10).iloc[-1]
                         dema_50 = calculate_dema(hist['Close'], 50).iloc[-1]
                         dema_200 = calculate_dema(hist['Close'], 200).iloc[-1]
+                        avg_volume_1m = hist['Volume'].tail(21).mean()
                         
                         cache[symbol]['dema_10'] = dema_10
                         cache[symbol]['dema_50'] = dema_50
                         cache[symbol]['dema_200'] = dema_200
+                        cache[symbol]['avg_volume_1m'] = avg_volume_1m
                         cache[symbol]['last_checked'] = datetime.now().strftime('%Y-%m-%d')
                 
                 except Exception as e:
@@ -267,7 +268,6 @@ def update_full_cache(symbols):
         save_cache(cache)
         return cache
     else:
-        # Build fresh cache
         return build_initial_cache(symbols)
 
 # ============================================
@@ -284,14 +284,12 @@ def run_scanner():
     
     print(f"📊 Monitoring {len(stocks)} stocks...")
     
-    # Check if cache needs updating (once per day)
     if should_update_cache():
         print("📅 Cache needs updating...")
         cache = update_full_cache(stocks)
     else:
         print("📦 Cache is fresh, loading...")
         cache = load_cache()
-        # Add last_cache_update if missing
         if cache and 'last_cache_update' not in cache:
             cache['last_cache_update'] = datetime.now().strftime('%Y-%m-%d')
             save_cache(cache)
@@ -304,7 +302,6 @@ def run_scanner():
     
     print("-" * 60)
     print(f"⚡ Starting fast scan using cached data...")
-    print("🕐 This will take just a few seconds!")
     print("-" * 60)
     
     alerts_sent = 0
@@ -312,10 +309,8 @@ def run_scanner():
     checked = 0
     
     for i, symbol in enumerate(stocks):
-        # Get cached data
         cache_data = cache.get(symbol) if cache else None
         
-        # Only check stocks that have cache data
         if cache_data is not None and cache_data != 'last_cache_update':
             checked += 1
             passed, details = update_stock_check(symbol, cache_data)
@@ -329,13 +324,11 @@ def run_scanner():
                 except Exception as e:
                     print(f"❌ Failed to send alert for {symbol}: {e}")
         
-        # Show progress every 500 stocks (fast scan)
         if (i + 1) % 500 == 0:
             print(f"📊 Progress: {i+1}/{total_stocks} stocks checked...")
     
     print("-" * 60)
     print(f"✅ Scan complete! Checked {checked} stocks. Alerts sent: {alerts_sent}")
-    print(f"⏱️ Total time: {time.time() - start_time:.1f} seconds")
     print("=" * 60)
 
 # ============================================
@@ -351,7 +344,7 @@ I scan ALL NSE listed stocks for:
 ✅ Price > ₹100
 ✅ Day Change: 0-15%
 ✅ Volume > 200,000
-✅ 3M Avg Vol > 500,000
+✅ 1M Avg Vol > 500,000  ← Updated!
 ✅ 0-10% from 52W High
 ✅ 10 DEMA > 50 DEMA
 ✅ 50 DEMA > 200 DEMA
@@ -382,8 +375,40 @@ def check_status(message):
 🕐 Current time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 
 ⚡ Optimized for speed using cached data!
+📊 Using 1 Month Average Volume
 """
     bot.reply_to(message, status_text, parse_mode='Markdown')
+
+@bot.message_handler(commands=['test'])
+def test_stock(message):
+    """Test a specific stock"""
+    try:
+        args = message.text.split()
+        if len(args) < 2:
+            bot.reply_to(message, "Usage: /test SYMBOL (e.g., /test RELIANCE)")
+            return
+        
+        symbol = args[1].upper()
+        bot.reply_to(message, f"🔍 Testing {symbol}...")
+        
+        # Load cache
+        cache = load_cache()
+        cache_data = cache.get(symbol) if cache else None
+        
+        if cache_data is None or cache_data == 'last_cache_update':
+            bot.reply_to(message, f"❌ No cached data for {symbol}")
+            return
+        
+        passed, details = update_stock_check(symbol, cache_data)
+        
+        if passed:
+            msg = format_alert_message(details)
+            bot.send_message(message.chat.id, msg, parse_mode='Markdown')
+        else:
+            bot.reply_to(message, f"❌ {symbol} did NOT meet all conditions")
+            
+    except Exception as e:
+        bot.reply_to(message, f"❌ Error: {e}")
 
 @bot.message_handler(commands=['chatid'])
 def send_chatid(message):
@@ -397,12 +422,14 @@ def send_help(message):
 
 /start - Show welcome message
 /status - Check scanner status
+/test SYMBOL - Test a specific stock
 /chatid - Show your Chat ID
 /help - Show this help message
 
 ⚡ The bot uses cached data for speed!
 🔄 First run builds cache (takes ~5-10 mins)
 📦 Subsequent runs are super fast (< 1 minute)
+📊 Uses 1 Month Average Volume
 """
     bot.reply_to(message, help_text, parse_mode='Markdown')
 
@@ -410,18 +437,13 @@ def send_help(message):
 # RUN
 # ============================================
 if __name__ == "__main__":
-    start_time = time.time()
     print("🚀 Starting NSE Stock Screener (Optimized)...")
     
-    # Send startup notification
     try:
         bot.send_message(YOUR_CHAT_ID, "🔄 NSE Stock Screener is running (Optimized)...")
         print("✅ Startup notification sent!")
     except Exception as e:
         print(f"⚠️ Could not send notification: {e}")
     
-    # Run the scanner
     run_scanner()
-    
-    elapsed = time.time() - start_time
-    print(f"✅ Screener completed successfully in {elapsed:.1f} seconds!")
+    print("✅ Screener completed successfully!")
