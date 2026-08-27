@@ -1,4 +1,4 @@
-name: NSE Stock Screener - PKNSETools
+name: NSE Stock Screener
 
 on:
   schedule:
@@ -21,7 +21,10 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy telebot PKNSETools
+          pip install pandas numpy telebot
+          pip install yfinance
+          pip install PKNSETools
+          pip install nsetools
       
       - name: Run screener
         run: python screener_telegram.py
