@@ -21,10 +21,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy telebot
-          pip install yfinance
-          pip install PKNSETools
-          pip install nsetools
+          pip install pandas numpy telebot yfinance requests
+          pip install PKNSETools || true
+          pip install nsetools || true
       
       - name: Run screener
         run: python screener_telegram.py
