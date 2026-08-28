@@ -1,41 +1,39 @@
-name: Volume Monitor
+name: Volume Monitor  # Force re-register - Market hours
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/10 9-15 * * 1-5'  # Every 10 min, 9 AM - 3:30 PM IST, Mon-Fri
   workflow_dispatch:
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-
+      
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install pandas numpy telebot yfinance datasets
-
+      
       - name: Download cache
         uses: actions/download-artifact@v4
         with:
           name: screener-cache
           path: .
         continue-on-error: true
-
+      
       - name: Run volume monitor
         run: python volume_monitor.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-
+      
       - name: Upload cache
         uses: actions/upload-artifact@v4
         with:
