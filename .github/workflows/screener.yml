@@ -2,7 +2,7 @@ name: Morning Screener  # Force re-register - 8:30 AM
 
 on:
   schedule:
-    - cron: '30 8 * * 1-5'  # 8:30 AM IST, Monday-Friday
+    - cron: '25 8 * * 1-5'  # 8:30 AM IST, Monday-Friday
   workflow_dispatch:
 
 jobs:
