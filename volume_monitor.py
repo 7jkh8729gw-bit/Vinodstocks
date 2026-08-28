@@ -121,10 +121,6 @@ def check_stock(symbol, cached):
 # ORDER FLOW SIMULATION
 # ============================================
 def simulate_order_flow(intraday_data):
-    """
-    Simulate order flow concepts using OHLCV data
-    Returns dict with order flow signals
-    """
     if len(intraday_data) < 30:
         return None
 
@@ -134,10 +130,7 @@ def simulate_order_flow(intraday_data):
     volume = intraday_data['Volume']
     open_price = intraday_data['Open']
 
-    # ----- 1. VOLUME DELTA SIMULATION -----
-    # Estimate aggressive buying vs selling
-    # If close > open, assume buying pressure dominated
-    # If close < open, assume selling pressure dominated
+    # Volume Delta Simulation
     price_change = close.diff()
     up_volume = volume.where(price_change > 0, 0).sum()
     down_volume = volume.where(price_change < 0, 0).sum()
@@ -148,7 +141,6 @@ def simulate_order_flow(intraday_data):
     else:
         delta_pct = 0
 
-    # Recent delta (last 5 candles)
     recent_up = volume[-5:].where(close.diff()[-5:] > 0, 0).sum()
     recent_down = volume[-5:].where(close.diff()[-5:] < 0, 0).sum()
     recent_total = recent_up + recent_down
@@ -157,9 +149,8 @@ def simulate_order_flow(intraday_data):
     else:
         recent_delta_pct = 0
 
-    # ----- 2. ABSORPTION DETECTION -----
-    # Price not moving much despite high volume
-    price_range = (close[-1] - close[-20]) / close[-20] * 100  # 20-period range %
+    # Absorption Detection
+    price_range = (close[-1] - close[-20]) / close[-20] * 100
     avg_vol_20 = volume[-20:].mean()
     latest_vol = volume[-1]
 
@@ -167,17 +158,15 @@ def simulate_order_flow(intraday_data):
     if latest_vol > avg_vol_20 * 1.5 and abs(price_range) < 1.0:
         absorption = True
 
-    # ----- 3. EXHAUSTION DETECTION -----
-    # Volume decreasing while price still moving up
+    # Exhaustion Detection
     vol_trend = volume[-5:].mean() / volume[-10:-5].mean() if volume[-10:-5].mean() > 0 else 1
-    price_trend = close[-1] > close[-5]  # Price higher than 5 candles ago
+    price_trend = close[-1] > close[-5]
 
     exhaustion = False
     if price_trend and vol_trend < 0.7:
         exhaustion = True
 
-    # ----- 4. IMBALANCE DETECTION -----
-    # One-sided volume dominance
+    # Imbalance Detection
     imbalance = False
     if abs(recent_delta_pct) > 50:
         imbalance = True
@@ -197,11 +186,6 @@ def simulate_order_flow(intraday_data):
 # INTRADAY INDICATORS WITH ORDER FLOW
 # ============================================
 def get_intraday_indicators_with_flow(symbol):
-    """
-    Fetch 5-minute intraday data and calculate:
-    - RSI, MACD, ADX
-    - Order flow simulation (Delta, Absorption, Exhaustion, Imbalance)
-    """
     try:
         ticker = yf.Ticker(f"{symbol}.NS")
         intraday = ticker.history(period="2d", interval="5m")
@@ -209,7 +193,7 @@ def get_intraday_indicators_with_flow(symbol):
         if len(intraday) < 30:
             return None
 
-        # ----- RSI -----
+        # RSI
         delta = intraday['Close'].diff()
         gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
         loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
@@ -217,14 +201,14 @@ def get_intraday_indicators_with_flow(symbol):
         rsi = 100 - (100 / (1 + rs))
         current_rsi = rsi.iloc[-1] if not pd.isna(rsi.iloc[-1]) else None
 
-        # ----- MACD -----
+        # MACD
         ema12 = intraday['Close'].ewm(span=12, adjust=False).mean()
         ema26 = intraday['Close'].ewm(span=26, adjust=False).mean()
         macd_line = ema12 - ema26
         signal_line = macd_line.ewm(span=9, adjust=False).mean()
         macd_bullish = macd_line.iloc[-1] > signal_line.iloc[-1] if len(macd_line) > 0 else False
 
-        # ----- ADX (Simplified) -----
+        # ADX (Simplified)
         high = intraday['High']
         low = intraday['Low']
         close = intraday['Close']
@@ -240,7 +224,7 @@ def get_intraday_indicators_with_flow(symbol):
 
         trending = adx > 20
 
-        # ----- ORDER FLOW SIMULATION -----
+        # Order Flow
         flow = simulate_order_flow(intraday)
 
         return {
@@ -279,12 +263,6 @@ def get_morning_results():
 # MONITOR INTRADAY WITH ORDER FLOW
 # ============================================
 def monitor_intraday(watchlist, check_interval=60, spike_multiplier=3):
-    """
-    Monitor watchlist for:
-    - Volume spike
-    - RSI, MACD, ADX
-    - Order flow signals (Delta, Absorption, Exhaustion, Imbalance)
-    """
     print(f"\n📊 Monitoring {len(watchlist)} stocks...")
     print(f"⚡ Volume spike threshold: {spike_multiplier}x")
     print(f"📈 RSI 30-70, MACD bullish, ADX > 20")
@@ -312,10 +290,8 @@ def monitor_intraday(watchlist, check_interval=60, spike_multiplier=3):
                 if avg_volume > 0 and current_volume > 0:
                     spike_ratio = current_volume / avg_volume
 
-                    # Volume spike detected
                     if spike_ratio >= spike_multiplier:
                         if symbol not in alerted:
-                            # Get intraday indicators + order flow
                             data = get_intraday_indicators_with_flow(symbol)
 
                             if data:
@@ -325,19 +301,16 @@ def monitor_intraday(watchlist, check_interval=60, spike_multiplier=3):
                                 trending = data.get('trending')
                                 flow = data.get('order_flow')
 
-                                # Check conditions
                                 rsi_ok = rsi is not None and 30 <= rsi <= 70
                                 macd_ok = macd
                                 adx_ok = trending
 
-                                # Order flow conditions
                                 delta_pct = flow.get('recent_delta_pct', 0) if flow else 0
                                 buy_dominance = flow.get('buy_dominance', False) if flow else False
                                 absorption = flow.get('absorption', False) if flow else False
                                 exhaustion = flow.get('exhaustion', False) if flow else False
                                 imbalance = flow.get('imbalance', False) if flow else False
 
-                                # Build flow status string
                                 flow_indicators = []
                                 if buy_dominance:
                                     flow_indicators.append("Buy Dominance")
@@ -350,9 +323,7 @@ def monitor_intraday(watchlist, check_interval=60, spike_multiplier=3):
 
                                 flow_status = ", ".join(flow_indicators) if flow_indicators else "Neutral"
 
-                                # ALL conditions: Volume Spike + RSI + MACD + ADX + Order Flow
                                 if rsi_ok and macd_ok and adx_ok:
-                                    # Order flow confirmation: Buy dominance OR absorption
                                     order_flow_confirmed = buy_dominance or absorption or imbalance
 
                                     if order_flow_confirmed:
@@ -414,7 +385,6 @@ if __name__ == "__main__":
         summary += f"✅ {s['symbol']} - ₹{s['price']:.2f} ({s['day_change']:.2f}%)\n"
     bot.send_message(YOUR_CHAT_ID, summary, parse_mode='Markdown')
 
-    # Start monitoring
     bot.send_message(YOUR_CHAT_ID,
         f"🔍 *Monitoring {len(watchlist)} stocks*\n"
         f"⚡ Volume spike ≥ {3}x\n"
