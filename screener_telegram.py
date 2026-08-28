@@ -19,7 +19,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "screener_cache.pkl"
 
 print("=" * 70)
-print("🎯 NSE SCREENER - TECHNICAL TRADE PLAN")
+print("🎯 NSE SCREENER - MOBILE FRIENDLY")
 print("=" * 70)
 
 try:
@@ -321,33 +321,25 @@ def check_stock(symbol, cached):
             patterns.append("Morning Star")
 
         # ----- TECHNICAL TRADE PLAN -----
-        # Entry: Current price (or breakout level)
         buy_price = price
 
-        # Stop Loss: Based on ATR (1.5x ATR below entry) or recent swing low
         if atr > 0:
             stop_loss = buy_price - (1.5 * atr)
         else:
-            stop_loss = buy_price * 0.95  # fallback 5%
+            stop_loss = buy_price * 0.95
 
-        # If Double Bottom pattern exists, use its peak as breakout and low as SL reference
         if 'db' in pattern_details:
             db_info = pattern_details['db']
-            # Use peak as a reference for target
             peak = db_info.get('peak', buy_price)
             avg_low = db_info.get('avg_low', buy_price)
             measured_move = peak - avg_low
-            # Targets based on measured move
             target1 = peak + (measured_move * 0.5)
             target2 = peak + measured_move
             target3 = peak + (measured_move * 1.5)
-            # Override buy price to breakout above peak
             buy_price = max(price, peak * 1.01)
-            # Adjust stop loss to below the lower low
             lowest = min(db_info.get('low1', buy_price), db_info.get('low2', buy_price))
             stop_loss = lowest * 0.98
         else:
-            # For other patterns or no pattern, use ATR multiples
             if atr > 0:
                 target1 = buy_price + (2.0 * atr)
                 target2 = buy_price + (3.5 * atr)
@@ -357,11 +349,9 @@ def check_stock(symbol, cached):
                 target2 = buy_price * 1.10
                 target3 = buy_price * 1.15
 
-        # Ensure stop loss is below buy price
         if stop_loss >= buy_price:
             stop_loss = buy_price * 0.95
 
-        # Ensure targets are above buy price
         target1 = max(target1, buy_price * 1.02)
         target2 = max(target2, target1 * 1.02)
         target3 = max(target3, target2 * 1.02)
@@ -372,15 +362,9 @@ def check_stock(symbol, cached):
         rr1 = round(reward1 / risk, 2) if risk > 0 else 0
         rr2 = round(reward2 / risk, 2) if risk > 0 else 0
 
-        # ----- GRADE -----
-        if patterns:
-            grade = "🚨 STRONG BUY + PATTERN"
-        else:
-            grade = "📈 STRONG FILTER PASS"
-
         return {
             'symbol': symbol,
-            'grade': grade,
+            'grade': "🚨 STRONG BUY + PATTERN" if patterns else "📈 STRONG FILTER PASS",
             'price': price,
             'day_change': day_change,
             'volume_ratio': volume_ratio,
@@ -407,33 +391,64 @@ def check_stock(symbol, cached):
         return None
 
 # ============================================
-# FORMAT ALERT
+# MOBILE-FRIENDLY FORMAT
 # ============================================
-def format_alert(result):
+def format_mobile_friendly(results):
+    """Format results in mobile-friendly tabulated format"""
+    if not results:
+        return None
+
     lines = []
-    lines.append(f"{result['grade']}")
-    lines.append(f"📊 *{result['symbol']}*")
+    lines.append("📊 *TOP {} STOCKS*".format(min(len(results), 10)))
     lines.append("")
-    lines.append(f"💰 Current Price: ₹{result['price']:.2f}")
-    lines.append(f"📈 Day Change: {result['day_change']:.2f}%")
-    lines.append(f"📊 Volume Ratio: {result['volume_ratio']:.2f}x")
-    if result['rsi'] is not None:
-        lines.append(f"📊 RSI: {result['rsi']:.1f}")
-    lines.append(f"📊 MACD: {'✅ Bullish' if result['macd'] else '❌'}")
-    if result['adx'] > 0:
-        lines.append(f"📊 ADX: {result['adx']:.1f} {'(Trending)' if result['adx'] > 25 else '(Weak)'}")
-    lines.append(f"📊 From 52W High: {result['pct_from_high']:.1f}%")
-    if result['patterns']:
-        lines.append(f"🔔 *Patterns: {', '.join(result['patterns'])}*")
+    lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+    for i, r in enumerate(results[:10], 1):
+        pattern_emoji = "🚨" if r.get('patterns') else "📈"
+        pattern_text = ", ".join(r.get('patterns', ['None']))
+
+        lines.append(f"{i}️⃣ *{r['symbol']}* {pattern_emoji}")
+        lines.append(f"   💰 ₹{r['price']:.2f} | 📈 {r['day_change']:.2f}%")
+        lines.append(f"   📊 Vol: {r['volume_ratio']:.1f}x | 52W: {r['pct_from_high']:.1f}%")
+        lines.append(f"   🔔 Pattern: {pattern_text}")
+        lines.append(f"   🎯 R:R {r['rr1']:.2f}")
+        lines.append("")
+        lines.append("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+    lines.append("✅ Reply 1-{} for full details".format(min(len(results), 10)))
+    lines.append("✅ /trade SYMBOL")
+    lines.append("✅ /skip")
+
+    return "\n".join(lines)
+
+# ============================================
+# FORMAT FULL DETAILS
+# ============================================
+def format_full_details(r):
+    lines = []
+    lines.append(f"{r['grade']}")
+    lines.append(f"📊 *{r['symbol']}*")
+    lines.append("")
+    lines.append(f"💰 Current Price: ₹{r['price']:.2f}")
+    lines.append(f"📈 Day Change: {r['day_change']:.2f}%")
+    lines.append(f"📊 Volume Ratio: {r['volume_ratio']:.2f}x")
+    if r['rsi'] is not None:
+        lines.append(f"📊 RSI: {r['rsi']:.1f}")
+    lines.append(f"📊 MACD: {'✅ Bullish' if r['macd'] else '❌'}")
+    if r['adx'] > 0:
+        lines.append(f"📊 ADX: {r['adx']:.1f} {'(Trending)' if r['adx'] > 25 else '(Weak)'}")
+    lines.append(f"📊 From 52W High: {r['pct_from_high']:.1f}%")
+    if r['patterns']:
+        lines.append(f"🔔 *Patterns: {', '.join(r['patterns'])}*")
     lines.append("")
     lines.append("📈 *Technical Trade Plan*")
     lines.append("━━━━━━━━━━━━━━━━━━━━━")
-    lines.append(f"💰 Buy: ₹{result['buy_price']:.2f}")
-    lines.append(f"🛑 Stop Loss: ₹{result['stop_loss']:.2f} (Risk: {result['risk_pct']:.1f}%)")
+    lines.append(f"💰 Buy: ₹{r['buy_price']:.2f}")
+    lines.append(f"🛑 Stop Loss: ₹{r['stop_loss']:.2f} (Risk: {r['risk_pct']:.1f}%)")
     lines.append("━━━━━━━━━━━━━━━━━━━━━")
-    lines.append(f"🎯 Target 1: ₹{result['target1']:.2f} (+{result['reward1_pct']:.1f}%, R:R {result['rr1']:.2f})")
-    lines.append(f"🎯 Target 2: ₹{result['target2']:.2f} (+{result['reward2_pct']:.1f}%, R:R {result['rr2']:.2f})")
-    lines.append(f"🎯 Target 3: ₹{result['target3']:.2f}")
+    lines.append(f"🎯 Target 1: ₹{r['target1']:.2f} (+{r['reward1_pct']:.1f}%, R:R {r['rr1']:.2f})")
+    lines.append(f"🎯 Target 2: ₹{r['target2']:.2f} (+{r['reward2_pct']:.1f}%, R:R {r['rr2']:.2f})")
+    lines.append(f"🎯 Target 3: ₹{r['target3']:.2f}")
     return "\n".join(lines)
 
 # ============================================
@@ -489,30 +504,18 @@ def run_scanner():
 
     if results:
         # Sort by grade priority
-        grade_order = {'🚨 STRONG BUY + PATTERN': 2, '📈 STRONG FILTER PASS': 1}
-        results.sort(key=lambda x: (grade_order.get(x['grade'], 0), -x['price']))
+        results.sort(key=lambda x: (1 if x.get('patterns') else 0, -x['price']))
 
-        # Send summary to Telegram
-        summary = "📊 *Stocks Passing ALL 10 Filters*\n\n"
-        for r in results[:10]:
-            summary += f"{r['grade']}\n"
-            summary += f"📊 {r['symbol']} - ₹{r['price']:.2f} ({r['day_change']:.2f}%)\n"
-            summary += f"   Vol: {r['volume_ratio']:.2f}x | 52W: {r['pct_from_high']:.1f}%\n"
-            if r['patterns']:
-                summary += f"   Patterns: {', '.join(r['patterns'])}\n"
-            summary += "\n"
-        try:
-            bot.send_message(YOUR_CHAT_ID, summary, parse_mode='Markdown')
-        except:
-            pass
-
-        # Send detailed alerts for each
-        for r in results[:10]:
+        # Send mobile-friendly summary
+        summary = format_mobile_friendly(results)
+        if summary:
             try:
-                bot.send_message(YOUR_CHAT_ID, format_alert(r), parse_mode='Markdown')
-                time.sleep(0.5)
+                bot.send_message(YOUR_CHAT_ID, summary, parse_mode='Markdown')
             except:
                 pass
+
+        # Store results for command queries (in memory)
+        bot.results_cache = results
 
     else:
         try:
@@ -526,7 +529,7 @@ def run_scanner():
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.reply_to(message,
-        "🎯 *NSE Screener - Technical Trade Plan*\n\n"
+        "🎯 *NSE Screener - Mobile Friendly*\n\n"
         "📊 10 Filters (MUST pass all)\n"
         "• Market Cap ≥ 1000 Cr\n"
         "• Price ≥ 100\n"
@@ -538,9 +541,45 @@ def start(message):
         "• 10 DEMA > 50 DEMA\n"
         "• Volume Ratio ≥ 1.5x\n\n"
         "🔔 Patterns: Double Bottom, Engulfing, Morning Star (bonus)\n"
-        "📈 Technical Trade Plan based on ATR & patterns",
+        "📈 Technical Trade Plan based on ATR\n\n"
+        "⚡ Commands:\n"
+        "/trade SYMBOL - Full trade plan\n"
+        "/list - Show stocks again\n"
+        "/status - Scanner status",
         parse_mode='Markdown'
     )
+
+@bot.message_handler(commands=['list'])
+def list_stocks(message):
+    if hasattr(bot, 'results_cache') and bot.results_cache:
+        summary = format_mobile_friendly(bot.results_cache)
+        if summary:
+            bot.reply_to(message, summary, parse_mode='Markdown')
+    else:
+        bot.reply_to(message, "📊 *No stocks in cache. Run scan first.*", parse_mode='Markdown')
+
+@bot.message_handler(commands=['trade'])
+def trade_details(message):
+    try:
+        args = message.text.split()
+        if len(args) < 2:
+            bot.reply_to(message, "Usage: /trade SYMBOL (e.g., /trade VINCOFE)")
+            return
+
+        symbol = args[1].upper()
+        if not hasattr(bot, 'results_cache') or not bot.results_cache:
+            bot.reply_to(message, "📊 *No stocks in cache. Run scan first.*", parse_mode='Markdown')
+            return
+
+        for r in bot.results_cache:
+            if r['symbol'] == symbol:
+                details = format_full_details(r)
+                bot.reply_to(message, details, parse_mode='Markdown')
+                return
+
+        bot.reply_to(message, f"❌ *{symbol}* not found in current results.", parse_mode='Markdown')
+    except Exception as e:
+        bot.reply_to(message, f"❌ Error: {e}")
 
 @bot.message_handler(commands=['status'])
 def status(message):
@@ -555,9 +594,14 @@ def status(message):
     bot.reply_to(message,
         f"✅ *Scanner Status*\n"
         f"📦 Cache: {cache_size} stocks\n"
-        f"🔄 Scans every 10 minutes",
+        f"🔄 Scans every 10 minutes\n"
+        f"📱 Mobile friendly format enabled",
         parse_mode='Markdown'
     )
+
+@bot.message_handler(commands=['skip'])
+def skip(message):
+    bot.reply_to(message, "⏭️ *Alert skipped.*", parse_mode='Markdown')
 
 # ============================================
 # RUN
