@@ -2,7 +2,7 @@ name: Volume Monitor  # Force re-register - Market hours
 
 on:
   schedule:
-    - cron: '*/10 9-15 * * 1-5'  # Every 10 min, 9 AM - 3:30 PM IST, Mon-Fri
+    - cron: '*/12 9-15 * * 1-5'  # Every 10 min, 9 AM - 3:30 PM IST, Mon-Fri
   workflow_dispatch:
 
 jobs:
