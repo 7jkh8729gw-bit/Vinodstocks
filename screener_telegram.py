@@ -10,21 +10,13 @@ import telebot
 from datasets import load_dataset
 
 # ============================================
-# USE 'ta' LIBRARY INSTEAD OF 'pandas_ta'
+# USE 'ta' LIBRARY - CORRECT IMPORTS
 # ============================================
 import ta
 from ta.momentum import RSIIndicator
 from ta.trend import MACD
 from ta.volatility import AverageTrueRange
 from ta.volume import OnBalanceVolumeIndicator
-from ta.candlestick import (
-    bullish_engulfing_pattern,
-    hammer_pattern,
-    morning_star_pattern,
-    three_white_soldiers_pattern,
-    harami_pattern,
-    piercing_pattern
-)
 
 # ============================================
 # BOT DETAILS
@@ -281,47 +273,63 @@ def check_stock(symbol, cached):
         return None
 
 # ============================================
-# 🆕 TECHNICAL ANALYSIS USING 'ta' LIBRARY
+# 🆕 TECHNICAL ANALYSIS (PATTERN DETECTION - MANUAL)
 # ============================================
 
 def detect_patterns(df):
-    """Detects bullish candlestick patterns using 'ta' library."""
+    """Detects bullish candlestick patterns manually."""
     patterns = []
     try:
         if len(df) < 10:
             return patterns
         
-        o = df['Open'].values
-        h = df['High'].values
-        l = df['Low'].values
-        c = df['Close'].values
+        # Get the last few candles
+        o = df['Open'].iloc[-5:].values
+        h = df['High'].iloc[-5:].values
+        l = df['Low'].iloc[-5:].values
+        c = df['Close'].iloc[-5:].values
         
-        # Bullish Engulfing
-        if bullish_engulfing_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
-            patterns.append("Bullish Engulfing")
+        # Check for patterns in the most recent candle
+        i = -1  # Most recent candle
         
-        # Hammer
-        if hammer_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
-            patterns.append("Hammer")
+        # Bullish Engulfing: current close > previous open AND previous close < current open
+        if len(o) >= 2:
+            if c[i] > o[i-1] and c[i-1] < o[i]:
+                patterns.append("Bullish Engulfing")
         
-        # Morning Star
-        if morning_star_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
-            patterns.append("Morning Star")
+        # Hammer: lower wick > 2x body, upper wick < 10% of body
+        body = abs(c[i] - o[i])
+        if body > 0:
+            lower_wick = min(o[i], c[i]) - l[i]
+            upper_wick = h[i] - max(o[i], c[i])
+            if lower_wick > 2 * body and upper_wick < 0.1 * body:
+                patterns.append("Hammer")
         
-        # Three White Soldiers
-        if three_white_soldiers_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
-            patterns.append("3 White Soldiers")
+        # Morning Star: Bearish candle, then small body, then bullish candle
+        if len(c) >= 3:
+            if c[i-2] < o[i-2] and abs(c[i-1] - o[i-1]) < abs(c[i-2] - o[i-2]) and c[i] > o[i]:
+                patterns.append("Morning Star")
         
-        # Bullish Harami
-        if harami_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
-            patterns.append("Bullish Harami")
+        # Three White Soldiers: 3 consecutive bullish candles with higher closes
+        if len(c) >= 3:
+            if (c[i-2] > o[i-2] and c[i-1] > o[i-1] and c[i] > o[i] and
+                c[i-1] > c[i-2] and c[i] > c[i-1]):
+                patterns.append("3 White Soldiers")
         
-        # Piercing Pattern
-        if piercing_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
-            patterns.append("Piercing Pattern")
+        # Bullish Harami: Previous candle bearish, current candle inside previous body
+        if len(o) >= 2:
+            if c[i-1] < o[i-1] and o[i] > c[i-1] and c[i] < o[i-1]:
+                patterns.append("Bullish Harami")
+        
+        # Piercing Pattern: Bearish then bullish that closes above 50% of previous body
+        if len(c) >= 2:
+            prev_body = o[i-1] - c[i-1]
+            if prev_body > 0 and c[i] > o[i] and c[i] > o[i-1] - prev_body/2:
+                patterns.append("Piercing Pattern")
         
     except Exception as e:
-        pass
+        print(f"Pattern detection error: {e}")
+    
     return patterns
 
 def get_technical_data(symbol):
@@ -368,7 +376,7 @@ def get_technical_data(symbol):
         else:
             rsi_status = "Neutral"
         
-        # Patterns
+        # Patterns (manual detection)
         patterns = detect_patterns(df)
         
         # Order Flow (OBV)
