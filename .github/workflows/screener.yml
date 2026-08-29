@@ -2,8 +2,8 @@ name: Morning Screener
 
 on:
   schedule:
-    - cron: '30 3 * * 1-5'  # Runs at 9:00 AM IST (3:30 AM UTC) on weekdays
-  workflow_dispatch:  # Allows manual trigger
+    - cron: '30 3 * * 1-5'
+  workflow_dispatch:
 
 jobs:
   run-screener:
@@ -16,12 +16,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11'  # ← Changed from 3.10 to 3.11
+        python-version: '3.11'
     
     - name: Install dependencies
       run: |
         pip install --upgrade pip
-        pip install pyTelegramBotAPI yfinance pandas pandas-ta numpy requests datasets
+        pip install pyTelegramBotAPI yfinance pandas numpy requests datasets
+        pip install ta  # ← Using 'ta' instead of 'pandas-ta'
     
     - name: Run screener
       env:
