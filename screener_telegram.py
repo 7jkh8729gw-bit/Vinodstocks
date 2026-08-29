@@ -8,7 +8,23 @@ import requests
 from datetime import datetime, timedelta
 import telebot
 from datasets import load_dataset
-import pandas_ta as ta
+
+# ============================================
+# USE 'ta' LIBRARY INSTEAD OF 'pandas_ta'
+# ============================================
+import ta
+from ta.momentum import RSIIndicator
+from ta.trend import MACD
+from ta.volatility import AverageTrueRange
+from ta.volume import OnBalanceVolumeIndicator
+from ta.candlestick import (
+    bullish_engulfing_pattern,
+    hammer_pattern,
+    morning_star_pattern,
+    three_white_soldiers_pattern,
+    harami_pattern,
+    piercing_pattern
+)
 
 # ============================================
 # BOT DETAILS
@@ -265,49 +281,43 @@ def check_stock(symbol, cached):
         return None
 
 # ============================================
-# 🆕 TECHNICAL ANALYSIS (AUTO-RANKING)
+# 🆕 TECHNICAL ANALYSIS USING 'ta' LIBRARY
 # ============================================
 
 def detect_patterns(df):
-    """Detects bullish candlestick patterns in the last 5 candles."""
+    """Detects bullish candlestick patterns using 'ta' library."""
     patterns = []
     try:
         if len(df) < 10:
             return patterns
         
-        o = df['Open']
-        h = df['High']
-        l = df['Low']
-        c = df['Close']
+        o = df['Open'].values
+        h = df['High'].values
+        l = df['Low'].values
+        c = df['Close'].values
         
         # Bullish Engulfing
-        engulf = ta.cdl_engulfing(o, h, l, c)
-        if engulf.iloc[-1] == 100 or engulf.iloc[-2] == 100:
+        if bullish_engulfing_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
             patterns.append("Bullish Engulfing")
         
         # Hammer
-        hammer = ta.cdl_hammer(o, h, l, c)
-        if hammer.iloc[-1] != 0:
+        if hammer_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
             patterns.append("Hammer")
         
         # Morning Star
-        ms = ta.cdl_morning_star(o, h, l, c)
-        if ms.iloc[-1] != 0 or ms.iloc[-2] != 0:
+        if morning_star_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
             patterns.append("Morning Star")
         
         # Three White Soldiers
-        tws = ta.cdl_three_white_soldiers(o, h, l, c)
-        if tws.iloc[-1] != 0:
+        if three_white_soldiers_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
             patterns.append("3 White Soldiers")
         
         # Bullish Harami
-        harami = ta.cdl_harami(o, h, l, c)
-        if harami.iloc[-1] != 0:
+        if harami_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
             patterns.append("Bullish Harami")
         
         # Piercing Pattern
-        piercing = ta.cdl_piercing(o, h, l, c)
-        if piercing.iloc[-1] != 0:
+        if piercing_pattern(o, h, l, c, fillna=False).iloc[-1] == 1:
             patterns.append("Piercing Pattern")
         
     except Exception as e:
@@ -315,7 +325,7 @@ def detect_patterns(df):
     return patterns
 
 def get_technical_data(symbol):
-    """Fetches RSI, MACD, ATR, Patterns, OBV for a single stock."""
+    """Fetches RSI, MACD, ATR, Patterns, OBV using 'ta' library."""
     try:
         ticker = yf.Ticker(symbol + ".NS")
         df = ticker.history(period="3mo", interval="1d")
@@ -328,16 +338,18 @@ def get_technical_data(symbol):
         current_price = df['Close'].iloc[-1]
         
         # RSI
-        rsi = ta.rsi(df['Close'], length=14).iloc[-1]
+        rsi_indicator = RSIIndicator(df['Close'], window=14)
+        rsi = rsi_indicator.rsi().iloc[-1]
         
         # MACD
-        macd_data = ta.macd(df['Close'], fast=12, slow=26, signal=9)
-        macd_line = macd_data['MACD_12_26_9'].iloc[-1]
-        signal_line = macd_data['MACDs_12_26_9'].iloc[-1]
-        histogram = macd_data['MACDh_12_26_9'].iloc[-1]
+        macd_indicator = MACD(df['Close'], window_slow=26, window_fast=12, window_sign=9)
+        macd_line = macd_indicator.macd().iloc[-1]
+        signal_line = macd_indicator.macd_signal().iloc[-1]
+        histogram = macd_indicator.macd_diff().iloc[-1]
         
         # ATR
-        atr = ta.atr(df['High'], df['Low'], df['Close'], length=14).iloc[-1]
+        atr_indicator = AverageTrueRange(df['High'], df['Low'], df['Close'], window=14)
+        atr = atr_indicator.average_true_range().iloc[-1]
         
         # Trade Plan
         buy_price = round(current_price, 2)
@@ -359,8 +371,9 @@ def get_technical_data(symbol):
         # Patterns
         patterns = detect_patterns(df)
         
-        # Order Flow (OBV - On Balance Volume)
-        obv = ta.obv(df['Close'], df['Volume'])
+        # Order Flow (OBV)
+        obv_indicator = OnBalanceVolumeIndicator(df['Close'], df['Volume'])
+        obv = obv_indicator.on_balance_volume()
         obv_rising = False
         obv_trend = "Flat"
         if len(obv) > 5:
@@ -389,6 +402,7 @@ def get_technical_data(symbol):
             'atr': round(atr, 2)
         }
     except Exception as e:
+        print(f"Error getting technical data for {symbol}: {e}")
         return None
 
 def calculate_bullish_score(base_result, tech_data):
