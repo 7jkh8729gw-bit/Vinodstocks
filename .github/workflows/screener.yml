@@ -1,8 +1,8 @@
-name: Morning Screener  # Force re-register - 8:30 AM IST (3:00 AM UTC)
+name: Morning Screener
 
 on:
   schedule:
-    - cron: '0 3 * * 1-5'  # 8:30 AM IST, Monday-Friday
+    - cron: '0 3 * * 1-5'   # 8:30 AM IST
   workflow_dispatch:
 
 jobs:
@@ -17,21 +17,9 @@ jobs:
           python-version: '3.10'
       - name: Install dependencies
         run: |
-          pip install pandas numpy telebot yfinance datasets openpyxl
-      - name: Download cache
-        uses: actions/download-artifact@v4
-        with:
-          name: screener-cache
-          path: .
-        continue-on-error: true
+          pip install pandas numpy telebot yfinance datasets requests
       - name: Run morning screener
         run: python screener_telegram.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
-      - name: Upload cache
-        uses: actions/upload-artifact@v4
-        with:
-          name: screener-cache
-          path: screener_cache.pkl
-          retention-days: 7
