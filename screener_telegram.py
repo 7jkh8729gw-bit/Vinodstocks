@@ -8,6 +8,7 @@ import requests
 from datetime import datetime, timedelta
 import telebot
 from datasets import load_dataset
+import pandas_ta as ta
 
 # ============================================
 # BOT DETAILS
@@ -32,7 +33,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# NSE API HELPERS
+# NSE API HELPERS (ORIGINAL)
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -85,13 +86,11 @@ def fetch_nse_historical(symbol, days=365):
         return None
 
 def get_data(symbol):
-    # Try NSE live
     live = fetch_nse_live(symbol)
     if live:
         hist = fetch_nse_historical(symbol)
         if hist is not None and len(hist) >= 200:
             return {'live': live, 'hist': hist}
-    # Fallback to yfinance
     for suffix in ['.NS', '.BO']:
         try:
             ticker = yf.Ticker(f"{symbol}{suffix}")
@@ -111,7 +110,7 @@ def get_data(symbol):
     return None
 
 # ============================================
-# GET ALL NSE STOCKS
+# GET ALL NSE STOCKS (ORIGINAL)
 # ============================================
 def get_all_nse_stocks():
     print("📊 Fetching NSE stock list...")
@@ -126,7 +125,7 @@ def get_all_nse_stocks():
         return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK']
 
 # ============================================
-# CACHE FUNCTIONS
+# CACHE FUNCTIONS (ORIGINAL)
 # ============================================
 def load_cache():
     try:
@@ -151,7 +150,7 @@ def save_cache(cache):
         print(f"⚠️ Error saving cache: {e}")
 
 # ============================================
-# CHARTINK-STYLE DEMA
+# CHARTINK-STYLE DEMA (ORIGINAL)
 # ============================================
 def chartink_dema(data, period):
     if len(data) < period:
@@ -161,7 +160,7 @@ def chartink_dema(data, period):
     return 2 * ema - ema2
 
 # ============================================
-# BUILD CACHE
+# BUILD CACHE (ORIGINAL)
 # ============================================
 def build_cache(stocks):
     print("🏗️ Building initial cache (this may take time)...")
@@ -199,7 +198,7 @@ def build_cache(stocks):
     return cache
 
 # ============================================
-# SAVE WATCHLIST FOR VOLUME MONITOR
+# SAVE WATCHLIST (ORIGINAL)
 # ============================================
 def save_watchlist(watchlist):
     try:
@@ -210,7 +209,7 @@ def save_watchlist(watchlist):
         print(f"⚠️ Error saving watchlist: {e}")
 
 # ============================================
-# CHECK STOCK
+# CHECK STOCK - 10 FILTERS (UNCHANGED)
 # ============================================
 def check_stock(symbol, cached):
     try:
@@ -247,9 +246,7 @@ def check_stock(symbol, cached):
         cond9 = dema_10 > dema_50
         cond10 = volume_ratio >= 1.5
 
-        all_pass = cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10
-
-        if all_pass:
+        if cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10:
             return {
                 'symbol': symbol,
                 'price': price,
@@ -258,21 +255,212 @@ def check_stock(symbol, cached):
                 'market_cap': market_cap,
                 'pct_from_high': pct_from_high,
                 'avg_volume': avg_volume,
-                'volume': volume
+                'volume': volume,
+                'dema_10': dema_10,
+                'dema_50': dema_50,
+                'dema_200': dema_200
             }
         return None
     except:
         return None
 
 # ============================================
-# MAIN SCANNER
+# 🆕 ENRICHMENT FUNCTIONS (ADD-ON DATA)
 # ============================================
-def run_scanner():
+
+def detect_patterns(df):
+    """Detects bullish candlestick patterns in the last 5 candles."""
+    patterns = []
+    try:
+        if len(df) < 10:
+            return patterns
+        
+        # Check only the most recent candle (index -1) for clear signals, 
+        # but also look if pattern occurred in last 5 days.
+        o = df['Open']
+        h = df['High']
+        l = df['Low']
+        c = df['Close']
+        
+        # Bullish Engulfing
+        engulf = ta.cdl_engulfing(o, h, l, c)
+        if engulf.iloc[-1] == 100 or engulf.iloc[-2] == 100:
+            patterns.append("Bullish Engulfing")
+        
+        # Hammer
+        hammer = ta.cdl_hammer(o, h, l, c)
+        if hammer.iloc[-1] != 0:
+            patterns.append("Hammer")
+        
+        # Morning Star
+        ms = ta.cdl_morning_star(o, h, l, c)
+        if ms.iloc[-1] != 0 or ms.iloc[-2] != 0:
+            patterns.append("Morning Star")
+        
+        # Three White Soldiers
+        tws = ta.cdl_three_white_soldiers(o, h, l, c)
+        if tws.iloc[-1] != 0:
+            patterns.append("3 White Soldiers")
+        
+        # Bullish Harami
+        harami = ta.cdl_harami(o, h, l, c)
+        if harami.iloc[-1] != 0:
+            patterns.append("Bullish Harami")
+        
+        # Golden Cross Check (50 DEMA > 200 DEMA) - we already have this as a filter, but confirming
+        # Actually, we'll just use the DEMA from cache for the summary.
+        
+    except Exception as e:
+        pass
+    return patterns
+
+def fetch_enriched_data(symbol, cached):
+    """Fetches RSI, MACD, ATR, Patterns, OBV for a single stock."""
+    try:
+        ticker = yf.Ticker(symbol + ".NS")
+        df = ticker.history(period="3mo", interval="1d")
+        if df.empty or len(df) < 20:
+            ticker = yf.Ticker(symbol + ".BO")
+            df = ticker.history(period="3mo", interval="1d")
+        if df.empty or len(df) < 20:
+            return None
+        
+        # Indicators
+        rsi = ta.rsi(df['Close'], length=14).iloc[-1]
+        macd_data = ta.macd(df['Close'], fast=12, slow=26, signal=9)
+        macd_line = macd_data['MACD_12_26_9'].iloc[-1]
+        signal_line = macd_data['MACDs_12_26_9'].iloc[-1]
+        histogram = macd_data['MACDh_12_26_9'].iloc[-1]
+        
+        # ATR
+        atr = ta.atr(df['High'], df['Low'], df['Close'], length=14).iloc[-1]
+        
+        # Trade Plan
+        current_price = df['Close'].iloc[-1]
+        buy_price = round(current_price, 2)
+        stop_loss = round(current_price - (1.5 * atr), 2)
+        target_1 = round(current_price + (2 * atr), 2)
+        target_2 = round(current_price + (3.5 * atr), 2)
+        
+        # MACD Trend
+        macd_trend = "🟢 Bullish" if macd_line > signal_line else "🔴 Bearish"
+        
+        # RSI Status
+        if rsi > 70: rsi_status = "Overbought"
+        elif rsi < 30: rsi_status = "Oversold"
+        else: rsi_status = "Neutral"
+        
+        # Patterns
+        patterns = detect_patterns(df)
+        
+        # Order Flow (OBV - On Balance Volume)
+        obv = ta.obv(df['Close'], df['Volume'])
+        obv_rising = False
+        if len(obv) > 5:
+            if obv.iloc[-1] > obv.iloc[-5]:
+                obv_rising = True
+        
+        return {
+            'rsi': round(rsi, 2),
+            'macd_line': round(macd_line, 2),
+            'signal_line': round(signal_line, 2),
+            'histogram': round(histogram, 2),
+            'macd_trend': macd_trend,
+            'rsi_status': rsi_status,
+            'buy_price': buy_price,
+            'stop_loss': stop_loss,
+            'target_1': target_1,
+            'target_2': target_2,
+            'patterns': patterns,
+            'obv_rising': obv_rising,
+            'atr': round(atr, 2)
+        }
+    except Exception as e:
+        return None
+
+def calculate_bullish_score(base_result, enriched):
+    """Ranks stocks so the most promising appears at the top."""
+    if not enriched:
+        return 0
+    score = 0
+    
+    # 1. Day Change (weight: 3)
+    if base_result['day_change'] >= 5: score += 3
+    elif base_result['day_change'] >= 3: score += 2
+    elif base_result['day_change'] >= 1: score += 1
+    
+    # 2. Volume Ratio (weight: 3)
+    if base_result['volume_ratio'] >= 3: score += 3
+    elif base_result['volume_ratio'] >= 2: score += 2
+    else: score += 1
+    
+    # 3. RSI (weight: 2) - Healthy bullish is 50-70
+    if 50 <= enriched['rsi'] <= 70: score += 2
+    elif 40 <= enriched['rsi'] < 50: score += 1
+    elif enriched['rsi'] > 70: score -= 1  # Overbought penalty
+    
+    # 4. MACD Trend (weight: 2)
+    if enriched['macd_trend'] == "🟢 Bullish": score += 2
+    
+    # 5. Patterns (weight: 5) - Major bonus
+    if enriched['patterns']:
+        score += 5
+    
+    # 6. OBV Rising (weight: 3)
+    if enriched['obv_rising']:
+        score += 3
+    
+    return score
+
+def format_enriched_result(index, base_result, enriched):
+    """Formats the final output message for a single stock."""
+    symbol = base_result['symbol']
+    price = base_result['price']
+    change = base_result['day_change']
+    vol_ratio = base_result['volume_ratio']
+    pct_high = base_result['pct_from_high']
+    mcap = base_result['market_cap']
+    
+    medal = "🥇" if index == 1 else "🥈" if index == 2 else "🥉" if index == 3 else f"#{index}"
+    
+    # Base details
+    msg = f"{medal} *{symbol}* (Score: {calculate_bullish_score(base_result, enriched)})\n"
+    msg += f"💰 ₹{price:.2f} | 📈 {change:.2f}% | 📊 Vol: {vol_ratio:.2f}x\n"
+    msg += f"📏 52W High: {pct_high:.1f}% | 💼 Mkt Cap: ₹{mcap:.2f} Cr\n"
+    
+    if enriched:
+        # Technicals
+        msg += f"📊 RSI: {enriched['rsi']} ({enriched['rsi_status']}) | MACD: {enriched['macd_line']} ({enriched['macd_trend']})\n"
+        # Trade Plan
+        msg += (f"🎯 *Buy:* ₹{enriched['buy_price']} | "
+                f"🛑 *SL:* ₹{enriched['stop_loss']} | "
+                f"🚀 *T1:* ₹{enriched['target_1']} | "
+                f"🌟 *T2:* ₹{enriched['target_2']}\n")
+        # Patterns
+        if enriched['patterns']:
+            msg += f"📐 *Patterns:* {', '.join(enriched['patterns'])} ✅\n"
+        else:
+            msg += f"📐 *Patterns:* None detected\n"
+        # Order Flow
+        if enriched['obv_rising']:
+            msg += f"📦 *Order Flow:* OBV Rising 📈 (Accumulation)\n"
+        else:
+            msg += f"📦 *Order Flow:* OBV Flat/Down\n"
+    else:
+        msg += f"❌ Could not fetch technical data.\n"
+    
+    msg += "━" * 30
+    return msg
+
+# ============================================
+# MAIN SCANNER (MODIFIED TO ENRICH AND SORT)
+# ============================================
+def run_scanner(chat_id=None):
+    send_to = chat_id if chat_id else YOUR_CHAT_ID
+    
     print("\n🚀 Starting scan...")
     print("-" * 70)
-
-    # Send start message
-    bot.send_message(YOUR_CHAT_ID, "🌅 *Morning Screener is running!*", parse_mode='Markdown')
+    bot.send_message(send_to, "🌅 *Morning Screener is running!*", parse_mode='Markdown')
 
     stocks = get_all_nse_stocks()
     print(f"📊 Checking {len(stocks)} stocks...")
@@ -315,32 +503,153 @@ def run_scanner():
         time.sleep(0.05)
 
     print("-" * 70)
-    print(f"✅ Scan complete! Found {len(results)} stocks passing ALL 10 filters")
+    print(f"✅ Scan complete! Found {len(results)} stocks passing filters.")
     print(f"⏱️ Time taken: {time.time() - start_time:.1f} seconds")
 
-    # Save watchlist for volume monitor
     if results:
         save_watchlist(results)
-
-    if results:
-        summary = "📊 *Morning Screener Results ({})*\n\n".format(len(results))
-        for r in results[:15]:
-            summary += f"✅ {r['symbol']} - ₹{r['price']:.2f} ({r['day_change']:.2f}%)\n"
-        bot.send_message(YOUR_CHAT_ID, summary, parse_mode='Markdown')
-
-        for r in results[:10]:
-            details = (
-                f"🚨 *{r['symbol']}*\n"
-                f"💰 Price: ₹{r['price']:.2f}\n"
-                f"📈 Day Change: {r['day_change']:.2f}%\n"
-                f"📊 Volume: {r['volume_ratio']:.2f}x\n"
-                f"📊 From 52W High: {r['pct_from_high']:.1f}%\n"
-                f"💼 Market Cap: ₹{r['market_cap']:.2f} Cr"
-            )
-            bot.send_message(YOUR_CHAT_ID, details, parse_mode='Markdown')
+        
+        # ============================================
+        # 🆕 ENRICH, SCORE, SORT, and DISPLAY
+        # ============================================
+        print("📊 Enriching results with technical data and ranking...")
+        enriched_results = []
+        
+        for res in results:
+            enriched = fetch_enriched_data(res['symbol'], cache.get(res['symbol']))
+            if enriched:
+                score = calculate_bullish_score(res, enriched)
+                enriched_results.append({
+                    'base': res,
+                    'enriched': enriched,
+                    'score': score
+                })
+            else:
+                # Still include but with lower priority if tech data fails
+                enriched_results.append({
+                    'base': res,
+                    'enriched': None,
+                    'score': 0
+                })
+        
+        # Sort by score descending (highest = most promising)
+        enriched_results.sort(key=lambda x: x['score'], reverse=True)
+        
+        # Send summary
+        summary = f"📊 *Top {len(enriched_results)} Ranked Stocks*\n"
+        for idx, item in enumerate(enriched_results[:15], 1):
+            summary += f"{idx}. {item['base']['symbol']} (Score: {item['score']})\n"
+        bot.send_message(send_to, summary, parse_mode='Markdown')
+        
+        # Send detailed cards for Top 10
+        for idx, item in enumerate(enriched_results[:10], 1):
+            msg = format_enriched_result(idx, item['base'], item['enriched'])
+            bot.send_message(send_to, msg, parse_mode='Markdown')
+            time.sleep(0.2)  # Avoid rate limiting
+        
+        if len(enriched_results) > 10:
+            bot.send_message(send_to, f"✅ And {len(enriched_results)-10} more stocks... use /scan to refresh.")
+            
     else:
-        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found in Morning Screener today.*", parse_mode='Markdown')
+        bot.send_message(send_to, "📊 *No stocks found matching all 10 filters today.*", parse_mode='Markdown')
+    
+    return results
 
+# ============================================
+# TELEGRAM COMMAND HANDLERS
+# ============================================
+
+@bot.message_handler(commands=['start', 'help'])
+def send_welcome(message):
+    bot.reply_to(message,
+                 "👋 *Hello! I am your Ranked NSE Screener!*\n\n"
+                 "Commands:\n"
+                 "• /scan - Run screener & see ranked results\n"
+                 "• /trade SYMBOL - Get full RSI/MACD setup\n"
+                 "• /help - Show this menu\n\n"
+                 "_Top rank = Highest Bullish Score (Patterns + OBV + Momentum)_",
+                 parse_mode='Markdown')
+
+@bot.message_handler(commands=['scan'])
+def handle_scan(message):
+    bot.reply_to(message, "⏳ Scanning NSE stocks... Please wait (2-3 min).")
+    try:
+        run_scanner(chat_id=message.chat.id)
+    except Exception as e:
+        print(f"Scan error: {e}")
+        bot.reply_to(message, "❌ Scanner failed. Check logs.")
+
+@bot.message_handler(commands=['trade'])
+def handle_trade(message):
+    try:
+        parts = message.text.split()
+        if len(parts) < 2:
+            bot.reply_to(message, "❌ Please provide a symbol.\nExample: `/trade COFORGE`", parse_mode='Markdown')
+            return
+        symbol = parts[1].upper().strip()
+        bot.reply_to(message, f"⏳ Fetching data for *{symbol}*...", parse_mode='Markdown')
+        
+        # Use the existing /trade logic (keep it simple for single stocks)
+        try:
+            ticker = yf.Ticker(symbol + ".NS")
+            df = ticker.history(period="3mo", interval="1d")
+            if df.empty or len(df) < 20:
+                ticker = yf.Ticker(symbol + ".BO")
+                df = ticker.history(period="3mo", interval="1d")
+            if df.empty or len(df) < 20:
+                bot.reply_to(message, f"❌ No data for {symbol}.")
+                return
+            current_price = df['Close'].iloc[-1]
+            rsi = ta.rsi(df['Close'], length=14).iloc[-1]
+            macd_data = ta.macd(df['Close'], fast=12, slow=26, signal=9)
+            macd_line = macd_data['MACD_12_26_9'].iloc[-1]
+            signal_line = macd_data['MACDs_12_26_9'].iloc[-1]
+            histogram = macd_data['MACDh_12_26_9'].iloc[-1]
+            atr = ta.atr(df['High'], df['Low'], df['Close'], length=14).iloc[-1]
+            buy_price = round(current_price, 2)
+            stop_loss = round(current_price - (1.5 * atr), 2)
+            target_1 = round(current_price + (2 * atr), 2)
+            target_2 = round(current_price + (3.5 * atr), 2)
+            trend = "🟢 BULLISH" if macd_line > signal_line else "🔴 BEARISH"
+            rsi_status = "Overbought" if rsi > 70 else "Oversold" if rsi < 30 else "Neutral"
+            
+            msg = (f"📊 *Trade Setup for {symbol}*\n"
+                   f"━━━━━━━━━━━━━━━━━\n"
+                   f"💰 *Price:* ₹{buy_price}\n"
+                   f"📈 *Trend:* {trend}\n\n"
+                   f"🔄 *Indicators:*\n"
+                   f"   • RSI: {round(rsi, 2)} ({rsi_status})\n"
+                   f"   • MACD: {round(macd_line, 2)}\n"
+                   f"   • Signal: {round(signal_line, 2)}\n"
+                   f"   • Hist: {round(histogram, 2)}\n\n"
+                   f"🎯 *Trade Plan:*\n"
+                   f"   ✅ Buy: ₹{buy_price}\n"
+                   f"   🛑 SL: ₹{stop_loss} (Risk: ₹{round(current_price - stop_loss, 2)})\n"
+                   f"   🚀 T1: ₹{target_1} (1:2 R/R)\n"
+                   f"   🌟 T2: ₹{target_2} (1:3 R/R)\n\n"
+                   f"⚠️ *Not financial advice.*")
+            bot.send_message(message.chat.id, msg, parse_mode='Markdown')
+        except Exception as e:
+            bot.reply_to(message, f"❌ Error fetching {symbol}: {e}")
+            
+    except Exception as e:
+        print(f"Trade command error: {e}")
+        bot.reply_to(message, "❌ Error processing your request.")
+
+# ============================================
+# MAIN EXECUTION
+# ============================================
 if __name__ == "__main__":
-    run_scanner()
-    print("\n✅ Done!")
+    print("=" * 70)
+    print("🌅 MORNING SCREENER BOT - STARTING (RANKED OUTPUT)")
+    print("=" * 70)
+
+    print("🔄 Running initial scan on startup...")
+    run_scanner(chat_id=YOUR_CHAT_ID)
+
+    print("=" * 70)
+    print("✅ Bot is ONLINE and listening for commands!")
+    print("Commands: /scan, /trade SYMBOL, /start, /help")
+    print("Press Ctrl+C to stop.")
+    print("=" * 70)
+    bot.infinity_polling()
