@@ -18,9 +18,10 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 
 bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "screener_cache.pkl"
+WATCHLIST_FILE = "morning_watchlist.pkl"
 
 print("=" * 70)
-print("🎯 NSE SCREENER - NSE API + FALLBACK")
+print("🌅 MORNING SCREENER - NSE API + FALLBACK")
 print("=" * 70)
 
 try:
@@ -34,21 +35,17 @@ except Exception as e:
 # NSE API HELPERS
 # ============================================
 def get_nse_session():
-    """Create a session with NSE cookies."""
     session = requests.Session()
     session.headers.update({
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         'Accept': 'application/json',
         'Accept-Language': 'en-US,en;q=0.9',
-        'Connection': 'keep-alive',
     })
-    # First request to set cookies
     session.get('https://www.nseindia.com', timeout=10)
     time.sleep(1)
     return session
 
 def fetch_nse_live(symbol):
-    """Fetch live quote from NSE API."""
     try:
         session = get_nse_session()
         url = f"https://www.nseindia.com/api/quote-equity?symbol={symbol}"
@@ -63,15 +60,12 @@ def fetch_nse_live(symbol):
                 'high_52w': price_info.get('weekHigh52', 0),
                 'market_cap': data.get('marketCap', 0) / 10000000,
             }
-    except Exception as e:
-        print(f"⚠️ NSE API error for {symbol}: {e}")
-    return None
+    except:
+        return None
 
 def fetch_nse_historical(symbol, days=365):
-    """Fetch historical data from NSE API."""
     end = datetime.now()
     start = end - timedelta(days=days)
-    # NSE API expects date format like '01-01-2024'
     from_date = start.strftime('%d-%m-%Y')
     to_date = end.strftime('%d-%m-%Y')
     try:
@@ -80,25 +74,20 @@ def fetch_nse_historical(symbol, days=365):
         resp = session.get(url, timeout=15)
         if resp.status_code == 200:
             data = resp.json()
-            # data contains list of records with 'CH_CLOSING', 'CH_VOLUME', etc.
             if 'data' in data:
                 df = pd.DataFrame(data['data'])
                 df['DATE'] = pd.to_datetime(df['DATE'], format='%d-%m-%Y')
                 df = df.sort_values('DATE')
                 df['Close'] = df['CH_CLOSING'].astype(float)
                 df['Volume'] = df['CH_VOLUME'].astype(float)
-                # Also need High, Low for DEMA? DEMA uses Close only.
                 return df[['DATE', 'Close', 'Volume']]
-    except Exception as e:
-        print(f"⚠️ NSE historical error for {symbol}: {e}")
-    return None
+    except:
+        return None
 
 def get_data(symbol):
-    """Try NSE API first, fallback to yfinance (.NS then .BO)."""
     # Try NSE live
     live = fetch_nse_live(symbol)
     if live:
-        # Try NSE historical
         hist = fetch_nse_historical(symbol)
         if hist is not None and len(hist) >= 200:
             return {'live': live, 'hist': hist}
@@ -201,13 +190,24 @@ def build_cache(stocks):
                     'last_update': datetime.now().strftime('%Y-%m-%d')
                 }
                 built += 1
-        except Exception as e:
+        except:
             pass
         if (i + 1) % 50 == 0:
             print(f"📊 Cache progress: {i+1}/{total} (built: {built})")
         time.sleep(0.05)
     print(f"✅ Cache built for {built} stocks")
     return cache
+
+# ============================================
+# SAVE WATCHLIST FOR VOLUME MONITOR
+# ============================================
+def save_watchlist(watchlist):
+    try:
+        with open(WATCHLIST_FILE, 'wb') as f:
+            pickle.dump(watchlist, f)
+        print(f"✅ Watchlist saved to {WATCHLIST_FILE}")
+    except Exception as e:
+        print(f"⚠️ Error saving watchlist: {e}")
 
 # ============================================
 # CHECK STOCK
@@ -256,7 +256,9 @@ def check_stock(symbol, cached):
                 'day_change': day_change,
                 'volume_ratio': volume_ratio,
                 'market_cap': market_cap,
-                'pct_from_high': pct_from_high
+                'pct_from_high': pct_from_high,
+                'avg_volume': avg_volume,
+                'volume': volume
             }
         return None
     except:
@@ -268,6 +270,10 @@ def check_stock(symbol, cached):
 def run_scanner():
     print("\n🚀 Starting scan...")
     print("-" * 70)
+
+    # Send start message
+    bot.send_message(YOUR_CHAT_ID, "🌅 *Morning Screener is running!*", parse_mode='Markdown')
+
     stocks = get_all_nse_stocks()
     print(f"📊 Checking {len(stocks)} stocks...")
 
@@ -312,11 +318,16 @@ def run_scanner():
     print(f"✅ Scan complete! Found {len(results)} stocks passing ALL 10 filters")
     print(f"⏱️ Time taken: {time.time() - start_time:.1f} seconds")
 
+    # Save watchlist for volume monitor
     if results:
-        summary = "📊 *Stocks Passing ALL 10 Filters*\n\n"
+        save_watchlist(results)
+
+    if results:
+        summary = "📊 *Morning Screener Results ({})*\n\n".format(len(results))
         for r in results[:15]:
             summary += f"✅ {r['symbol']} - ₹{r['price']:.2f} ({r['day_change']:.2f}%)\n"
         bot.send_message(YOUR_CHAT_ID, summary, parse_mode='Markdown')
+
         for r in results[:10]:
             details = (
                 f"🚨 *{r['symbol']}*\n"
@@ -328,50 +339,8 @@ def run_scanner():
             )
             bot.send_message(YOUR_CHAT_ID, details, parse_mode='Markdown')
     else:
-        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed ALL 10 filters today.*", parse_mode='Markdown')
-
-# ============================================
-# TELEGRAM COMMANDS
-# ============================================
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.reply_to(message, 
-        "🎯 *NSE Screener*\n\n"
-        "📊 10 Filters (MUST pass all)\n"
-        "• Market Cap ≥ 1000 Cr\n"
-        "• Price ≥ 100\n"
-        "• Day Change 0-15%\n"
-        "• Volume ≥ 200,000\n"
-        "• Avg Vol > 500,000\n"
-        "• Within 10% of 52W High\n"
-        "• 50 DEMA > 200 DEMA\n"
-        "• 10 DEMA > 50 DEMA\n"
-        "• Volume Ratio ≥ 1.5x",
-        parse_mode='Markdown'
-    )
-
-@bot.message_handler(commands=['status'])
-def status(message):
-    cache_size = 0
-    if os.path.exists(CACHE_FILE):
-        try:
-            with open(CACHE_FILE, 'rb') as f:
-                cache = pickle.load(f)
-                cache_size = len(cache)
-        except:
-            pass
-    bot.reply_to(message, 
-        f"✅ *Scanner Status*\n"
-        f"📦 Cache: {cache_size} stocks\n"
-        f"🔄 Runs daily at 8:30 AM IST\n"
-        f"📡 Data: NSE API + Fallback",
-        parse_mode='Markdown'
-    )
+        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found in Morning Screener today.*", parse_mode='Markdown')
 
 if __name__ == "__main__":
-    try:
-        bot.send_message(YOUR_CHAT_ID, "🌅 Morning Screener is running!", parse_mode='Markdown')
-    except:
-        pass
     run_scanner()
     print("\n✅ Done!")
