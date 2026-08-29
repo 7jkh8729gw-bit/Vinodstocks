@@ -2,30 +2,29 @@ name: Morning Screener
 
 on:
   schedule:
-    - cron: '0 3 * * 1-5'   # 8:30 AM IST (3:00 AM UTC)
-  workflow_dispatch:
+    - cron: '30 3 * * 1-5'  # Runs at 9:00 AM IST (3:30 AM UTC) on weekdays
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
-  scan:
+  run-screener:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      - name: Install dependencies
-        run: |
-          pip install pandas numpy telebot yfinance datasets requests
-      - name: Run morning screener
-        run: python screener_telegram.py
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          CHAT_ID: ${{ secrets.CHAT_ID }}
-      - name: Upload watchlist
-        uses: actions/upload-artifact@v4
-        with:
-          name: morning-watchlist
-          path: morning_watchlist.pkl
-          retention-days: 1
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install pyTelegramBotAPI yfinance pandas pandas-ta numpy requests datasets
+    
+    - name: Run screener
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        CHAT_ID: ${{ secrets.CHAT_ID }}
+      run: python screener_telegram.py
