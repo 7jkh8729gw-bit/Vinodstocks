@@ -2,30 +2,33 @@ name: Morning Screener
 
 on:
   schedule:
-    - cron: '27 3 * * 1-5'
-  workflow_dispatch:
+    # Runs at 8:30 PM IST (3:00 PM UTC) every day
+    - cron: '30 15 * * *'
+  workflow_dispatch:  # Allows you to manually trigger it from GitHub
 
 jobs:
   run-screener:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
-    
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install pyTelegramBotAPI yfinance pandas numpy requests datasets
-        pip install ta  # ← Using 'ta' instead of 'pandas-ta'
-    
-    - name: Run screener
-      env:
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        CHAT_ID: ${{ secrets.CHAT_ID }}
-      run: python screener_telegram.py
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Set timezone to IST
+        run: sudo timedatectl set-timezone Asia/Kolkata
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Screener
+        run: python screener_telegram.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
