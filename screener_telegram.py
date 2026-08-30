@@ -7,6 +7,7 @@ import pickle
 import requests
 from datetime import datetime, timedelta
 import telebot
+from telebot import types  # <--- NEW for buttons
 from datasets import load_dataset
 
 # ============================================
@@ -28,6 +29,11 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
 bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "screener_cache.pkl"
 WATCHLIST_FILE = "morning_watchlist.pkl"
+
+# ============================================
+# GLOBAL STORAGE FOR DROPDOWN DATA
+# ============================================
+STORED_RESULTS = {}  # Will hold {symbol: item_data}
 
 print("=" * 70)
 print("🌅 MORNING SCREENER - AUTO-RANKED WITH TECHNICALS")
@@ -273,6 +279,136 @@ def check_stock(symbol, cached):
         return None
 
 # ============================================
+# 🆕 NEWS AND CHART SCORE FUNCTIONS
+# ============================================
+
+def fetch_news_mock(symbol):
+    """
+    Mock news data for testing. Replace with real API later.
+    Returns: dict with headlines, sentiment, count
+    """
+    mock_db = {
+        'CGCL': {
+            'headlines': ['Q3 Earnings Beat Estimates', 'Analyst Upgrade to Buy', 'Strong Order Book'],
+            'sentiment': 0.85,
+            'count': 3
+        },
+        'GENUSPOWER': {
+            'headlines': ['General Market Update'],
+            'sentiment': 0.1,
+            'count': 1
+        },
+        'FMGOETZE': {
+            'headlines': ['M&A Rumors', 'Contract Win with Govt', 'Earnings Surprise'],
+            'sentiment': 0.95,
+            'count': 3
+        },
+    }
+    return mock_db.get(symbol, {'headlines': [], 'sentiment': 0, 'count': 0})
+
+def compute_news_score(symbol):
+    """
+    Calculate News Score (0-100) based on:
+    - Number of headlines (capped at 10)
+    - Sentiment (-1 to 1)
+    - Catalyst bonus (if headlines contain keywords)
+    """
+    data = fetch_news_mock(symbol)
+    count = data['count']
+    sentiment = data['sentiment']
+    headlines = data['headlines']
+    
+    if count == 0:
+        return 0
+    
+    # Volume score: 5 points per headline, max 50
+    count_score = min(count, 10) * 5
+    
+    # Sentiment score: sentiment * 40 (max 40)
+    sentiment_score = sentiment * 40
+    
+    # Catalyst bonus: +10 for each headline with keyword
+    catalyst_keywords = ['Earnings', 'Beat', 'Upgrade', 'M&A', 'Contract', 'FDA', 'Approval', 'Surprise']
+    bonus = 0
+    for head in headlines:
+        if any(kw in head for kw in catalyst_keywords):
+            bonus += 10
+    bonus = min(bonus, 30)  # cap
+    
+    raw = count_score + sentiment_score + bonus
+    return round(max(0, min(100, raw)), 2)
+
+def compute_chart_score(df):
+    """
+    Analyze daily chart using TA from the 'ta' library.
+    Returns score 0-100 based on:
+    - Trend (SMA slope)
+    - Pattern (breakout detection)
+    - Volume & momentum (RSI, volume spike)
+    """
+    if df is None or len(df) < 20:
+        return 50  # neutral
+    
+    close = df['Close'].values
+    high = df['High'].values
+    low = df['Low'].values
+    volume = df['Volume'].values
+    open_prices = df['Open'].values
+    
+    # --- 1. Trend Score (30% weight in chart) ---
+    if len(close) >= 20:
+        sma20 = pd.Series(close).rolling(20).mean()
+        if len(sma20) > 5:
+            slope = (sma20.iloc[-1] - sma20.iloc[-5]) / sma20.iloc[-5] * 100
+            trend_score = max(0, min(30, 30 * (slope / 5)))  # 5% slope => 30 points
+        else:
+            trend_score = 15
+    else:
+        trend_score = 15
+    
+    # --- 2. Pattern Score (40% weight) ---
+    pattern_score = 0
+    # Breakout above recent high (20-day)
+    if len(close) >= 20:
+        if close[-1] > max(close[-20:-1]):
+            pattern_score += 15
+    # Simple bullish candlestick detection
+    if len(close) >= 3:
+        # Bullish engulfing (approx)
+        if (close[-1] > open_prices[-1] and close[-2] < open_prices[-2] and 
+            close[-1] > open_prices[-2] and open_prices[-1] < close[-2]):
+            pattern_score += 10
+        # Hammer (approx)
+        body = abs(close[-1] - open_prices[-1])
+        if body > 0:
+            lower_wick = min(open_prices[-1], close[-1]) - low[-1]
+            upper_wick = high[-1] - max(open_prices[-1], close[-1])
+            if lower_wick > 2 * body and upper_wick < 0.1 * body:
+                pattern_score += 10
+    pattern_score = min(40, pattern_score)
+    
+    # --- 3. Volume & Momentum Score (30% weight) ---
+    vol_score = 0
+    # Volume spike
+    avg_vol = pd.Series(volume).rolling(20).mean()
+    if len(avg_vol) > 0 and volume[-1] > avg_vol.iloc[-1] * 1.5:
+        vol_score = 15
+    else:
+        vol_score = 5
+    
+    # RSI momentum
+    rsi = RSIIndicator(pd.Series(close), window=14).rsi()
+    if len(rsi) > 0:
+        if rsi.iloc[-1] > 60:
+            vol_score += 15
+        elif rsi.iloc[-1] > 50:
+            vol_score += 7
+    vol_score = min(30, vol_score)
+    
+    total_chart_score = trend_score + pattern_score + vol_score
+    return round(max(0, min(100, total_chart_score)), 2)
+
+# ============================================
 # 🆕 TECHNICAL ANALYSIS (PATTERN DETECTION - MANUAL)
 # ============================================
 
@@ -393,6 +529,9 @@ def get_technical_data(symbol):
             else:
                 obv_trend = "➡️ Neutral"
         
+        # 🆕 Chart Score
+        chart_score = compute_chart_score(df)
+        
         return {
             'rsi': round(rsi, 2),
             'rsi_status': rsi_status,
@@ -407,7 +546,9 @@ def get_technical_data(symbol):
             'patterns': patterns,
             'obv_trend': obv_trend,
             'obv_rising': obv_rising,
-            'atr': round(atr, 2)
+            'atr': round(atr, 2),
+            'chart_score': chart_score,
+            'chart_desc': 'Breakout' if chart_score > 70 else 'Consolidating' if chart_score > 50 else 'Weak'
         }
     except Exception as e:
         print(f"Error getting technical data for {symbol}: {e}")
@@ -458,14 +599,21 @@ def calculate_bullish_score(base_result, tech_data):
     
     return score
 
-def format_ranked_result(index, base_result, tech_data):
-    """Formats the final output for a single stock."""
-    symbol = base_result['symbol']
-    price = base_result['price']
-    change = base_result['day_change']
-    vol_ratio = base_result['volume_ratio']
-    pct_high = base_result['pct_from_high']
-    mcap = base_result['market_cap']
+# ============================================
+# 🆕 FORMAT FUNCTIONS FOR DETAIL & SUMMARY
+# ============================================
+
+def format_detail_card(index, item):
+    """Generates the FULL detailed card for a single stock."""
+    base = item['base']
+    tech = item['tech']
+    
+    symbol = base['symbol']
+    price = base['price']
+    change = base['day_change']
+    vol_ratio = base['volume_ratio']
+    pct_high = base['pct_from_high']
+    mcap = base['market_cap']
     
     medal = "🥇" if index == 1 else "🥈" if index == 2 else "🥉" if index == 3 else f"#{index}"
     
@@ -473,35 +621,118 @@ def format_ranked_result(index, base_result, tech_data):
     msg += f"💰 ₹{price:.2f} | 📈 {change:.2f}% | 📊 Vol: {vol_ratio:.2f}x\n"
     msg += f"📏 52W High: {pct_high:.1f}% | 💼 Mkt Cap: ₹{mcap:.2f} Cr\n"
     
-    if tech_data:
-        # RSI & MACD
-        msg += f"\n📊 *RSI:* {tech_data['rsi']} ({tech_data['rsi_status']})"
-        msg += f" | *MACD:* {tech_data['macd_trend']}\n"
-        
-        # Trade Plan
-        msg += (f"\n🎯 *Buy:* ₹{tech_data['buy_price']} | "
-                f"🛑 *SL:* ₹{tech_data['stop_loss']} | "
-                f"🚀 *T1:* ₹{tech_data['target_1']} | "
-                f"🌟 *T2:* ₹{tech_data['target_2']}\n")
-        
-        # Patterns
-        if tech_data['patterns']:
-            msg += f"\n📐 *Patterns:* {', '.join(tech_data['patterns'])} ✅\n"
+    # News & Chart summary
+    news_data = fetch_news_mock(symbol)
+    news_summary = ", ".join(news_data['headlines'][:2]) if news_data['headlines'] else "No specific catalyst"
+    news_sentiment = "Bullish" if news_data['sentiment'] > 0.3 else "Neutral" if news_data['sentiment'] > -0.3 else "Bearish"
+    chart_desc = tech.get('chart_desc', 'N/A') if tech else 'N/A'
+    
+    msg += f"\n🧠 *News:* {news_sentiment} ({news_summary}) | {news_data['count']} headlines | *Chart:* {chart_desc}\n"
+    msg += f"📊 *Scores:* Tech: {item['tech_score']}/100 | News: {item['news_score']}/100 | Chart: {item['chart_score']}/100 | Combined: {item['combined_score']}/100\n"
+    
+    if tech:
+        msg += f"\n📊 *RSI:* {tech['rsi']} ({tech['rsi_status']}) | *MACD:* {tech['macd_trend']}\n"
+        msg += (f"\n🎯 *Buy:* ₹{tech['buy_price']} | 🛑 *SL:* ₹{tech['stop_loss']} | "
+                f"🚀 *T1:* ₹{tech['target_1']} | 🌟 *T2:* ₹{tech['target_2']}\n")
+        if tech['patterns']:
+            msg += f"\n📐 *Patterns:* {', '.join(tech['patterns'])} ✅\n"
         else:
             msg += f"\n📐 *Patterns:* None detected\n"
-        
-        # Order Flow
-        msg += f"📦 *Order Flow:* {tech_data['obv_trend']}\n"
+        msg += f"📦 *Order Flow:* {tech['obv_trend']}\n"
     else:
         msg += f"\n❌ Technical data not available\n"
     
     msg += "━" * 30
     return msg
 
+def format_summary_list(enriched_results):
+    """Generates the compact ranked list with buttons."""
+    total = len(enriched_results)
+    msg = f"📊 *🏆 RANKED RESULTS ({total} stocks)*\n"
+    msg += "━━━━━━━━━━━━━━━━━━━━━━\n"
+    for idx, item in enumerate(enriched_results[:20], 1):  # Show top 20 in list
+        medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
+        msg += f"{medal} {item['base']['symbol']} (Combined: {item['combined_score']})\n"
+    
+    if total > 20:
+        msg += f"\n... and {total - 20} more stocks."
+    
+    msg += "\n\n👇 *Tap a button below to view full details.*"
+    return msg
+
 # ============================================
-# MAIN SCANNER (MODIFIED TO RANK & ENRICH)
+# 🆕 TELEGRAM CALLBACK HANDLER (DROPDOWN LOGIC)
+# ============================================
+
+@bot.callback_query_handler(func=lambda call: True)
+def handle_callback(call):
+    bot.answer_callback_query(call.id)  # Remove loading state
+    
+    data = call.data
+    chat_id = call.message.chat.id
+    message_id = call.message.message_id
+    
+    if data == "back_to_list":
+        # Show the summary list again
+        if 'summary_msg' in STORED_RESULTS and 'keyboard' in STORED_RESULTS:
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text=STORED_RESULTS['summary_msg'],
+                reply_markup=STORED_RESULTS['keyboard'],
+                parse_mode='Markdown'
+            )
+        else:
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text="⚠️ Data expired. Please run the screener again.",
+                parse_mode='Markdown'
+            )
+        return
+    
+    if data.startswith("show_detail:"):
+        symbol = data.split(":")[1]
+        
+        # Find the stock in stored results
+        target_item = None
+        target_index = None
+        for idx, item in enumerate(STORED_RESULTS.get('items', []), 1):
+            if item['base']['symbol'] == symbol:
+                target_item = item
+                target_index = idx
+                break
+        
+        if not target_item:
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text="⚠️ Stock data not found. Please go back and try again.",
+                parse_mode='Markdown'
+            )
+            return
+        
+        # Generate detail card
+        detail_msg = format_detail_card(target_index, target_item)
+        
+        # Create "Back" button
+        back_keyboard = types.InlineKeyboardMarkup(row_width=1)
+        back_keyboard.add(types.InlineKeyboardButton("⬅️ Back to List", callback_data="back_to_list"))
+        
+        bot.edit_message_text(
+            chat_id=chat_id,
+            message_id=message_id,
+            text=detail_msg,
+            reply_markup=back_keyboard,
+            parse_mode='Markdown'
+        )
+
+# ============================================
+# MAIN SCANNER (MODIFIED FOR DROPDOWN)
 # ============================================
 def run_scanner():
+    global STORED_RESULTS
+    
     print("\n🚀 Starting scan...")
     print("-" * 70)
 
@@ -554,9 +785,6 @@ def run_scanner():
     if results:
         save_watchlist(results)
         
-        # ============================================
-        # 🆕 ENRICH, SCORE, SORT, and DISPLAY
-        # ============================================
         print("📊 Enriching results with technical data and ranking...")
         bot.send_message(YOUR_CHAT_ID, "⏳ *Calculating technicals & ranking...*", parse_mode='Markdown')
         
@@ -572,37 +800,58 @@ def run_scanner():
                     'score': score
                 })
             else:
-                # Still include but with lower priority
                 enriched_results.append({
                     'base': res,
                     'tech': None,
                     'score': 0
                 })
-            time.sleep(0.1)  # Avoid rate limiting
+            time.sleep(0.1)
         
-        # Sort by score descending (highest = most promising)
-        enriched_results.sort(key=lambda x: x['score'], reverse=True)
+        # Compute all scores
+        for item in enriched_results:
+            tech_raw = item['score']
+            tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
+            news_score = compute_news_score(item['base']['symbol']) if item['tech'] else 0
+            chart_score = item['tech'].get('chart_score', 50) if item['tech'] else 50
+            combined = (tech_score * 0.50) + (news_score * 0.30) + (chart_score * 0.20)
+            
+            item['tech_score'] = round(tech_score, 2)
+            item['news_score'] = news_score
+            item['chart_score'] = chart_score
+            item['combined_score'] = round(combined, 2)
         
-        # Send summary
-        summary = f"📊 *🏆 RANKED RESULTS ({len(enriched_results)} stocks)*\n"
-        summary += "━━━━━━━━━━━━━━━━━━━━━━\n"
-        for idx, item in enumerate(enriched_results[:15], 1):
-            medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
-            summary += f"{medal} {item['base']['symbol']} (Score: {item['score']})\n"
-        bot.send_message(YOUR_CHAT_ID, summary, parse_mode='Markdown')
+        # Sort by combined score
+        enriched_results.sort(key=lambda x: x['combined_score'], reverse=True)
         
-        # Send detailed cards for all stocks (up to 15 to avoid spam)
-        for idx, item in enumerate(enriched_results[:15], 1):
-            msg = format_ranked_result(idx, item['base'], item['tech'])
-            bot.send_message(YOUR_CHAT_ID, msg, parse_mode='Markdown')
-            time.sleep(0.3)  # Avoid rate limiting
+        # Store globally for the dropdown callbacks
+        STORED_RESULTS['items'] = enriched_results
         
-        if len(enriched_results) > 15:
-            bot.send_message(
-                YOUR_CHAT_ID, 
-                f"✅ And {len(enriched_results)-15} more stocks passed the filters.",
-                parse_mode='Markdown'
-            )
+        # Generate summary message
+        summary_msg = format_summary_list(enriched_results)
+        STORED_RESULTS['summary_msg'] = summary_msg
+        
+        # Build inline keyboard (buttons for each stock)
+        keyboard = types.InlineKeyboardMarkup(row_width=3)  # 3 buttons per row
+        buttons = []
+        for idx, item in enumerate(enriched_results[:20], 1):
+            symbol = item['base']['symbol']
+            # Short label: just the symbol (or rank+symbol)
+            label = f"{idx}.{symbol}" if idx <= 9 else symbol
+            buttons.append(types.InlineKeyboardButton(label, callback_data=f"show_detail:{symbol}"))
+        
+        # Add buttons in rows of 3
+        for i in range(0, len(buttons), 3):
+            keyboard.add(*buttons[i:i+3])
+        
+        STORED_RESULTS['keyboard'] = keyboard
+        
+        # Send the summary message with buttons
+        bot.send_message(
+            YOUR_CHAT_ID,
+            summary_msg,
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
             
     else:
         bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found matching all 10 filters today.*", parse_mode='Markdown')
@@ -614,11 +863,16 @@ def run_scanner():
 # ============================================
 if __name__ == "__main__":
     print("=" * 70)
-    print("🌅 MORNING SCREENER - RANKED RESULTS")
+    print("🌅 MORNING SCREENER - RANKED RESULTS WITH DROPDOWN")
     print("=" * 70)
     
-    # Run the scanner ONCE with ranking
+    # Run the scanner
     run_scanner()
     
     print("\n✅ Bot finished sending results!")
+    print("💡 Click the buttons below each stock to view full details.")
     print("💡 To run again, restart the script.")
+    
+    # Keep the bot running to handle callbacks
+    print("\n⏳ Bot is now listening for button clicks... (Press Ctrl+C to stop)")
+    bot.infinity_polling()
