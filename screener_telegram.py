@@ -10,6 +10,8 @@ import telebot
 from telebot import types
 from datasets import load_dataset
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import schedule
+import threading
 
 # ============================================
 # USE 'ta' LIBRARY - CORRECT IMPORTS
@@ -19,6 +21,12 @@ from ta.momentum import RSIIndicator
 from ta.trend import MACD
 from ta.volatility import AverageTrueRange
 from ta.volume import OnBalanceVolumeIndicator
+
+# ============================================
+# CONFIGURATION
+# ============================================
+USE_NSE_FALLBACK = True   # Set to False to only use yfinance (faster but may miss stocks)
+CACHE_REBUILD_DAYS = 1    # Rebuild cache daily
 
 # ============================================
 # BOT DETAILS (PULL FROM ENVIRONMENT VARIABLES)
@@ -49,7 +57,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# NSE API HELPERS (KEPT FOR CACHE BUILDING & LIVE DATA)
+# NSE API HELPERS (FOR LIVE DATA & FALLBACK)
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -81,6 +89,7 @@ def fetch_nse_live(symbol):
         return None
 
 def fetch_nse_historical(symbol, days=365):
+    """Used as fallback when yfinance fails."""
     end = datetime.now()
     start = end - timedelta(days=days)
     from_date = start.strftime('%d-%m-%Y')
@@ -95,7 +104,6 @@ def fetch_nse_historical(symbol, days=365):
                 df = pd.DataFrame(data['data'])
                 df['DATE'] = pd.to_datetime(df['DATE'], format='%d-%m-%Y')
                 df = df.sort_values('DATE')
-                # Handle different column names
                 close_col = 'CH_CLOSING' if 'CH_CLOSING' in df.columns else 'CLOSE'
                 high_col = 'CH_TRADE_HIGH_PRICE' if 'CH_TRADE_HIGH_PRICE' in df.columns else 'HIGH'
                 low_col = 'CH_TRADE_LOW_PRICE' if 'CH_TRADE_LOW_PRICE' in df.columns else 'LOW'
@@ -111,30 +119,9 @@ def fetch_nse_historical(symbol, days=365):
         print(f"NSE historical error for {symbol}: {e}")
         return None
 
-def get_data(symbol):
-    live = fetch_nse_live(symbol)
-    if live:
-        hist = fetch_nse_historical(symbol)
-        if hist is not None and len(hist) >= 200:
-            return {'live': live, 'hist': hist}
-    # Fallback to yfinance
-    for suffix in ['.NS', '.BO']:
-        try:
-            ticker = yf.Ticker(f"{symbol}{suffix}")
-            info = ticker.info
-            hist = ticker.history(period="1y")
-            if len(hist) >= 200 and info:
-                price = info.get('regularMarketPrice', info.get('currentPrice', 0))
-                prev_close = info.get('regularMarketPreviousClose', 0)
-                volume = info.get('regularMarketVolume', 0)
-                high_52w = info.get('fiftyTwoWeekHigh', 0)
-                market_cap = info.get('marketCap', 0) / 10000000
-                live = {'price': price, 'prev_close': prev_close, 'volume': volume,
-                        'high_52w': high_52w, 'market_cap': market_cap}
-                return {'live': live, 'hist': hist}
-        except:
-            continue
-    return None
+def get_live_data_only(symbol):
+    """Fetches ONLY live data via NSE API (no historical)."""
+    return fetch_nse_live(symbol)
 
 # ============================================
 # GET ALL NSE STOCKS
@@ -194,19 +181,46 @@ def chartink_dema(data, period):
     ema2 = ema.ewm(span=period, adjust=False).mean()
     return 2 * ema - ema2
 
+# ============================================
+# HYBRID CACHE BUILDER (YFINANCE + NSE FALLBACK)
+# ============================================
 def build_cache(stocks):
-    print("🏗️ Building initial cache (this may take time)...")
+    """
+    Builds cache using yfinance first, then NSE API for failures.
+    """
+    print("🏗️ Building cache (yfinance primary, NSE fallback)...")
     cache = {}
     total = len(stocks)
     built = 0
+    fallback_used = 0
+    start_time = time.time()
+    
     for i, symbol in enumerate(stocks):
+        hist = None
+        # ---- Try yfinance ----
+        for suffix in ['.NS', '.BO']:
+            try:
+                ticker = yf.Ticker(f"{symbol}{suffix}")
+                hist = ticker.history(period="1y")
+                if len(hist) >= 200:
+                    break
+                else:
+                    hist = None
+            except:
+                continue
+        # ---- If yfinance failed and fallback is enabled ----
+        if hist is None and USE_NSE_FALLBACK:
+            # Try NSE API
+            nse_hist = fetch_nse_historical(symbol)
+            if nse_hist is not None and len(nse_hist) >= 200:
+                hist = nse_hist
+                fallback_used += 1
+        
+        if hist is None or len(hist) < 200:
+            continue
+        
+        # Compute DEMA values
         try:
-            data = get_data(symbol)
-            if data is None:
-                continue
-            hist = data['hist']
-            if len(hist) < 200:
-                continue
             d10 = chartink_dema(hist['Close'], 10)
             d50 = chartink_dema(hist['Close'], 50)
             d200 = chartink_dema(hist['Close'], 200)
@@ -220,12 +234,18 @@ def build_cache(stocks):
                     'last_update': datetime.now().strftime('%Y-%m-%d')
                 }
                 built += 1
-        except:
+        except Exception as e:
+            # Silently skip
             pass
-        if (i + 1) % 50 == 0:
-            print(f"📊 Cache progress: {i+1}/{total} (built: {built})")
-        time.sleep(0.1)
-    print(f"✅ Cache built for {built} stocks")
+            
+        if (i + 1) % 100 == 0:
+            elapsed = time.time() - start_time
+            print(f"📊 Cache progress: {i+1}/{total} (built: {built}, fallback: {fallback_used}) | {elapsed:.1f}s")
+        
+        time.sleep(0.05)  # Small delay to avoid rate limits
+    
+    elapsed = time.time() - start_time
+    print(f"✅ Cache built for {built} stocks in {elapsed:.1f}s (fallback used for {fallback_used} stocks)")
     return cache
 
 # ============================================
@@ -247,7 +267,7 @@ def pre_filter_with_cache(cache):
     return shortlisted
 
 # ============================================
-# CONCURRENT NSE API FETCHING
+# CONCURRENT LIVE DATA FETCHING (NSE API)
 # ============================================
 def fetch_live_data_concurrent(symbols, max_workers=15):
     results = {}
@@ -255,14 +275,14 @@ def fetch_live_data_concurrent(symbols, max_workers=15):
     print(f"📊 Fetching live data for {total} stocks using {max_workers} threads...")
     start_time = time.time()
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_symbol = {executor.submit(get_data, symbol): symbol for symbol in symbols}
+        future_to_symbol = {executor.submit(get_live_data_only, symbol): symbol for symbol in symbols}
         completed = 0
         for future in as_completed(future_to_symbol):
             symbol = future_to_symbol[future]
             try:
-                data = future.result(timeout=15)
-                if data and data.get('live'):
-                    results[symbol] = data['live']
+                data = future.result(timeout=10)
+                if data:
+                    results[symbol] = data
                 completed += 1
                 if completed % 20 == 0:
                     print(f"  📊 Fetched {completed}/{total}...")
@@ -317,7 +337,7 @@ def check_stock(symbol, cached, live_data):
     return None
 
 # ============================================
-# NEWS AND CHART SCORE FUNCTIONS
+# NEWS AND CHART SCORE FUNCTIONS (unchanged)
 # ============================================
 
 def fetch_news_mock(symbol):
@@ -364,7 +384,6 @@ def compute_news_score(symbol):
     return round(max(0, min(100, raw)), 2)
 
 def compute_chart_score(df):
-    # Now returns 0 if no data (instead of 50)
     if df is None or len(df) < 20:
         return 0
     close = df['Close'].values
@@ -421,7 +440,7 @@ def compute_chart_score(df):
     return round(max(0, min(100, total_chart_score)), 2)
 
 # ============================================
-# TECHNICAL ANALYSIS FOR FINAL SHORTLIST (USES YFINANCE)
+# TECHNICAL ANALYSIS FOR FINAL SHORTLIST
 # ============================================
 
 def detect_patterns(df):
@@ -463,10 +482,8 @@ def detect_patterns(df):
     return patterns
 
 def get_technical_data(symbol):
-    """Fetches RSI, MACD, ATR, Patterns, OBV using yfinance (most reliable)."""
     try:
         df = None
-        # Try .NS first, then .BO
         for suffix in ['.NS', '.BO']:
             try:
                 ticker = yf.Ticker(f"{symbol}{suffix}")
@@ -475,11 +492,11 @@ def get_technical_data(symbol):
                     break
             except:
                 continue
-        # If yfinance fails, fallback to NSE API (via get_data)
+        # Fallback to NSE historical if yfinance fails for technicals too (optional)
         if df is None or df.empty or len(df) < 20:
-            full_data = get_data(symbol)
-            if full_data and full_data.get('hist') is not None:
-                df = full_data['hist']
+            nse_df = fetch_nse_historical(symbol, days=180)
+            if nse_df is not None and len(nse_df) >= 20:
+                df = nse_df
         if df is None or len(df) < 20:
             return None
 
@@ -580,7 +597,7 @@ def calculate_bullish_score(base_result, tech_data):
     return score
 
 # ============================================
-# FORMAT FUNCTIONS
+# FORMAT FUNCTIONS (unchanged)
 # ============================================
 
 def format_detail_card(index, item):
@@ -695,7 +712,7 @@ def handle_callback(call):
         )
 
 # ============================================
-# MAIN SCANNER
+# MAIN SCANNER (DAILY REBUILD WITH HYBRID)
 # ============================================
 def run_scanner():
     global STORED_RESULTS
@@ -708,30 +725,48 @@ def run_scanner():
     stocks = get_all_nse_stocks()
     print(f"📊 Total NSE stocks: {len(stocks)}")
 
+    # Load cache
     cache = load_cache()
+    
+    # Rebuild if cache is missing OR older than CACHE_REBUILD_DAYS
+    rebuild_needed = False
     if not cache:
-        cache = build_cache(stocks)
-        save_cache(cache)
+        rebuild_needed = True
+        print("ℹ️ No cache found.")
     else:
         last_update = cache.get('_last_update', '')
         if last_update:
             try:
                 last_date = datetime.strptime(last_update, '%Y-%m-%d')
-                if (datetime.now() - last_date).days >= 1:
-                    print("📅 Cache is old, rebuilding...")
-                    cache = build_cache(stocks)
-                    save_cache(cache)
-            except:
-                pass
+                days_diff = (datetime.now() - last_date).days
+                if days_diff >= CACHE_REBUILD_DAYS:
+                    print(f"📅 Cache is {days_diff} day(s) old. Rebuilding...")
+                    rebuild_needed = True
+                else:
+                    print(f"✅ Cache is fresh (updated {last_update}). Skipping rebuild.")
+            except Exception as e:
+                print(f"⚠️ Error reading cache date: {e}. Rebuilding...")
+                rebuild_needed = True
+        else:
+            print("ℹ️ Cache has no date. Rebuilding...")
+            rebuild_needed = True
 
-    cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
-    save_cache(cache)
+    if rebuild_needed:
+        cache = build_cache(stocks)
+        cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
+        save_cache(cache)
+    else:
+        # Still update the date to show it was checked today
+        cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
+        save_cache(cache)
 
+    # Pre-filter using cache
     pre_filtered_symbols = pre_filter_with_cache(cache)
     if not pre_filtered_symbols:
         bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed the DEMA/Volume pre-filters.*", parse_mode='Markdown')
         return
 
+    # Fetch live data for pre-filtered stocks
     live_data = fetch_live_data_concurrent(pre_filtered_symbols, max_workers=15)
 
     print("-" * 70)
@@ -826,13 +861,31 @@ def run_scanner():
     print("✅ Done!")
 
 # ============================================
+# SCHEDULER
+# ============================================
+def run_scheduler():
+    schedule.every().day.at("20:30").do(run_scanner)
+    print("🕒 Scheduler started. Will run daily at 8:30 PM IST.")
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+
+# ============================================
 # MAIN EXECUTION
 # ============================================
 if __name__ == "__main__":
     print("=" * 70)
-    print("🌅 MORNING SCREENER - GITHUB ACTIONS OPTIMIZED")
+    print("🌅 MORNING SCREENER - PERSISTENT BOT (DAILY REBUILD, HYBRID)")
     print("=" * 70)
 
     run_scanner()
 
-    print("\n✅ Bot finished sending results! Exiting cleanly.")
+    scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
+    scheduler_thread.start()
+
+    print("\n⏳ Bot is now running and waiting for button clicks...")
+    print("🕒 Next scheduled run: Daily at 8:30 PM IST")
+    print("📌 Cache rebuilds DAILY (hybrid: yfinance + NSE fallback for failures).")
+    print("💡 Keep this script running 24/7 for buttons to work.")
+
+    bot.infinity_polling()
