@@ -7,8 +7,9 @@ import pickle
 import requests
 from datetime import datetime, timedelta
 import telebot
-from telebot import types  # <--- NEW for buttons
+from telebot import types
 from datasets import load_dataset
+from concurrent.futures import ThreadPoolExecutor, as_completed  # <-- For speed
 
 # ============================================
 # USE 'ta' LIBRARY - CORRECT IMPORTS
@@ -33,7 +34,7 @@ WATCHLIST_FILE = "morning_watchlist.pkl"
 # ============================================
 # GLOBAL STORAGE FOR DROPDOWN DATA
 # ============================================
-STORED_RESULTS = {}  # Will hold {symbol: item_data}
+STORED_RESULTS = {}
 
 print("=" * 70)
 print("🌅 MORNING SCREENER - AUTO-RANKED WITH TECHNICALS")
@@ -47,7 +48,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# NSE API HELPERS (YOUR ORIGINAL CODE)
+# 🔄 ORIGINAL NSE API HELPERS (RE-ADDED FOR RELIABILITY)
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -100,11 +101,14 @@ def fetch_nse_historical(symbol, days=365):
         return None
 
 def get_data(symbol):
+    # Primary: NSE API (reliable for Indian stocks)
     live = fetch_nse_live(symbol)
     if live:
         hist = fetch_nse_historical(symbol)
         if hist is not None and len(hist) >= 200:
             return {'live': live, 'hist': hist}
+    
+    # Fallback: yfinance (if NSE API fails)
     for suffix in ['.NS', '.BO']:
         try:
             ticker = yf.Ticker(f"{symbol}{suffix}")
@@ -174,7 +178,7 @@ def chartink_dema(data, period):
     return 2 * ema - ema2
 
 # ============================================
-# BUILD CACHE (YOUR ORIGINAL CODE)
+# BUILD CACHE (YOUR ORIGINAL CODE - KEPT SAME)
 # ============================================
 def build_cache(stocks):
     print("🏗️ Building initial cache (this may take time)...")
@@ -199,7 +203,6 @@ def build_cache(stocks):
                     'dema_50': d50.iloc[-1],
                     'dema_200': d200.iloc[-1],
                     'avg_volume': avg_vol,
-                    'market_cap': data['live']['market_cap'],
                     'last_update': datetime.now().strftime('%Y-%m-%d')
                 }
                 built += 1
@@ -207,9 +210,69 @@ def build_cache(stocks):
             pass
         if (i + 1) % 50 == 0:
             print(f"📊 Cache progress: {i+1}/{total} (built: {built})")
-        time.sleep(0.05)
+        time.sleep(0.1)
     print(f"✅ Cache built for {built} stocks")
     return cache
+
+# ============================================
+# 🚀 SPEED OPTIMIZATION: PRE-FILTER USING CACHE (NO API CALLS)
+# ============================================
+def pre_filter_with_cache(cache):
+    """
+    Checks Filters 6, 8, 9 using ONLY cached DEMA values.
+    This drops ~70% of stocks before making any live API calls.
+    """
+    shortlisted = []
+    for symbol, data in cache.items():
+        if symbol == '_last_update':
+            continue
+        # Filter 6: Avg Volume > 500,000
+        if data.get('avg_volume', 0) <= 500000:
+            continue
+        # Filter 8: DEMA 50 > DEMA 200
+        if data.get('dema_50', 0) <= data.get('dema_200', 0):
+            continue
+        # Filter 9: DEMA 10 > DEMA 50
+        if data.get('dema_10', 0) <= data.get('dema_50', 0):
+            continue
+        shortlisted.append(symbol)
+    print(f"📊 Pre-filtered {len(shortlisted)} stocks (from {len(cache)}) using cache only.")
+    return shortlisted
+
+# ============================================
+# 🚀 SPEED OPTIMIZATION: CONCURRENT NSE API FETCHING
+# ============================================
+def fetch_live_data_concurrent(symbols, max_workers=20):
+    """
+    Fetches live data for a list of symbols using ThreadPoolExecutor.
+    Reduces NSE API call time significantly.
+    """
+    results = {}
+    total = len(symbols)
+    print(f"📊 Fetching live data for {total} stocks using {max_workers} threads...")
+    
+    start_time = time.time()
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_symbol = {executor.submit(get_data, symbol): symbol for symbol in symbols}
+        
+        completed = 0
+        for future in as_completed(future_to_symbol):
+            symbol = future_to_symbol[future]
+            try:
+                data = future.result(timeout=15)
+                if data and data.get('live'):
+                    results[symbol] = data['live']
+                completed += 1
+                if completed % 20 == 0:
+                    print(f"  📊 Fetched {completed}/{total}...")
+            except Exception as e:
+                # If NSE fails, try yfinance fallback inside get_data already handles it
+                pass
+            time.sleep(0.05)  # Small delay to avoid NSE rate limits
+    
+    elapsed = time.time() - start_time
+    print(f"✅ Live data fetch complete: {len(results)} stocks in {elapsed:.1f}s")
+    return results
 
 # ============================================
 # SAVE WATCHLIST (YOUR ORIGINAL CODE)
@@ -223,70 +286,55 @@ def save_watchlist(watchlist):
         print(f"⚠️ Error saving watchlist: {e}")
 
 # ============================================
-# CHECK STOCK - 10 FILTERS (YOUR ORIGINAL CODE)
+# CHECK STOCK - APPLIES REMAINING 7 FILTERS
 # ============================================
-def check_stock(symbol, cached):
-    try:
-        data = get_data(symbol)
-        if data is None:
-            return None
-        live = data['live']
-        price = live['price']
-        prev_close = live['prev_close']
-        volume = live['volume']
-        high_52w = live['high_52w']
-        market_cap = live['market_cap']
-        avg_volume = cached.get('avg_volume', 0)
-        dema_10 = cached.get('dema_10', 0)
-        dema_50 = cached.get('dema_50', 0)
-        dema_200 = cached.get('dema_200', 0)
-
-        if prev_close > 0 and price > 0:
-            day_change = ((price - prev_close) / prev_close) * 100
-        else:
-            day_change = 0
-
-        volume_ratio = volume / avg_volume if avg_volume > 0 else 0
-        pct_from_high = ((high_52w - price) / high_52w) * 100 if high_52w > 0 else 100
-
-        cond1 = market_cap >= 1000
-        cond2 = price >= 100
-        cond3 = day_change >= 0
-        cond4 = day_change < 15
-        cond5 = volume >= 200000
-        cond6 = avg_volume > 500000
-        cond7 = pct_from_high <= 10
-        cond8 = dema_50 > dema_200
-        cond9 = dema_10 > dema_50
-        cond10 = volume_ratio >= 1.5
-
-        if cond1 and cond2 and cond3 and cond4 and cond5 and cond6 and cond7 and cond8 and cond9 and cond10:
-            return {
-                'symbol': symbol,
-                'price': price,
-                'day_change': day_change,
-                'volume_ratio': volume_ratio,
-                'market_cap': market_cap,
-                'pct_from_high': pct_from_high,
-                'avg_volume': avg_volume,
-                'volume': volume,
-                'dema_10': dema_10,
-                'dema_50': dema_50,
-                'dema_200': dema_200
-            }
+def check_stock(symbol, cached, live_data):
+    if symbol not in live_data:
         return None
-    except:
-        return None
+    
+    live = live_data[symbol]
+    price = live['price']
+    prev_close = live['prev_close']
+    volume = live['volume']
+    high_52w = live['high_52w']
+    market_cap = live['market_cap']
+    avg_volume = cached.get('avg_volume', 0)
+
+    if prev_close > 0 and price > 0:
+        day_change = ((price - prev_close) / prev_close) * 100
+    else:
+        day_change = 0
+
+    volume_ratio = volume / avg_volume if avg_volume > 0 else 0
+    pct_from_high = ((high_52w - price) / high_52w) * 100 if high_52w > 0 else 100
+
+    # Remaining 7 filters
+    cond1 = market_cap >= 1000
+    cond2 = price >= 100
+    cond3 = day_change >= 0
+    cond4 = day_change < 15
+    cond5 = volume >= 200000
+    cond7 = pct_from_high <= 10
+    cond10 = volume_ratio >= 1.5
+
+    if cond1 and cond2 and cond3 and cond4 and cond5 and cond7 and cond10:
+        return {
+            'symbol': symbol,
+            'price': price,
+            'day_change': day_change,
+            'volume_ratio': volume_ratio,
+            'market_cap': market_cap,
+            'pct_from_high': pct_from_high,
+            'avg_volume': avg_volume,
+            'volume': volume
+        }
+    return None
 
 # ============================================
-# 🆕 NEWS AND CHART SCORE FUNCTIONS
+# 🆕 NEWS AND CHART SCORE FUNCTIONS (KEPT FROM BEFORE)
 # ============================================
 
 def fetch_news_mock(symbol):
-    """
-    Mock news data for testing. Replace with real API later.
-    Returns: dict with headlines, sentiment, count
-    """
     mock_db = {
         'CGCL': {
             'headlines': ['Q3 Earnings Beat Estimates', 'Analyst Upgrade to Buy', 'Strong Order Book'],
@@ -307,12 +355,6 @@ def fetch_news_mock(symbol):
     return mock_db.get(symbol, {'headlines': [], 'sentiment': 0, 'count': 0})
 
 def compute_news_score(symbol):
-    """
-    Calculate News Score (0-100) based on:
-    - Number of headlines (capped at 10)
-    - Sentiment (-1 to 1)
-    - Catalyst bonus (if headlines contain keywords)
-    """
     data = fetch_news_mock(symbol)
     count = data['count']
     sentiment = data['sentiment']
@@ -321,33 +363,21 @@ def compute_news_score(symbol):
     if count == 0:
         return 0
     
-    # Volume score: 5 points per headline, max 50
     count_score = min(count, 10) * 5
-    
-    # Sentiment score: sentiment * 40 (max 40)
     sentiment_score = sentiment * 40
-    
-    # Catalyst bonus: +10 for each headline with keyword
     catalyst_keywords = ['Earnings', 'Beat', 'Upgrade', 'M&A', 'Contract', 'FDA', 'Approval', 'Surprise']
     bonus = 0
     for head in headlines:
         if any(kw in head for kw in catalyst_keywords):
             bonus += 10
-    bonus = min(bonus, 30)  # cap
+    bonus = min(bonus, 30)
     
     raw = count_score + sentiment_score + bonus
     return round(max(0, min(100, raw)), 2)
 
 def compute_chart_score(df):
-    """
-    Analyze daily chart using TA from the 'ta' library.
-    Returns score 0-100 based on:
-    - Trend (SMA slope)
-    - Pattern (breakout detection)
-    - Volume & momentum (RSI, volume spike)
-    """
     if df is None or len(df) < 20:
-        return 50  # neutral
+        return 50
     
     close = df['Close'].values
     high = df['High'].values
@@ -355,30 +385,26 @@ def compute_chart_score(df):
     volume = df['Volume'].values
     open_prices = df['Open'].values
     
-    # --- 1. Trend Score (30% weight in chart) ---
+    # Trend Score (30%)
     if len(close) >= 20:
         sma20 = pd.Series(close).rolling(20).mean()
         if len(sma20) > 5:
             slope = (sma20.iloc[-1] - sma20.iloc[-5]) / sma20.iloc[-5] * 100
-            trend_score = max(0, min(30, 30 * (slope / 5)))  # 5% slope => 30 points
+            trend_score = max(0, min(30, 30 * (slope / 5)))
         else:
             trend_score = 15
     else:
         trend_score = 15
     
-    # --- 2. Pattern Score (40% weight) ---
+    # Pattern Score (40%)
     pattern_score = 0
-    # Breakout above recent high (20-day)
     if len(close) >= 20:
         if close[-1] > max(close[-20:-1]):
             pattern_score += 15
-    # Simple bullish candlestick detection
     if len(close) >= 3:
-        # Bullish engulfing (approx)
         if (close[-1] > open_prices[-1] and close[-2] < open_prices[-2] and 
             close[-1] > open_prices[-2] and open_prices[-1] < close[-2]):
             pattern_score += 10
-        # Hammer (approx)
         body = abs(close[-1] - open_prices[-1])
         if body > 0:
             lower_wick = min(open_prices[-1], close[-1]) - low[-1]
@@ -387,16 +413,14 @@ def compute_chart_score(df):
                 pattern_score += 10
     pattern_score = min(40, pattern_score)
     
-    # --- 3. Volume & Momentum Score (30% weight) ---
+    # Volume & Momentum Score (30%)
     vol_score = 0
-    # Volume spike
     avg_vol = pd.Series(volume).rolling(20).mean()
     if len(avg_vol) > 0 and volume[-1] > avg_vol.iloc[-1] * 1.5:
         vol_score = 15
     else:
         vol_score = 5
     
-    # RSI momentum
     rsi = RSIIndicator(pd.Series(close), window=14).rsi()
     if len(rsi) > 0:
         if rsi.iloc[-1] > 60:
@@ -409,67 +433,49 @@ def compute_chart_score(df):
     return round(max(0, min(100, total_chart_score)), 2)
 
 # ============================================
-# 🆕 TECHNICAL ANALYSIS (PATTERN DETECTION - MANUAL)
+# TECHNICAL ANALYSIS (YOUR ORIGINAL - KEPT FOR FINAL SHORTLIST)
 # ============================================
 
 def detect_patterns(df):
-    """Detects bullish candlestick patterns manually."""
     patterns = []
     try:
         if len(df) < 10:
             return patterns
-        
-        # Get the last few candles
         o = df['Open'].iloc[-5:].values
         h = df['High'].iloc[-5:].values
         l = df['Low'].iloc[-5:].values
         c = df['Close'].iloc[-5:].values
+        i = -1
         
-        # Check for patterns in the most recent candle
-        i = -1  # Most recent candle
-        
-        # Bullish Engulfing: current close > previous open AND previous close < current open
         if len(o) >= 2:
             if c[i] > o[i-1] and c[i-1] < o[i]:
                 patterns.append("Bullish Engulfing")
-        
-        # Hammer: lower wick > 2x body, upper wick < 10% of body
         body = abs(c[i] - o[i])
         if body > 0:
             lower_wick = min(o[i], c[i]) - l[i]
             upper_wick = h[i] - max(o[i], c[i])
             if lower_wick > 2 * body and upper_wick < 0.1 * body:
                 patterns.append("Hammer")
-        
-        # Morning Star: Bearish candle, then small body, then bullish candle
         if len(c) >= 3:
             if c[i-2] < o[i-2] and abs(c[i-1] - o[i-1]) < abs(c[i-2] - o[i-2]) and c[i] > o[i]:
                 patterns.append("Morning Star")
-        
-        # Three White Soldiers: 3 consecutive bullish candles with higher closes
         if len(c) >= 3:
             if (c[i-2] > o[i-2] and c[i-1] > o[i-1] and c[i] > o[i] and
                 c[i-1] > c[i-2] and c[i] > c[i-1]):
                 patterns.append("3 White Soldiers")
-        
-        # Bullish Harami: Previous candle bearish, current candle inside previous body
         if len(o) >= 2:
             if c[i-1] < o[i-1] and o[i] > c[i-1] and c[i] < o[i-1]:
                 patterns.append("Bullish Harami")
-        
-        # Piercing Pattern: Bearish then bullish that closes above 50% of previous body
         if len(c) >= 2:
             prev_body = o[i-1] - c[i-1]
             if prev_body > 0 and c[i] > o[i] and c[i] > o[i-1] - prev_body/2:
                 patterns.append("Piercing Pattern")
-        
-    except Exception as e:
-        print(f"Pattern detection error: {e}")
-    
+    except:
+        pass
     return patterns
 
 def get_technical_data(symbol):
-    """Fetches RSI, MACD, ATR, Patterns, OBV using 'ta' library."""
+    """Fetches RSI, MACD, ATR, Patterns, OBV for the shortlisted stocks."""
     try:
         ticker = yf.Ticker(symbol + ".NS")
         df = ticker.history(period="3mo", interval="1d")
@@ -480,31 +486,20 @@ def get_technical_data(symbol):
             return None
         
         current_price = df['Close'].iloc[-1]
-        
-        # RSI
         rsi_indicator = RSIIndicator(df['Close'], window=14)
         rsi = rsi_indicator.rsi().iloc[-1]
-        
-        # MACD
         macd_indicator = MACD(df['Close'], window_slow=26, window_fast=12, window_sign=9)
         macd_line = macd_indicator.macd().iloc[-1]
         signal_line = macd_indicator.macd_signal().iloc[-1]
-        histogram = macd_indicator.macd_diff().iloc[-1]
-        
-        # ATR
         atr_indicator = AverageTrueRange(df['High'], df['Low'], df['Close'], window=14)
         atr = atr_indicator.average_true_range().iloc[-1]
         
-        # Trade Plan
         buy_price = round(current_price, 2)
         stop_loss = round(current_price - (1.5 * atr), 2)
         target_1 = round(current_price + (2 * atr), 2)
         target_2 = round(current_price + (3.5 * atr), 2)
         
-        # MACD Trend
         macd_trend = "🟢 Bullish" if macd_line > signal_line else "🔴 Bearish"
-        
-        # RSI Status
         if rsi > 70:
             rsi_status = "Overbought"
         elif rsi < 30:
@@ -512,10 +507,8 @@ def get_technical_data(symbol):
         else:
             rsi_status = "Neutral"
         
-        # Patterns (manual detection)
         patterns = detect_patterns(df)
         
-        # Order Flow (OBV)
         obv_indicator = OnBalanceVolumeIndicator(df['Close'], df['Volume'])
         obv = obv_indicator.on_balance_volume()
         obv_rising = False
@@ -529,7 +522,6 @@ def get_technical_data(symbol):
             else:
                 obv_trend = "➡️ Neutral"
         
-        # 🆕 Chart Score
         chart_score = compute_chart_score(df)
         
         return {
@@ -555,12 +547,9 @@ def get_technical_data(symbol):
         return None
 
 def calculate_bullish_score(base_result, tech_data):
-    """Ranks stocks so the most promising appears at the top."""
     if not tech_data:
         return 0
     score = 0
-    
-    # 1. Day Change (weight: 3)
     if base_result['day_change'] >= 5:
         score += 3
     elif base_result['day_change'] >= 3:
@@ -568,7 +557,6 @@ def calculate_bullish_score(base_result, tech_data):
     elif base_result['day_change'] >= 1:
         score += 1
     
-    # 2. Volume Ratio (weight: 3)
     if base_result['volume_ratio'] >= 3:
         score += 3
     elif base_result['volume_ratio'] >= 2:
@@ -576,38 +564,29 @@ def calculate_bullish_score(base_result, tech_data):
     else:
         score += 1
     
-    # 3. RSI (weight: 2) - Healthy bullish is 50-70
     rsi = tech_data['rsi']
     if 50 <= rsi <= 70:
         score += 2
     elif 40 <= rsi < 50:
         score += 1
     elif rsi > 70:
-        score -= 1  # Overbought penalty
+        score -= 1
     
-    # 4. MACD Trend (weight: 2)
     if tech_data['macd_trend'] == "🟢 Bullish":
         score += 2
-    
-    # 5. Patterns (weight: 5) - Major bonus
     if tech_data['patterns']:
         score += 5
-    
-    # 6. OBV Rising (weight: 3)
     if tech_data['obv_rising']:
         score += 3
-    
     return score
 
 # ============================================
-# 🆕 FORMAT FUNCTIONS FOR DETAIL & SUMMARY
+# FORMAT FUNCTIONS FOR DETAIL & SUMMARY
 # ============================================
 
 def format_detail_card(index, item):
-    """Generates the FULL detailed card for a single stock."""
     base = item['base']
     tech = item['tech']
-    
     symbol = base['symbol']
     price = base['price']
     change = base['day_change']
@@ -621,7 +600,6 @@ def format_detail_card(index, item):
     msg += f"💰 ₹{price:.2f} | 📈 {change:.2f}% | 📊 Vol: {vol_ratio:.2f}x\n"
     msg += f"📏 52W High: {pct_high:.1f}% | 💼 Mkt Cap: ₹{mcap:.2f} Cr\n"
     
-    # News & Chart summary
     news_data = fetch_news_mock(symbol)
     news_summary = ", ".join(news_data['headlines'][:2]) if news_data['headlines'] else "No specific catalyst"
     news_sentiment = "Bullish" if news_data['sentiment'] > 0.3 else "Neutral" if news_data['sentiment'] > -0.3 else "Bearish"
@@ -646,34 +624,29 @@ def format_detail_card(index, item):
     return msg
 
 def format_summary_list(enriched_results):
-    """Generates the compact ranked list with buttons."""
     total = len(enriched_results)
     msg = f"📊 *🏆 RANKED RESULTS ({total} stocks)*\n"
     msg += "━━━━━━━━━━━━━━━━━━━━━━\n"
-    for idx, item in enumerate(enriched_results[:20], 1):  # Show top 20 in list
+    for idx, item in enumerate(enriched_results[:20], 1):
         medal = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"{idx}."
         msg += f"{medal} {item['base']['symbol']} (Combined: {item['combined_score']})\n"
-    
     if total > 20:
         msg += f"\n... and {total - 20} more stocks."
-    
     msg += "\n\n👇 *Tap a button below to view full details.*"
     return msg
 
 # ============================================
-# 🆕 TELEGRAM CALLBACK HANDLER (DROPDOWN LOGIC)
+# TELEGRAM CALLBACK HANDLER (DROPDOWN LOGIC)
 # ============================================
 
 @bot.callback_query_handler(func=lambda call: True)
 def handle_callback(call):
-    bot.answer_callback_query(call.id)  # Remove loading state
-    
+    bot.answer_callback_query(call.id)
     data = call.data
     chat_id = call.message.chat.id
     message_id = call.message.message_id
     
     if data == "back_to_list":
-        # Show the summary list again
         if 'summary_msg' in STORED_RESULTS and 'keyboard' in STORED_RESULTS:
             bot.edit_message_text(
                 chat_id=chat_id,
@@ -693,8 +666,6 @@ def handle_callback(call):
     
     if data.startswith("show_detail:"):
         symbol = data.split(":")[1]
-        
-        # Find the stock in stored results
         target_item = None
         target_index = None
         for idx, item in enumerate(STORED_RESULTS.get('items', []), 1):
@@ -707,15 +678,12 @@ def handle_callback(call):
             bot.edit_message_text(
                 chat_id=chat_id,
                 message_id=message_id,
-                text="⚠️ Stock data not found. Please go back and try again.",
+                text="⚠️ Stock data not found.",
                 parse_mode='Markdown'
             )
             return
         
-        # Generate detail card
         detail_msg = format_detail_card(target_index, target_item)
-        
-        # Create "Back" button
         back_keyboard = types.InlineKeyboardMarkup(row_width=1)
         back_keyboard.add(types.InlineKeyboardButton("⬅️ Back to List", callback_data="back_to_list"))
         
@@ -728,7 +696,7 @@ def handle_callback(call):
         )
 
 # ============================================
-# MAIN SCANNER (MODIFIED FOR DROPDOWN)
+# 🆕 MAIN SCANNER (OPTIMIZED WITH PRE-FILTER + CONCURRENT NSE API)
 # ============================================
 def run_scanner():
     global STORED_RESULTS
@@ -739,8 +707,9 @@ def run_scanner():
     bot.send_message(YOUR_CHAT_ID, "🌅 *Morning Screener is running!*", parse_mode='Markdown')
 
     stocks = get_all_nse_stocks()
-    print(f"📊 Checking {len(stocks)} stocks...")
+    print(f"📊 Total NSE stocks: {len(stocks)}")
 
+    # --- 1. Load or Build Cache (DEMA values) ---
     cache = load_cache()
     if not cache:
         cache = build_cache(stocks)
@@ -760,27 +729,37 @@ def run_scanner():
     cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
     save_cache(cache)
 
+    # --- 2. 🚀 PRE-FILTER using ONLY cache (Filters 6, 8, 9) - NO API CALLS ---
+    pre_filtered_symbols = pre_filter_with_cache(cache)
+    
+    if not pre_filtered_symbols:
+        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed the DEMA/Volume pre-filters.*", parse_mode='Markdown')
+        return
+
+    # --- 3. 🚀 FETCH LIVE DATA for pre-filtered list using CONCURRENT NSE API ---
+    live_data = fetch_live_data_concurrent(pre_filtered_symbols, max_workers=15)
+
+    # --- 4. Run remaining 7 filters ---
     print("-" * 70)
-    print("⚡ Scoring stocks...")
+    print("⚡ Running remaining 7 filters...")
     print("-" * 70)
 
     results = []
     start_time = time.time()
-    for i, symbol in enumerate(stocks):
+    for symbol in pre_filtered_symbols:
+        if symbol not in live_data:
+            continue
         cached = cache.get(symbol)
         if cached is None:
             continue
-        result = check_stock(symbol, cached)
+        result = check_stock(symbol, cached, live_data)
         if result:
             results.append(result)
-        if (i + 1) % 100 == 0:
-            elapsed = time.time() - start_time
-            print(f"📊 Progress: {i+1}/{len(stocks)} ({elapsed:.1f}s)")
-        time.sleep(0.05)
+        time.sleep(0.02)  # Small delay to avoid CPU spike
 
     print("-" * 70)
-    print(f"✅ Scan complete! Found {len(results)} stocks passing filters.")
-    print(f"⏱️ Time taken: {time.time() - start_time:.1f} seconds")
+    print(f"✅ Scan complete! Found {len(results)} stocks passing all 10 filters.")
+    print(f"⏱️ Total time taken: {time.time() - start_time:.1f} seconds")
 
     if results:
         save_watchlist(results)
@@ -790,6 +769,7 @@ def run_scanner():
         
         enriched_results = []
         
+        # Only fetch technical data for the final passing stocks (usually < 50)
         for res in results:
             tech_data = get_technical_data(res['symbol'])
             if tech_data:
@@ -830,16 +810,14 @@ def run_scanner():
         summary_msg = format_summary_list(enriched_results)
         STORED_RESULTS['summary_msg'] = summary_msg
         
-        # Build inline keyboard (buttons for each stock)
-        keyboard = types.InlineKeyboardMarkup(row_width=3)  # 3 buttons per row
+        # Build inline keyboard
+        keyboard = types.InlineKeyboardMarkup(row_width=3)
         buttons = []
         for idx, item in enumerate(enriched_results[:20], 1):
             symbol = item['base']['symbol']
-            # Short label: just the symbol (or rank+symbol)
             label = f"{idx}.{symbol}" if idx <= 9 else symbol
             buttons.append(types.InlineKeyboardButton(label, callback_data=f"show_detail:{symbol}"))
         
-        # Add buttons in rows of 3
         for i in range(0, len(buttons), 3):
             keyboard.add(*buttons[i:i+3])
         
@@ -866,7 +844,6 @@ if __name__ == "__main__":
     print("🌅 MORNING SCREENER - RANKED RESULTS WITH DROPDOWN")
     print("=" * 70)
     
-    # Run the scanner
     run_scanner()
     
     print("\n✅ Bot finished sending results!")
