@@ -10,8 +10,6 @@ import telebot
 from telebot import types
 from datasets import load_dataset
 from concurrent.futures import ThreadPoolExecutor, as_completed
-import schedule
-import threading
 
 # ============================================
 # USE 'ta' LIBRARY - CORRECT IMPORTS
@@ -23,16 +21,23 @@ from ta.volatility import AverageTrueRange
 from ta.volume import OnBalanceVolumeIndicator
 
 # ============================================
-# BOT DETAILS
+# BOT DETAILS (PULL FROM ENVIRONMENT VARIABLES)
 # ============================================
-BOT_TOKEN = os.environ.get('BOT_TOKEN', "8752957835:AAGGIz2F17tIviD_lDRmEcVSRIvBScew_bY")
-YOUR_CHAT_ID = os.environ.get('CHAT_ID', "5261154533")
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
+YOUR_CHAT_ID = os.environ.get('CHAT_ID')
 # ============================================
+
+if not BOT_TOKEN or not YOUR_CHAT_ID:
+    print("❌ BOT_TOKEN or CHAT_ID not set in environment variables.")
+    exit(1)
 
 bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "screener_cache.pkl"
 WATCHLIST_FILE = "morning_watchlist.pkl"
 
+# ============================================
+# GLOBAL STORAGE FOR DROPDOWN DATA
+# ============================================
 STORED_RESULTS = {}
 
 print("=" * 70)
@@ -47,7 +52,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# NSE API HELPERS (FULLY RESTORED)
+# NSE API HELPERS
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -104,7 +109,6 @@ def fetch_nse_historical(symbol, days=365):
         return None
 
 def get_data(symbol):
-    """Primary: NSE API; fallback: yfinance."""
     live = fetch_nse_live(symbol)
     if live:
         hist = fetch_nse_historical(symbol)
@@ -214,7 +218,7 @@ def build_cache(stocks):
     return cache
 
 # ============================================
-# PRE-FILTER USING CACHE (NO API CALLS)
+# PRE-FILTER USING CACHE
 # ============================================
 def pre_filter_with_cache(cache):
     shortlisted = []
@@ -306,7 +310,6 @@ def check_stock(symbol, cached, live_data):
 # ============================================
 
 def fetch_news_mock(symbol):
-    # Extend mock database to include some of your stocks
     mock_db = {
         'CGCL': {
             'headlines': ['Q3 Earnings Beat Estimates', 'Analyst Upgrade to Buy', 'Strong Order Book'],
@@ -406,7 +409,7 @@ def compute_chart_score(df):
     return round(max(0, min(100, total_chart_score)), 2)
 
 # ============================================
-# TECHNICAL ANALYSIS FOR FINAL SHORTLIST (FIXED)
+# TECHNICAL ANALYSIS FOR FINAL SHORTLIST
 # ============================================
 
 def detect_patterns(df):
@@ -448,9 +451,7 @@ def detect_patterns(df):
     return patterns
 
 def get_technical_data(symbol):
-    """Fetches RSI, MACD, ATR, Patterns, OBV using NSE historical data first."""
     try:
-        # Use the same get_data to get historical data (NSE API reliable)
         full_data = get_data(symbol)
         if full_data is None:
             return None
@@ -758,7 +759,6 @@ def run_scanner():
         # Compute final scores
         for item in enriched_results:
             tech_raw = item['score']
-            # Normalize tech_raw (max possible is 18) to 0-100
             tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
             news_score = compute_news_score(item['base']['symbol']) if item['tech'] else 0
             chart_score = item['tech'].get('chart_score', 50) if item['tech'] else 50
@@ -802,35 +802,14 @@ def run_scanner():
     print("✅ Done!")
 
 # ============================================
-# SCHEDULER
-# ============================================
-def run_scheduler():
-    schedule.every().day.at("20:30").do(run_scanner)
-    print("🕒 Scheduler started. Will run daily at 8:30 PM.")
-    print("📌 Current time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-
-# ============================================
 # MAIN EXECUTION
 # ============================================
 if __name__ == "__main__":
     print("=" * 70)
-    print("🌅 MORNING SCREENER - SCHEDULED RUNNER (FIXED)")
+    print("🌅 MORNING SCREENER - GITHUB ACTIONS OPTIMIZED")
     print("=" * 70)
 
-    # Run immediately on start
+    # Run the scanner once and exit
     run_scanner()
 
-    # Start daily scheduler in background
-    scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
-    scheduler_thread.start()
-
-    print("\n⏳ Bot is now running and waiting for scheduled scans...")
-    print("🕒 Next scheduled run: Daily at 8:30 PM")
-    print("💡 You can still click the dropdown buttons anytime.")
-    print("⏹️ Press Ctrl+C to stop the bot.\n")
-
-    # Keep bot alive for button clicks
-    bot.infinity_polling()
+    print("\n✅ Bot finished sending results! Exiting cleanly.")
