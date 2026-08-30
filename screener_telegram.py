@@ -174,6 +174,17 @@ def save_cache(cache):
         print(f"⚠️ Error saving cache: {e}")
 
 # ============================================
+# SAVE WATCHLIST (MISSING FUNCTION)
+# ============================================
+def save_watchlist(watchlist):
+    try:
+        with open(WATCHLIST_FILE, 'wb') as f:
+            pickle.dump(watchlist, f)
+        print(f"✅ Watchlist saved to {WATCHLIST_FILE}")
+    except Exception as e:
+        print(f"⚠️ Error saving watchlist: {e}")
+
+# ============================================
 # CHARTINK-STYLE DEMA
 # ============================================
 def chartink_dema(data, period):
