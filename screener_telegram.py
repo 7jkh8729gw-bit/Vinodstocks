@@ -25,8 +25,8 @@ from ta.volume import OnBalanceVolumeIndicator
 # ============================================
 # CONFIGURATION
 # ============================================
-USE_NSE_FALLBACK = True   # Set to False to only use yfinance (faster but may miss stocks)
-CACHE_REBUILD_DAYS = 1    # Rebuild cache daily
+USE_NSE_FALLBACK = True          # For cache building only
+CACHE_REBUILD_DAYS = 1           # Rebuild cache daily
 
 # ============================================
 # BOT DETAILS (PULL FROM ENVIRONMENT VARIABLES)
@@ -57,7 +57,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# NSE API HELPERS (FOR LIVE DATA & FALLBACK)
+# NSE API HELPERS (KEPT FOR CACHE BUILDING ONLY)
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -85,11 +85,13 @@ def fetch_nse_live(symbol):
                 'high_52w': price_info.get('weekHigh52', 0),
                 'market_cap': data.get('marketCap', 0) / 10000000,
             }
-    except:
-        return None
+        else:
+            print(f"⚠️ NSE API returned status {resp.status_code} for {symbol}")
+    except Exception as e:
+        print(f"❌ Error fetching live data for {symbol}: {e}")
+    return None
 
 def fetch_nse_historical(symbol, days=365):
-    """Used as fallback when yfinance fails."""
     end = datetime.now()
     start = end - timedelta(days=days)
     from_date = start.strftime('%d-%m-%Y')
@@ -117,11 +119,7 @@ def fetch_nse_historical(symbol, days=365):
                 return df[['DATE', 'Open', 'High', 'Low', 'Close', 'Volume']]
     except Exception as e:
         print(f"NSE historical error for {symbol}: {e}")
-        return None
-
-def get_live_data_only(symbol):
-    """Fetches ONLY live data via NSE API (no historical)."""
-    return fetch_nse_live(symbol)
+    return None
 
 # ============================================
 # GET ALL NSE STOCKS
@@ -185,9 +183,6 @@ def chartink_dema(data, period):
 # HYBRID CACHE BUILDER (YFINANCE + NSE FALLBACK)
 # ============================================
 def build_cache(stocks):
-    """
-    Builds cache using yfinance first, then NSE API for failures.
-    """
     print("🏗️ Building cache (yfinance primary, NSE fallback)...")
     cache = {}
     total = len(stocks)
@@ -210,7 +205,6 @@ def build_cache(stocks):
                 continue
         # ---- If yfinance failed and fallback is enabled ----
         if hist is None and USE_NSE_FALLBACK:
-            # Try NSE API
             nse_hist = fetch_nse_historical(symbol)
             if nse_hist is not None and len(nse_hist) >= 200:
                 hist = nse_hist
@@ -219,7 +213,6 @@ def build_cache(stocks):
         if hist is None or len(hist) < 200:
             continue
         
-        # Compute DEMA values
         try:
             d10 = chartink_dema(hist['Close'], 10)
             d50 = chartink_dema(hist['Close'], 50)
@@ -235,14 +228,13 @@ def build_cache(stocks):
                 }
                 built += 1
         except Exception as e:
-            # Silently skip
             pass
             
         if (i + 1) % 100 == 0:
             elapsed = time.time() - start_time
             print(f"📊 Cache progress: {i+1}/{total} (built: {built}, fallback: {fallback_used}) | {elapsed:.1f}s")
         
-        time.sleep(0.05)  # Small delay to avoid rate limits
+        time.sleep(0.05)
     
     elapsed = time.time() - start_time
     print(f"✅ Cache built for {built} stocks in {elapsed:.1f}s (fallback used for {fallback_used} stocks)")
@@ -253,9 +245,11 @@ def build_cache(stocks):
 # ============================================
 def pre_filter_with_cache(cache):
     shortlisted = []
+    total_stocks = 0
     for symbol, data in cache.items():
         if symbol == '_last_update':
             continue
+        total_stocks += 1
         if data.get('avg_volume', 0) <= 500000:
             continue
         if data.get('dema_50', 0) <= data.get('dema_200', 0):
@@ -263,38 +257,65 @@ def pre_filter_with_cache(cache):
         if data.get('dema_10', 0) <= data.get('dema_50', 0):
             continue
         shortlisted.append(symbol)
-    print(f"📊 Pre-filtered {len(shortlisted)} stocks (from {len(cache)}) using cache only.")
+    print(f"📊 Pre-filtered {len(shortlisted)} stocks (from {total_stocks} total in cache).")
     return shortlisted
 
 # ============================================
-# CONCURRENT LIVE DATA FETCHING (NSE API)
+# 🚀 PRIMARY LIVE DATA FETCHER (YFINANCE + NSE FALLBACK)
 # ============================================
+def fetch_live_data(symbol):
+    """Try yfinance first, fallback to NSE API."""
+    # Try yfinance
+    try:
+        for suffix in ['.NS', '.BO']:
+            ticker = yf.Ticker(f"{symbol}{suffix}")
+            info = ticker.info
+            if info:
+                price = info.get('regularMarketPrice', info.get('currentPrice', 0))
+                prev_close = info.get('regularMarketPreviousClose', 0)
+                volume = info.get('regularMarketVolume', 0)
+                high_52w = info.get('fiftyTwoWeekHigh', 0)
+                market_cap = info.get('marketCap', 0) / 10000000
+                if price > 0:
+                    return {
+                        'price': price,
+                        'prev_close': prev_close if prev_close > 0 else price,
+                        'volume': volume,
+                        'high_52w': high_52w,
+                        'market_cap': market_cap
+                    }
+    except Exception as e:
+        print(f"⚠️ yfinance failed for {symbol}: {e}")
+    # Fallback to NSE API
+    nse_data = fetch_nse_live(symbol)
+    return nse_data
+
 def fetch_live_data_concurrent(symbols, max_workers=15):
     results = {}
     total = len(symbols)
     print(f"📊 Fetching live data for {total} stocks using {max_workers} threads...")
     start_time = time.time()
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_symbol = {executor.submit(get_live_data_only, symbol): symbol for symbol in symbols}
+        future_to_symbol = {executor.submit(fetch_live_data, symbol): symbol for symbol in symbols}
         completed = 0
         for future in as_completed(future_to_symbol):
             symbol = future_to_symbol[future]
             try:
-                data = future.result(timeout=10)
-                if data:
+                data = future.result(timeout=15)
+                if data and data.get('price', 0) > 0:
                     results[symbol] = data
                 completed += 1
                 if completed % 20 == 0:
                     print(f"  📊 Fetched {completed}/{total}...")
             except Exception as e:
-                pass
+                print(f"⚠️ Error fetching {symbol}: {e}")
             time.sleep(0.05)
     elapsed = time.time() - start_time
     print(f"✅ Live data fetch complete: {len(results)} stocks in {elapsed:.1f}s")
     return results
 
 # ============================================
-# CHECK STOCK - APPLIES REMAINING 7 FILTERS
+# CHECK STOCK - APPLIES REMAINING 7 FILTERS (with debug counts)
 # ============================================
 def check_stock(symbol, cached, live_data):
     if symbol not in live_data:
@@ -492,7 +513,7 @@ def get_technical_data(symbol):
                     break
             except:
                 continue
-        # Fallback to NSE historical if yfinance fails for technicals too (optional)
+        # Fallback to NSE historical if yfinance fails
         if df is None or df.empty or len(df) < 20:
             nse_df = fetch_nse_historical(symbol, days=180)
             if nse_df is not None and len(nse_df) >= 20:
@@ -597,7 +618,7 @@ def calculate_bullish_score(base_result, tech_data):
     return score
 
 # ============================================
-# FORMAT FUNCTIONS (unchanged)
+# FORMAT FUNCTIONS
 # ============================================
 
 def format_detail_card(index, item):
@@ -712,7 +733,7 @@ def handle_callback(call):
         )
 
 # ============================================
-# MAIN SCANNER (DAILY REBUILD WITH HYBRID)
+# MAIN SCANNER (with detailed logging)
 # ============================================
 def run_scanner():
     global STORED_RESULTS
@@ -725,10 +746,7 @@ def run_scanner():
     stocks = get_all_nse_stocks()
     print(f"📊 Total NSE stocks: {len(stocks)}")
 
-    # Load cache
     cache = load_cache()
-    
-    # Rebuild if cache is missing OR older than CACHE_REBUILD_DAYS
     rebuild_needed = False
     if not cache:
         rebuild_needed = True
@@ -756,18 +774,17 @@ def run_scanner():
         cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
         save_cache(cache)
     else:
-        # Still update the date to show it was checked today
         cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
         save_cache(cache)
 
-    # Pre-filter using cache
     pre_filtered_symbols = pre_filter_with_cache(cache)
     if not pre_filtered_symbols:
         bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed the DEMA/Volume pre-filters.*", parse_mode='Markdown')
         return
 
-    # Fetch live data for pre-filtered stocks
+    # Fetch live data (yfinance primary + NSE fallback)
     live_data = fetch_live_data_concurrent(pre_filtered_symbols, max_workers=15)
+    print(f"📊 Live data fetched for {len(live_data)} stocks.")
 
     print("-" * 70)
     print("⚡ Running remaining 7 filters...")
@@ -775,16 +792,78 @@ def run_scanner():
 
     results = []
     start_time = time.time()
+    filter_counts = {
+        'market_cap': 0,
+        'price': 0,
+        'day_change': 0,
+        'day_change_upper': 0,
+        'volume': 0,
+        'pct_from_high': 0,
+        'volume_ratio': 0,
+        'all': 0
+    }
+
     for symbol in pre_filtered_symbols:
         if symbol not in live_data:
             continue
         cached = cache.get(symbol)
         if cached is None:
             continue
-        result = check_stock(symbol, cached, live_data)
-        if result:
-            results.append(result)
+        live = live_data[symbol]
+        price = live['price']
+        prev_close = live['prev_close']
+        volume = live['volume']
+        high_52w = live['high_52w']
+        market_cap = live['market_cap']
+        avg_volume = cached.get('avg_volume', 0)
+
+        if prev_close > 0 and price > 0:
+            day_change = ((price - prev_close) / prev_close) * 100
+        else:
+            day_change = 0
+
+        volume_ratio = volume / avg_volume if avg_volume > 0 else 0
+        pct_from_high = ((high_52w - price) / high_52w) * 100 if high_52w > 0 else 100
+
+        cond1 = market_cap >= 1000
+        cond2 = price >= 100
+        cond3 = day_change >= 0
+        cond4 = day_change < 15
+        cond5 = volume >= 200000
+        cond7 = pct_from_high <= 10
+        cond10 = volume_ratio >= 1.5
+
+        if cond1: filter_counts['market_cap'] += 1
+        if cond2: filter_counts['price'] += 1
+        if cond3: filter_counts['day_change'] += 1
+        if cond4: filter_counts['day_change_upper'] += 1
+        if cond5: filter_counts['volume'] += 1
+        if cond7: filter_counts['pct_from_high'] += 1
+        if cond10: filter_counts['volume_ratio'] += 1
+
+        if cond1 and cond2 and cond3 and cond4 and cond5 and cond7 and cond10:
+            results.append({
+                'symbol': symbol,
+                'price': price,
+                'day_change': day_change,
+                'volume_ratio': volume_ratio,
+                'market_cap': market_cap,
+                'pct_from_high': pct_from_high,
+                'avg_volume': avg_volume,
+                'volume': volume
+            })
+            filter_counts['all'] += 1
         time.sleep(0.02)
+
+    print(f"📊 Filter counts (out of {len(pre_filtered_symbols)}):")
+    print(f"   Market Cap >= 1000 Cr: {filter_counts['market_cap']}")
+    print(f"   Price >= 100: {filter_counts['price']}")
+    print(f"   Day Change >= 0: {filter_counts['day_change']}")
+    print(f"   Day Change < 15: {filter_counts['day_change_upper']}")
+    print(f"   Volume >= 200k: {filter_counts['volume']}")
+    print(f"   % from 52W High <= 10: {filter_counts['pct_from_high']}")
+    print(f"   Volume Ratio >= 1.5: {filter_counts['volume_ratio']}")
+    print(f"   ✅ Passed ALL: {filter_counts['all']}")
 
     print("-" * 70)
     print(f"✅ Scan complete! Found {len(results)} stocks passing all 10 filters.")
@@ -815,7 +894,6 @@ def run_scanner():
                 })
             time.sleep(0.1)
 
-        # Compute final scores
         for item in enriched_results:
             tech_raw = item['score']
             tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
@@ -828,7 +906,6 @@ def run_scanner():
             item['chart_score'] = chart_score
             item['combined_score'] = round(combined, 2)
 
-        # Sort by combined score descending
         enriched_results.sort(key=lambda x: x['combined_score'], reverse=True)
 
         STORED_RESULTS['items'] = enriched_results
