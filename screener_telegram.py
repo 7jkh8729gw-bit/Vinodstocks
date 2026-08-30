@@ -9,7 +9,9 @@ from datetime import datetime, timedelta
 import telebot
 from telebot import types
 from datasets import load_dataset
-from concurrent.futures import ThreadPoolExecutor, as_completed  # <-- For speed
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import schedule
+import threading
 
 # ============================================
 # USE 'ta' LIBRARY - CORRECT IMPORTS
@@ -31,9 +33,6 @@ bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "screener_cache.pkl"
 WATCHLIST_FILE = "morning_watchlist.pkl"
 
-# ============================================
-# GLOBAL STORAGE FOR DROPDOWN DATA
-# ============================================
 STORED_RESULTS = {}
 
 print("=" * 70)
@@ -48,7 +47,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# 🔄 ORIGINAL NSE API HELPERS (RE-ADDED FOR RELIABILITY)
+# NSE API HELPERS (FULLY RESTORED)
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -95,20 +94,23 @@ def fetch_nse_historical(symbol, days=365):
                 df['DATE'] = pd.to_datetime(df['DATE'], format='%d-%m-%Y')
                 df = df.sort_values('DATE')
                 df['Close'] = df['CH_CLOSING'].astype(float)
+                df['High'] = df['CH_TRADE_HIGH_PRICE'].astype(float)
+                df['Low'] = df['CH_TRADE_LOW_PRICE'].astype(float)
+                df['Open'] = df['CH_OPENING_PRICE'].astype(float)
                 df['Volume'] = df['CH_VOLUME'].astype(float)
-                return df[['DATE', 'Close', 'Volume']]
-    except:
+                return df[['DATE', 'Open', 'High', 'Low', 'Close', 'Volume']]
+    except Exception as e:
+        print(f"NSE historical error for {symbol}: {e}")
         return None
 
 def get_data(symbol):
-    # Primary: NSE API (reliable for Indian stocks)
+    """Primary: NSE API; fallback: yfinance."""
     live = fetch_nse_live(symbol)
     if live:
         hist = fetch_nse_historical(symbol)
         if hist is not None and len(hist) >= 200:
             return {'live': live, 'hist': hist}
-    
-    # Fallback: yfinance (if NSE API fails)
+    # Fallback to yfinance
     for suffix in ['.NS', '.BO']:
         try:
             ticker = yf.Ticker(f"{symbol}{suffix}")
@@ -128,7 +130,7 @@ def get_data(symbol):
     return None
 
 # ============================================
-# GET ALL NSE STOCKS (YOUR ORIGINAL CODE)
+# GET ALL NSE STOCKS
 # ============================================
 def get_all_nse_stocks():
     print("📊 Fetching NSE stock list...")
@@ -143,7 +145,7 @@ def get_all_nse_stocks():
         return ['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'ICICIBANK']
 
 # ============================================
-# CACHE FUNCTIONS (YOUR ORIGINAL CODE)
+# CACHE FUNCTIONS
 # ============================================
 def load_cache():
     try:
@@ -168,7 +170,7 @@ def save_cache(cache):
         print(f"⚠️ Error saving cache: {e}")
 
 # ============================================
-# CHARTINK-STYLE DEMA (YOUR ORIGINAL CODE)
+# CHARTINK-STYLE DEMA
 # ============================================
 def chartink_dema(data, period):
     if len(data) < period:
@@ -177,9 +179,6 @@ def chartink_dema(data, period):
     ema2 = ema.ewm(span=period, adjust=False).mean()
     return 2 * ema - ema2
 
-# ============================================
-# BUILD CACHE (YOUR ORIGINAL CODE - KEPT SAME)
-# ============================================
 def build_cache(stocks):
     print("🏗️ Building initial cache (this may take time)...")
     cache = {}
@@ -215,24 +214,17 @@ def build_cache(stocks):
     return cache
 
 # ============================================
-# 🚀 SPEED OPTIMIZATION: PRE-FILTER USING CACHE (NO API CALLS)
+# PRE-FILTER USING CACHE (NO API CALLS)
 # ============================================
 def pre_filter_with_cache(cache):
-    """
-    Checks Filters 6, 8, 9 using ONLY cached DEMA values.
-    This drops ~70% of stocks before making any live API calls.
-    """
     shortlisted = []
     for symbol, data in cache.items():
         if symbol == '_last_update':
             continue
-        # Filter 6: Avg Volume > 500,000
         if data.get('avg_volume', 0) <= 500000:
             continue
-        # Filter 8: DEMA 50 > DEMA 200
         if data.get('dema_50', 0) <= data.get('dema_200', 0):
             continue
-        # Filter 9: DEMA 10 > DEMA 50
         if data.get('dema_10', 0) <= data.get('dema_50', 0):
             continue
         shortlisted.append(symbol)
@@ -240,21 +232,15 @@ def pre_filter_with_cache(cache):
     return shortlisted
 
 # ============================================
-# 🚀 SPEED OPTIMIZATION: CONCURRENT NSE API FETCHING
+# CONCURRENT NSE API FETCHING
 # ============================================
-def fetch_live_data_concurrent(symbols, max_workers=20):
-    """
-    Fetches live data for a list of symbols using ThreadPoolExecutor.
-    Reduces NSE API call time significantly.
-    """
+def fetch_live_data_concurrent(symbols, max_workers=15):
     results = {}
     total = len(symbols)
     print(f"📊 Fetching live data for {total} stocks using {max_workers} threads...")
-    
     start_time = time.time()
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_symbol = {executor.submit(get_data, symbol): symbol for symbol in symbols}
-        
         completed = 0
         for future in as_completed(future_to_symbol):
             symbol = future_to_symbol[future]
@@ -266,24 +252,11 @@ def fetch_live_data_concurrent(symbols, max_workers=20):
                 if completed % 20 == 0:
                     print(f"  📊 Fetched {completed}/{total}...")
             except Exception as e:
-                # If NSE fails, try yfinance fallback inside get_data already handles it
                 pass
-            time.sleep(0.05)  # Small delay to avoid NSE rate limits
-    
+            time.sleep(0.05)
     elapsed = time.time() - start_time
     print(f"✅ Live data fetch complete: {len(results)} stocks in {elapsed:.1f}s")
     return results
-
-# ============================================
-# SAVE WATCHLIST (YOUR ORIGINAL CODE)
-# ============================================
-def save_watchlist(watchlist):
-    try:
-        with open(WATCHLIST_FILE, 'wb') as f:
-            pickle.dump(watchlist, f)
-        print(f"✅ Watchlist saved to {WATCHLIST_FILE}")
-    except Exception as e:
-        print(f"⚠️ Error saving watchlist: {e}")
 
 # ============================================
 # CHECK STOCK - APPLIES REMAINING 7 FILTERS
@@ -291,7 +264,6 @@ def save_watchlist(watchlist):
 def check_stock(symbol, cached, live_data):
     if symbol not in live_data:
         return None
-    
     live = live_data[symbol]
     price = live['price']
     prev_close = live['prev_close']
@@ -308,7 +280,6 @@ def check_stock(symbol, cached, live_data):
     volume_ratio = volume / avg_volume if avg_volume > 0 else 0
     pct_from_high = ((high_52w - price) / high_52w) * 100 if high_52w > 0 else 100
 
-    # Remaining 7 filters
     cond1 = market_cap >= 1000
     cond2 = price >= 100
     cond3 = day_change >= 0
@@ -331,25 +302,31 @@ def check_stock(symbol, cached, live_data):
     return None
 
 # ============================================
-# 🆕 NEWS AND CHART SCORE FUNCTIONS (KEPT FROM BEFORE)
+# NEWS AND CHART SCORE FUNCTIONS
 # ============================================
 
 def fetch_news_mock(symbol):
+    # Extend mock database to include some of your stocks
     mock_db = {
         'CGCL': {
             'headlines': ['Q3 Earnings Beat Estimates', 'Analyst Upgrade to Buy', 'Strong Order Book'],
             'sentiment': 0.85,
             'count': 3
         },
-        'GENUSPOWER': {
-            'headlines': ['General Market Update'],
-            'sentiment': 0.1,
-            'count': 1
+        'ATHERENERG': {
+            'headlines': ['EV Sales Surge', 'New Model Launch'],
+            'sentiment': 0.7,
+            'count': 2
         },
         'FMGOETZE': {
             'headlines': ['M&A Rumors', 'Contract Win with Govt', 'Earnings Surprise'],
             'sentiment': 0.95,
             'count': 3
+        },
+        'GENUSPOWER': {
+            'headlines': ['General Market Update'],
+            'sentiment': 0.1,
+            'count': 1
         },
     }
     return mock_db.get(symbol, {'headlines': [], 'sentiment': 0, 'count': 0})
@@ -359,32 +336,28 @@ def compute_news_score(symbol):
     count = data['count']
     sentiment = data['sentiment']
     headlines = data['headlines']
-    
     if count == 0:
         return 0
-    
     count_score = min(count, 10) * 5
     sentiment_score = sentiment * 40
-    catalyst_keywords = ['Earnings', 'Beat', 'Upgrade', 'M&A', 'Contract', 'FDA', 'Approval', 'Surprise']
+    catalyst_keywords = ['Earnings', 'Beat', 'Upgrade', 'M&A', 'Contract', 'FDA', 'Approval', 'Surprise', 'Launch']
     bonus = 0
     for head in headlines:
         if any(kw in head for kw in catalyst_keywords):
             bonus += 10
     bonus = min(bonus, 30)
-    
     raw = count_score + sentiment_score + bonus
     return round(max(0, min(100, raw)), 2)
 
 def compute_chart_score(df):
     if df is None or len(df) < 20:
         return 50
-    
     close = df['Close'].values
     high = df['High'].values
     low = df['Low'].values
     volume = df['Volume'].values
     open_prices = df['Open'].values
-    
+
     # Trend Score (30%)
     if len(close) >= 20:
         sma20 = pd.Series(close).rolling(20).mean()
@@ -395,7 +368,7 @@ def compute_chart_score(df):
             trend_score = 15
     else:
         trend_score = 15
-    
+
     # Pattern Score (40%)
     pattern_score = 0
     if len(close) >= 20:
@@ -412,7 +385,7 @@ def compute_chart_score(df):
             if lower_wick > 2 * body and upper_wick < 0.1 * body:
                 pattern_score += 10
     pattern_score = min(40, pattern_score)
-    
+
     # Volume & Momentum Score (30%)
     vol_score = 0
     avg_vol = pd.Series(volume).rolling(20).mean()
@@ -420,7 +393,7 @@ def compute_chart_score(df):
         vol_score = 15
     else:
         vol_score = 5
-    
+
     rsi = RSIIndicator(pd.Series(close), window=14).rsi()
     if len(rsi) > 0:
         if rsi.iloc[-1] > 60:
@@ -428,12 +401,12 @@ def compute_chart_score(df):
         elif rsi.iloc[-1] > 50:
             vol_score += 7
     vol_score = min(30, vol_score)
-    
+
     total_chart_score = trend_score + pattern_score + vol_score
     return round(max(0, min(100, total_chart_score)), 2)
 
 # ============================================
-# TECHNICAL ANALYSIS (YOUR ORIGINAL - KEPT FOR FINAL SHORTLIST)
+# TECHNICAL ANALYSIS FOR FINAL SHORTLIST (FIXED)
 # ============================================
 
 def detect_patterns(df):
@@ -446,7 +419,7 @@ def detect_patterns(df):
         l = df['Low'].iloc[-5:].values
         c = df['Close'].iloc[-5:].values
         i = -1
-        
+
         if len(o) >= 2:
             if c[i] > o[i-1] and c[i-1] < o[i]:
                 patterns.append("Bullish Engulfing")
@@ -475,30 +448,31 @@ def detect_patterns(df):
     return patterns
 
 def get_technical_data(symbol):
-    """Fetches RSI, MACD, ATR, Patterns, OBV for the shortlisted stocks."""
+    """Fetches RSI, MACD, ATR, Patterns, OBV using NSE historical data first."""
     try:
-        ticker = yf.Ticker(symbol + ".NS")
-        df = ticker.history(period="3mo", interval="1d")
-        if df.empty or len(df) < 20:
-            ticker = yf.Ticker(symbol + ".BO")
-            df = ticker.history(period="3mo", interval="1d")
-        if df.empty or len(df) < 20:
+        # Use the same get_data to get historical data (NSE API reliable)
+        full_data = get_data(symbol)
+        if full_data is None:
             return None
-        
+        df = full_data['hist']
+        if df is None or len(df) < 20:
+            return None
+
         current_price = df['Close'].iloc[-1]
         rsi_indicator = RSIIndicator(df['Close'], window=14)
         rsi = rsi_indicator.rsi().iloc[-1]
         macd_indicator = MACD(df['Close'], window_slow=26, window_fast=12, window_sign=9)
         macd_line = macd_indicator.macd().iloc[-1]
         signal_line = macd_indicator.macd_signal().iloc[-1]
+        histogram = macd_indicator.macd_diff().iloc[-1]
         atr_indicator = AverageTrueRange(df['High'], df['Low'], df['Close'], window=14)
         atr = atr_indicator.average_true_range().iloc[-1]
-        
+
         buy_price = round(current_price, 2)
         stop_loss = round(current_price - (1.5 * atr), 2)
         target_1 = round(current_price + (2 * atr), 2)
         target_2 = round(current_price + (3.5 * atr), 2)
-        
+
         macd_trend = "🟢 Bullish" if macd_line > signal_line else "🔴 Bearish"
         if rsi > 70:
             rsi_status = "Overbought"
@@ -506,9 +480,9 @@ def get_technical_data(symbol):
             rsi_status = "Oversold"
         else:
             rsi_status = "Neutral"
-        
+
         patterns = detect_patterns(df)
-        
+
         obv_indicator = OnBalanceVolumeIndicator(df['Close'], df['Volume'])
         obv = obv_indicator.on_balance_volume()
         obv_rising = False
@@ -521,9 +495,9 @@ def get_technical_data(symbol):
                 obv_trend = "📉 Distribution"
             else:
                 obv_trend = "➡️ Neutral"
-        
+
         chart_score = compute_chart_score(df)
-        
+
         return {
             'rsi': round(rsi, 2),
             'rsi_status': rsi_status,
@@ -556,14 +530,14 @@ def calculate_bullish_score(base_result, tech_data):
         score += 2
     elif base_result['day_change'] >= 1:
         score += 1
-    
+
     if base_result['volume_ratio'] >= 3:
         score += 3
     elif base_result['volume_ratio'] >= 2:
         score += 2
     else:
         score += 1
-    
+
     rsi = tech_data['rsi']
     if 50 <= rsi <= 70:
         score += 2
@@ -571,7 +545,7 @@ def calculate_bullish_score(base_result, tech_data):
         score += 1
     elif rsi > 70:
         score -= 1
-    
+
     if tech_data['macd_trend'] == "🟢 Bullish":
         score += 2
     if tech_data['patterns']:
@@ -581,7 +555,7 @@ def calculate_bullish_score(base_result, tech_data):
     return score
 
 # ============================================
-# FORMAT FUNCTIONS FOR DETAIL & SUMMARY
+# FORMAT FUNCTIONS
 # ============================================
 
 def format_detail_card(index, item):
@@ -593,21 +567,21 @@ def format_detail_card(index, item):
     vol_ratio = base['volume_ratio']
     pct_high = base['pct_from_high']
     mcap = base['market_cap']
-    
+
     medal = "🥇" if index == 1 else "🥈" if index == 2 else "🥉" if index == 3 else f"#{index}"
-    
+
     msg = f"{medal} *{symbol}*\n"
     msg += f"💰 ₹{price:.2f} | 📈 {change:.2f}% | 📊 Vol: {vol_ratio:.2f}x\n"
     msg += f"📏 52W High: {pct_high:.1f}% | 💼 Mkt Cap: ₹{mcap:.2f} Cr\n"
-    
+
     news_data = fetch_news_mock(symbol)
     news_summary = ", ".join(news_data['headlines'][:2]) if news_data['headlines'] else "No specific catalyst"
     news_sentiment = "Bullish" if news_data['sentiment'] > 0.3 else "Neutral" if news_data['sentiment'] > -0.3 else "Bearish"
     chart_desc = tech.get('chart_desc', 'N/A') if tech else 'N/A'
-    
+
     msg += f"\n🧠 *News:* {news_sentiment} ({news_summary}) | {news_data['count']} headlines | *Chart:* {chart_desc}\n"
     msg += f"📊 *Scores:* Tech: {item['tech_score']}/100 | News: {item['news_score']}/100 | Chart: {item['chart_score']}/100 | Combined: {item['combined_score']}/100\n"
-    
+
     if tech:
         msg += f"\n📊 *RSI:* {tech['rsi']} ({tech['rsi_status']}) | *MACD:* {tech['macd_trend']}\n"
         msg += (f"\n🎯 *Buy:* ₹{tech['buy_price']} | 🛑 *SL:* ₹{tech['stop_loss']} | "
@@ -618,8 +592,8 @@ def format_detail_card(index, item):
             msg += f"\n📐 *Patterns:* None detected\n"
         msg += f"📦 *Order Flow:* {tech['obv_trend']}\n"
     else:
-        msg += f"\n❌ Technical data not available\n"
-    
+        msg += f"\n❌ *Technical data not available*\n"
+
     msg += "━" * 30
     return msg
 
@@ -636,7 +610,7 @@ def format_summary_list(enriched_results):
     return msg
 
 # ============================================
-# TELEGRAM CALLBACK HANDLER (DROPDOWN LOGIC)
+# TELEGRAM CALLBACK HANDLER
 # ============================================
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -645,7 +619,7 @@ def handle_callback(call):
     data = call.data
     chat_id = call.message.chat.id
     message_id = call.message.message_id
-    
+
     if data == "back_to_list":
         if 'summary_msg' in STORED_RESULTS and 'keyboard' in STORED_RESULTS:
             bot.edit_message_text(
@@ -663,7 +637,7 @@ def handle_callback(call):
                 parse_mode='Markdown'
             )
         return
-    
+
     if data.startswith("show_detail:"):
         symbol = data.split(":")[1]
         target_item = None
@@ -673,7 +647,7 @@ def handle_callback(call):
                 target_item = item
                 target_index = idx
                 break
-        
+
         if not target_item:
             bot.edit_message_text(
                 chat_id=chat_id,
@@ -682,11 +656,11 @@ def handle_callback(call):
                 parse_mode='Markdown'
             )
             return
-        
+
         detail_msg = format_detail_card(target_index, target_item)
         back_keyboard = types.InlineKeyboardMarkup(row_width=1)
         back_keyboard.add(types.InlineKeyboardButton("⬅️ Back to List", callback_data="back_to_list"))
-        
+
         bot.edit_message_text(
             chat_id=chat_id,
             message_id=message_id,
@@ -696,11 +670,11 @@ def handle_callback(call):
         )
 
 # ============================================
-# 🆕 MAIN SCANNER (OPTIMIZED WITH PRE-FILTER + CONCURRENT NSE API)
+# MAIN SCANNER
 # ============================================
 def run_scanner():
     global STORED_RESULTS
-    
+
     print("\n🚀 Starting scan...")
     print("-" * 70)
 
@@ -709,7 +683,6 @@ def run_scanner():
     stocks = get_all_nse_stocks()
     print(f"📊 Total NSE stocks: {len(stocks)}")
 
-    # --- 1. Load or Build Cache (DEMA values) ---
     cache = load_cache()
     if not cache:
         cache = build_cache(stocks)
@@ -729,17 +702,13 @@ def run_scanner():
     cache['_last_update'] = datetime.now().strftime('%Y-%m-%d')
     save_cache(cache)
 
-    # --- 2. 🚀 PRE-FILTER using ONLY cache (Filters 6, 8, 9) - NO API CALLS ---
     pre_filtered_symbols = pre_filter_with_cache(cache)
-    
     if not pre_filtered_symbols:
         bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed the DEMA/Volume pre-filters.*", parse_mode='Markdown')
         return
 
-    # --- 3. 🚀 FETCH LIVE DATA for pre-filtered list using CONCURRENT NSE API ---
     live_data = fetch_live_data_concurrent(pre_filtered_symbols, max_workers=15)
 
-    # --- 4. Run remaining 7 filters ---
     print("-" * 70)
     print("⚡ Running remaining 7 filters...")
     print("-" * 70)
@@ -755,7 +724,7 @@ def run_scanner():
         result = check_stock(symbol, cached, live_data)
         if result:
             results.append(result)
-        time.sleep(0.02)  # Small delay to avoid CPU spike
+        time.sleep(0.02)
 
     print("-" * 70)
     print(f"✅ Scan complete! Found {len(results)} stocks passing all 10 filters.")
@@ -763,13 +732,12 @@ def run_scanner():
 
     if results:
         save_watchlist(results)
-        
+
         print("📊 Enriching results with technical data and ranking...")
         bot.send_message(YOUR_CHAT_ID, "⏳ *Calculating technicals & ranking...*", parse_mode='Markdown')
-        
+
         enriched_results = []
-        
-        # Only fetch technical data for the final passing stocks (usually < 50)
+
         for res in results:
             tech_data = get_technical_data(res['symbol'])
             if tech_data:
@@ -786,70 +754,83 @@ def run_scanner():
                     'score': 0
                 })
             time.sleep(0.1)
-        
-        # Compute all scores
+
+        # Compute final scores
         for item in enriched_results:
             tech_raw = item['score']
+            # Normalize tech_raw (max possible is 18) to 0-100
             tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
             news_score = compute_news_score(item['base']['symbol']) if item['tech'] else 0
             chart_score = item['tech'].get('chart_score', 50) if item['tech'] else 50
             combined = (tech_score * 0.50) + (news_score * 0.30) + (chart_score * 0.20)
-            
+
             item['tech_score'] = round(tech_score, 2)
             item['news_score'] = news_score
             item['chart_score'] = chart_score
             item['combined_score'] = round(combined, 2)
-        
-        # Sort by combined score
+
+        # Sort by combined score descending
         enriched_results.sort(key=lambda x: x['combined_score'], reverse=True)
-        
-        # Store globally for the dropdown callbacks
+
         STORED_RESULTS['items'] = enriched_results
-        
-        # Generate summary message
+
         summary_msg = format_summary_list(enriched_results)
         STORED_RESULTS['summary_msg'] = summary_msg
-        
-        # Build inline keyboard
+
         keyboard = types.InlineKeyboardMarkup(row_width=3)
         buttons = []
         for idx, item in enumerate(enriched_results[:20], 1):
             symbol = item['base']['symbol']
             label = f"{idx}.{symbol}" if idx <= 9 else symbol
             buttons.append(types.InlineKeyboardButton(label, callback_data=f"show_detail:{symbol}"))
-        
+
         for i in range(0, len(buttons), 3):
             keyboard.add(*buttons[i:i+3])
-        
+
         STORED_RESULTS['keyboard'] = keyboard
-        
-        # Send the summary message with buttons
+
         bot.send_message(
             YOUR_CHAT_ID,
             summary_msg,
             reply_markup=keyboard,
             parse_mode='Markdown'
         )
-            
+
     else:
         bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found matching all 10 filters today.*", parse_mode='Markdown')
-    
+
     print("✅ Done!")
+
+# ============================================
+# SCHEDULER
+# ============================================
+def run_scheduler():
+    schedule.every().day.at("20:30").do(run_scanner)
+    print("🕒 Scheduler started. Will run daily at 8:30 PM.")
+    print("📌 Current time:", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
 
 # ============================================
 # MAIN EXECUTION
 # ============================================
 if __name__ == "__main__":
     print("=" * 70)
-    print("🌅 MORNING SCREENER - RANKED RESULTS WITH DROPDOWN")
+    print("🌅 MORNING SCREENER - SCHEDULED RUNNER (FIXED)")
     print("=" * 70)
-    
+
+    # Run immediately on start
     run_scanner()
-    
-    print("\n✅ Bot finished sending results!")
-    print("💡 Click the buttons below each stock to view full details.")
-    print("💡 To run again, restart the script.")
-    
-    # Keep the bot running to handle callbacks
-    print("\n⏳ Bot is now listening for button clicks... (Press Ctrl+C to stop)")
+
+    # Start daily scheduler in background
+    scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
+    scheduler_thread.start()
+
+    print("\n⏳ Bot is now running and waiting for scheduled scans...")
+    print("🕒 Next scheduled run: Daily at 8:30 PM")
+    print("💡 You can still click the dropdown buttons anytime.")
+    print("⏹️ Press Ctrl+C to stop the bot.\n")
+
+    # Keep bot alive for button clicks
     bot.infinity_polling()
