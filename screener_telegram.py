@@ -35,9 +35,6 @@ bot = telebot.TeleBot(BOT_TOKEN)
 CACHE_FILE = "screener_cache.pkl"
 WATCHLIST_FILE = "morning_watchlist.pkl"
 
-# ============================================
-# GLOBAL STORAGE FOR DROPDOWN DATA
-# ============================================
 STORED_RESULTS = {}
 
 print("=" * 70)
@@ -52,7 +49,7 @@ except Exception as e:
     exit(1)
 
 # ============================================
-# NSE API HELPERS
+# NSE API HELPERS (KEPT FOR CACHE BUILDING & LIVE DATA)
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -98,11 +95,17 @@ def fetch_nse_historical(symbol, days=365):
                 df = pd.DataFrame(data['data'])
                 df['DATE'] = pd.to_datetime(df['DATE'], format='%d-%m-%Y')
                 df = df.sort_values('DATE')
-                df['Close'] = df['CH_CLOSING'].astype(float)
-                df['High'] = df['CH_TRADE_HIGH_PRICE'].astype(float)
-                df['Low'] = df['CH_TRADE_LOW_PRICE'].astype(float)
-                df['Open'] = df['CH_OPENING_PRICE'].astype(float)
-                df['Volume'] = df['CH_VOLUME'].astype(float)
+                # Handle different column names
+                close_col = 'CH_CLOSING' if 'CH_CLOSING' in df.columns else 'CLOSE'
+                high_col = 'CH_TRADE_HIGH_PRICE' if 'CH_TRADE_HIGH_PRICE' in df.columns else 'HIGH'
+                low_col = 'CH_TRADE_LOW_PRICE' if 'CH_TRADE_LOW_PRICE' in df.columns else 'LOW'
+                open_col = 'CH_OPENING_PRICE' if 'CH_OPENING_PRICE' in df.columns else 'OPEN'
+                vol_col = 'CH_VOLUME' if 'CH_VOLUME' in df.columns else 'VOLUME'
+                df['Close'] = df[close_col].astype(float)
+                df['High'] = df[high_col].astype(float)
+                df['Low'] = df[low_col].astype(float)
+                df['Open'] = df[open_col].astype(float)
+                df['Volume'] = df[vol_col].astype(float)
                 return df[['DATE', 'Open', 'High', 'Low', 'Close', 'Volume']]
     except Exception as e:
         print(f"NSE historical error for {symbol}: {e}")
@@ -173,9 +176,6 @@ def save_cache(cache):
     except Exception as e:
         print(f"⚠️ Error saving cache: {e}")
 
-# ============================================
-# SAVE WATCHLIST (MISSING FUNCTION)
-# ============================================
 def save_watchlist(watchlist):
     try:
         with open(WATCHLIST_FILE, 'wb') as f:
@@ -364,8 +364,9 @@ def compute_news_score(symbol):
     return round(max(0, min(100, raw)), 2)
 
 def compute_chart_score(df):
+    # Now returns 0 if no data (instead of 50)
     if df is None or len(df) < 20:
-        return 50
+        return 0
     close = df['Close'].values
     high = df['High'].values
     low = df['Low'].values
@@ -420,7 +421,7 @@ def compute_chart_score(df):
     return round(max(0, min(100, total_chart_score)), 2)
 
 # ============================================
-# TECHNICAL ANALYSIS FOR FINAL SHORTLIST
+# TECHNICAL ANALYSIS FOR FINAL SHORTLIST (USES YFINANCE)
 # ============================================
 
 def detect_patterns(df):
@@ -462,11 +463,23 @@ def detect_patterns(df):
     return patterns
 
 def get_technical_data(symbol):
+    """Fetches RSI, MACD, ATR, Patterns, OBV using yfinance (most reliable)."""
     try:
-        full_data = get_data(symbol)
-        if full_data is None:
-            return None
-        df = full_data['hist']
+        df = None
+        # Try .NS first, then .BO
+        for suffix in ['.NS', '.BO']:
+            try:
+                ticker = yf.Ticker(f"{symbol}{suffix}")
+                df = ticker.history(period="6mo")
+                if not df.empty and len(df) >= 20:
+                    break
+            except:
+                continue
+        # If yfinance fails, fallback to NSE API (via get_data)
+        if df is None or df.empty or len(df) < 20:
+            full_data = get_data(symbol)
+            if full_data and full_data.get('hist') is not None:
+                df = full_data['hist']
         if df is None or len(df) < 20:
             return None
 
@@ -772,7 +785,7 @@ def run_scanner():
             tech_raw = item['score']
             tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
             news_score = compute_news_score(item['base']['symbol']) if item['tech'] else 0
-            chart_score = item['tech'].get('chart_score', 50) if item['tech'] else 50
+            chart_score = item['tech'].get('chart_score', 0) if item['tech'] else 0
             combined = (tech_score * 0.50) + (news_score * 0.30) + (chart_score * 0.20)
 
             item['tech_score'] = round(tech_score, 2)
@@ -820,7 +833,6 @@ if __name__ == "__main__":
     print("🌅 MORNING SCREENER - GITHUB ACTIONS OPTIMIZED")
     print("=" * 70)
 
-    # Run the scanner once and exit
     run_scanner()
 
     print("\n✅ Bot finished sending results! Exiting cleanly.")
