@@ -12,6 +12,7 @@ from datasets import load_dataset
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import schedule
 import threading
+from flask import Flask, request
 
 # ============================================
 # USE 'ta' LIBRARY - CORRECT IMPORTS
@@ -25,21 +26,21 @@ from ta.volume import OnBalanceVolumeIndicator
 # ============================================
 # CONFIGURATION
 # ============================================
-USE_NSE_FALLBACK = True          # For cache building only
-CACHE_REBUILD_DAYS = 1           # Rebuild cache daily
+USE_NSE_FALLBACK = True
+CACHE_REBUILD_DAYS = 1
 
 # ============================================
-# BOT DETAILS (PULL FROM ENVIRONMENT VARIABLES)
+# BOT DETAILS
 # ============================================
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 YOUR_CHAT_ID = os.environ.get('CHAT_ID')
-# ============================================
 
 if not BOT_TOKEN or not YOUR_CHAT_ID:
     print("❌ BOT_TOKEN or CHAT_ID not set in environment variables.")
-    exit(1)
+    # Don't exit, Flask health check still needs to run
+    # exit(1)
 
-bot = telebot.TeleBot(BOT_TOKEN)
+bot = telebot.TeleBot(BOT_TOKEN) if BOT_TOKEN else None
 CACHE_FILE = "screener_cache.pkl"
 WATCHLIST_FILE = "morning_watchlist.pkl"
 
@@ -49,15 +50,29 @@ print("=" * 70)
 print("🌅 MORNING SCREENER - AUTO-RANKED WITH TECHNICALS")
 print("=" * 70)
 
-try:
-    bot_info = bot.get_me()
-    print(f"✅ Bot connected: @{bot_info.username}")
-except Exception as e:
-    print(f"❌ Bot connection failed: {e}")
-    exit(1)
+if bot:
+    try:
+        bot_info = bot.get_me()
+        print(f"✅ Bot connected: @{bot_info.username}")
+    except Exception as e:
+        print(f"❌ Bot connection failed: {e}")
+        bot = None
 
 # ============================================
-# NSE API HELPERS (KEPT FOR CACHE BUILDING ONLY)
+# FLASK APP FOR HEALTH CHECK (Render Web Service)
+# ============================================
+app = Flask(__name__)
+
+@app.route('/')
+def health():
+    return "✅ NSE Screener Bot is running!", 200
+
+@app.route('/ping')
+def ping():
+    return "pong", 200
+
+# ============================================
+# NSE API HELPERS
 # ============================================
 def get_nse_session():
     session = requests.Session()
@@ -85,11 +100,8 @@ def fetch_nse_live(symbol):
                 'high_52w': price_info.get('weekHigh52', 0),
                 'market_cap': data.get('marketCap', 0) / 10000000,
             }
-        else:
-            print(f"⚠️ NSE API returned status {resp.status_code} for {symbol}")
-    except Exception as e:
-        print(f"❌ Error fetching live data for {symbol}: {e}")
-    return None
+    except:
+        return None
 
 def fetch_nse_historical(symbol, days=365):
     end = datetime.now()
@@ -118,8 +130,7 @@ def fetch_nse_historical(symbol, days=365):
                 df['Volume'] = df[vol_col].astype(float)
                 return df[['DATE', 'Open', 'High', 'Low', 'Close', 'Volume']]
     except Exception as e:
-        print(f"NSE historical error for {symbol}: {e}")
-    return None
+        return None
 
 # ============================================
 # GET ALL NSE STOCKS
@@ -179,41 +190,21 @@ def chartink_dema(data, period):
     ema2 = ema.ewm(span=period, adjust=False).mean()
     return 2 * ema - ema2
 
-# ============================================
-# HYBRID CACHE BUILDER (YFINANCE + NSE FALLBACK)
-# ============================================
 def build_cache(stocks):
-    print("🏗️ Building cache (yfinance primary, NSE fallback)...")
+    print("🏗️ Building cache...")
     cache = {}
     total = len(stocks)
     built = 0
-    fallback_used = 0
     start_time = time.time()
-    
     for i, symbol in enumerate(stocks):
-        hist = None
-        # ---- Try yfinance ----
-        for suffix in ['.NS', '.BO']:
-            try:
-                ticker = yf.Ticker(f"{symbol}{suffix}")
-                hist = ticker.history(period="1y")
-                if len(hist) >= 200:
-                    break
-                else:
-                    hist = None
-            except:
-                continue
-        # ---- If yfinance failed and fallback is enabled ----
-        if hist is None and USE_NSE_FALLBACK:
-            nse_hist = fetch_nse_historical(symbol)
-            if nse_hist is not None and len(nse_hist) >= 200:
-                hist = nse_hist
-                fallback_used += 1
-        
-        if hist is None or len(hist) < 200:
-            continue
-        
         try:
+            ticker = yf.Ticker(f"{symbol}.NS")
+            hist = ticker.history(period="1y")
+            if len(hist) < 200:
+                ticker = yf.Ticker(f"{symbol}.BO")
+                hist = ticker.history(period="1y")
+            if len(hist) < 200:
+                continue
             d10 = chartink_dema(hist['Close'], 10)
             d50 = chartink_dema(hist['Close'], 50)
             d200 = chartink_dema(hist['Close'], 200)
@@ -227,29 +218,23 @@ def build_cache(stocks):
                     'last_update': datetime.now().strftime('%Y-%m-%d')
                 }
                 built += 1
-        except Exception as e:
+        except:
             pass
-            
-        if (i + 1) % 100 == 0:
-            elapsed = time.time() - start_time
-            print(f"📊 Cache progress: {i+1}/{total} (built: {built}, fallback: {fallback_used}) | {elapsed:.1f}s")
-        
+        if (i + 1) % 50 == 0:
+            print(f"📊 Cache progress: {i+1}/{total} (built: {built})")
         time.sleep(0.05)
-    
     elapsed = time.time() - start_time
-    print(f"✅ Cache built for {built} stocks in {elapsed:.1f}s (fallback used for {fallback_used} stocks)")
+    print(f"✅ Cache built for {built} stocks in {elapsed:.1f}s")
     return cache
 
 # ============================================
-# PRE-FILTER USING CACHE
+# PRE-FILTER
 # ============================================
 def pre_filter_with_cache(cache):
     shortlisted = []
-    total_stocks = 0
     for symbol, data in cache.items():
         if symbol == '_last_update':
             continue
-        total_stocks += 1
         if data.get('avg_volume', 0) <= 500000:
             continue
         if data.get('dema_50', 0) <= data.get('dema_200', 0):
@@ -257,65 +242,53 @@ def pre_filter_with_cache(cache):
         if data.get('dema_10', 0) <= data.get('dema_50', 0):
             continue
         shortlisted.append(symbol)
-    print(f"📊 Pre-filtered {len(shortlisted)} stocks (from {total_stocks} total in cache).")
+    print(f"📊 Pre-filtered {len(shortlisted)} stocks")
     return shortlisted
 
 # ============================================
-# 🚀 PRIMARY LIVE DATA FETCHER (YFINANCE + NSE FALLBACK)
+# LIVE DATA FETCHER (YFINANCE PRIMARY)
 # ============================================
 def fetch_live_data(symbol):
-    """Try yfinance first, fallback to NSE API."""
-    # Try yfinance
     try:
-        for suffix in ['.NS', '.BO']:
-            ticker = yf.Ticker(f"{symbol}{suffix}")
-            info = ticker.info
-            if info:
-                price = info.get('regularMarketPrice', info.get('currentPrice', 0))
-                prev_close = info.get('regularMarketPreviousClose', 0)
-                volume = info.get('regularMarketVolume', 0)
-                high_52w = info.get('fiftyTwoWeekHigh', 0)
-                market_cap = info.get('marketCap', 0) / 10000000
-                if price > 0:
-                    return {
-                        'price': price,
-                        'prev_close': prev_close if prev_close > 0 else price,
-                        'volume': volume,
-                        'high_52w': high_52w,
-                        'market_cap': market_cap
-                    }
-    except Exception as e:
-        print(f"⚠️ yfinance failed for {symbol}: {e}")
-    # Fallback to NSE API
-    nse_data = fetch_nse_live(symbol)
-    return nse_data
+        ticker = yf.Ticker(f"{symbol}.NS")
+        info = ticker.info
+        if info:
+            price = info.get('regularMarketPrice', info.get('currentPrice', 0))
+            prev_close = info.get('regularMarketPreviousClose', price)
+            volume = info.get('regularMarketVolume', 0)
+            high_52w = info.get('fiftyTwoWeekHigh', 0)
+            market_cap = info.get('marketCap', 0) / 10000000
+            if price > 0:
+                return {
+                    'price': price,
+                    'prev_close': prev_close,
+                    'volume': volume,
+                    'high_52w': high_52w,
+                    'market_cap': market_cap
+                }
+    except:
+        pass
+    return fetch_nse_live(symbol)
 
 def fetch_live_data_concurrent(symbols, max_workers=15):
     results = {}
     total = len(symbols)
-    print(f"📊 Fetching live data for {total} stocks using {max_workers} threads...")
-    start_time = time.time()
+    print(f"📊 Fetching live data for {total} stocks...")
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_symbol = {executor.submit(fetch_live_data, symbol): symbol for symbol in symbols}
-        completed = 0
         for future in as_completed(future_to_symbol):
             symbol = future_to_symbol[future]
             try:
-                data = future.result(timeout=15)
+                data = future.result(timeout=10)
                 if data and data.get('price', 0) > 0:
                     results[symbol] = data
-                completed += 1
-                if completed % 20 == 0:
-                    print(f"  📊 Fetched {completed}/{total}...")
-            except Exception as e:
-                print(f"⚠️ Error fetching {symbol}: {e}")
-            time.sleep(0.05)
-    elapsed = time.time() - start_time
-    print(f"✅ Live data fetch complete: {len(results)} stocks in {elapsed:.1f}s")
+            except:
+                pass
+    print(f"✅ Live data fetched for {len(results)} stocks")
     return results
 
 # ============================================
-# CHECK STOCK - APPLIES REMAINING 7 FILTERS (with debug counts)
+# CHECK STOCK
 # ============================================
 def check_stock(symbol, cached, live_data):
     if symbol not in live_data:
@@ -358,51 +331,23 @@ def check_stock(symbol, cached, live_data):
     return None
 
 # ============================================
-# NEWS AND CHART SCORE FUNCTIONS (unchanged)
+# NEWS & CHART SCORES (MOCK - Replace with real API)
 # ============================================
-
 def fetch_news_mock(symbol):
     mock_db = {
-        'CGCL': {
-            'headlines': ['Q3 Earnings Beat Estimates', 'Analyst Upgrade to Buy', 'Strong Order Book'],
-            'sentiment': 0.85,
-            'count': 3
-        },
-        'ATHERENERG': {
-            'headlines': ['EV Sales Surge', 'New Model Launch'],
-            'sentiment': 0.7,
-            'count': 2
-        },
-        'FMGOETZE': {
-            'headlines': ['M&A Rumors', 'Contract Win with Govt', 'Earnings Surprise'],
-            'sentiment': 0.95,
-            'count': 3
-        },
-        'GENUSPOWER': {
-            'headlines': ['General Market Update'],
-            'sentiment': 0.1,
-            'count': 1
-        },
+        'CGCL': {'headlines': ['Q3 Earnings Beat', 'Analyst Upgrade'], 'sentiment': 0.85, 'count': 2},
+        'ATHERENERG': {'headlines': ['EV Sales Surge', 'New Launch'], 'sentiment': 0.7, 'count': 2},
+        'FMGOETZE': {'headlines': ['M&A Rumors', 'Contract Win'], 'sentiment': 0.95, 'count': 2},
     }
     return mock_db.get(symbol, {'headlines': [], 'sentiment': 0, 'count': 0})
 
 def compute_news_score(symbol):
     data = fetch_news_mock(symbol)
-    count = data['count']
-    sentiment = data['sentiment']
-    headlines = data['headlines']
-    if count == 0:
+    if data['count'] == 0:
         return 0
-    count_score = min(count, 10) * 5
-    sentiment_score = sentiment * 40
-    catalyst_keywords = ['Earnings', 'Beat', 'Upgrade', 'M&A', 'Contract', 'FDA', 'Approval', 'Surprise', 'Launch']
-    bonus = 0
-    for head in headlines:
-        if any(kw in head for kw in catalyst_keywords):
-            bonus += 10
-    bonus = min(bonus, 30)
-    raw = count_score + sentiment_score + bonus
-    return round(max(0, min(100, raw)), 2)
+    count_score = min(data['count'], 10) * 5
+    sentiment_score = data['sentiment'] * 40
+    return round(min(100, count_score + sentiment_score), 2)
 
 def compute_chart_score(df):
     if df is None or len(df) < 20:
@@ -441,7 +386,7 @@ def compute_chart_score(df):
                 pattern_score += 10
     pattern_score = min(40, pattern_score)
 
-    # Volume & Momentum Score (30%)
+    # Volume & Momentum (30%)
     vol_score = 0
     avg_vol = pd.Series(volume).rolling(20).mean()
     if len(avg_vol) > 0 and volume[-1] > avg_vol.iloc[-1] * 1.5:
@@ -457,13 +402,11 @@ def compute_chart_score(df):
             vol_score += 7
     vol_score = min(30, vol_score)
 
-    total_chart_score = trend_score + pattern_score + vol_score
-    return round(max(0, min(100, total_chart_score)), 2)
+    return round(trend_score + pattern_score + vol_score, 2)
 
 # ============================================
-# TECHNICAL ANALYSIS FOR FINAL SHORTLIST
+# TECHNICAL DATA
 # ============================================
-
 def detect_patterns(df):
     patterns = []
     try:
@@ -474,7 +417,6 @@ def detect_patterns(df):
         l = df['Low'].iloc[-5:].values
         c = df['Close'].iloc[-5:].values
         i = -1
-
         if len(o) >= 2:
             if c[i] > o[i-1] and c[i-1] < o[i]:
                 patterns.append("Bullish Engulfing")
@@ -513,23 +455,15 @@ def get_technical_data(symbol):
                     break
             except:
                 continue
-        # Fallback to NSE historical if yfinance fails
-        if df is None or df.empty or len(df) < 20:
-            nse_df = fetch_nse_historical(symbol, days=180)
-            if nse_df is not None and len(nse_df) >= 20:
-                df = nse_df
         if df is None or len(df) < 20:
             return None
 
         current_price = df['Close'].iloc[-1]
-        rsi_indicator = RSIIndicator(df['Close'], window=14)
-        rsi = rsi_indicator.rsi().iloc[-1]
+        rsi = RSIIndicator(df['Close'], window=14).rsi().iloc[-1]
         macd_indicator = MACD(df['Close'], window_slow=26, window_fast=12, window_sign=9)
         macd_line = macd_indicator.macd().iloc[-1]
         signal_line = macd_indicator.macd_signal().iloc[-1]
-        histogram = macd_indicator.macd_diff().iloc[-1]
-        atr_indicator = AverageTrueRange(df['High'], df['Low'], df['Close'], window=14)
-        atr = atr_indicator.average_true_range().iloc[-1]
+        atr = AverageTrueRange(df['High'], df['Low'], df['Close'], window=14).average_true_range().iloc[-1]
 
         buy_price = round(current_price, 2)
         stop_loss = round(current_price - (1.5 * atr), 2)
@@ -537,36 +471,23 @@ def get_technical_data(symbol):
         target_2 = round(current_price + (3.5 * atr), 2)
 
         macd_trend = "🟢 Bullish" if macd_line > signal_line else "🔴 Bearish"
-        if rsi > 70:
-            rsi_status = "Overbought"
-        elif rsi < 30:
-            rsi_status = "Oversold"
-        else:
-            rsi_status = "Neutral"
-
+        rsi_status = "Overbought" if rsi > 70 else "Oversold" if rsi < 30 else "Neutral"
         patterns = detect_patterns(df)
 
         obv_indicator = OnBalanceVolumeIndicator(df['Close'], df['Volume'])
         obv = obv_indicator.on_balance_volume()
-        obv_rising = False
         obv_trend = "Flat"
         if len(obv) > 5:
             if obv.iloc[-1] > obv.iloc[-5]:
-                obv_rising = True
                 obv_trend = "📈 Accumulation"
             elif obv.iloc[-1] < obv.iloc[-5]:
                 obv_trend = "📉 Distribution"
-            else:
-                obv_trend = "➡️ Neutral"
 
         chart_score = compute_chart_score(df)
 
         return {
             'rsi': round(rsi, 2),
             'rsi_status': rsi_status,
-            'macd_line': round(macd_line, 2),
-            'signal_line': round(signal_line, 2),
-            'histogram': round(histogram, 2),
             'macd_trend': macd_trend,
             'buy_price': buy_price,
             'stop_loss': stop_loss,
@@ -574,8 +495,6 @@ def get_technical_data(symbol):
             'target_2': target_2,
             'patterns': patterns,
             'obv_trend': obv_trend,
-            'obv_rising': obv_rising,
-            'atr': round(atr, 2),
             'chart_score': chart_score,
             'chart_desc': 'Breakout' if chart_score > 70 else 'Consolidating' if chart_score > 50 else 'Weak'
         }
@@ -587,40 +506,27 @@ def calculate_bullish_score(base_result, tech_data):
     if not tech_data:
         return 0
     score = 0
-    if base_result['day_change'] >= 5:
-        score += 3
-    elif base_result['day_change'] >= 3:
-        score += 2
-    elif base_result['day_change'] >= 1:
-        score += 1
+    if base_result['day_change'] >= 5: score += 3
+    elif base_result['day_change'] >= 3: score += 2
+    elif base_result['day_change'] >= 1: score += 1
 
-    if base_result['volume_ratio'] >= 3:
-        score += 3
-    elif base_result['volume_ratio'] >= 2:
-        score += 2
-    else:
-        score += 1
+    if base_result['volume_ratio'] >= 3: score += 3
+    elif base_result['volume_ratio'] >= 2: score += 2
+    else: score += 1
 
     rsi = tech_data['rsi']
-    if 50 <= rsi <= 70:
-        score += 2
-    elif 40 <= rsi < 50:
-        score += 1
-    elif rsi > 70:
-        score -= 1
+    if 50 <= rsi <= 70: score += 2
+    elif 40 <= rsi < 50: score += 1
+    elif rsi > 70: score -= 1
 
-    if tech_data['macd_trend'] == "🟢 Bullish":
-        score += 2
-    if tech_data['patterns']:
-        score += 5
-    if tech_data['obv_rising']:
-        score += 3
+    if tech_data['macd_trend'] == "🟢 Bullish": score += 2
+    if tech_data['patterns']: score += 5
+    if tech_data['obv_trend'] == "📈 Accumulation": score += 3
     return score
 
 # ============================================
 # FORMAT FUNCTIONS
 # ============================================
-
 def format_detail_card(index, item):
     base = item['base']
     tech = item['tech']
@@ -638,11 +544,11 @@ def format_detail_card(index, item):
     msg += f"📏 52W High: {pct_high:.1f}% | 💼 Mkt Cap: ₹{mcap:.2f} Cr\n"
 
     news_data = fetch_news_mock(symbol)
-    news_summary = ", ".join(news_data['headlines'][:2]) if news_data['headlines'] else "No specific catalyst"
+    news_summary = ", ".join(news_data['headlines'][:2]) if news_data['headlines'] else "No catalyst"
     news_sentiment = "Bullish" if news_data['sentiment'] > 0.3 else "Neutral" if news_data['sentiment'] > -0.3 else "Bearish"
     chart_desc = tech.get('chart_desc', 'N/A') if tech else 'N/A'
 
-    msg += f"\n🧠 *News:* {news_sentiment} ({news_summary}) | {news_data['count']} headlines | *Chart:* {chart_desc}\n"
+    msg += f"\n🧠 *News:* {news_sentiment} ({news_summary}) | *Chart:* {chart_desc}\n"
     msg += f"📊 *Scores:* Tech: {item['tech_score']}/100 | News: {item['news_score']}/100 | Chart: {item['chart_score']}/100 | Combined: {item['combined_score']}/100\n"
 
     if tech:
@@ -676,8 +582,10 @@ def format_summary_list(enriched_results):
 # TELEGRAM CALLBACK HANDLER
 # ============================================
 
-@bot.callback_query_handler(func=lambda call: True)
+@bot.callback_query_handler(func=lambda call: True) if bot else None
 def handle_callback(call):
+    if not bot:
+        return
     bot.answer_callback_query(call.id)
     data = call.data
     chat_id = call.message.chat.id
@@ -733,15 +641,21 @@ def handle_callback(call):
         )
 
 # ============================================
-# MAIN SCANNER (with detailed logging)
+# MAIN SCANNER
 # ============================================
 def run_scanner():
     global STORED_RESULTS
+    if not bot:
+        print("❌ Bot not configured, skipping scan.")
+        return
 
     print("\n🚀 Starting scan...")
     print("-" * 70)
 
-    bot.send_message(YOUR_CHAT_ID, "🌅 *Morning Screener is running!*", parse_mode='Markdown')
+    try:
+        bot.send_message(YOUR_CHAT_ID, "🌅 *Morning Screener is running!*", parse_mode='Markdown')
+    except Exception as e:
+        print(f"❌ Failed to send start message: {e}")
 
     stocks = get_all_nse_stocks()
     print(f"📊 Total NSE stocks: {len(stocks)}")
@@ -779,10 +693,12 @@ def run_scanner():
 
     pre_filtered_symbols = pre_filter_with_cache(cache)
     if not pre_filtered_symbols:
-        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed the DEMA/Volume pre-filters.*", parse_mode='Markdown')
+        try:
+            bot.send_message(YOUR_CHAT_ID, "📊 *No stocks passed the DEMA/Volume pre-filters.*", parse_mode='Markdown')
+        except:
+            pass
         return
 
-    # Fetch live data (yfinance primary + NSE fallback)
     live_data = fetch_live_data_concurrent(pre_filtered_symbols, max_workers=15)
     print(f"📊 Live data fetched for {len(live_data)} stocks.")
 
@@ -873,7 +789,10 @@ def run_scanner():
         save_watchlist(results)
 
         print("📊 Enriching results with technical data and ranking...")
-        bot.send_message(YOUR_CHAT_ID, "⏳ *Calculating technicals & ranking...*", parse_mode='Markdown')
+        try:
+            bot.send_message(YOUR_CHAT_ID, "⏳ *Calculating technicals & ranking...*", parse_mode='Markdown')
+        except:
+            pass
 
         enriched_results = []
 
@@ -884,85 +803,4 @@ def run_scanner():
                 enriched_results.append({
                     'base': res,
                     'tech': tech_data,
-                    'score': score
-                })
-            else:
-                enriched_results.append({
-                    'base': res,
-                    'tech': None,
-                    'score': 0
-                })
-            time.sleep(0.1)
-
-        for item in enriched_results:
-            tech_raw = item['score']
-            tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
-            news_score = compute_news_score(item['base']['symbol']) if item['tech'] else 0
-            chart_score = item['tech'].get('chart_score', 0) if item['tech'] else 0
-            combined = (tech_score * 0.50) + (news_score * 0.30) + (chart_score * 0.20)
-
-            item['tech_score'] = round(tech_score, 2)
-            item['news_score'] = news_score
-            item['chart_score'] = chart_score
-            item['combined_score'] = round(combined, 2)
-
-        enriched_results.sort(key=lambda x: x['combined_score'], reverse=True)
-
-        STORED_RESULTS['items'] = enriched_results
-
-        summary_msg = format_summary_list(enriched_results)
-        STORED_RESULTS['summary_msg'] = summary_msg
-
-        keyboard = types.InlineKeyboardMarkup(row_width=3)
-        buttons = []
-        for idx, item in enumerate(enriched_results[:20], 1):
-            symbol = item['base']['symbol']
-            label = f"{idx}.{symbol}" if idx <= 9 else symbol
-            buttons.append(types.InlineKeyboardButton(label, callback_data=f"show_detail:{symbol}"))
-
-        for i in range(0, len(buttons), 3):
-            keyboard.add(*buttons[i:i+3])
-
-        STORED_RESULTS['keyboard'] = keyboard
-
-        bot.send_message(
-            YOUR_CHAT_ID,
-            summary_msg,
-            reply_markup=keyboard,
-            parse_mode='Markdown'
-        )
-
-    else:
-        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found matching all 10 filters today.*", parse_mode='Markdown')
-
-    print("✅ Done!")
-
-# ============================================
-# SCHEDULER
-# ============================================
-def run_scheduler():
-    schedule.every().day.at("20:30").do(run_scanner)
-    print("🕒 Scheduler started. Will run daily at 8:30 PM IST.")
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-
-# ============================================
-# MAIN EXECUTION
-# ============================================
-if __name__ == "__main__":
-    print("=" * 70)
-    print("🌅 MORNING SCREENER - PERSISTENT BOT (DAILY REBUILD, HYBRID)")
-    print("=" * 70)
-
-    run_scanner()
-
-    scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
-    scheduler_thread.start()
-
-    print("\n⏳ Bot is now running and waiting for button clicks...")
-    print("🕒 Next scheduled run: Daily at 8:30 PM IST")
-    print("📌 Cache rebuilds DAILY (hybrid: yfinance + NSE fallback for failures).")
-    print("💡 Keep this script running 24/7 for buttons to work.")
-
-    bot.infinity_polling()
+                   
