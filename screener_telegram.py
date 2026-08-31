@@ -801,7 +801,7 @@ def run_scheduler():
         time.sleep(60)
 
 # ============================================
-# FLASK WRAPPER TO RUN BOT + WEB SERVER
+# START BOT FUNCTION
 # ============================================
 def start_bot():
     if bot:
@@ -822,4 +822,8 @@ if __name__ == "__main__":
     print("=" * 70)
 
     # Start the bot in a separate thread (so Flask can run too)
-    bot_thread = threading.Thread(target=start_b
+    bot_thread = threading.Thread(target=start_bot, daemon=True)
+    bot_thread.start()
+
+    # Run Flask web server (for Render health checks)
+   
