@@ -12,7 +12,7 @@ from datasets import load_dataset
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import schedule
 import threading
-from flask import Flask, request
+from flask import Flask
 
 # ============================================
 # USE 'ta' LIBRARY - CORRECT IMPORTS
@@ -37,8 +37,6 @@ YOUR_CHAT_ID = os.environ.get('CHAT_ID')
 
 if not BOT_TOKEN or not YOUR_CHAT_ID:
     print("❌ BOT_TOKEN or CHAT_ID not set in environment variables.")
-    # Don't exit, Flask health check still needs to run
-    # exit(1)
 
 bot = telebot.TeleBot(BOT_TOKEN) if BOT_TOKEN else None
 CACHE_FILE = "screener_cache.pkl"
@@ -331,7 +329,7 @@ def check_stock(symbol, cached, live_data):
     return None
 
 # ============================================
-# NEWS & CHART SCORES (MOCK - Replace with real API)
+# NEWS & CHART SCORES (MOCK)
 # ============================================
 def fetch_news_mock(symbol):
     mock_db = {
@@ -358,7 +356,6 @@ def compute_chart_score(df):
     volume = df['Volume'].values
     open_prices = df['Open'].values
 
-    # Trend Score (30%)
     if len(close) >= 20:
         sma20 = pd.Series(close).rolling(20).mean()
         if len(sma20) > 5:
@@ -369,7 +366,6 @@ def compute_chart_score(df):
     else:
         trend_score = 15
 
-    # Pattern Score (40%)
     pattern_score = 0
     if len(close) >= 20:
         if close[-1] > max(close[-20:-1]):
@@ -386,7 +382,6 @@ def compute_chart_score(df):
                 pattern_score += 10
     pattern_score = min(40, pattern_score)
 
-    # Volume & Momentum (30%)
     vol_score = 0
     avg_vol = pd.Series(volume).rolling(20).mean()
     if len(avg_vol) > 0 and volume[-1] > avg_vol.iloc[-1] * 1.5:
@@ -582,63 +577,62 @@ def format_summary_list(enriched_results):
 # TELEGRAM CALLBACK HANDLER
 # ============================================
 
-@bot.callback_query_handler(func=lambda call: True) if bot else None
-def handle_callback(call):
-    if not bot:
-        return
-    bot.answer_callback_query(call.id)
-    data = call.data
-    chat_id = call.message.chat.id
-    message_id = call.message.message_id
+if bot:
+    @bot.callback_query_handler(func=lambda call: True)
+    def handle_callback(call):
+        bot.answer_callback_query(call.id)
+        data = call.data
+        chat_id = call.message.chat.id
+        message_id = call.message.message_id
 
-    if data == "back_to_list":
-        if 'summary_msg' in STORED_RESULTS and 'keyboard' in STORED_RESULTS:
-            bot.edit_message_text(
-                chat_id=chat_id,
-                message_id=message_id,
-                text=STORED_RESULTS['summary_msg'],
-                reply_markup=STORED_RESULTS['keyboard'],
-                parse_mode='Markdown'
-            )
-        else:
-            bot.edit_message_text(
-                chat_id=chat_id,
-                message_id=message_id,
-                text="⚠️ Data expired. Please run the screener again.",
-                parse_mode='Markdown'
-            )
-        return
-
-    if data.startswith("show_detail:"):
-        symbol = data.split(":")[1]
-        target_item = None
-        target_index = None
-        for idx, item in enumerate(STORED_RESULTS.get('items', []), 1):
-            if item['base']['symbol'] == symbol:
-                target_item = item
-                target_index = idx
-                break
-
-        if not target_item:
-            bot.edit_message_text(
-                chat_id=chat_id,
-                message_id=message_id,
-                text="⚠️ Stock data not found.",
-                parse_mode='Markdown'
-            )
+        if data == "back_to_list":
+            if 'summary_msg' in STORED_RESULTS and 'keyboard' in STORED_RESULTS:
+                bot.edit_message_text(
+                    chat_id=chat_id,
+                    message_id=message_id,
+                    text=STORED_RESULTS['summary_msg'],
+                    reply_markup=STORED_RESULTS['keyboard'],
+                    parse_mode='Markdown'
+                )
+            else:
+                bot.edit_message_text(
+                    chat_id=chat_id,
+                    message_id=message_id,
+                    text="⚠️ Data expired. Please run the screener again.",
+                    parse_mode='Markdown'
+                )
             return
 
-        detail_msg = format_detail_card(target_index, target_item)
-        back_keyboard = types.InlineKeyboardMarkup(row_width=1)
-        back_keyboard.add(types.InlineKeyboardButton("⬅️ Back to List", callback_data="back_to_list"))
+        if data.startswith("show_detail:"):
+            symbol = data.split(":")[1]
+            target_item = None
+            target_index = None
+            for idx, item in enumerate(STORED_RESULTS.get('items', []), 1):
+                if item['base']['symbol'] == symbol:
+                    target_item = item
+                    target_index = idx
+                    break
 
-        bot.edit_message_text(
-            chat_id=chat_id,
-            message_id=message_id,
-            text=detail_msg,
-            reply_markup=back_keyboard,
-            parse_mode='Markdown'
-        )
+            if not target_item:
+                bot.edit_message_text(
+                    chat_id=chat_id,
+                    message_id=message_id,
+                    text="⚠️ Stock data not found.",
+                    parse_mode='Markdown'
+                )
+                return
+
+            detail_msg = format_detail_card(target_index, target_item)
+            back_keyboard = types.InlineKeyboardMarkup(row_width=1)
+            back_keyboard.add(types.InlineKeyboardButton("⬅️ Back to List", callback_data="back_to_list"))
+
+            bot.edit_message_text(
+                chat_id=chat_id,
+                message_id=message_id,
+                text=detail_msg,
+                reply_markup=back_keyboard,
+                parse_mode='Markdown'
+            )
 
 # ============================================
 # MAIN SCANNER
@@ -708,16 +702,6 @@ def run_scanner():
 
     results = []
     start_time = time.time()
-    filter_counts = {
-        'market_cap': 0,
-        'price': 0,
-        'day_change': 0,
-        'day_change_upper': 0,
-        'volume': 0,
-        'pct_from_high': 0,
-        'volume_ratio': 0,
-        'all': 0
-    }
 
     for symbol in pre_filtered_symbols:
         if symbol not in live_data:
@@ -725,63 +709,11 @@ def run_scanner():
         cached = cache.get(symbol)
         if cached is None:
             continue
-        live = live_data[symbol]
-        price = live['price']
-        prev_close = live['prev_close']
-        volume = live['volume']
-        high_52w = live['high_52w']
-        market_cap = live['market_cap']
-        avg_volume = cached.get('avg_volume', 0)
-
-        if prev_close > 0 and price > 0:
-            day_change = ((price - prev_close) / prev_close) * 100
-        else:
-            day_change = 0
-
-        volume_ratio = volume / avg_volume if avg_volume > 0 else 0
-        pct_from_high = ((high_52w - price) / high_52w) * 100 if high_52w > 0 else 100
-
-        cond1 = market_cap >= 1000
-        cond2 = price >= 100
-        cond3 = day_change >= 0
-        cond4 = day_change < 15
-        cond5 = volume >= 200000
-        cond7 = pct_from_high <= 10
-        cond10 = volume_ratio >= 1.5
-
-        if cond1: filter_counts['market_cap'] += 1
-        if cond2: filter_counts['price'] += 1
-        if cond3: filter_counts['day_change'] += 1
-        if cond4: filter_counts['day_change_upper'] += 1
-        if cond5: filter_counts['volume'] += 1
-        if cond7: filter_counts['pct_from_high'] += 1
-        if cond10: filter_counts['volume_ratio'] += 1
-
-        if cond1 and cond2 and cond3 and cond4 and cond5 and cond7 and cond10:
-            results.append({
-                'symbol': symbol,
-                'price': price,
-                'day_change': day_change,
-                'volume_ratio': volume_ratio,
-                'market_cap': market_cap,
-                'pct_from_high': pct_from_high,
-                'avg_volume': avg_volume,
-                'volume': volume
-            })
-            filter_counts['all'] += 1
+        result = check_stock(symbol, cached, live_data)
+        if result:
+            results.append(result)
         time.sleep(0.02)
 
-    print(f"📊 Filter counts (out of {len(pre_filtered_symbols)}):")
-    print(f"   Market Cap >= 1000 Cr: {filter_counts['market_cap']}")
-    print(f"   Price >= 100: {filter_counts['price']}")
-    print(f"   Day Change >= 0: {filter_counts['day_change']}")
-    print(f"   Day Change < 15: {filter_counts['day_change_upper']}")
-    print(f"   Volume >= 200k: {filter_counts['volume']}")
-    print(f"   % from 52W High <= 10: {filter_counts['pct_from_high']}")
-    print(f"   Volume Ratio >= 1.5: {filter_counts['volume_ratio']}")
-    print(f"   ✅ Passed ALL: {filter_counts['all']}")
-
-    print("-" * 70)
     print(f"✅ Scan complete! Found {len(results)} stocks passing all 10 filters.")
     print(f"⏱️ Total time taken: {time.time() - start_time:.1f} seconds")
 
@@ -803,4 +735,91 @@ def run_scanner():
                 enriched_results.append({
                     'base': res,
                     'tech': tech_data,
-                   
+                    'score': score
+                })
+            else:
+                enriched_results.append({
+                    'base': res,
+                    'tech': None,
+                    'score': 0
+                })
+            time.sleep(0.1)
+
+        # Compute final scores
+        for item in enriched_results:
+            tech_raw = item['score']
+            tech_score = min(100, (tech_raw / 18) * 100) if tech_raw > 0 else 0
+            news_score = compute_news_score(item['base']['symbol']) if item['tech'] else 0
+            chart_score = item['tech'].get('chart_score', 0) if item['tech'] else 0
+            combined = (tech_score * 0.50) + (news_score * 0.30) + (chart_score * 0.20)
+
+            item['tech_score'] = round(tech_score, 2)
+            item['news_score'] = news_score
+            item['chart_score'] = chart_score
+            item['combined_score'] = round(combined, 2)
+
+        # Sort by combined score descending
+        enriched_results.sort(key=lambda x: x['combined_score'], reverse=True)
+
+        STORED_RESULTS['items'] = enriched_results
+
+        summary_msg = format_summary_list(enriched_results)
+        STORED_RESULTS['summary_msg'] = summary_msg
+
+        keyboard = types.InlineKeyboardMarkup(row_width=3)
+        buttons = []
+        for idx, item in enumerate(enriched_results[:20], 1):
+            symbol = item['base']['symbol']
+            label = f"{idx}.{symbol}" if idx <= 9 else symbol
+            buttons.append(types.InlineKeyboardButton(label, callback_data=f"show_detail:{symbol}"))
+
+        for i in range(0, len(buttons), 3):
+            keyboard.add(*buttons[i:i+3])
+
+        STORED_RESULTS['keyboard'] = keyboard
+
+        bot.send_message(
+            YOUR_CHAT_ID,
+            summary_msg,
+            reply_markup=keyboard,
+            parse_mode='Markdown'
+        )
+
+    else:
+        bot.send_message(YOUR_CHAT_ID, "📊 *No stocks found matching all 10 filters today.*", parse_mode='Markdown')
+
+    print("✅ Done!")
+
+# ============================================
+# SCHEDULER
+# ============================================
+def run_scheduler():
+    schedule.every().day.at("20:30").do(run_scanner)
+    print("🕒 Scheduler started. Will run daily at 8:30 PM IST.")
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+
+# ============================================
+# FLASK WRAPPER TO RUN BOT + WEB SERVER
+# ============================================
+def start_bot():
+    if bot:
+        run_scanner()
+        scheduler_thread = threading.Thread(target=run_scheduler, daemon=True)
+        scheduler_thread.start()
+        print("⏳ Bot is now running and waiting for button clicks...")
+        bot.infinity_polling()
+    else:
+        print("❌ Bot not configured. Only web server running.")
+
+# ============================================
+# MAIN EXECUTION
+# ============================================
+if __name__ == "__main__":
+    print("=" * 70)
+    print("🌅 MORNING SCREENER - RENDER WEB SERVICE")
+    print("=" * 70)
+
+    # Start the bot in a separate thread (so Flask can run too)
+    bot_thread = threading.Thread(target=start_b
