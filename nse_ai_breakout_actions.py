@@ -354,30 +354,58 @@ def yf_intraday(symbol):
 
 def get_info(symbol):
     """
-    yfinance info is relatively expensive and can fail.
-    It is used only when needed.
+    Uses yfinance's fast_info instead of the full .info property.
+
+    .info requires a "crumb" auth token from Yahoo that has been failing
+    broadly with HTTP 401 "Invalid Crumb" errors, especially from
+    datacenter/shared IPs like GitHub Actions runners. fast_info hits a
+    lighter endpoint that doesn't need that crumb exchange, so it's much
+    more reliable here.
     """
+    def _get(fi, *keys, default=0):
+        for k in keys:
+            try:
+                v = fi[k]
+                if v is not None:
+                    return v
+            except Exception:
+                pass
+            try:
+                v = getattr(fi, k)
+                if v is not None:
+                    return v
+            except Exception:
+                pass
+        return default
+
     try:
         t = yf.Ticker(f"{symbol}.NS")
-        info = t.info or {}
+        fi = t.fast_info
+
+        price = float(_get(fi, "last_price", "lastPrice") or 0)
+        prev_close = float(
+            _get(fi, "previous_close", "regularMarketPreviousClose", "previousClose") or 0
+        )
+        volume = int(_get(fi, "last_volume", "regularMarketVolume") or 0)
+        market_cap = float(_get(fi, "market_cap", "marketCap") or 0)
+
+        # Fallback: derive market cap from shares outstanding if fast_info
+        # didn't provide it directly.
+        if not market_cap:
+            shares = _get(fi, "shares", "shares_outstanding")
+            if shares and price:
+                market_cap = float(shares) * price
 
         return {
-            "price": float(
-                info.get("regularMarketPrice")
-                or info.get("currentPrice")
-                or 0
-            ),
-            "prev_close": float(
-                info.get("regularMarketPreviousClose")
-                or info.get("previousClose")
-                or 0
-            ),
-            "volume": int(info.get("regularMarketVolume") or 0),
-            "high_52w": float(info.get("fiftyTwoWeekHigh") or 0),
-            "market_cap": float(info.get("marketCap") or 0) / 1e7,
+            "price": price,
+            "prev_close": prev_close,
+            "volume": volume,
+            "high_52w": 0,  # computed from daily history in apply_core_filters instead
+            "market_cap": market_cap / 1e7,
         }
 
-    except Exception:
+    except Exception as e:
+        log.debug("fast_info failed for %s: %s", symbol, e)
         return {
             "price": 0,
             "prev_close": 0,
@@ -1038,9 +1066,10 @@ def apply_core_filters(symbol, df, info=None):
         info = get_info(symbol)
 
     prev_close = info["prev_close"] or prev_close_daily
-    high_52w = info["high_52w"]
-    if high_52w <= 0:
-        high_52w = float(x["High"].tail(252).max())
+    # Match Chartink's exact definition: Max(252 daily highs), not yfinance's
+    # built-in 52-week-high field (which uses calendar weeks, not trading days,
+    # and can disagree with Chartink by a few percent).
+    high_52w = float(x["High"].tail(252).max())
     market_cap = info["market_cap"]
 
     day_change = (
@@ -1048,9 +1077,11 @@ def apply_core_filters(symbol, df, info=None):
         if prev_close > 0 else 0
     )
     volume_ratio = volume / avg_volume if avg_volume > 0 else 0
+    # Match Chartink's exact formula: (High/Close) - 1, i.e. relative to
+    # current price, not relative to the high itself.
     pct_from_high = (
-        ((high_52w - price) / high_52w) * 100
-        if high_52w > 0 else 100
+        ((high_52w / price) - 1) * 100
+        if price > 0 else 100
     )
 
     # Final precise filters using live info data
