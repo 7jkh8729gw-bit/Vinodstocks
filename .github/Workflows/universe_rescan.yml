@@ -1,0 +1,47 @@
+name: Universe Rescan (New Candidates)
+
+on:
+  schedule:
+    # Every 30 min, 03:00-10:59 UTC = 08:30-16:29 IST, Mon-Fri.
+    # Slightly wider than market hours on purpose — the script itself
+    # checks market_is_open() and exits immediately if outside 9:15-15:30 IST.
+    - cron: "*/30 3-10 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nse-ai-bot-state
+  cancel-in-progress: false
+
+jobs:
+  rescan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run universe rescan
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python nse_ai_breakout_actions.py rescan
+
+      - name: Commit updated watchlist
+        run: |
+          git config user.name "nse-ai-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase
+          git add data/
+          git diff --cached --quiet || git commit -m "Universe rescan update [skip ci]"
+          git push
