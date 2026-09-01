@@ -38,6 +38,7 @@ import re
 import sys
 import time
 import json
+import math
 import logging
 import urllib.parse
 import urllib.request
@@ -93,6 +94,15 @@ INTRADAY_INTERVAL = os.getenv("INTRADAY_INTERVAL", "5m")
 MIN_INTRADAY_VOLUME_RATIO = float(os.getenv("MIN_INTRADAY_VOLUME_RATIO", "1.8"))
 MIN_BREAKOUT_SCORE = float(os.getenv("MIN_BREAKOUT_SCORE", "70"))
 MIN_BUY_SCORE = float(os.getenv("MIN_BUY_SCORE", "75"))
+
+# Skip alerts on stocks that have already moved more than this % since the
+# morning scan by the time a breakout is detected — reduces chasing risk
+# caused by delayed data + 5-min polling.
+EXTENSION_CAP_PCT = float(os.getenv("EXTENSION_CAP_PCT", "6.0"))
+
+# --- Self-learning feedback loop ---
+MIN_SAMPLES_FOR_LEARNING = int(os.getenv("MIN_SAMPLES_FOR_LEARNING", "30"))
+LEARNING_FULL_INFLUENCE_SAMPLES = int(os.getenv("LEARNING_FULL_INFLUENCE_SAMPLES", "150"))
 
 # News
 NEWS_LOOKBACK_HOURS = int(os.getenv("NEWS_LOOKBACK_HOURS", "30"))
@@ -155,6 +165,8 @@ def market_is_open():
 DATA_DIR = "data"
 WATCHLIST_FILE = os.path.join(DATA_DIR, "watchlist.json")
 ALERT_STATE_FILE = os.path.join(DATA_DIR, "alert_state.json")
+ALERT_HISTORY_FILE = os.path.join(DATA_DIR, "alert_history.json")
+MODEL_WEIGHTS_FILE = os.path.join(DATA_DIR, "model_weights.json")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -202,6 +214,26 @@ def load_alert_state():
 
 def save_alert_state(state):
     save_json(ALERT_STATE_FILE, state)
+
+
+# ============================================================
+# ALERT HISTORY (for the self-learning feedback loop)
+# ============================================================
+
+def load_alert_history():
+    data = load_json(ALERT_HISTORY_FILE, [])
+    return data if isinstance(data, list) else []
+
+
+def save_alert_history(records):
+    save_json(ALERT_HISTORY_FILE, records)
+
+
+def load_model_weights():
+    data = load_json(MODEL_WEIGHTS_FILE, None)
+    if not data or "coef" not in data:
+        return None
+    return data
 
 
 # ============================================================
@@ -1309,10 +1341,90 @@ def format_morning_report(results):
 
 
 # ============================================================
+# SELF-LEARNING FEEDBACK LOOP — feature extraction + model scoring
+# ============================================================
+
+FEATURE_NAMES = [
+    "rsi", "adx", "daily_volume_ratio", "daily_score", "news_score",
+    "combined_score", "intraday_score", "intraday_volume_ratio",
+    "ema_alignment", "dema_alignment", "golden_cross", "double_bottom",
+    "hh_hl", "near_breakout", "macd_bullish", "macd_cross",
+    "obv_accumulation", "has_patterns",
+]
+
+
+def build_feature_dict(morning_item, intraday_score, intraday_volume_ratio):
+    t = morning_item["technical"]
+    n = morning_item["news"]
+    return {
+        "rsi": t["rsi"],
+        "adx": t["adx"],
+        "daily_volume_ratio": t["volume_ratio"],
+        "daily_score": t["score"],
+        "news_score": n["score"],
+        "combined_score": morning_item["combined_score"],
+        "intraday_score": intraday_score,
+        "intraday_volume_ratio": intraday_volume_ratio,
+        "ema_alignment": 1.0 if t["ema_alignment"] else 0.0,
+        "dema_alignment": 1.0 if t["dema_alignment"] else 0.0,
+        "golden_cross": 1.0 if t["golden_cross"] else 0.0,
+        "double_bottom": 1.0 if t["double_bottom"] else 0.0,
+        "hh_hl": 1.0 if t["hh_hl"] else 0.0,
+        "near_breakout": 1.0 if t["near_breakout"] else 0.0,
+        "macd_bullish": 1.0 if t["macd_bullish"] else 0.0,
+        "macd_cross": 1.0 if t["macd_cross"] else 0.0,
+        "obv_accumulation": 1.0 if t["obv_accumulation"] else 0.0,
+        "has_patterns": 1.0 if t["patterns"] else 0.0,
+    }
+
+
+def learned_adjustment(feature_dict, weights):
+    """
+    Returns (probability_of_win 0-1, blend_ratio 0-1) using the trained
+    logistic regression weights, or (None, 0) if there's no usable model
+    yet. blend_ratio scales from 0 at MIN_SAMPLES_FOR_LEARNING samples up
+    to 1 at LEARNING_FULL_INFLUENCE_SAMPLES, so the learned model only
+    gradually earns influence over the heuristic score as data accumulates.
+    """
+    if not weights:
+        return None, 0.0
+
+    try:
+        n_samples = weights.get("n_samples", 0)
+        if n_samples < MIN_SAMPLES_FOR_LEARNING:
+            return None, 0.0
+
+        names = weights["features"]
+        mean = weights["mean"]
+        scale = weights["scale"]
+        coef = weights["coef"]
+        intercept = weights["intercept"]
+
+        z = intercept
+        for i, name in enumerate(names):
+            x = feature_dict.get(name, 0.0)
+            denom = scale[i] if scale[i] else 1.0
+            z += coef[i] * ((x - mean[i]) / denom)
+
+        prob = 1.0 / (1.0 + math.exp(-z))
+
+        blend_ratio = min(
+            1.0,
+            max(0.0, (n_samples - MIN_SAMPLES_FOR_LEARNING)) /
+            max(1, (LEARNING_FULL_INFLUENCE_SAMPLES - MIN_SAMPLES_FOR_LEARNING))
+        )
+        return prob, blend_ratio
+
+    except Exception as e:
+        log.debug("learned_adjustment failed: %s", e)
+        return None, 0.0
+
+
+# ============================================================
 # INTRADAY BREAKOUT ENGINE
 # ============================================================
 
-def analyze_intraday(symbol, morning_item):
+def analyze_intraday(symbol, morning_item, model_weights=None):
     df = yf_intraday(symbol)
 
     if df is None or len(df) < 10:
@@ -1403,13 +1515,41 @@ def analyze_intraday(symbol, morning_item):
 
     score = round(min(100, score), 1)
 
-    # Signal only after BOTH breakout and volume confirmation.
+    # --- Learned adjustment (self-learning feedback loop) ---
+    # Once enough historical alerts have resolved outcomes, gradually blend
+    # the heuristic score with a learned win-probability estimate.
+    features = build_feature_dict(morning_item, score, volume_ratio)
+    win_prob, blend_ratio = learned_adjustment(features, model_weights)
+    if win_prob is not None and blend_ratio > 0:
+        learned_score = win_prob * 100
+        score = round(min(100, (1 - blend_ratio) * score + blend_ratio * learned_score), 1)
+
+    # --- Extension guard ---
+    # The combination of ~15min-delayed data + 5-min polling means a
+    # "fresh" short-term breakout can still correspond to a stock that has
+    # already run up a lot for the day by the time we detect it. Skip
+    # alerting on those — the safer entry window has already passed.
+    move_since_morning = (
+        ((price - morning_price) / morning_price) * 100
+        if morning_price > 0 else 0
+    )
+    too_extended = move_since_morning > EXTENSION_CAP_PCT
+
+    # Signal only after BOTH breakout and volume confirmation, and only
+    # if the stock hasn't already run too far since this morning's scan.
     buy_signal = (
         breakout
         and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO
         and bullish_candle
         and score >= MIN_BUY_SCORE
+        and not too_extended
     )
+
+    if breakout and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO and too_extended:
+        log.info(
+            "%s: breakout+volume met but skipped, already +%.1f%% since morning scan (cap %.1f%%)",
+            symbol, move_since_morning, EXTENSION_CAP_PCT
+        )
 
     atr = morning_item["technical"]["atr"]
 
@@ -1442,6 +1582,8 @@ def analyze_intraday(symbol, morning_item):
         "target1": round(target1, 2),
         "target2": round(target2, 2),
         "time": now_ist().strftime("%H:%M:%S"),
+        "bar_time": pd.to_datetime(day.index[-1]).isoformat(),
+        "features": features,
     }
 
 
@@ -1555,10 +1697,153 @@ def cmd_rescan():
 # COMMAND: recheck  (every ~5 min during market hours)
 # ============================================================
 
+# ============================================================
+# SELF-LEARNING FEEDBACK LOOP — outcome recording + tracking
+# ============================================================
+
+def _tz_naive_index(df):
+    idx = pd.to_datetime(df.index)
+    try:
+        idx = idx.tz_localize(None)
+    except TypeError:
+        pass
+    return idx
+
+
+def record_new_alert(signal, morning_item):
+    history = load_alert_history()
+    history.append({
+        "date": today_str(),
+        "symbol": signal["symbol"],
+        "alert_time": signal["time"],
+        "bar_time": signal["bar_time"],
+        "entry_price": signal["price"],
+        "sl": signal["sl"],
+        "target1": signal["target1"],
+        "target2": signal["target2"],
+        "features": signal["features"],
+        "outcome": "PENDING",
+        "exit_price": None,
+        "exit_time": None,
+        "max_favorable_pct": 0.0,
+        "max_adverse_pct": 0.0,
+    })
+    save_alert_history(history)
+
+
+def update_pending_outcomes(finalize_eod=False):
+    """
+    For every PENDING alert from today, walk forward through intraday bars
+    since the alert and check — in chronological order — whether SL,
+    target1, or target2 was touched first. Also tracks the best/worst
+    price reached so far (max_favorable_pct / max_adverse_pct), which
+    matters for exactly the case you flagged: a stock that spiked +10%
+    intraday but drifted back to +2% by day end. Even if no clean target
+    was hit, we still know it *could* have been a big winner with a
+    tighter exit.
+
+    If finalize_eod=True, any still-PENDING alert is closed out as
+    "NO_TARGET_EOD" using the latest available price — meant to be called
+    once after market close.
+    """
+    history = load_alert_history()
+    today = today_str()
+    changed = False
+
+    for rec in history:
+        if rec.get("date") != today or rec.get("outcome") != "PENDING":
+            continue
+
+        symbol = rec["symbol"]
+        df = yf_intraday(symbol)
+        if df is None or df.empty:
+            continue
+
+        try:
+            idx = _tz_naive_index(df)
+            df = df.copy()
+            df.index = idx
+
+            anchor = pd.to_datetime(rec["bar_time"])
+            try:
+                anchor = anchor.tz_localize(None)
+            except TypeError:
+                pass
+
+            bars_since = df.loc[df.index > anchor]
+            if bars_since.empty:
+                continue
+
+            entry = rec["entry_price"]
+            sl = rec["sl"]
+            t1 = rec["target1"]
+            t2 = rec["target2"]
+
+            resolved = False
+            for ts, bar in bars_since.iterrows():
+                high = float(bar["High"])
+                low = float(bar["Low"])
+
+                fav_pct = ((high - entry) / entry) * 100
+                adv_pct = ((entry - low) / entry) * 100
+                rec["max_favorable_pct"] = round(max(rec["max_favorable_pct"], fav_pct), 2)
+                rec["max_adverse_pct"] = round(max(rec["max_adverse_pct"], adv_pct), 2)
+
+                hit_sl = low <= sl
+                hit_t2 = high >= t2
+                hit_t1 = high >= t1
+
+                if hit_sl or hit_t1 or hit_t2:
+                    # Conservative: if SL and a target are touched in the
+                    # same bar, assume the worst case (SL first).
+                    if hit_sl:
+                        rec["outcome"] = "STOPLOSS_HIT"
+                        rec["exit_price"] = sl
+                    elif hit_t2:
+                        rec["outcome"] = "TARGET2_HIT"
+                        rec["exit_price"] = t2
+                    else:
+                        rec["outcome"] = "TARGET1_HIT"
+                        rec["exit_price"] = t1
+                    rec["exit_time"] = ts.isoformat()
+                    resolved = True
+                    changed = True
+                    break
+
+            if not resolved:
+                changed = True  # max_favorable/adverse pct may have updated
+                if finalize_eod:
+                    last_close = float(bars_since["Close"].iloc[-1])
+                    rec["outcome"] = "NO_TARGET_EOD"
+                    rec["exit_price"] = round(last_close, 2)
+                    rec["exit_time"] = bars_since.index[-1].isoformat()
+
+        except Exception as e:
+            log.debug("Outcome tracking failed for %s: %s", symbol, e)
+
+    if changed:
+        save_alert_history(history)
+
+    return history
+
+
 def cmd_recheck():
     if not market_is_open():
         log.info("Market closed — skipping intraday recheck.")
         return
+
+    # Update outcomes for today's already-fired alerts first, every cycle.
+    try:
+        update_pending_outcomes()
+    except Exception as e:
+        log.warning("update_pending_outcomes failed: %s", e)
+
+    model_weights = load_model_weights()
+    if model_weights:
+        log.info(
+            "Using learned model (n_samples=%s) blended into scoring.",
+            model_weights.get("n_samples")
+        )
 
     watchlist_data = load_watchlist()
     if watchlist_data.get("date") != today_str():
@@ -1581,13 +1866,14 @@ def cmd_recheck():
         if symbol in alerted:
             continue
         try:
-            signal = analyze_intraday(symbol, item)
+            signal = analyze_intraday(symbol, item, model_weights=model_weights)
         except Exception as e:
             log.debug("Intraday error %s: %s", symbol, e)
             continue
 
         if signal and signal["buy_signal"]:
             tg_send(build_buy_alert_message(signal, item))
+            record_new_alert(signal, item)
             alerted.add(symbol)
             new_alerts.append(symbol)
 
@@ -1597,6 +1883,155 @@ def cmd_recheck():
         log.info("Sent buy alerts for: %s", ", ".join(new_alerts))
     else:
         log.info("No new buy signals this recheck.")
+
+
+# ============================================================
+# COMMAND: eod_finalize  (once, shortly after market close)
+# ============================================================
+
+def cmd_eod_finalize():
+    if now_ist().weekday() >= 5:
+        log.info("Weekend — skipping EOD finalize.")
+        return
+
+    log.info("Finalizing today's still-pending alert outcomes.")
+    history = update_pending_outcomes(finalize_eod=True)
+
+    today = today_str()
+    today_records = [r for r in history if r.get("date") == today]
+
+    if not today_records:
+        log.info("No alerts were recorded today.")
+        return
+
+    counts = {}
+    for r in today_records:
+        counts[r["outcome"]] = counts.get(r["outcome"], 0) + 1
+
+    wins = counts.get("TARGET1_HIT", 0) + counts.get("TARGET2_HIT", 0)
+    losses = counts.get("STOPLOSS_HIT", 0)
+    no_target = counts.get("NO_TARGET_EOD", 0)
+    total = len(today_records)
+
+    avg_mfe = sum(r["max_favorable_pct"] for r in today_records) / total
+    avg_mae = sum(r["max_adverse_pct"] for r in today_records) / total
+
+    msg = (
+        f"📊 *End-of-Day Alert Report — {today}*\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"Total alerts: {total}\n"
+        f"🎯 Target hit: {wins}\n"
+        f"🛑 Stop-loss hit: {losses}\n"
+        f"➖ No target/SL hit: {no_target}\n\n"
+        f"📈 Avg best move reached: +{avg_mfe:.2f}%\n"
+        f"📉 Avg worst drawdown reached: -{avg_mae:.2f}%\n\n"
+        f"This data feeds the weekly self-learning retrain."
+    )
+    tg_send(msg)
+    log.info("EOD finalize complete: %s", counts)
+
+
+# ============================================================
+# COMMAND: retrain  (weekly, off-market)
+# ============================================================
+
+def cmd_retrain():
+    log.info("Starting weekly retrain of scoring weights.")
+    history = load_alert_history()
+
+    resolved = [
+        r for r in history
+        if r.get("outcome") in ("TARGET1_HIT", "TARGET2_HIT", "STOPLOSS_HIT", "NO_TARGET_EOD")
+        and r.get("features")
+    ]
+
+    n = len(resolved)
+    if n < MIN_SAMPLES_FOR_LEARNING:
+        msg = (
+            f"🧠 *Self-Learning Retrain*\n"
+            f"Only {n} resolved alerts so far (need {MIN_SAMPLES_FOR_LEARNING} minimum).\n"
+            f"Still using the fixed heuristic scoring until enough data accumulates."
+        )
+        tg_send(msg)
+        log.info("Not enough samples yet: %s/%s", n, MIN_SAMPLES_FOR_LEARNING)
+        return
+
+    try:
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.preprocessing import StandardScaler
+    except ImportError:
+        log.error("scikit-learn is not installed — cannot retrain. Add 'scikit-learn' to requirements.txt.")
+        tg_send("⚠️ Retrain failed: scikit-learn is missing from requirements.txt.")
+        return
+
+    X = []
+    y = []
+    for r in resolved:
+        row = [r["features"].get(name, 0.0) for name in FEATURE_NAMES]
+        X.append(row)
+        # "Win" = reached either target before stop-loss.
+        y.append(1 if r["outcome"] in ("TARGET1_HIT", "TARGET2_HIT") else 0)
+
+    X = pd.DataFrame(X, columns=FEATURE_NAMES).fillna(0.0).values
+    y = pd.Series(y).values
+
+    if len(set(y)) < 2:
+        msg = (
+            "🧠 *Self-Learning Retrain*\n"
+            f"All {n} resolved alerts have the same outcome so far — "
+            "can't fit a model until there's a mix of wins and losses."
+        )
+        tg_send(msg)
+        log.info("Retrain skipped: only one outcome class present.")
+        return
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    model = LogisticRegression(max_iter=1000, C=1.0)
+    model.fit(X_scaled, y)
+
+    train_accuracy = model.score(X_scaled, y)
+    win_rate = sum(y) / len(y) * 100
+
+    weights = {
+        "trained_at": now_ist().isoformat(),
+        "n_samples": n,
+        "features": FEATURE_NAMES,
+        "mean": scaler.mean_.tolist(),
+        "scale": scaler.scale_.tolist(),
+        "coef": model.coef_[0].tolist(),
+        "intercept": float(model.intercept_[0]),
+        "train_accuracy": round(train_accuracy, 3),
+    }
+    save_json(MODEL_WEIGHTS_FILE, weights)
+
+    # Report the most influential features (by absolute coefficient).
+    ranked = sorted(
+        zip(FEATURE_NAMES, model.coef_[0]),
+        key=lambda x: abs(x[1]),
+        reverse=True
+    )[:5]
+    top_features_text = "\n".join(
+        f"  {'+' if c > 0 else '-'} {name}" for name, c in ranked
+    )
+
+    blend_note = (
+        f"Blend influence: {min(100, max(0, (n - MIN_SAMPLES_FOR_LEARNING) / max(1, (LEARNING_FULL_INFLUENCE_SAMPLES - MIN_SAMPLES_FOR_LEARNING)) * 100)):.0f}% "
+        f"(reaches 100% at {LEARNING_FULL_INFLUENCE_SAMPLES} samples)"
+    )
+
+    msg = (
+        f"🧠 *Self-Learning Retrain Complete*\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"Samples used: {n}\n"
+        f"Historical win rate: {win_rate:.1f}%\n"
+        f"Model fit on training data: {train_accuracy*100:.1f}%\n"
+        f"{blend_note}\n\n"
+        f"Top influential factors:\n{top_features_text}"
+    )
+    tg_send(msg)
+    log.info("Retrain complete. n=%s, train_accuracy=%.3f", n, train_accuracy)
 
 
 # ============================================================
@@ -1632,8 +2067,12 @@ def main():
         cmd_rescan()
     elif command == "recheck":
         cmd_recheck()
+    elif command == "eod_finalize":
+        cmd_eod_finalize()
+    elif command == "retrain":
+        cmd_retrain()
     else:
-        print(f"Unknown command '{command}'. Use 'scan', 'rescan', or 'recheck'.")
+        print(f"Unknown command '{command}'. Use 'scan', 'rescan', 'recheck', 'eod_finalize', or 'retrain'.")
         sys.exit(1)
 
 
