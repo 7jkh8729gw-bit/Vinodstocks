@@ -1,0 +1,46 @@
+name: Intraday Recheck (Buy Signals)
+
+on:
+  schedule:
+    # Every 5 min, 03:00-10:59 UTC = 08:30-16:29 IST, Mon-Fri.
+    # Script itself checks market_is_open() and exits if outside 9:15-15:30 IST.
+    - cron: "*/5 3-10 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nse-ai-bot-state
+  cancel-in-progress: false
+
+jobs:
+  recheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run intraday recheck
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python nse_ai_breakout_actions.py recheck
+
+      - name: Commit updated alert state
+        run: |
+          git config user.name "nse-ai-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase
+          git add data/
+          git diff --cached --quiet || git commit -m "Alert state update [skip ci]"
+          git push
