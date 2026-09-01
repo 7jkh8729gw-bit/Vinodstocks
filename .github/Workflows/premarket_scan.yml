@@ -1,0 +1,45 @@
+name: Pre-Market Scan
+
+on:
+  schedule:
+    # 03:15 UTC = 08:45 IST, Monday-Friday
+    - cron: "15 3 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nse-ai-bot-state
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run morning scan
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python nse_ai_breakout_actions.py scan
+
+      - name: Commit updated watchlist
+        run: |
+          git config user.name "nse-ai-bot"
+          git config user.email "actions@github.com"
+          git pull --rebase
+          git add data/
+          git diff --cached --quiet || git commit -m "Morning scan watchlist [skip ci]"
+          git push
