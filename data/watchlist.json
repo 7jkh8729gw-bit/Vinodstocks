@@ -302,35 +302,35 @@
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1554.2,
-        "day_change": 2.38,
-        "volume": 1692348,
-        "avg_volume": 716126,
-        "volume_ratio": 2.36,
+        "price": 1562.5,
+        "day_change": 2.92,
+        "volume": 1852596,
+        "avg_volume": 723757,
+        "volume_ratio": 2.56,
         "high_52w": 1578.0,
-        "pct_from_high": 1.53,
-        "market_cap": 33010.31
+        "pct_from_high": 0.99,
+        "market_cap": 33186.6
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1554.199951171875,
-        "rsi": 70.52,
+        "close": 1562.5,
+        "rsi": 71.22,
         "adx": 32.56,
         "atr": 47.64,
-        "volume_ratio": 2.3,
+        "volume_ratio": 2.49,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": false,
+        "breakout": true,
         "macd_bullish": true,
         "macd_cross": true,
         "obv_accumulation": true,
         "patterns": [],
-        "setup": "DOUBLE BOTTOM",
-        "score": 70,
+        "setup": "BREAKOUT",
+        "score": 79,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -338,15 +338,16 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
+          "Confirmed Breakout",
           "MACD Bullish Crossover",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1482.75,
-        "target1": 1649.47,
-        "target2": 1720.93
+        "stop_loss": 1491.05,
+        "target1": 1657.77,
+        "target2": 1729.23
       },
       "news": {
         "score": 45,
@@ -367,7 +368,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Laurus, Sai Life Sciences up 3% in weak market; what's driving CDMO stocks? - business-standard.com",
+            "title": "Laurus, Sai Life Sciences up 3% in weak market; what's driving CDMO stocks? - Business Standard",
             "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNOGhkYzB4SHZuOG1sZDlNcjYyU29ZN2xLSmR2ZmlTQXIyUFJscE5HTUhyc1pzNUdCdkp3UXMzcEtpRXFLemhrZlpoQ0k1akdqcW10OHhrODA3NmNTU0NQNzlaSVBuT242cm10UHREUFZvX1I2M2Z0V1R0V01GbmRoS2JfMjg4WXBnaFJuQ01OUmJRZHJxejZDSE0zREItcnpST0FVYlA0NVl6TDlnYVFjVjhjQkU0ZGRSNTZydG5zSmVET2RnQWZRdHZZMmhMNXdGalBzcNIB2gFBVV95cUxNa21QNUVMSnVMOGMySTh5V0hjTG9iYks0MlNZZ3lpNmV4OG1lYTZzUTdwMGgwV2pvRkM4MkFOSGd1aEFXc3k4WVFlWm5VX0p4eDhVNEdpbnlob2doZ0ZrRk9ORm5qZDdKc2wyTXduSXZVWV9COEVCcF9KVVRDN2JsaWN4ZGxmQ3lRaUJhOGZnVVNZajJrczVudnVhaWpRWUVfTDJHS2RFdFFpVUZQTlZ3dDNCNWo1MS1IQXV4djdMSmNtZEpwVzVCdmtpcjJKajNYeGUtSE8wRGw3QQ?oc=5",
             "published": "Fri, 08 May 2026 07:00:00 GMT",
             "score": -2,
@@ -390,36 +391,36 @@
         ]
       },
       "core_score": 22,
-      "combined_score": 69.5,
-      "added_at": "2026-09-02T11:13:18.946307",
+      "combined_score": 74.5,
+      "added_at": "2026-09-02T11:54:11.118146",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 130.07,
-        "day_change": 2.61,
-        "volume": 5965211,
-        "avg_volume": 1572746,
-        "volume_ratio": 3.79,
+        "price": 128.93,
+        "day_change": 1.71,
+        "volume": 6265492,
+        "avg_volume": 1587045,
+        "volume_ratio": 3.95,
         "high_52w": 137.5,
-        "pct_from_high": 5.71,
-        "market_cap": 1638.15
+        "pct_from_high": 6.65,
+        "market_cap": 1623.8
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 130.07000732421875,
-        "rsi": 93.07,
+        "close": 128.92999267578125,
+        "rsi": 92.92,
         "adx": 49.87,
         "atr": 6.57,
-        "volume_ratio": 3.66,
+        "volume_ratio": 3.81,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
@@ -428,14 +429,13 @@
           "3 White Soldiers"
         ],
         "setup": "DOUBLE BOTTOM",
-        "score": 72,
+        "score": 66,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
           "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -443,9 +443,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 120.22,
-        "target1": 143.21,
-        "target2": 153.06
+        "stop_loss": 119.08,
+        "target1": 142.07,
+        "target2": 151.92
       },
       "news": {
         "score": 60,
@@ -459,13 +459,6 @@
             "label": "Neutral"
           },
           {
-            "title": "BODALCHEM Share Price Today - Bodal Chemicals on NSE/BSE - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBiTWFwQTBTMXVwdllYTk0teWdqZmxWMkVJZTVRXy1xWnVyaVVTczdRYXBxT21YaU5KbWQyS3dkM0tFX3FZd3MtcXd2eHdKankwMmtaN3J6UnVlX2s?oc=5",
-            "published": "Wed, 23 Apr 2025 07:16:44 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
             "title": "Under the Radar Chemical Stocks India 2026: 5 Hidden Picks - Univest",
             "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9RdS1zVlgyRkxpMmdXdzJaQWpVM0VwODc5SlkzOFFJZzRVM294c2pxWXlYcW5BMkN4ampjbmN4M2dkTVFSTUhJMS1JOFZpSkJRQUFQRzNUSW52Wi1pUEg2RXlLelFqLXlJT2xrQ0ZJYw?oc=5",
             "published": "Thu, 20 Aug 2026 04:41:00 GMT",
@@ -473,24 +466,31 @@
             "label": "Neutral"
           },
           {
-            "title": "Bodal Chemicals share price zooms over 14%; here is why - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxORDJIRVVNV3VGLXp2bEdBRHFMMVkxdFdJbnVMU0NJNl93VlBiTGIyRmFsSzV0Q3JxTV9vVWktZFlfMGtXWHNpd2xlRExrZmtvRHhPX0VwUnBNMEFtbzltOXN3QzUtYUotMEt6b1E1VFNJWkZmZDB2ZjR2TldwWUlHTVVWc2hxbEdwYkNqM0hlM0JmOF9scTQzNXRJbzdsNldpd3lEUWxhWFFYeXQybGhhNFd3?oc=5",
-            "published": "Sun, 09 Mar 2025 08:00:00 GMT",
+            "title": "Pros and Cons of Bodal Chemicals Share 2026 | Dye Intermediate - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPUzBqTndkejJ1cjdIYWs1ZF9MRWlub19KT3hxOGF2bWRkaGxOc1dqbjh3U3JHRXRnZm9yNldpRnhKdnFtVU8wUS1HX2poWmRpTzRkNlAwLUNwTkxaZzN3X0RhWmVKV09WcENZdnJSX1RyM0tzVEptekx4YzJYWlU1YmRn?oc=5",
+            "published": "Wed, 12 Aug 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Bodal Chemicals Share Price Today - Bodal Chemicals Ltd. Stock Price Live NSE/BSE - HDFC Sky",
-            "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE41LW5mYWVhdUtYaFkwdDNKdS1TYnNkZ28yOGRlUFZRWGpOR2RGYmZsbzY5My1fSzFrTW1mTjZrVms1OElpY29wVmZFOERXWEc1Sy11RkVQSUU2dw?oc=5",
-            "published": "Wed, 30 Jul 2025 22:34:42 GMT",
+            "title": "Bodal Chemicals (BODALCHEM.NS) Edges Lower Amid Consolidation; Key Support at \u20b959.11 in Focus - Jurik MA - vinanet.vn",
+            "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOb0E0ME14SjQtN0RjT0ZRUnYtRVZWc3Z2MWl1T2w2c2ttc0I0czFNcXFiaFBYU0NUWUxaaUVRR3pMV3dBME9naF9PdjBvUWNHOWNoLWF5YloxUExzMTFXNmJhVmJTVzM4cjUwUXNJS2daSGo4VlNFT2VTRk43TFNwZnFPOHNaWVBFNnZXaU04cFM4dTNHSzVUb0N1V3FLaXpnTE9PcFpjZWwzSG51ZjBhZDJKNi1wY09wbUZidU1aYmVrOU5NZ2Rjbg?oc=5",
+            "published": "Mon, 06 Jul 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Bodal Chemicals Ltd. Share Price Today - Bodal Chemicals Ltd. Stock Price Live NSE/BSE - CNBC TV18",
+            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNTXZoekxxamdJb09MVmZaNFBOVzR3SUpmSzFGQ3MwTGdBSkZrS3NTdUhhZ0pMVUVvb01BVVJUekU0VTNWcVBIM0RLM3ZzUWF5dDVHdGVyYmtDLTYtNU1LR1ZBQzdoRFdxLXhvV1hEZDhEdk5oNmtZVk9XMGdaUHdBVEZn?oc=5",
+            "published": "Sat, 03 Jan 2026 14:54:28 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 23,
-      "combined_score": 74.6,
-      "added_at": "2026-09-02T11:12:16.743721",
+      "combined_score": 71.3,
+      "added_at": "2026-09-02T11:52:54.998637",
       "signal_state": "WATCHING"
     },
     {
@@ -1745,22 +1745,22 @@
       "symbol": "TBZ",
       "base": {
         "symbol": "TBZ",
-        "price": 397.3,
-        "day_change": 8.32,
-        "volume": 19097648,
-        "avg_volume": 3116397,
-        "volume_ratio": 6.13,
+        "price": 394.4,
+        "day_change": 7.52,
+        "volume": 19879932,
+        "avg_volume": 3153649,
+        "volume_ratio": 6.3,
         "high_52w": 430.0,
-        "pct_from_high": 8.23,
-        "market_cap": 2651.21
+        "pct_from_high": 9.03,
+        "market_cap": 2631.86
       },
       "technical": {
         "symbol": "TBZ",
-        "close": 397.29998779296875,
-        "rsi": 81.09,
+        "close": 394.3999938964844,
+        "rsi": 80.81,
         "adx": 38.51,
         "atr": 23.0,
-        "volume_ratio": 5.94,
+        "volume_ratio": 6.11,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1788,39 +1788,25 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 362.81,
-        "target1": 443.29,
-        "target2": 477.79
+        "stop_loss": 359.91,
+        "target1": 440.39,
+        "target2": 474.89
       },
       "news": {
         "score": 55,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Multibagger stock: Why TBZ shares are locked at 20% upper circuit - business-standard.com",
+            "title": "Multibagger stock: Why TBZ shares are locked at 20% upper circuit - Business Standard",
             "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQc2d4TmZEd2pqYjRrUzJyczZGZGd3a2VmMFhHYm1lLUJVaHczeVhuUXRoaHZXYXRBNklJVWlFOGhzZTBMSnZkXzQxLVVDdEZ3NlN5Qi15b0ZqN3JiQUxXOTJlUUlTUFE1RzMwRk00eHdTbHptMXRXalJCOVRWZHZVdnliMUFGaDZPODV4OGlYeEQ4QTBpSU5wVnNlbkxOU2JOaGhfMEduR2FvaUxFQ2pPRi1KcGJSZEdaOFM1ZFQ0NUJ0RUNFTFNaZ2x30gHPAUFVX3lxTE1GQnZ6dHRmU2U5aTBNLVhhWWs5cmJlUjBrR2JMa3dJRUI3Nk8wZGF6U05rSlRpZzRic2cwdW84Vk54b1BLOTlKUklybXlmV3NNd01pZHNOUjAxTk5iRzRjcDVsdVFPRzRTS3Q3N1lwSFZOV2JxVVJjTHpPcXhSbWo1RmVuZmZZeFlZVmxUdnpyS2t6NENucDY0Tkt6eTZIbGRweGZtaFRTT2pIUkhQcWNmaUxxaFlydC1zak1xZU1IdjFmaUJ5WElDakJpaVVNbw?oc=5",
             "published": "Tue, 01 Sep 2026 06:37:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Stocks to Watch Today: Milky Mist, EPL, E2E Networks, TBZ, Happiest Minds. NCC, Symbiotec Pharmalab,... - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMitwJBVV95cUxNNzFpcVg4YXU1TG5IaHI2S0ZmY1R0ZFI5cDRpVmpQWThld0JWVFduWG1lQk5ucmVXOEdKMjVxdzFGUWZDVVA4cmY4SURLc1FNQnROZWtOYzFMSUR5REtqVDJJLTdVa0J5Zm5ISlp0dkgxR1FiRE4wNE1mNkU4MDBnVGR6UWdpSjJjRXl1R3pobDdFZjh0UjVKTjB6T18wbGxfcVM0ak4wcU4waTd3cVRBTHFBS0ZoSDVOY29JM3lPajJoNndEbHVoeFNfRzM3MWQzSGVROWFtQWs1TFZfcUhJNWRfRVhpQTBITy1GQTNYc0hyN01zWGpzTndNVjRqVGJERlUxR2lDbGd3Y2E2anctYThQVE14RW9YdUhiSTA4Y19MaGFMaHduNUtPcktKaEFSam1la1pESdIBvAJBVV95cUxOYk9fZWYwbDZZWHZGS2V3NFlVSHp4b19NeVVNRTJQM25rODdRc3lNRWt4Slp4cTYtLURGajRyZFZaaE9DZlBtY0RyOVp4RDBzVEptRUVTaVAya1RLWE1uSXppNWlqWWpucDh2VXJOV0R3YUlUOXhpQTZLY2t4NzRXV3FselBIYWdNbUdfdnEtQl9BTWFjQ19YWnBnN2ZCb0dBUkdYMUsxeGFrWmdyZ3ZETzdWWWdqMGFGOWlBNUVuQ1RlZHVTUWg4d1Y5LVYtSmFzalZmTTV3RGx5VkJ6MWVxRHV3N3RpakVUSDduRTZVT09HZXF5d29kam1uVHgtYzhHbFRLWnFyYWlxeXdTTlMzZjJxc0h0N1BhaVJZVkpHTHBLSV9kWE41ZktobHpGR0xyMG1OUnlUdm5EWVlW?oc=5",
-            "published": "Tue, 01 Sep 2026 01:08:16 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
             "title": "TBZ shares zoom 20%, hit upper circuit after GRT Jewellers open offer - The Economic Times",
-            "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPaXpLQWxEWHE4ZG43dVNsdWRQRDF0N3htQTdNOGtoSnhackxuTThkS0Q4dWRBeFI3WnV3d1JfbTEtSlItTzBvYVFPTGUxaXFzSFMzT1BYX2xWVWpRWnVNZ09YQ1FBZjJoTV9kd25Bc3VhTk9CS0d6R2xkYnQ5Qk44Tk91NU9SUmpBdC1pUDlEVjgyRkFnNWY4V0REOTl5d3ZJd3RLUUprM05tNGtscVVIU05fdG5yTndDX3d3alRzSWdlcU5sUGRuS1o2ZVNXNUhUV051dDVGd3VTd2RWbnfSAd4BQVVfeXFMT2l6S0FsRFhxOGRuN3VTbHVkUEQxdDd4bUE3TThraEp4WnJMbk04ZEtEOHVkQXhSN1p1d3dSX20xLUpSLU8wb2FRT0xlMWlxc0hTM09QWF9sVlVqUVp1TWdPWENRQWYyaE1fZHduQXN1YU5PQktHekdsZGJ0OUJOOE5PdTVPUlJqQXQtaVA5RFY4MkZBZzVmOFdERDk5eXd2SXd0S1FKazNObTRrbHFVSFNOX3Ruck53Q193d2pUc0lnZXFObFBkbktaNmVTVzVIVFdOdXQ1Rnd1U3dkVm53?oc=5",
-            "published": "Tue, 01 Sep 2026 07:48:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Lumino Industries IPO allotment finalised: How to check status online on NSE, BSE, Bigshare Services; listing date, time here - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPQjdOUUM1a21PNWY1QUtobUpWRHY2NkZoWnNGaUZ1UUZHZlFhRVpjVEFiNTdieHZHSG1VM0JYNU1VSGlERDhLY1AtRzVTVTd6UnNuRVd2Yk9GdmxkaENKM2Z1OTVycy1jRHllSzRJTGd5bnJJZHNkdU0zV1Zoc0lGM1JaRE8wVHNvZ1lVX1l0dlBjX0xtcFlrQUkzbEx5ZU0tR3JPTFhZWllLZlpMTUVkbm91bk1nM3RCX256UkJPS1FqV05zOTZSVVU0cmFOUk1sQTRvLVhFbTZuVFBjaGl5NjZKMGVhZnhxVS1SRi04NFJWcnNRRGl5RVJhUWhFckk?oc=5",
-            "published": "Tue, 01 Sep 2026 03:09:25 GMT",
+            "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQU2ZUSzMwWTVsWWxGcDAtOXh6N1BXeDJDQzJ0V0J5NWZuRmpnTEdsalBXNWhZZlhIcEtiTEY2S291STZkd3hyV2J5MnIteGlhWHZCUjFsbmdIZHpRWlI3X2dHN1p5TWdQTmloVmF2V0tKNDNJNEx4azcyNW9rR2JfTHlLVGVsdC1oa3laejFMdzlGZFdHelR6Ukh0Y04ydXZtWnl0OGJOUU1vV1JyQWxjV19uTGI1LU02dlBRZF8wbmM3Y2NZRFd5YmF1QkFyNUVFMGVHQ2hIdU_SAd4BQVVfeXFMT2l6S0FsRFhxOGRuN3VTbHVkUEQxdDd4bUE3TThraEp4WnJMbk04ZEtEOHVkQXhSN1p1d3dSX20xLUpSLU8wb2FRT0xlMWlxc0hTM09QWF9sVlVqUVp1TWdPWENRQWYyaE1fZHduQXN1YU5PQktHekdsZGJ0OUJOOE5PdTVPUlJqQXQtaVA5RFY4MkZBZzVmOFdERDk5eXd2SXd0S1FKazNObTRrbHFVSFNOX3Ruck53Q193d2pUc0lnZXFObFBkbktaNmVTVzVIVFdOdXQ1Rnd1U3dkVm53?oc=5",
+            "published": "Tue, 01 Sep 2026 07:48:43 GMT",
             "score": 0,
             "label": "Neutral"
           },
@@ -1830,12 +1816,26 @@
             "published": "Tue, 25 Aug 2026 09:32:00 GMT",
             "score": 1,
             "label": "Neutral"
+          },
+          {
+            "title": "Top stocks in news: Symbiotech, EPL, Milky Mist, TBZ, Skyways, PVR Inox, Hy-Tech, Cipla, Kotak Bank - Business Today",
+            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPZUI2U283WUJ3ZzMtQmpDTUVqRHVPZW5Bd3hCVk81ZkpBaFlvbVE3dXNQWkdwVHVqTF9zOTJOTTZVaWRpUGlIbFY4OV91WU9yWHNxMnlNc3NwX1Nvd3FVcTRaUnVrUTNyUUpuTUJzaGZQSl9MN0tuV09EVXMyanNVazNaZzJrbWE2cFFqWFhpWWlVcG1uNlQtZk5VbzgzQjdkS2ctXzUtbnY3Ulh6aWlrNjVNdzE1b0diU20wQ1RBNFJTVW5FY0p4RTM0U3RWTVVSTjhnRmgxVG1HYjlrVDZDb0ZNU201U0gycG5fdFdab9IB9AFBVV95cUxNY1ZKREdISnU4cTlOY3htLXl4dmhZc0ZxX0hJdjlfTXNxcXFQbjE4X1plQmg2aW5OSEhqdXdRaVkyQnFvMWZWUDZsdUEwdFkyLVdGN2xTYjBnWHRvanE4T3FKSUd6eWVyZ0tHemVySEpFdVFOUVJUT1ZWUzNieTNtdkdHTGlfUHRaTUZva1J2RDRYcGhwY1dXLUNLSjJOQmFzY3BPOWhSajdLcEtuY0RmcEw5bXlwQ0tSUFZNLUdROUJoRWlVTmZlbmdUUUdqMlBhWEVyQ3pWVFdrTDhiZUs4MjdGZ3BWNWhjTlM5MWk1clVfVkw0?oc=5",
+            "published": "Tue, 01 Sep 2026 02:08:58 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Stocks to Watch Today: Milky Mist, EPL, E2E Networks, TBZ, Happiest Minds. NCC, Symbiotec Pharmalab,... - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMitwJBVV95cUxNNzFpcVg4YXU1TG5IaHI2S0ZmY1R0ZFI5cDRpVmpQWThld0JWVFduWG1lQk5ucmVXOEdKMjVxdzFGUWZDVVA4cmY4SURLc1FNQnROZWtOYzFMSUR5REtqVDJJLTdVa0J5Zm5ISlp0dkgxR1FiRE4wNE1mNkU4MDBnVGR6UWdpSjJjRXl1R3pobDdFZjh0UjVKTjB6T18wbGxfcVM0ak4wcU4waTd3cVRBTHFBS0ZoSDVOY29JM3lPajJoNndEbHVoeFNfRzM3MWQzSGVROWFtQWs1TFZfcUhJNWRfRVhpQTBITy1GQTNYc0hyN01zWGpzTndNVjRqVGJERlUxR2lDbGd3Y2E2anctYThQVE14RW9YdUhiSTA4Y19MaGFMaHduNUtPcktKaEFSam1la1pESdIBvAJBVV95cUxOYk9fZWYwbDZZWHZGS2V3NFlVSHp4b19NeVVNRTJQM25rODdRc3lNRWt4Slp4cTYtLURGajRyZFZaaE9DZlBtY0RyOVp4RDBzVEptRUVTaVAya1RLWE1uSXppNWlqWWpucDh2VXJOV0R3YUlUOXhpQTZLY2t4NzRXV3FselBIYWdNbUdfdnEtQl9BTWFjQ19YWnBnN2ZCb0dBUkdYMUsxeGFrWmdyZ3ZETzdWWWdqMGFGOWlBNUVuQ1RlZHVTUWg4d1Y5LVYtSmFzalZmTTV3RGx5VkJ6MWVxRHV3N3RpakVUSDduRTZVT09HZXF5d29kam1uVHgtYzhHbFRLWnFyYWlxeXdTTlMzZjJxc0h0N1BhaVJZVkpHTHBLSV9kWE41ZktobHpGR0xyMG1OUnlUdm5EWVlW?oc=5",
+            "published": "Tue, 01 Sep 2026 01:08:16 GMT",
+            "score": 0,
+            "label": "Neutral"
           }
         ]
       },
       "core_score": 17,
       "combined_score": 69.8,
-      "added_at": "2026-09-02T11:13:32.436272",
+      "added_at": "2026-09-02T11:54:28.519056",
       "signal_state": "WATCHING"
     },
     {
@@ -1930,6 +1930,104 @@
       "core_score": 17,
       "combined_score": 58.2,
       "added_at": "2026-09-02T09:46:39.114064"
+    },
+    {
+      "symbol": "OMAXE",
+      "base": {
+        "symbol": "OMAXE",
+        "price": 133.49,
+        "day_change": 5.3,
+        "volume": 12378098,
+        "avg_volume": 5370867,
+        "volume_ratio": 2.3,
+        "high_52w": 134.3,
+        "pct_from_high": 0.61,
+        "market_cap": 2451.6
+      },
+      "technical": {
+        "symbol": "OMAXE",
+        "close": 133.49000549316406,
+        "rsi": 76.87,
+        "adx": 50.12,
+        "atr": 7.72,
+        "volume_ratio": 2.2,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "Bullish Engulfing"
+        ],
+        "setup": "DOUBLE BOTTOM",
+        "score": 72,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Bullish Engulfing",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 121.92,
+        "target1": 148.92,
+        "target2": 160.5
+      },
+      "news": {
+        "score": 75,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "Revenues Working Against Omaxe Limited's (NSE:OMAXE) Share Price - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQWENWTEtUZWM0Uy1kWHdZZTNUUG1rNWk4R1BNTHdUY2ZEeUZJTGxJakpVSnRSajdSbGxidHhsOGlxY0gzUkVIWTktNEUxRk4tTEw2cjhTR0Z0YkFtZDJHdTVBd3Y5Q20tODIzcTduYm5Ddk1LcnNna0lJelA4VF9tS3pFMVE3c2pEaWF1NlA2cUpZa3dxcmZqVzU5NHNJZDUwU0V0bzd4WENtcUhSTXN3NGtkZU5lcVZIWVRMa0NXZUIwNnB4OHVBTXktdHlaWjdNZTJ6Zm5HaGlWcmh2V044V3dSVklUYnloUHdnN2ppOEfSAfYBQVVfeXFMUFdGV0NHTUo5ZjFvb0p0N3JnSkxqQTBXTDR5algxY0xDYnlxN0lxcEFEZmc2QUFWRVZFLTRpRzh5WjJvbnQwTFBmLUNyLVdnQ3NUWm00cTNJeksxTENHM1hVSjBQRGMya1JjVl95ME0wRUJFRm04eTk0aFZPakNQWi1PZFdwaHUyMl9wWHU0MVZWR2hfQ1k3RFIxQnphcXIxREpjNzRTMHZhQ3F6aWRRcHNNU2hlSmxIbEt0NFZmNHg5X0tqQjRVbnc0UmhzQ1JNRU9wVHk1MVl6cHJMNDRkWkZlRTNrQThRbGhlZlY5b0tneEs5eFBB?oc=5",
+            "published": "Thu, 25 Dec 2025 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Omaxe \u20b9250 Crore Investment; Shares Rise Nearly 1% - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQcGhnaUU3X1hnZkZvenhvX0ZDZ2E5N2ZMWG9BT1llb3o4Uy1WRzk2dmZ0eVlLTzdWYTVLQU9XZVUxcWZtN1lmZ1UyMjU1NFdyNGVWS0dKbk4yUmlaejBaMk9GTmR4clZ5V2ZGbFFPempfSUJWcTJtYUhQa2Nhb2NUYUduckp1NHhWYUVIdTZB?oc=5",
+            "published": "Wed, 29 Apr 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Omaxe soars 20% on launch of dedicated hospitality arm, to invest \u20b96200-cr - Business Standard",
+            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPZm1wMF9sRHgzM09iRGtGSHh0dmJ1ZW85cF9iNWxadVRPZExiR3VzSG03b1ZFaElUWTBPQ3FMNUluOTNfZURFdDlLaFR1ZHk1MGEwZXY5QzF0OENVSHY2TVRDZDBDbVpBWDhUTTNkUm9PdG0zdDNCWElrZ2ZqeElZQjh4bEVNbkpKZ3ZudWtLNktIcG1ET2NqVW5EeklIdjdZMWNyS0tfQXRtZmhGMHF4dGh4S3JQMmlGaU4xR1AyUTI4OFFlRUtLY3FIM3R6LW5mcFFPQnpHZ0hSVFVMQmhlN1d6ZWrSAeoBQVVfeXFMUDBIM0ZkMEFQbUx2QzdEajk5a21lLW11bVVZdVFVeGd0WXBhZnhPaFFRekpRVVBJUlVaLTB1Q2tQOU1TZjJvNEFBOURvTjM0Q0c0UEEtMmhZZHFULWV4R1EzVVE4NmRyRjNlTUIwNVViN1dSNWNzU0o3MjJJbmRNRHhjdFFBTGxfZURHVW16YlhNaVkwUlVaYnJQLXg1Qy1kTmJwZWxqMTJHWGw3Y2lUMlNDVHc0VF9Gbkd4WnZJOWo1ZmN3MHdiNjlnXzNDelVFdUs5VVgxOHRveXZKYlFtQjdON3BtVzZKcWx3?oc=5",
+            "published": "Mon, 29 Jun 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Omaxe Share Price Target 2026: Bull Case Rs 105, Bear Case Rs 85. - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0yVm1NSTRNRVZEVlZnYUxxQmFEREZFTjY2R2pmZnRPOVFiYVlZZWRJTWp6YVQ3b0RIb2praUZablFXM29MaTAtSEdSQjByOVg0VC1zNEplLVNsLVMtMVhYQUh3VVY?oc=5",
+            "published": "Wed, 01 Jul 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Omaxe Subsidiary Receives RERA Registration for Commercial Project in Punjab - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOQW1Rd28wXzcxRWlSVEhMQ3d3ZDJGcDJwYWtPS1FONkhKOVhzZFdEQkJLUzZUdTJIUEhUbXIyejlBaFRnbndXeHRCUHpIQlpNcTFRNHllaVpDUkZVYmFwcGFpZjU1OHVHZDlvMEZTOFNQWjBCOWExNmt3djRYUEpyQ0IyQnVhMDU1RDR0Wjd5d0FhQWhlM0xLTTRoNld0UlJlS0hDLWh1U2Z0TXpONTU2RGR3dThlb3YxVjlmRklIMGpqUXllZ21KVldR?oc=5",
+            "published": "Wed, 04 Mar 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 73.6,
+      "added_at": "2026-09-02T11:53:55.892373"
     }
   ]
 }
