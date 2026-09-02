@@ -203,22 +203,22 @@
       "symbol": "TNPETRO",
       "base": {
         "symbol": "TNPETRO",
-        "price": 133.86,
-        "day_change": 0.28,
-        "volume": 4169963,
-        "avg_volume": 2565854,
-        "volume_ratio": 1.63,
+        "price": 134.37,
+        "day_change": 0.67,
+        "volume": 4272881,
+        "avg_volume": 2570755,
+        "volume_ratio": 1.66,
         "high_52w": 138.0,
-        "pct_from_high": 3.09,
-        "market_cap": 1204.36
+        "pct_from_high": 2.7,
+        "market_cap": 1208.95
       },
       "technical": {
         "symbol": "TNPETRO",
-        "close": 133.86000061035156,
-        "rsi": 80.39,
+        "close": 134.3699951171875,
+        "rsi": 80.63,
         "adx": 67.83,
         "atr": 6.06,
-        "volume_ratio": 1.55,
+        "volume_ratio": 1.59,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -229,9 +229,11 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [],
+        "patterns": [
+          "3 White Soldiers"
+        ],
         "setup": "DOUBLE BOTTOM",
-        "score": 62,
+        "score": 67,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -239,28 +241,29 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
+          "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 124.77,
-        "target1": 145.98,
-        "target2": 155.07
+        "stop_loss": 125.28,
+        "target1": 146.49,
+        "target2": 155.58
       },
       "news": {
         "score": 65,
         "label": "Bullish",
         "headlines": [
           {
-            "title": "Tamilnadu PetroProducts Share Price Target 2027, 2028 and 2030: Long Term Analyst Forecast - Univest",
+            "title": "Tamilnadu PetroProducts Share Price Target 2027, 2028 and 2030: Long Term Analyst Forecast - univest.in",
             "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQck50czh0c0tWcDREdjVxRXBod1RhdzRWVk5DbkhMNmZhZWVNMllCMUF5X3lzTzZxd21mYjRtR0xCLXI0RnRHb0otZFJyOVJ1Z1hJTUpsZE5QWUJscUlwSVB2aE5JOVdXTi03bExkMHZaNkpPZUQ3MVMxdjB6NjRLQTFXV1RsWm5PQWc?oc=5",
             "published": "Tue, 11 Aug 2026 07:00:00 GMT",
             "score": 1,
             "label": "Neutral"
           },
           {
-            "title": "Tamilnadu Petroproducts Ltd. (TNPETRO) Share Price Rises 14.15% Today - Univest",
+            "title": "Tamilnadu Petroproducts Ltd. (TNPETRO) Share Price Rises 14.15% Today - univest.in",
             "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPLVRHWW9tSWwzNDBVSzN3bGRHcGIxWGRmVVFjSUI5anpQWG1GZk5sZFJtYmptLTc4WGxQZFlrZFFlcExvNV9ubnFURUY0aERGYm41Ql9NS0k5RmhQenI1WVVEY2RGOTlvdWZodlFqMUQ2ZWxJQmpPNDZJRlNmZVYzWnBwMzdaa2c?oc=5",
             "published": "Wed, 12 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -281,7 +284,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Tamilnadu PetroProducts Share Price Target 2026: Rs 115 Analyst Forecast - Univest",
+            "title": "Tamilnadu PetroProducts Share Price Target 2026: Rs 115 Analyst Forecast - univest.in",
             "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBmVGdzQjhSRWEyVVhUNmRCQUppQmZTR3FUTGhLSVpBUy04NDZxSXdweGtIY05mZ3QxeHRfbnBVZUJGajl2UmpPMC01b0F6c1M3a3BJTERrSC1aQklMSm44b1pfUEJzVFRvaDdFOHJZMzN6cjVyZVpheDlqMHk?oc=5",
             "published": "Wed, 24 Jun 2026 07:00:00 GMT",
             "score": 1,
@@ -289,31 +292,31 @@
           }
         ]
       },
-      "core_score": 17,
-      "combined_score": 64.1,
-      "added_at": "2026-09-02T14:13:23.313254",
+      "core_score": 19,
+      "combined_score": 68.8,
+      "added_at": "2026-09-02T14:45:38.680026",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1578.0,
-        "day_change": 3.95,
-        "volume": 2269487,
-        "avg_volume": 743609,
-        "volume_ratio": 3.05,
-        "high_52w": 1579.0,
+        "price": 1579.0,
+        "day_change": 4.01,
+        "volume": 2389959,
+        "avg_volume": 749346,
+        "volume_ratio": 3.19,
+        "high_52w": 1580.0,
         "pct_from_high": 0.06,
-        "market_cap": 33515.81
+        "market_cap": 33537.05
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1578.0,
-        "rsi": 72.45,
-        "adx": 32.57,
-        "atr": 47.71,
-        "volume_ratio": 2.97,
+        "close": 1579.0,
+        "rsi": 72.53,
+        "adx": 32.59,
+        "atr": 47.78,
+        "volume_ratio": 3.11,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -341,9 +344,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1506.44,
-        "target1": 1673.42,
-        "target2": 1744.98
+        "stop_loss": 1507.33,
+        "target1": 1674.56,
+        "target2": 1746.23
       },
       "news": {
         "score": 45,
@@ -354,13 +357,6 @@
             "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOczByRGpMLUVhb2FwUUVCMmkzYXpBVjNHX0M0Q2ZjVWNOS1pUbjJONFNlRXVwMzlZTlhlczFLVmV0RXFZdjVLckd3bnVpVnBtbWdJN1lPRk03b3hEbi1IWmluMXRGeTFEZWNiUVFCX3B5WlliTk95LVNmWGJpTkQzaDJiMTNaUk5vVy1CYjFONXk0cEdHbEZ2R3FaRjljeWpTYUN6SXlKazhuMVF4M2oyNjJmTlFlQ2lweElYME9BajhRM3VMdFpKSm5iaGRxd20tbWMyQ0pB0gHbAUFVX3lxTE9yUlBtaWpKRzItQnR2elJJcUctVE9aY2FSOFlhZDZzYVBvX1pPTUx2Z0lTUmx2MGNHUG5fQ1NEc05BN2pINFlSNDJHeGZFbnRKLVlwNHc5VWdnOFlOWWN1cGM2VHNNazZZUWRJWFY5OWRUUFBMSmNaR2EzWk90Y1RuOXlTczVXYkpOeXp0Y0c2Z0pYT3JqOUw4OWpqYk01am1rMWJZOF82Z3M3NVN5dEk4N1RfMkxvSTVzNWotU3NlMmdtekNobjZZZGFZN25JcXRuOThfT2tWOC1rNA?oc=5",
             "published": "Wed, 02 Sep 2026 05:49:38 GMT",
             "score": -2,
-            "label": "Neutral"
-          },
-          {
-            "title": "Trade Spotlight: How should you trade Sai Life Sciences, EID Parry, Raymond, Glenmark Pharma, MCX India,... - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMilgJBVV95cUxOdW95dGFTNGJiWE5rcnMtMWNzM2JVY1lyOEZ3R1ZGbTJIbGFvbmFaZnowRTdqd3A4LWYyWUV6LWg4YTA0Ykowa1pOQzllcWRqaXlMZVRhQi1NcmhKS0lXRnR2dVZKeUpZU2Nrb2RPRFM0UkM2VTFiT3dUazdlcGdxOWhhd2JKSDRab2NEVVhwSGZ0ZkZMR1RlNVNha3p5aWlzdmJqeHZSOEgyTVl3UVVkU1M1S0hSa0J5RkdtOWJqa2VsNHVmai1vVGV1MW41ZWNqNVNnakpOdi1UMlY0cjhmVEVLSll2NFdxS2EzR0tXbFBvMlJnSUZBNVhyT0FmOFBKVFU1VUg4OVE3bzk2bHVLZTF6OTRLd9IBmwJBVV95cUxOUEJZZGRDcEpvUi1rSTNnRjJfSEREcWFoNW1Zek0tWG9yVFd0aFJ0OGpLNDUySVBOejR1UVgxNUp5RmN3TWQ1RnAteU15a3dCYmM3S2NNQjRBZkJvNmVTUFlLLTFiS2cwR3hIRVpQaHpuY0lkUG15TDZBODhOUkQxS1ZrWWdiZl9PU3F6RHlDb1VpcWxucGJsNG1NX0o5VEEtdFM0UG9UM0JyaWF0OElfMklUOGdsVmlNV2ZNTk53ZXUzVnpueUVKS2k2bDlULVBCaGJwbEJqLUpNWVVYdFB0MElONzUzd1FrRFFOZURRTUFDQjJqYXloWkt2elBmTzZWWmpsdXVKcW9EQlpWcG5fU3lyQnBtdzFhYld3?oc=5",
-            "published": "Fri, 21 Aug 2026 07:00:00 GMT",
-            "score": 0,
             "label": "Neutral"
           },
           {
@@ -383,12 +379,19 @@
             "published": "Wed, 25 Feb 2026 08:00:00 GMT",
             "score": 0,
             "label": "Neutral"
+          },
+          {
+            "title": "SAI LIFE SCIENCES LTD. Share Price Today Down 12% - Equitymaster",
+            "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOcF9RYS0tLTZXQjIyVW5Sa2RfcUhBeWRqZnNNYjcwU0tVTzI0Q0lnQUREZ2xQM1NLOG5FaDROV2ctTWpObWFPV0k3UGVYWVA0bE1rSEViMmxXNXV0UXhRVXAwSFpDbV9ZTUpjWXdJUXlIWk5xdlJ5aWNlQ2hBU2tFcExuQlZxWUNQMnBGQ3dCcjUwcjht?oc=5",
+            "published": "Fri, 15 May 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
           }
         ]
       },
       "core_score": 25,
       "combined_score": 77.5,
-      "added_at": "2026-09-02T14:13:07.796279",
+      "added_at": "2026-09-02T14:45:21.918015",
       "signal_state": "WATCHING"
     },
     {
@@ -1554,22 +1557,22 @@
       "symbol": "ANTHEM",
       "base": {
         "symbol": "ANTHEM",
-        "price": 940.4,
-        "day_change": 1.72,
-        "volume": 1216069,
-        "avg_volume": 784615,
-        "volume_ratio": 1.55,
+        "price": 937.9,
+        "day_change": 1.45,
+        "volume": 1281340,
+        "avg_volume": 787723,
+        "volume_ratio": 1.63,
         "high_52w": 952.8,
-        "pct_from_high": 1.32,
-        "market_cap": 52823.57
+        "pct_from_high": 1.59,
+        "market_cap": 52683.14
       },
       "technical": {
         "symbol": "ANTHEM",
-        "close": 940.4000244140625,
-        "rsi": 69.1,
+        "close": 937.9000244140625,
+        "rsi": 68.7,
         "adx": 40.74,
         "atr": 27.96,
-        "volume_ratio": 1.51,
+        "volume_ratio": 1.58,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1595,12 +1598,12 @@
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 898.46,
-        "target1": 996.32,
-        "target2": 1038.26
+        "stop_loss": 895.96,
+        "target1": 993.82,
+        "target2": 1035.76
       },
       "news": {
-        "score": 55,
+        "score": 50,
         "label": "Neutral",
         "headlines": [
           {
@@ -1611,14 +1614,7 @@
             "label": "Neutral"
           },
           {
-            "title": "ANTHEM Forecast \u2014 Price Target \u2014 Prediction for 2027 - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5aMUc3REQ3b3YyNVJvcXRHMlNfQ2l5ZmJPcVhRc21RQ3NBMGFCQlRiQmFzb0FiSjNMT1dvbWpRTzRPZHk2VHRBeG1MVXhVSUgtbU02Y2FlYlg0am5NU2VvLTN3MUYtMTVGV1kzZmtGTDBxQ3BwUmZkTw?oc=5",
-            "published": "Thu, 25 Jun 2026 15:04:51 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "Anthem Biosciences Share Price Rising Today: Stock Jumps 2.13% to Rs 775.10 on 17 July 2026 - Univest",
+            "title": "Anthem Biosciences Share Price Rising Today: Stock Jumps 2.13% to Rs 775.10 on 17 July 2026 - univest.in",
             "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUnh0ZkJtWmNjZHVwajRwTV9jU3BlNldOdnFBdnZFTi1sckxQdUxVVV92WllMTUU1Y00wamtoY0k0c3lwczdfell2U0xvanR5YmJoM1U0aDUtaUNKUHhSQmp5LUFPMUFlaWtXdHg5dEZKYmJyNlQzZ0JndGMzNlJIZzlIZTBvZWRp?oc=5",
             "published": "Fri, 17 Jul 2026 07:00:00 GMT",
             "score": 0,
@@ -1637,12 +1633,19 @@
             "published": "Tue, 05 May 2026 11:36:03 GMT",
             "score": 0,
             "label": "Neutral"
+          },
+          {
+            "title": "IPO Listing on July 21: Anthem Biosciences to debut on NSE, BSE - The Indian Express",
+            "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQYzBFend1cHMwZVNDSmRnazlOVFUtU3dPVlJ0THpybmlwc0g3M0hXcUxhWmYwOVlvVUNXWTZycVJRVXdjVHphQjc5QzMtOFdwLWh4djZTb2tPZmhXSExKVzNIQW9keDdiVlVDblBLTXJSSHlIa3EtUDhsemY3NjRSSExOWm43cTRjNk9ubU5yWURZTGhpRGJ0V201T0lvbDV0N0V3UGk3b3ZDaG1zZWVEbWNPVGFZWmZEZDN0Ul9R0gHEAUFVX3lxTE9ZSVNaYTFYNWJrOVNhV1AyQUhBSFJLRWhhcWVGMDEta19XbU1XY2x3UmJ6X3poMUxOYUZfR3JGOUxaTkY2TVVHRklTa0tNbmo0cnpLOFZYc2xyeU9uNFNfeUJDQWpGcmpNT0xXcm1QaDliemNRSGJzeVdTTlBzNHF6d1k5emt3dTk0M2d6R21iandCb2pSTkJiSEVCOFMtV3JxVjcxTHNKTElkNDhEYUVMSnpXOXZIZ0N5dlkxdE9sT0k3RGE?oc=5",
+            "published": "Sun, 20 Jul 2025 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
           }
         ]
       },
       "core_score": 19,
-      "combined_score": 64.1,
-      "added_at": "2026-09-02T14:12:00.132993",
+      "combined_score": 63.1,
+      "added_at": "2026-09-02T14:44:04.855246",
       "signal_state": "WATCHING"
     },
     {
@@ -1742,22 +1745,22 @@
       "symbol": "TBZ",
       "base": {
         "symbol": "TBZ",
-        "price": 392.55,
-        "day_change": 7.02,
-        "volume": 21671848,
-        "avg_volume": 3238978,
-        "volume_ratio": 6.69,
+        "price": 404.8,
+        "day_change": 10.36,
+        "volume": 22685705,
+        "avg_volume": 3287257,
+        "volume_ratio": 6.9,
         "high_52w": 430.0,
-        "pct_from_high": 9.54,
-        "market_cap": 2619.51
+        "pct_from_high": 6.23,
+        "market_cap": 2701.26
       },
       "technical": {
         "symbol": "TBZ",
-        "close": 392.54998779296875,
-        "rsi": 80.62,
+        "close": 404.79998779296875,
+        "rsi": 81.8,
         "adx": 38.51,
         "atr": 23.0,
-        "volume_ratio": 6.48,
+        "volume_ratio": 6.68,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1785,16 +1788,16 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 358.06,
-        "target1": 438.54,
-        "target2": 473.04
+        "stop_loss": 370.31,
+        "target1": 450.79,
+        "target2": 485.29
       },
       "news": {
-        "score": 50,
+        "score": 55,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Tribhovandas Bhimji Zaveri share price today: TBZ stock on fire again - What's driving the bull run? - Livemint",
+            "title": "Tribhovandas Bhimji Zaveri share price today: TBZ stock on fire again - What's driving the bull run? - livemint.com",
             "link": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOUUppWkJpMEhYSlJZX0l6cDBydnNDczU3QWE3b1B0dWFhc3pEWmZmMENpT3pzd3Ewdl9zTVBXSGtuVDEwYUc5TmN6RDQ0V1VZSk1MSGhpNlI2dlNuWWpJa2E5d0k3ZzFNTS1qQ3NNNVZFRk9ndlBtU0hEc3E5SVJuZy1aN3pPRzF5VUNxWFpJSjBqR01CT2lFcE01Wm9KUEJpTk9fMVcwWFJNTUpzZnlQMFQ1Uy1rd01EUXc1Q1hIS0FzNGo1ZWRQTmdqYW93d2kwQzdCcDZRTGZ0X2RDbWVPUmU3M01abVpIUDFOWUh4Y3VUQjVnZVkweNIB_gFBVV95cUxPX0liRFRRd3B1aFpJRTd2bVVoaU8wQlNJU3B1aUlFVWNiam5lbXJSNW5LaVo3aGJtM0xtNlZNUlpBOE11NTdjZG92TU1MSVlrSk9nUy1UMkFpNFcxOXdJY1h3NDBNVWUwOWZOU3BKeHB1SXFVWFc5ZE1WNG92TDMxbng5TUZmTWFsT3k1ZWJUYVNjMlRwc05STVdVN0Z6cHd4VU9XQ25YQndabE1vTEs0WXI5SGZmQ1d3cldzaFRHeDdDcHNfQ2ViV1gwTGZ2S1lSWEZDTVBLT1ZaOU5veGpVVUdqMzFKT3ZnTzZzNFZ0S1QxOVhxYjZoZjRtNldUQQ?oc=5",
             "published": "Wed, 02 Sep 2026 04:15:50 GMT",
             "score": 0,
@@ -1822,17 +1825,17 @@
             "label": "Neutral"
           },
           {
-            "title": "Lumino Industries IPO allotment finalised: How to check status online on NSE, BSE, Bigshare Services; listing date, time here - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPQjdOUUM1a21PNWY1QUtobUpWRHY2NkZoWnNGaUZ1UUZHZlFhRVpjVEFiNTdieHZHSG1VM0JYNU1VSGlERDhLY1AtRzVTVTd6UnNuRVd2Yk9GdmxkaENKM2Z1OTVycy1jRHllSzRJTGd5bnJJZHNkdU0zV1Zoc0lGM1JaRE8wVHNvZ1lVX1l0dlBjX0xtcFlrQUkzbEx5ZU0tR3JPTFhZWllLZlpMTUVkbm91bk1nM3RCX256UkJPS1FqV05zOTZSVVU0cmFOUk1sQTRvLVhFbTZuVFBjaGl5NjZKMGVhZnhxVS1SRi04NFJWcnNRRGl5RVJhUWhFckk?oc=5",
-            "published": "Tue, 01 Sep 2026 03:09:25 GMT",
-            "score": 0,
+            "title": "5 Jewellery Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9lTzdDa2JRdWtBeUQ4MXQ1QVdLS2NsUW1WeEtwck9Kamt1MTA5YzZXdlVVSVU4TEtvTnZxMjlrbm4zbnR2ejZMc2w0bm9EMVZCU1duTUpoV0YtdmM3RXlIdzNKaWszNC1mLVpGZXRZZ1Q4Y0JqOC1z?oc=5",
+            "published": "Tue, 25 Aug 2026 09:32:00 GMT",
+            "score": 1,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 17,
-      "combined_score": 68.8,
-      "added_at": "2026-09-02T14:13:21.164173",
+      "core_score": 20,
+      "combined_score": 72.8,
+      "added_at": "2026-09-02T14:45:37.205690",
       "signal_state": "WATCHING"
     },
     {
@@ -1932,22 +1935,22 @@
       "symbol": "OMAXE",
       "base": {
         "symbol": "OMAXE",
-        "price": 132.35,
-        "day_change": 4.4,
-        "volume": 24758124,
-        "avg_volume": 7950072,
-        "volume_ratio": 3.11,
+        "price": 131.5,
+        "day_change": 3.73,
+        "volume": 26204209,
+        "avg_volume": 8018933,
+        "volume_ratio": 3.27,
         "high_52w": 138.1,
-        "pct_from_high": 4.34,
-        "market_cap": 2430.66
+        "pct_from_high": 5.02,
+        "market_cap": 2415.05
       },
       "technical": {
         "symbol": "OMAXE",
-        "close": 132.35000610351562,
-        "rsi": 76.6,
+        "close": 131.5,
+        "rsi": 76.25,
         "adx": 48.53,
         "atr": 8.76,
-        "volume_ratio": 2.97,
+        "volume_ratio": 3.12,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1976,21 +1979,14 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 119.21,
-        "target1": 149.87,
-        "target2": 163.02
+        "stop_loss": 118.36,
+        "target1": 149.02,
+        "target2": 162.17
       },
       "news": {
         "score": 75,
         "label": "Bullish",
         "headlines": [
-          {
-            "title": "Revenues Working Against Omaxe Limited's (NSE:OMAXE) Share Price - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQWENWTEtUZWM0Uy1kWHdZZTNUUG1rNWk4R1BNTHdUY2ZEeUZJTGxJakpVSnRSajdSbGxidHhsOGlxY0gzUkVIWTktNEUxRk4tTEw2cjhTR0Z0YkFtZDJHdTVBd3Y5Q20tODIzcTduYm5Ddk1LcnNna0lJelA4VF9tS3pFMVE3c2pEaWF1NlA2cUpZa3dxcmZqVzU5NHNJZDUwU0V0bzd4WENtcUhSTXN3NGtkZU5lcVZIWVRMa0NXZUIwNnB4OHVBTXktdHlaWjdNZTJ6Zm5HaGlWcmh2V044V3dSVklUYnloUHdnN2ppOEfSAfYBQVVfeXFMUFdGV0NHTUo5ZjFvb0p0N3JnSkxqQTBXTDR5algxY0xDYnlxN0lxcEFEZmc2QUFWRVZFLTRpRzh5WjJvbnQwTFBmLUNyLVdnQ3NUWm00cTNJeksxTENHM1hVSjBQRGMya1JjVl95ME0wRUJFRm04eTk0aFZPakNQWi1PZFdwaHUyMl9wWHU0MVZWR2hfQ1k3RFIxQnphcXIxREpjNzRTMHZhQ3F6aWRRcHNNU2hlSmxIbEt0NFZmNHg5X0tqQjRVbnc0UmhzQ1JNRU9wVHk1MVl6cHJMNDRkWkZlRTNrQThRbGhlZlY5b0tneEs5eFBB?oc=5",
-            "published": "Thu, 25 Dec 2025 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
           {
             "title": "Omaxe \u20b9250 Crore Investment; Shares Rise Nearly 1% - HDFC Sky",
             "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQcGhnaUU3X1hnZkZvenhvX0ZDZ2E5N2ZMWG9BT1llb3o4Uy1WRzk2dmZ0eVlLTzdWYTVLQU9XZVUxcWZtN1lmZ1UyMjU1NFdyNGVWS0dKbk4yUmlaejBaMk9GTmR4clZ5V2ZGbFFPempfSUJWcTJtYUhQa2Nhb2NUYUduckp1NHhWYUVIdTZB?oc=5",
@@ -2006,10 +2002,17 @@
             "label": "Neutral"
           },
           {
-            "title": "Omaxe Share Price Target 2026: Bull Case Rs 105, Bear Case Rs 85. - Univest",
+            "title": "Omaxe Share Price Target 2026: Bull Case Rs 105, Bear Case Rs 85. - univest.in",
             "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE0yVm1NSTRNRVZEVlZnYUxxQmFEREZFTjY2R2pmZnRPOVFiYVlZZWRJTWp6YVQ3b0RIb2praUZablFXM29MaTAtSEdSQjByOVg0VC1zNEplLVNsLVMtMVhYQUh3VVY?oc=5",
             "published": "Wed, 01 Jul 2026 07:00:00 GMT",
             "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Omaxe Limited Slips 3.74%: Support Near \u20b980 in Focus - Volatility Skew - vinanet.vn",
+            "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOOTY5TnFoS2RnTVRfcy1kRGh0eHFfUExOdFRiLWVDLWpPTXNmTlU4LU5QcXlWZlprQTVNcy1YUDdRdGJDUC1qb21obDBCLXNramF0ZjFzV3dZRXAwNmVaWUVYb0lxOVZVNWdNOGNWbl92MjNCV2JJWl9FOF9FRVJXLVZCNzJpMERjOHdiSF8yVmFzdEtw?oc=5",
+            "published": "Wed, 08 Jul 2026 07:00:00 GMT",
+            "score": 0,
             "label": "Neutral"
           },
           {
@@ -2023,29 +2026,29 @@
       },
       "core_score": 23,
       "combined_score": 74.3,
-      "added_at": "2026-09-02T14:12:56.029029",
+      "added_at": "2026-09-02T14:45:07.944867",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "REDINGTON",
       "base": {
         "symbol": "REDINGTON",
-        "price": 362.9,
-        "day_change": 3.8,
-        "volume": 9091437,
-        "avg_volume": 5219118,
-        "volume_ratio": 1.74,
+        "price": 362.75,
+        "day_change": 3.76,
+        "volume": 9435421,
+        "avg_volume": 5235499,
+        "volume_ratio": 1.8,
         "high_52w": 378.5,
-        "pct_from_high": 4.3,
-        "market_cap": 28370.59
+        "pct_from_high": 4.34,
+        "market_cap": 28358.87
       },
       "technical": {
         "symbol": "REDINGTON",
-        "close": 362.8999938964844,
-        "rsi": 62.45,
+        "close": 362.75,
+        "rsi": 62.39,
         "adx": 42.24,
         "atr": 15.06,
-        "volume_ratio": 1.85,
+        "volume_ratio": 1.91,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2072,21 +2075,14 @@
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 340.31,
-        "target1": 393.02,
-        "target2": 415.61
+        "stop_loss": 340.16,
+        "target1": 392.87,
+        "target2": 415.46
       },
       "news": {
-        "score": 75,
+        "score": 90,
         "label": "Bullish",
         "headlines": [
-          {
-            "title": "Pros and Cons of Investing in Redington India Share: IT Distribution Analysis 2026 - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQYVdkcFVHUWtvbXdjeFNJS21STHREQXFsRDVJODBxRzJqM2l6SFI4dnBNWlNrRHJBTXdwOHIzdng1Z1cxV0xKdWJhVHAwT21Ia3VNQ09Cb1pXN0NHakxmYXc5QzJqY1ZWazUySnl2dk9YV2pEbkxWV3A2cmF3LVE1ZkJR?oc=5",
-            "published": "Tue, 11 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
           {
             "title": "Is Redington Limited (NSE:REDINGTON) Potentially Undervalued? - simplywall.st",
             "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZmVaR3NHaXVwZXNPZ0FCS0xyZndYLU5YS0l0SXRzT0MxX3NWVVdsR2dWRnJ2Y2x0MGEzdzdsWWszVnRYMkhEQVN5SENzZWhPX09Tb2l6LXc0QjZZNXFUVnRhX0hvajhWczJDeTJPRUZXSnpSaDBtNUpOTEpUZ3ZON0k1VWlreXA0c0NVUVNpOWlidF9VZnJsSHFqeUR6VFI3N2UzZFotYWZxWEJTWXBSVU9YYWo0c3dRRk5lOEhHN1N6cUpxaDFaT2gtYnA?oc=5",
@@ -2114,12 +2110,19 @@
             "published": "Tue, 10 Mar 2026 07:00:00 GMT",
             "score": 2,
             "label": "Neutral"
+          },
+          {
+            "title": "Redington India Share Price Target 2026: Expert Forecast, Growth Catalysts and Key Risks - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE5Kb2xNX1JYdGFNT05BclgzdUJzOUJtbnU1T3lqaFFXdXJrNEstdVcxQkxRdlU1ejBlQjlMMThrblkzMWxmWE5kSzBsV3N0T3NFdU8tS05DY1ljUmNJaVZSTzkyd3pzSVozNW1hcGZkOEh6Zw?oc=5",
+            "published": "Thu, 07 May 2026 07:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
           }
         ]
       },
       "core_score": 17,
-      "combined_score": 63.4,
-      "added_at": "2026-09-02T14:13:05.601992",
+      "combined_score": 66.3,
+      "added_at": "2026-09-02T14:45:17.805555",
       "signal_state": "WATCHING"
     },
     {
