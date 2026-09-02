@@ -302,35 +302,35 @@
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1554.2,
-        "day_change": 2.38,
-        "volume": 1093014,
-        "avg_volume": 687586,
-        "volume_ratio": 1.59,
-        "high_52w": 1569.0,
-        "pct_from_high": 0.95,
-        "market_cap": 33010.31
+        "price": 1569.3,
+        "day_change": 3.37,
+        "volume": 1509677,
+        "avg_volume": 707427,
+        "volume_ratio": 2.13,
+        "high_52w": 1578.0,
+        "pct_from_high": 0.55,
+        "market_cap": 33331.03
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1554.199951171875,
-        "rsi": 70.52,
-        "adx": 32.43,
-        "atr": 46.99,
-        "volume_ratio": 1.55,
+        "close": 1569.300048828125,
+        "rsi": 71.78,
+        "adx": 32.56,
+        "atr": 47.64,
+        "volume_ratio": 2.08,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": false,
+        "breakout": true,
         "macd_bullish": true,
         "macd_cross": true,
         "obv_accumulation": true,
         "patterns": [],
-        "setup": "DOUBLE BOTTOM",
-        "score": 65,
+        "setup": "BREAKOUT",
+        "score": 79,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -338,14 +338,16 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
+          "Confirmed Breakout",
           "MACD Bullish Crossover",
           "ADX Trend Strength",
           "Volume Expansion",
-          "OBV Accumulation"
+          "OBV Accumulation",
+          "Strong Volume"
         ],
-        "stop_loss": 1483.71,
-        "target1": 1648.19,
-        "target2": 1718.68
+        "stop_loss": 1497.85,
+        "target1": 1664.57,
+        "target2": 1736.03
       },
       "news": {
         "score": 45,
@@ -359,13 +361,6 @@
             "label": "Neutral"
           },
           {
-            "title": "Market News: Share Market Today, NIFTY, BSE/NSE LIVE, Sensex Today, Latest Share Market News Live Updates - Livemint",
-            "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTFA2eURra0RNN0hZR0ZxYmMxV00ycGZkVS14M1JaTGFnc2lGeVdLS3NUaDQ0Q0pKSkpLbDcwMUhQN1lwcHJNbmc?oc=5",
-            "published": "Fri, 28 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
             "title": "Sai Life Sciences (NSE:SAILIFE) Posted Healthy Earnings But There Are Some Other Factors To Be Aware Of - simplywall.st",
             "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxObDhPZ01BODF5Y3dmeEFVaktqZkhsNmtIX3VGRXZyckxIak1LeUJ5VlRkejU3TWRnN2VPWkppejlKU2VWWU5PVzdSN2JGeFVJUGtlcGRxVzk0elR4NUkzV3IzcHowcjROdmNPR3BIcGJCdWtsUWtvQVVoRUpCRE15SDNlTDZra25xODNiblQxaTdvSmdSLUJYcjJaREVjQkN0MzF6VGFNQWxRejZ1UTBtYkVXVFlqRVdmc1lqOHJtWVl3WFRjNmYwYUItRTlDVUxYVGZCOTBOVWZrSTV6NkJCQW05bG9iVG14QWh1MUxfSdIB9AFBVV95cUxQeWJJTEFiRHhGMFVjNENBNkh5TFBhUVVhb1ZIZW1IczhOeU5MLUZnUm1iX3h1MnlsT2tzMnBhRThiektrbFFiRndwMThDZEFWZ0JjN2ViRnZwVlYtT3ZnUGItNWhwVmp1ZVo4Qk5DUVJFX1hPZ0dxQUlOZ2h4WVN5enBxYlpRenRaWFMtdGlwT0QwODlEY0ZUSEdITzhPYWdVWXpfRE5YZmJHcVI1LXAyT2ZoWFRiZ1RJMjZzODVJRHRmdGdfVTF5aS1USTBLYzBGUXN2eGpLd0JGX0hTN2NqMTdITlFuaGExczNKM0RmSk01eWgx?oc=5",
             "published": "Fri, 22 May 2026 07:00:00 GMT",
@@ -373,7 +368,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Laurus, Sai Life Sciences up 3% in weak market; what's driving CDMO stocks? - Business Standard",
+            "title": "Laurus, Sai Life Sciences up 3% in weak market; what's driving CDMO stocks? - business-standard.com",
             "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNOGhkYzB4SHZuOG1sZDlNcjYyU29ZN2xLSmR2ZmlTQXIyUFJscE5HTUhyc1pzNUdCdkp3UXMzcEtpRXFLemhrZlpoQ0k1akdqcW10OHhrODA3NmNTU0NQNzlaSVBuT242cm10UHREUFZvX1I2M2Z0V1R0V01GbmRoS2JfMjg4WXBnaFJuQ01OUmJRZHJxejZDSE0zREItcnpST0FVYlA0NVl6TDlnYVFjVjhjQkU0ZGRSNTZydG5zSmVET2RnQWZRdHZZMmhMNXdGalBzcNIB2gFBVV95cUxNa21QNUVMSnVMOGMySTh5V0hjTG9iYks0MlNZZ3lpNmV4OG1lYTZzUTdwMGgwV2pvRkM4MkFOSGd1aEFXc3k4WVFlWm5VX0p4eDhVNEdpbnlob2doZ0ZrRk9ORm5qZDdKc2wyTXduSXZVWV9COEVCcF9KVVRDN2JsaWN4ZGxmQ3lRaUJhOGZnVVNZajJrczVudnVhaWpRWUVfTDJHS2RFdFFpVUZQTlZ3dDNCNWo1MS1IQXV4djdMSmNtZEpwVzVCdmtpcjJKajNYeGUtSE8wRGw3QQ?oc=5",
             "published": "Fri, 08 May 2026 07:00:00 GMT",
             "score": -2,
@@ -385,40 +380,47 @@
             "published": "Wed, 05 Aug 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
+          },
+          {
+            "title": "Sai Life Sciences plans to recruit 700+ professionals in FY27 as Indian CRDMO demand accelerates - drugdiscoverytrends.com",
+            "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdDRlcU0yelk4aVlkRjhfQkV0NDR1M0JNQkR6dGNnYnBQSFdsbnhFV2lUdGszV21la0I2dUh6V0ZucU9ESXVqck5NXy1fR2dNb0lOZVpXN1VIZHd3Vm9NQU11YzBWSDlKUFN5U0I3ZS1jTnAwWkJVS01nbGx4Tm5IOHNJUzFKMlZMMGpoNldTOGYtNjhWNTRvZHhrclZlRkI1X2FTeExNb1BFTVN1U05Sbm9CR3J1M09KejZhQnhLbHNFMU5Kdm9qYWdFM0g?oc=5",
+            "published": "Wed, 25 Feb 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
           }
         ]
       },
-      "core_score": 19,
-      "combined_score": 63.8,
-      "added_at": "2026-09-02T10:13:37.952672",
+      "core_score": 22,
+      "combined_score": 74.5,
+      "added_at": "2026-09-02T10:44:24.960351",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 129.94,
-        "day_change": 2.51,
-        "volume": 4343163,
-        "avg_volume": 1495506,
-        "volume_ratio": 2.9,
+        "price": 127.65,
+        "day_change": 0.7,
+        "volume": 5578987,
+        "avg_volume": 1554354,
+        "volume_ratio": 3.59,
         "high_52w": 137.5,
-        "pct_from_high": 5.82,
-        "market_cap": 1636.52
+        "pct_from_high": 7.72,
+        "market_cap": 1607.68
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 129.94000244140625,
-        "rsi": 93.05,
+        "close": 127.6500015258789,
+        "rsi": 92.75,
         "adx": 49.87,
         "atr": 6.57,
-        "volume_ratio": 2.8,
+        "volume_ratio": 3.46,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
@@ -427,14 +429,13 @@
           "3 White Soldiers"
         ],
         "setup": "DOUBLE BOTTOM",
-        "score": 72,
+        "score": 66,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
           "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -442,9 +443,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 120.09,
-        "target1": 143.08,
-        "target2": 152.93
+        "stop_loss": 117.8,
+        "target1": 140.79,
+        "target2": 150.64
       },
       "news": {
         "score": 60,
@@ -488,8 +489,8 @@
         ]
       },
       "core_score": 20,
-      "combined_score": 71.6,
-      "added_at": "2026-09-02T10:12:22.909458",
+      "combined_score": 68.3,
+      "added_at": "2026-09-02T10:42:40.588121",
       "signal_state": "WATCHING"
     },
     {
