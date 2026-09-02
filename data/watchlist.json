@@ -302,22 +302,22 @@
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1562.5,
-        "day_change": 2.92,
-        "volume": 1852596,
-        "avg_volume": 723757,
-        "volume_ratio": 2.56,
+        "price": 1560.5,
+        "day_change": 2.79,
+        "volume": 1913995,
+        "avg_volume": 726681,
+        "volume_ratio": 2.63,
         "high_52w": 1578.0,
-        "pct_from_high": 0.99,
-        "market_cap": 33186.6
+        "pct_from_high": 1.12,
+        "market_cap": 33144.12
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1562.5,
-        "rsi": 71.22,
+        "close": 1560.5,
+        "rsi": 71.06,
         "adx": 32.56,
         "atr": 47.64,
-        "volume_ratio": 2.49,
+        "volume_ratio": 2.57,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -345,9 +345,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1491.05,
-        "target1": 1657.77,
-        "target2": 1729.23
+        "stop_loss": 1489.05,
+        "target1": 1655.77,
+        "target2": 1727.23
       },
       "news": {
         "score": 45,
@@ -392,29 +392,29 @@
       },
       "core_score": 22,
       "combined_score": 74.5,
-      "added_at": "2026-09-02T11:54:11.118146",
+      "added_at": "2026-09-02T12:18:12.117670",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 128.93,
-        "day_change": 1.71,
-        "volume": 6265492,
-        "avg_volume": 1587045,
-        "volume_ratio": 3.95,
+        "price": 128.78,
+        "day_change": 1.59,
+        "volume": 6354821,
+        "avg_volume": 1591299,
+        "volume_ratio": 3.99,
         "high_52w": 137.5,
-        "pct_from_high": 6.65,
-        "market_cap": 1623.8
+        "pct_from_high": 6.77,
+        "market_cap": 1621.91
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 128.92999267578125,
-        "rsi": 92.92,
+        "close": 128.77999877929688,
+        "rsi": 92.9,
         "adx": 49.87,
         "atr": 6.57,
-        "volume_ratio": 3.81,
+        "volume_ratio": 3.85,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -443,9 +443,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 119.08,
-        "target1": 142.07,
-        "target2": 151.92
+        "stop_loss": 118.93,
+        "target1": 141.92,
+        "target2": 151.77
       },
       "news": {
         "score": 60,
@@ -490,7 +490,7 @@
       },
       "core_score": 23,
       "combined_score": 71.3,
-      "added_at": "2026-09-02T11:52:54.998637",
+      "added_at": "2026-09-02T12:16:58.982140",
       "signal_state": "WATCHING"
     },
     {
@@ -1935,54 +1935,50 @@
       "symbol": "OMAXE",
       "base": {
         "symbol": "OMAXE",
-        "price": 133.49,
-        "day_change": 5.3,
-        "volume": 12378098,
-        "avg_volume": 5370867,
-        "volume_ratio": 2.3,
-        "high_52w": 134.3,
-        "pct_from_high": 0.61,
-        "market_cap": 2451.6
+        "price": 131.18,
+        "day_change": 3.48,
+        "volume": 18410862,
+        "avg_volume": 5658141,
+        "volume_ratio": 3.25,
+        "high_52w": 134.8,
+        "pct_from_high": 2.76,
+        "market_cap": 2409.18
       },
       "technical": {
         "symbol": "OMAXE",
-        "close": 133.49000549316406,
-        "rsi": 76.87,
-        "adx": 50.12,
-        "atr": 7.72,
-        "volume_ratio": 2.2,
+        "close": 131.17999267578125,
+        "rsi": 75.97,
+        "adx": 50.16,
+        "atr": 7.8,
+        "volume_ratio": 3.11,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [
-          "Bullish Engulfing"
-        ],
+        "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 72,
+        "score": 61,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
-          "Bullish Engulfing",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 121.92,
-        "target1": 148.92,
-        "target2": 160.5
+        "stop_loss": 119.48,
+        "target1": 146.78,
+        "target2": 158.49
       },
       "news": {
         "score": 75,
@@ -2025,9 +2021,10 @@
           }
         ]
       },
-      "core_score": 19,
+      "core_score": 25,
       "combined_score": 73.6,
-      "added_at": "2026-09-02T11:53:55.892373"
+      "added_at": "2026-09-02T12:17:54.440079",
+      "signal_state": "WATCHING"
     }
   ]
 }
