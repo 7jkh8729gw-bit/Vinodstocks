@@ -203,22 +203,22 @@
       "symbol": "TNPETRO",
       "base": {
         "symbol": "TNPETRO",
-        "price": 134.8,
-        "day_change": 0.99,
-        "volume": 4118002,
-        "avg_volume": 2563380,
-        "volume_ratio": 1.61,
+        "price": 133.86,
+        "day_change": 0.28,
+        "volume": 4169963,
+        "avg_volume": 2565854,
+        "volume_ratio": 1.63,
         "high_52w": 138.0,
-        "pct_from_high": 2.37,
-        "market_cap": 1212.82
+        "pct_from_high": 3.09,
+        "market_cap": 1204.36
       },
       "technical": {
         "symbol": "TNPETRO",
-        "close": 134.8000030517578,
-        "rsi": 80.83,
+        "close": 133.86000061035156,
+        "rsi": 80.39,
         "adx": 67.83,
         "atr": 6.06,
-        "volume_ratio": 1.53,
+        "volume_ratio": 1.55,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -229,11 +229,9 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
+        "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 67,
+        "score": 62,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -241,24 +239,30 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
-          "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 125.71,
-        "target1": 146.92,
-        "target2": 156.01
+        "stop_loss": 124.77,
+        "target1": 145.98,
+        "target2": 155.07
       },
       "news": {
-        "score": 60,
-        "label": "Neutral",
+        "score": 65,
+        "label": "Bullish",
         "headlines": [
           {
             "title": "Tamilnadu PetroProducts Share Price Target 2027, 2028 and 2030: Long Term Analyst Forecast - Univest",
             "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQck50czh0c0tWcDREdjVxRXBod1RhdzRWVk5DbkhMNmZhZWVNMllCMUF5X3lzTzZxd21mYjRtR0xCLXI0RnRHb0otZFJyOVJ1Z1hJTUpsZE5QWUJscUlwSVB2aE5JOVdXTi03bExkMHZaNkpPZUQ3MVMxdjB6NjRLQTFXV1RsWm5PQWc?oc=5",
             "published": "Tue, 11 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Tamilnadu Petroproducts Ltd. (TNPETRO) Share Price Rises 14.15% Today - Univest",
+            "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPLVRHWW9tSWwzNDBVSzN3bGRHcGIxWGRmVVFjSUI5anpQWG1GZk5sZFJtYmptLTc4WGxQZFlrZFFlcExvNV9ubnFURUY0aERGYm41Ql9NS0k5RmhQenI1WVVEY2RGOTlvdWZodlFqMUQ2ZWxJQmpPNDZJRlNmZVYzWnBwMzdaa2c?oc=5",
+            "published": "Wed, 12 Aug 2026 07:00:00 GMT",
             "score": 1,
             "label": "Neutral"
           },
@@ -270,13 +274,6 @@
             "label": "Neutral"
           },
           {
-            "title": "Tamilnadu PetroProducts Share Price Target 2026: Rs 115 Analyst Forecast - Univest",
-            "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBmVGdzQjhSRWEyVVhUNmRCQUppQmZTR3FUTGhLSVpBUy04NDZxSXdweGtIY05mZ3QxeHRfbnBVZUJGajl2UmpPMC01b0F6c1M3a3BJTERrSC1aQklMSm44b1pfUEJzVFRvaDdFOHJZMzN6cjVyZVpheDlqMHk?oc=5",
-            "published": "Wed, 24 Jun 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
             "title": "TNPETRO.NS: Marginal Decline to \u20b990.76 Near Established Support Levels - MESA MA - vinanet.vn",
             "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOZ1JuRzFaeGtqa3o0ZWhTYWswM1R2Y0ZVb0E0UTFSbmItTnBLd250NEFURmUzbkdXMUxkYlgxRmg3TVBJQW5QdWZkdFdqRnVwVUVQOU5ra0JvMU4xeGZndmZIOTlKRUxiaklDQ3BjbjJiZHA4QUZyRVpLd0Rjd2tiYjJBWEF1SVpsWnN2TEJidG9uRE5VZ0dEUC02VUM0V0wyWFAyQ1NYc0tCMnM?oc=5",
             "published": "Mon, 22 Jun 2026 07:00:00 GMT",
@@ -284,39 +281,39 @@
             "label": "Neutral"
           },
           {
-            "title": "TN Petroproducts Stock Prediction 2026: Expert Analysis, Forecast Scenarios and Full Stock Review - Univest",
-            "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBKREx1LUg5Vlk2MjRRS0ZhZTZfT0k4U29sMnJsLVJVemlBTW1zQkdPb0VnYlRpeDVleFp2STdRSDFWNFRpU0tPNW5BN0o5bkdoTUVVNWoxdzlpd0JNc0picHhfRXZRRzhZMDNPaEIxRXQ?oc=5",
-            "published": "Fri, 19 Jun 2026 07:00:00 GMT",
-            "score": 0,
+            "title": "Tamilnadu PetroProducts Share Price Target 2026: Rs 115 Analyst Forecast - Univest",
+            "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBmVGdzQjhSRWEyVVhUNmRCQUppQmZTR3FUTGhLSVpBUy04NDZxSXdweGtIY05mZ3QxeHRfbnBVZUJGajl2UmpPMC01b0F6c1M3a3BJTERrSC1aQklMSm44b1pfUEJzVFRvaDdFOHJZMzN6cjVyZVpheDlqMHk?oc=5",
+            "published": "Wed, 24 Jun 2026 07:00:00 GMT",
+            "score": 1,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 19,
-      "combined_score": 67.8,
-      "added_at": "2026-09-02T13:46:32.423303",
+      "core_score": 17,
+      "combined_score": 64.1,
+      "added_at": "2026-09-02T14:13:23.313254",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1572.0,
-        "day_change": 3.55,
-        "volume": 2175017,
-        "avg_volume": 739110,
-        "volume_ratio": 2.94,
-        "high_52w": 1578.0,
-        "pct_from_high": 0.38,
-        "market_cap": 33388.37
+        "price": 1578.0,
+        "day_change": 3.95,
+        "volume": 2269487,
+        "avg_volume": 743609,
+        "volume_ratio": 3.05,
+        "high_52w": 1579.0,
+        "pct_from_high": 0.06,
+        "market_cap": 33515.81
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1572.0,
-        "rsi": 71.99,
-        "adx": 32.56,
-        "atr": 47.64,
-        "volume_ratio": 2.87,
+        "close": 1578.0,
+        "rsi": 72.45,
+        "adx": 32.57,
+        "atr": 47.71,
+        "volume_ratio": 2.97,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -344,9 +341,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1500.55,
-        "target1": 1667.27,
-        "target2": 1738.73
+        "stop_loss": 1506.44,
+        "target1": 1673.42,
+        "target2": 1744.98
       },
       "news": {
         "score": 45,
@@ -389,31 +386,31 @@
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 74.5,
-      "added_at": "2026-09-02T13:46:15.933040",
+      "core_score": 25,
+      "combined_score": 77.5,
+      "added_at": "2026-09-02T14:13:07.796279",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 139.57,
-        "day_change": 10.11,
-        "volume": 15674844,
-        "avg_volume": 2035110,
-        "volume_ratio": 7.7,
+        "price": 140.08,
+        "day_change": 10.51,
+        "volume": 20399087,
+        "avg_volume": 2260073,
+        "volume_ratio": 9.03,
         "high_52w": 145.7,
-        "pct_from_high": 4.39,
-        "market_cap": 1757.8
+        "pct_from_high": 4.01,
+        "market_cap": 1764.22
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 139.57000732421875,
-        "rsi": 94.09,
+        "close": 140.0800018310547,
+        "rsi": 94.14,
         "adx": 49.96,
         "atr": 7.16,
-        "volume_ratio": 7.41,
+        "volume_ratio": 8.67,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -444,9 +441,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 128.84,
-        "target1": 153.88,
-        "target2": 164.61
+        "stop_loss": 129.35,
+        "target1": 154.39,
+        "target2": 165.12
       },
       "news": {
         "score": 60,
@@ -491,7 +488,7 @@
       },
       "core_score": 20,
       "combined_score": 76.6,
-      "added_at": "2026-09-02T13:45:10.490721",
+      "added_at": "2026-09-02T14:12:07.657643",
       "signal_state": "WATCHING"
     },
     {
@@ -1557,22 +1554,22 @@
       "symbol": "ANTHEM",
       "base": {
         "symbol": "ANTHEM",
-        "price": 939.6,
-        "day_change": 1.63,
-        "volume": 1191697,
-        "avg_volume": 783455,
-        "volume_ratio": 1.52,
+        "price": 940.4,
+        "day_change": 1.72,
+        "volume": 1216069,
+        "avg_volume": 784615,
+        "volume_ratio": 1.55,
         "high_52w": 952.8,
-        "pct_from_high": 1.4,
-        "market_cap": 52778.63
+        "pct_from_high": 1.32,
+        "market_cap": 52823.57
       },
       "technical": {
         "symbol": "ANTHEM",
-        "close": 939.5999755859375,
-        "rsi": 68.97,
+        "close": 940.4000244140625,
+        "rsi": 69.1,
         "adx": 40.74,
         "atr": 27.96,
-        "volume_ratio": 1.48,
+        "volume_ratio": 1.51,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1585,7 +1582,7 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 57,
+        "score": 62,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -1595,11 +1592,12 @@
           "Near Breakout",
           "MACD Bullish",
           "ADX Trend Strength",
+          "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 897.66,
-        "target1": 995.52,
-        "target2": 1037.46
+        "stop_loss": 898.46,
+        "target1": 996.32,
+        "target2": 1038.26
       },
       "news": {
         "score": 55,
@@ -1643,8 +1641,8 @@
         ]
       },
       "core_score": 19,
-      "combined_score": 61.4,
-      "added_at": "2026-09-02T13:45:01.236579",
+      "combined_score": 64.1,
+      "added_at": "2026-09-02T14:12:00.132993",
       "signal_state": "WATCHING"
     },
     {
@@ -1744,22 +1742,22 @@
       "symbol": "TBZ",
       "base": {
         "symbol": "TBZ",
-        "price": 391.3,
-        "day_change": 6.68,
-        "volume": 21507089,
-        "avg_volume": 3231132,
-        "volume_ratio": 6.66,
+        "price": 392.55,
+        "day_change": 7.02,
+        "volume": 21671848,
+        "avg_volume": 3238978,
+        "volume_ratio": 6.69,
         "high_52w": 430.0,
-        "pct_from_high": 9.89,
-        "market_cap": 2611.17
+        "pct_from_high": 9.54,
+        "market_cap": 2619.51
       },
       "technical": {
         "symbol": "TBZ",
-        "close": 391.29998779296875,
-        "rsi": 80.49,
+        "close": 392.54998779296875,
+        "rsi": 80.62,
         "adx": 38.51,
         "atr": 23.0,
-        "volume_ratio": 6.45,
+        "volume_ratio": 6.48,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1787,9 +1785,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 356.81,
-        "target1": 437.29,
-        "target2": 471.79
+        "stop_loss": 358.06,
+        "target1": 438.54,
+        "target2": 473.04
       },
       "news": {
         "score": 50,
@@ -1834,7 +1832,7 @@
       },
       "core_score": 17,
       "combined_score": 68.8,
-      "added_at": "2026-09-02T13:46:29.921358",
+      "added_at": "2026-09-02T14:13:21.164173",
       "signal_state": "WATCHING"
     },
     {
@@ -1934,54 +1932,53 @@
       "symbol": "OMAXE",
       "base": {
         "symbol": "OMAXE",
-        "price": 132.44,
-        "day_change": 4.47,
-        "volume": 23248258,
-        "avg_volume": 5888493,
-        "volume_ratio": 3.95,
-        "high_52w": 134.8,
-        "pct_from_high": 1.78,
-        "market_cap": 2432.32
+        "price": 132.35,
+        "day_change": 4.4,
+        "volume": 24758124,
+        "avg_volume": 7950072,
+        "volume_ratio": 3.11,
+        "high_52w": 138.1,
+        "pct_from_high": 4.34,
+        "market_cap": 2430.66
       },
       "technical": {
         "symbol": "OMAXE",
-        "close": 132.44000244140625,
-        "rsi": 76.47,
-        "adx": 50.16,
-        "atr": 7.8,
-        "volume_ratio": 3.77,
+        "close": 132.35000610351562,
+        "rsi": 76.6,
+        "adx": 48.53,
+        "atr": 8.76,
+        "volume_ratio": 2.97,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
-          "Bullish Engulfing"
+          "Morning Star"
         ],
         "setup": "DOUBLE BOTTOM",
-        "score": 72,
+        "score": 66,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
-          "Bullish Engulfing",
+          "Morning Star",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 120.74,
-        "target1": 148.04,
-        "target2": 159.75
+        "stop_loss": 119.21,
+        "target1": 149.87,
+        "target2": 163.02
       },
       "news": {
         "score": 75,
@@ -2024,31 +2021,31 @@
           }
         ]
       },
-      "core_score": 25,
-      "combined_score": 79.6,
-      "added_at": "2026-09-02T13:46:02.373556",
+      "core_score": 23,
+      "combined_score": 74.3,
+      "added_at": "2026-09-02T14:12:56.029029",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "REDINGTON",
       "base": {
         "symbol": "REDINGTON",
-        "price": 363.65,
-        "day_change": 4.02,
-        "volume": 8701508,
-        "avg_volume": 5200550,
-        "volume_ratio": 1.67,
+        "price": 362.9,
+        "day_change": 3.8,
+        "volume": 9091437,
+        "avg_volume": 5219118,
+        "volume_ratio": 1.74,
         "high_52w": 378.5,
-        "pct_from_high": 4.08,
-        "market_cap": 28429.23
+        "pct_from_high": 4.3,
+        "market_cap": 28370.59
       },
       "technical": {
         "symbol": "REDINGTON",
-        "close": 363.6499938964844,
-        "rsi": 62.71,
+        "close": 362.8999938964844,
+        "rsi": 62.45,
         "adx": 42.24,
         "atr": 15.06,
-        "volume_ratio": 1.77,
+        "volume_ratio": 1.85,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2075,12 +2072,12 @@
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 341.06,
-        "target1": 393.77,
-        "target2": 416.36
+        "stop_loss": 340.31,
+        "target1": 393.02,
+        "target2": 415.61
       },
       "news": {
-        "score": 65,
+        "score": 75,
         "label": "Bullish",
         "headlines": [
           {
@@ -2112,18 +2109,117 @@
             "label": "Neutral"
           },
           {
-            "title": "Stocks to Watch Today: SBI Funds Management, Sobha, Rallis India, Bluestone Jewellery, Wanbury, Redington,... - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMiwAJBVV95cUxOY1BGOWFyNDQ4MVYtdEF1YVJOMldhNVV2dlhlN0tSQUJDc0hmMWc3Rko1ZldPcE1DUTkzYTB1SG9VWkZPR0trZ0JHcFpqNUY0NDhSVFo4MlVyTzJ5b05EY3U3ck5nclFhcXF1OHlObXVFT1FWRGttR0pzczlBMS0tWTE4NDBReXJHOG0zTUp1VVZrQnZ1MWZ6QzkycF9hcmxyRkV2eFU5STRYOEh6MFhlMnVMRVA2QTNTcXZzVWJSMkJnZFFFaHF1M1dPZmxrbzZKRlNpZGlKM2Z1Y21wYWppam9sb2x5Q25XYW90X0diM2dtc3BfNjJTNlduMVItbkFxYU02WHhhMzVFakhrcDBXazZiQks2R1JEYkFhOEJrdm1qd0NBNDBpV1d6SGk2UVc4cl84Mkh4d3BkYl9NVWRfM9IBxgJBVV95cUxQV1d2VUlsZnI5X1pTUHRuUDZTcElSQldiN2Rla3JncUx1YUpyZDNxSXpXN1V1WkJDWXJBSUZtR3Vya0I5QUhPU1plUDgyUEx6WXl5dnhoNXJ1ZDY5ZXVHajBydDdtck5rUy1tMGFSalpCMlNSc3UxWkZLWmVoUklMZ0dVMmRoLTJZd1VPU0FROWhqS0ZVbkVmTDhCZkJCcUY3cldvN1cyVEduMmdEVUViQVpqMDhPa0JBS196Q1hTZS1IdS11SjRLV2Y1Zy1ZSUI4SlFmYkdWT2czUUY0dHZhT2xybXVfcVV5dlRfYmJ2OTlHNU5qazRhSjRqRzNFdmlCMGlKam16dTVwNUxwa1lYSmxmMjBXLVNOck8yQ0tydXYtZHVLbjR0OFlCSF9RVHVka3F1U0pDX1VVSU5zUVNJdVpVRGVMdw?oc=5",
-            "published": "Tue, 21 Jul 2026 07:00:00 GMT",
-            "score": 0,
+            "title": "Redington shares surge up to 15% as report says 25% of iPhones are made in India - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOU2xoMUhRcC1ubnczMmNCeUZvajl1VEJiYnIyNUxRRDVseEZEdzdmRWZESnFvOXloeUNhaTN4bTdMWWdZeXhZbFJ5ZTJBZkNLV2pRU2RiR0dkNF96T1RSTnMxNE5lTFRBbzhPeG9KbDdjMTBiV2oyQUZvSUFQQS15VzZkb0pkTEhScFdQN3Vxd3MycHRkVlpWZjFmNUZIZjVGYldzSWJUNUxoVVFLTFFTcUpraEs0bzlhbmFVdXpZOGVlQdIBxwFBVV95cUxOSmxUc3pOc3E2SGRhZEQ2cjBDS0x3QzVGLVBPVFdxYzc0d3BBeUxrdWZRNUYtSk9sX0hKZ1hpMDR4Z2gtWTdFUHBVTmV4LUt5aTU1dkViRENRWmVVeVk4dWhxS3JtRU5sMkZaNlpSQk9HUDJLM3dJNV93amlvTS03YTdGZVNrQWN4WmpUTTJIeVh2ZENkdlV6R08yR2E1bElOYXA0aURrRk5HbU5hZVc0ZGhLczhodkt1TFFyWmdaamtGZms3ZlUw?oc=5",
+            "published": "Tue, 10 Mar 2026 07:00:00 GMT",
+            "score": 2,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 17,
-      "combined_score": 61.4,
-      "added_at": "2026-09-02T13:46:12.077026",
+      "combined_score": 63.4,
+      "added_at": "2026-09-02T14:13:05.601992",
       "signal_state": "WATCHING"
+    },
+    {
+      "symbol": "NIACL",
+      "base": {
+        "symbol": "NIACL",
+        "price": 200.9,
+        "day_change": 8.71,
+        "volume": 17734681,
+        "avg_volume": 4814413,
+        "volume_ratio": 3.68,
+        "high_52w": 218.0,
+        "pct_from_high": 8.51,
+        "market_cap": 33108.32
+      },
+      "technical": {
+        "symbol": "NIACL",
+        "close": 200.89999389648438,
+        "rsi": 68.79,
+        "adx": 34.84,
+        "atr": 7.26,
+        "volume_ratio": 5.23,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "Bullish Engulfing"
+        ],
+        "setup": "BREAKOUT",
+        "score": 81,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "Bullish Engulfing",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 190.01,
+        "target1": 215.41,
+        "target2": 226.3
+      },
+      "news": {
+        "score": 85,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "NSE IPO soon? NIACL, IFCI shares jump up to 11% on buzz over issue launch - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOMnk0RDhRT1kta2ZuRUpmc2hpZy1kWWRFbXpIWVB2cHdSVW00WS1EU2VuSWtuWklJbFpuakc3eEJvU2g3VlRYZW5OOE1hcWtWdjZ6RWFhTXVIN3BBTkV5dnQ0T0ZpSUxqUVZ0R21wbDBxX3QzNDlVbE1FQWRseDdvbXRLRDRlQXo5VWh3U3B0ZjNVVU01d1N1LUE1UVRlLXEzdG1yc1FNN2o3QlhHTG1jbW5RWHFqYkI1Q0ZOTHV2T0ZaNzBpYjBkeE9WZGtiVknSAdQBQVVfeXFMTm5aOWR3S05FZGNrYm1Bd0JLZ0gyakNPUmdCclVHX0hCdVFXZE93RTU3U0lwLVI5aHFsVTlzeVVMZ0kwai1XUjh2V3Z5ZWZyWmNXcWtZTWlIbkxNMzNZVmd1eWNNQWg5V2lJNl90NVJ6RmhiS2NQckFScWU1UDNYb2U4YkRsOXVpQVBpUVdqRjNYd2hxZGFxZGIyY1lDN2piT0Y5c3J4azBYQUJ3TmI5d1FnRHlkdmJOYk43cEdzMDdYZDJJZFdrOG5fMlM3N2RVazlYOHU?oc=5",
+            "published": "Wed, 02 Sep 2026 06:46:25 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "NSE IPO: NIACL shares surge 14% as insurer to sell 1.05 crore shares - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOM3k2NjVoOW1DMzJYcFhuS0M1MTczcGhHN0p3QlRkMXB2UkhGMVJFNUh0VkFYOWlTYkJBbVRnOEMwekRIcTlkWjNpdGg1QlpndDBqTEhENmxjY0JDT3NZOFU1bFY0ak1XVHItNTVmQ3UwVHhrcFVSYmRJakVVb2JoUHVuQk9lUTZ6OEM2WURuRWdVdGRSUXNvN1F2UHRtLUFTYWxUTzhHbkRmQjNvRWM3WDQwVjBCUWZVVTJ0bHRFZWxKV0tDTFdOVw?oc=5",
+            "published": "Wed, 17 Jun 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "NSE IPO: NIACL, IFCI, other stocks gain up to 14% as NSE files for India's largest IPO. Who's selling stak - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxORk80WmgxaFUyVnZKc1dHZXFLOTI5OVlDRFBmbGl0Vk5QRFo3alBCd295NlNKcFNYaVBzQUZYaTJVUGhyOXBabHU5aExleEt6MWZOU3h2OEROWEVaQ0QwWE1wOTFPMFZ0QTlXY0EtS1pRWTNpM3dsdkcxSG5RR1Q3WXcwYzVDeW1rcm1IVzQ0WEhneW44aWppZGlZcktnUWlmM0U1NXpsbjZYNTh5QVZ5SVJ0eEhMRllkRDBOODlJNE50anA5clVLYjRMemZsTGVEMEtvTnN1amtqdl9MU3pucWZkQ0R4eWM1aDFrYnh0cDlrdi0tYjZGY1FGcnV3V0tVQ29oVTVrRFlWb2NNT3M1dDRESdIBmAJBVV95cUxOQmJmRUVPSXBmeXhJN0F0MWJuSm9wSHc3el8wWk11QkZaUDJxYXU2aEY3LW5kTnUxSlhhZXo3Xy1qNkU4ZW92ZkJVYnhoWVdQTTc3eFZyYkVueVJDUzZsRVYwU1llc1V1dmNRRHFBemRhOXBZNEFDVE5wTlY5OVFxMkVGZTcxSDUzVlZQZTRSVkl3ZXF1NDVXbFhYX1VfLUQ3Nm1WUW5HSUxoMnRMSTFVUlFGOXI5SmtkTEFLYjMtcmppOHppc29naFNscmxLQU96Vm9DMm9wem9QSmFQWUI4WFFwa0lYNmNqOTBNdTdZR2otSjRFLVp0MHltNTNIRDdNMXdjdWJ2ZnBaME1fWHJsa3B5X3VjX2I0?oc=5",
+            "published": "Thu, 18 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "New India Assurance: FY27 profit may get capital gains boost from NSE stake sale, but watch underwriting loss - Livemint",
+            "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQdTZWMGZZQ2NZNkt1R3g4RVZZel9KQy0zQ2tWamRFMlNBZ0xyWHVoNXBCSVdOb1JWY1VoR0VfdDc1d3dNSjZQSmFIQk1rNk1uMTA2bGFBVEdZUGZFMmZsczYwelhaVE1lenpkNzJHY1hFdkhPVUMxWWY3Q2ZGR1NyR2ozbWxOM3JmdU8xNDdmb1p1UnVONGV4RENKVDRBako3aXZFdFZoNHJwVTlQaHNJWnhR0gG3AUFVX3lxTE9KTno0Tm1aWTEwUFBtUlNVRG5YbVMwcnBSZkkwblZTU3gzN2E2TmxSUEpzTExybXI2dVVNLVc4MEJSdzdmZ2tOamVSb044Tl9lOHdLTk14UDhoV25tVy1maDEyc1VvLTA4cEZkeDV6VnR5UlowaUR3ZnEwSjFUdk9wVGZsclpPZ0NUel9lOTVFVG9VT01ERFFyaFFub3V3WDlsT2NYTkhlQ0hfaFVNcU84ZmZ2RXlnOA?oc=5",
+            "published": "Thu, 25 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "The 41% return delivered to New India Assurance's (NSE:NIACL) shareholders actually lagged YoY earnings growth - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPX0x2dmF4djdZalcxNmoxZWxFV2NUT1JLeU9zQkszdE1VMzRZQ2VLakt6N05PcGJSMHBubzJRVVlzUW9vdHdmWnNpNTdmM0NENEVUNDBoYzJyZVlJbmhUeUVQMlFBdFBBbDRiTlhmeHNXMnN0M0c5aklydjVVRE5XdzJ5QzdCakJlTWpWQk5UMHliSEprcGRyaDdFNWtuNlItZVRYT1FaX0lNYXMwZEhMbTdOZ2VnUG9WYU9oS1p5S2xMR0t3VEhGTzFFZWg1OWk4WjVoOEFMVkI4SnVz0gHiAUFVX3lxTE5KU0pBSEJsT09lQl81MHpCcHlvQm9LeUlTODFEdXlKVGstTDBFajl3ZlJ3OE9nRThHd3h5cXY1aWVpS25jT0J1MWVIZHpUSGE3V1JIUUQ5UmkwVFFOOG1hanBfYkhDcjZkWWlmOXBFNFg5MUZEUEFmNEhTam5xbVkySWdIN1JBcEFONjdSSDNBcWh1NVQ3NHFYNmUtM0VheFJJY1lhbHpMbjNpeTdWbzdVcUx2V0htNmk0cmN2OXl4MnJrWmxpdkd2MU84WHdJdmVRVWVYY2twNUdJa1pjV0RHVVE?oc=5",
+            "published": "Mon, 02 Feb 2026 08:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 78.6,
+      "added_at": "2026-09-02T14:12:54.570278"
     }
   ]
 }
