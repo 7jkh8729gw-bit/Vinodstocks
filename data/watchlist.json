@@ -203,22 +203,22 @@
       "symbol": "TNPETRO",
       "base": {
         "symbol": "TNPETRO",
-        "price": 134.37,
-        "day_change": 0.67,
-        "volume": 4272881,
-        "avg_volume": 2570755,
-        "volume_ratio": 1.66,
+        "price": 133.89,
+        "day_change": 0.31,
+        "volume": 4559057,
+        "avg_volume": 2584382,
+        "volume_ratio": 1.76,
         "high_52w": 138.0,
-        "pct_from_high": 2.7,
-        "market_cap": 1208.95
+        "pct_from_high": 3.07,
+        "market_cap": 1204.63
       },
       "technical": {
         "symbol": "TNPETRO",
-        "close": 134.3699951171875,
-        "rsi": 80.63,
+        "close": 133.88999938964844,
+        "rsi": 80.4,
         "adx": 67.83,
         "atr": 6.06,
-        "volume_ratio": 1.59,
+        "volume_ratio": 1.68,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -229,11 +229,9 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
+        "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 67,
+        "score": 62,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -241,15 +239,14 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
-          "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 125.28,
-        "target1": 146.49,
-        "target2": 155.58
+        "stop_loss": 124.8,
+        "target1": 146.01,
+        "target2": 155.1
       },
       "news": {
         "score": 65,
@@ -292,31 +289,31 @@
           }
         ]
       },
-      "core_score": 19,
-      "combined_score": 68.8,
-      "added_at": "2026-09-02T14:45:38.680026",
+      "core_score": 17,
+      "combined_score": 64.1,
+      "added_at": "2026-09-02T15:13:12.103713",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1579.0,
-        "day_change": 4.01,
-        "volume": 2389959,
-        "avg_volume": 749346,
-        "volume_ratio": 3.19,
-        "high_52w": 1580.0,
-        "pct_from_high": 0.06,
-        "market_cap": 33537.05
+        "price": 1589.3,
+        "day_change": 4.69,
+        "volume": 2614081,
+        "avg_volume": 760018,
+        "volume_ratio": 3.44,
+        "high_52w": 1589.3,
+        "pct_from_high": 0.0,
+        "market_cap": 33755.81
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1579.0,
-        "rsi": 72.53,
-        "adx": 32.59,
-        "atr": 47.78,
-        "volume_ratio": 3.11,
+        "close": 1589.300048828125,
+        "rsi": 73.28,
+        "adx": 32.71,
+        "atr": 48.44,
+        "volume_ratio": 3.35,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -344,9 +341,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1507.33,
-        "target1": 1674.56,
-        "target2": 1746.23
+        "stop_loss": 1516.63,
+        "target1": 1686.19,
+        "target2": 1758.85
       },
       "news": {
         "score": 45,
@@ -391,7 +388,7 @@
       },
       "core_score": 25,
       "combined_score": 77.5,
-      "added_at": "2026-09-02T14:45:21.918015",
+      "added_at": "2026-09-02T15:12:57.408570",
       "signal_state": "WATCHING"
     },
     {
@@ -1557,22 +1554,22 @@
       "symbol": "ANTHEM",
       "base": {
         "symbol": "ANTHEM",
-        "price": 937.9,
-        "day_change": 1.45,
-        "volume": 1281340,
-        "avg_volume": 787723,
-        "volume_ratio": 1.63,
+        "price": 932.25,
+        "day_change": 0.84,
+        "volume": 1404731,
+        "avg_volume": 793599,
+        "volume_ratio": 1.77,
         "high_52w": 952.8,
-        "pct_from_high": 1.59,
-        "market_cap": 52683.14
+        "pct_from_high": 2.2,
+        "market_cap": 52365.77
       },
       "technical": {
         "symbol": "ANTHEM",
-        "close": 937.9000244140625,
-        "rsi": 68.7,
+        "close": 932.25,
+        "rsi": 67.76,
         "adx": 40.74,
         "atr": 27.96,
-        "volume_ratio": 1.58,
+        "volume_ratio": 1.72,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1585,7 +1582,7 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 62,
+        "score": 68,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -1593,14 +1590,15 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
+          "Healthy RSI",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 895.96,
-        "target1": 993.82,
-        "target2": 1035.76
+        "stop_loss": 890.31,
+        "target1": 988.17,
+        "target2": 1030.11
       },
       "news": {
         "score": 50,
@@ -1610,20 +1608,6 @@
             "title": "Anthem Biosciences IPO allotment finalised: How to check status online on KFin Technologies, NSE, BSE; check listing date - Upstox",
             "link": "https://news.google.com/rss/articles/CBMikAJBVV95cUxPUm8yZnhuYzVDaW82Nzl4bmQzTksteWxJQ2Fuck5aaEVES0hGOVZ4cExLYnp1d3F2R1lXY2xpaWRaMldEMzg4R0VQWUo4bV9qMUlZQmtNM2hGOGMwWVFldkh6OTl3cTJ5cTBfOElYSTJwTm1nWnU5Z3ZEdDZBaFh5ZlFrMHFCdUtlRTAySVE2RWdGQWtCR0p6VlEtaVZCWlh1THNGckEyRERDeU1JTC01S0hiLW5EclZNcTVvN1RfMVdoTWRaVU1nanhHYU9acE5aa2dGZ095aXczS1lUTVR0Z2dOdG1RcmU0VmpORS1vb1VMRFBVNVpjZHZMU0NOQi1ybmVFdmhJQTlfMEd3T3pveQ?oc=5",
             "published": "Fri, 03 Jul 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Anthem Biosciences Share Price Rising Today: Stock Jumps 2.13% to Rs 775.10 on 17 July 2026 - univest.in",
-            "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOUnh0ZkJtWmNjZHVwajRwTV9jU3BlNldOdnFBdnZFTi1sckxQdUxVVV92WllMTUU1Y00wamtoY0k0c3lwczdfell2U0xvanR5YmJoM1U0aDUtaUNKUHhSQmp5LUFPMUFlaWtXdHg5dEZKYmJyNlQzZ0JndGMzNlJIZzlIZTBvZWRp?oc=5",
-            "published": "Fri, 17 Jul 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Chartist Talk: Will Emcure Pharma, HEG, Graphite India, and Anthem Biosciences extend Friday\u2019s rally?... - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMijwJBVV95cUxQV0F4dHpzNWFfcm5mQ25RampkVHRfSWZUUjN2WjNJVmdqTklJSDhuRVhHcE0xZ0JrNERiUXl6TXN5VDEyWDZCTkVVTk0wUG4zWU9XYk00RDBSRmlrekxUem55VnA3ZjB1VW0yajZ2ZFRhcjByMnJ4LTJBY2xsTXd0ckh6LWI4WkJ5UzZ0aUdzRHVJcU1NVVVxNjVSZDhkRnZhVlpiLVdkYktRRDFmOS03NS1MbnNPVXRGajBzWmhLY1MtRUV5dkk2bTBia3hyM1lNbjhRbTlYdVBiR2QwT1ZvQkhYcGpkNkxfWlNsd1pyZElGcEQyU0J3SWF0M1pNTUd5Qkh5a3c5N0JnQ1JSdWJN0gGUAkFVX3lxTFBoZ25adlkwM1pWNUNfeWFKUm1qMTZJX3BiQjNtYjlMUHN6NmFQQjFIcm40enV6MHFvVEE0Y3dnU01NcUR4cnBWa3pQTDVzUXotVDRXcDlaNDBET3ROamYtWWFXZUJXWmZ6OVZHU3IwYUdqdUllbjB2cjVRMjdITW4tSF9vckhReXZkQk04SU50by1uakZGZURXdjQxeUZ5X3JuLVM1cTNHT3c0X1c2SUt2RTBYTDBIOEktUkRPdTdsRk05eE9fRE55TC1PWGpEUHhCellMSE1oY1VMNzhWX01SemZ3MVhKczN3Nm8yRTMyeG4xVEVTMFB4NWFNWDJQNnBQYWhQb2pmanl1bk9HV2tKMmZsTA?oc=5",
-            "published": "Sun, 29 Mar 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
@@ -1640,12 +1624,26 @@
             "published": "Sun, 20 Jul 2025 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
+          },
+          {
+            "title": "Firms guide Anthem Biosciences\u2019 USD359m IPO on BSE, NSE - Law.asia",
+            "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1kY2dwTnNkQS1manhQVmcyUU90X3JOQlFuWjRWazFlVkdhMjBnTy03MjRKS3FRVU9vRW1JcmdmOWFGREFGNTBSX0xlNW9YLXZLcmc?oc=5",
+            "published": "Fri, 25 Jul 2025 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Anthem Biosciences' $395 million IPO fully subscribed as investors bet on Indian pharma - Reuters",
+            "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNeGd6U2FhTzNVQm11S3JjYURPN2h6aGhSdVZMT2pieVVGZTdna1E1WVJtRXNqaEFLMjA1WEh3bktCUG1Ga2ZJbDZWdmk3dzFiUXRQQktEMzZkb1RHYThDOXR2RTRXQWpXYnlhUENJNlBfRENvNl9Tb2x3NE9INEdOMnFoWTJfZ2xMTFRLOVlvY3kxWGJ4QUg4TmQ0S2kzMGFMREtnZTQwNG80VXNRWGcybFpkUkkwdnk4WVhmTWpDUnNTRktuTVRqM3JBb1JjZDAyWkczUA?oc=5",
+            "published": "Tue, 15 Jul 2025 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
           }
         ]
       },
       "core_score": 19,
-      "combined_score": 63.1,
-      "added_at": "2026-09-02T14:44:04.855246",
+      "combined_score": 66.4,
+      "added_at": "2026-09-02T15:11:52.350323",
       "signal_state": "WATCHING"
     },
     {
@@ -1745,22 +1743,22 @@
       "symbol": "TBZ",
       "base": {
         "symbol": "TBZ",
-        "price": 404.8,
-        "day_change": 10.36,
-        "volume": 22685705,
-        "avg_volume": 3287257,
-        "volume_ratio": 6.9,
+        "price": 415.2,
+        "day_change": 13.2,
+        "volume": 26825932,
+        "avg_volume": 3484411,
+        "volume_ratio": 7.7,
         "high_52w": 430.0,
-        "pct_from_high": 6.23,
-        "market_cap": 2701.26
+        "pct_from_high": 3.56,
+        "market_cap": 2770.66
       },
       "technical": {
         "symbol": "TBZ",
-        "close": 404.79998779296875,
-        "rsi": 81.8,
+        "close": 415.20001220703125,
+        "rsi": 82.7,
         "adx": 38.51,
         "atr": 23.0,
-        "volume_ratio": 6.68,
+        "volume_ratio": 7.45,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1788,9 +1786,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 370.31,
-        "target1": 450.79,
-        "target2": 485.29
+        "stop_loss": 380.71,
+        "target1": 461.19,
+        "target2": 495.69
       },
       "news": {
         "score": 55,
@@ -1835,7 +1833,7 @@
       },
       "core_score": 20,
       "combined_score": 72.8,
-      "added_at": "2026-09-02T14:45:37.205690",
+      "added_at": "2026-09-02T15:13:10.016982",
       "signal_state": "WATCHING"
     },
     {
@@ -1935,22 +1933,22 @@
       "symbol": "OMAXE",
       "base": {
         "symbol": "OMAXE",
-        "price": 131.5,
-        "day_change": 3.73,
-        "volume": 26204209,
-        "avg_volume": 8018933,
-        "volume_ratio": 3.27,
+        "price": 131.19,
+        "day_change": 3.49,
+        "volume": 27929097,
+        "avg_volume": 8101070,
+        "volume_ratio": 3.45,
         "high_52w": 138.1,
-        "pct_from_high": 5.02,
-        "market_cap": 2415.05
+        "pct_from_high": 5.27,
+        "market_cap": 2409.36
       },
       "technical": {
         "symbol": "OMAXE",
-        "close": 131.5,
-        "rsi": 76.25,
+        "close": 131.19000244140625,
+        "rsi": 76.11,
         "adx": 48.53,
         "atr": 8.76,
-        "volume_ratio": 3.12,
+        "volume_ratio": 3.29,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1979,9 +1977,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 118.36,
-        "target1": 149.02,
-        "target2": 162.17
+        "stop_loss": 118.05,
+        "target1": 148.71,
+        "target2": 161.86
       },
       "news": {
         "score": 75,
@@ -2026,29 +2024,29 @@
       },
       "core_score": 23,
       "combined_score": 74.3,
-      "added_at": "2026-09-02T14:45:07.944867",
+      "added_at": "2026-09-02T15:12:45.782844",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "REDINGTON",
       "base": {
         "symbol": "REDINGTON",
-        "price": 362.75,
-        "day_change": 3.76,
-        "volume": 9435421,
-        "avg_volume": 5235499,
-        "volume_ratio": 1.8,
+        "price": 363.25,
+        "day_change": 3.9,
+        "volume": 10197893,
+        "avg_volume": 5271807,
+        "volume_ratio": 1.93,
         "high_52w": 378.5,
-        "pct_from_high": 4.34,
-        "market_cap": 28358.87
+        "pct_from_high": 4.2,
+        "market_cap": 28397.96
       },
       "technical": {
         "symbol": "REDINGTON",
-        "close": 362.75,
-        "rsi": 62.39,
+        "close": 363.25,
+        "rsi": 62.57,
         "adx": 42.24,
         "atr": 15.06,
-        "volume_ratio": 1.91,
+        "volume_ratio": 2.05,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2063,7 +2061,7 @@
           "Bullish Engulfing"
         ],
         "setup": "DOUBLE BOTTOM",
-        "score": 57,
+        "score": 62,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -2073,11 +2071,12 @@
           "Healthy RSI",
           "ADX Trend Strength",
           "Volume Expansion",
-          "OBV Accumulation"
+          "OBV Accumulation",
+          "Strong Volume"
         ],
-        "stop_loss": 340.16,
-        "target1": 392.87,
-        "target2": 415.46
+        "stop_loss": 340.66,
+        "target1": 393.37,
+        "target2": 415.96
       },
       "news": {
         "score": 90,
@@ -2121,45 +2120,45 @@
         ]
       },
       "core_score": 17,
-      "combined_score": 66.3,
-      "added_at": "2026-09-02T14:45:17.805555",
+      "combined_score": 69.1,
+      "added_at": "2026-09-02T15:12:54.820241",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "NIACL",
       "base": {
         "symbol": "NIACL",
-        "price": 200.9,
-        "day_change": 8.71,
-        "volume": 17734681,
-        "avg_volume": 4814413,
-        "volume_ratio": 3.68,
+        "price": 199.7,
+        "day_change": 8.06,
+        "volume": 23147593,
+        "avg_volume": 5072171,
+        "volume_ratio": 4.56,
         "high_52w": 218.0,
-        "pct_from_high": 8.51,
-        "market_cap": 33108.32
+        "pct_from_high": 9.16,
+        "market_cap": 32910.56
       },
       "technical": {
         "symbol": "NIACL",
-        "close": 200.89999389648438,
-        "rsi": 68.79,
+        "close": 199.6999969482422,
+        "rsi": 68.02,
         "adx": 34.84,
         "atr": 7.26,
-        "volume_ratio": 5.23,
+        "volume_ratio": 6.32,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": true,
+        "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
           "Bullish Engulfing"
         ],
-        "setup": "BREAKOUT",
-        "score": 81,
+        "setup": "DOUBLE BOTTOM",
+        "score": 72,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -2167,7 +2166,6 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
-          "Confirmed Breakout",
           "Bullish Engulfing",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -2175,17 +2173,17 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 190.01,
-        "target1": 215.41,
-        "target2": 226.3
+        "stop_loss": 188.81,
+        "target1": 214.21,
+        "target2": 225.1
       },
       "news": {
-        "score": 85,
+        "score": 70,
         "label": "Bullish",
         "headlines": [
           {
             "title": "NSE IPO soon? NIACL, IFCI shares jump up to 11% on buzz over issue launch - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOMnk0RDhRT1kta2ZuRUpmc2hpZy1kWWRFbXpIWVB2cHdSVW00WS1EU2VuSWtuWklJbFpuakc3eEJvU2g3VlRYZW5OOE1hcWtWdjZ6RWFhTXVIN3BBTkV5dnQ0T0ZpSUxqUVZ0R21wbDBxX3QzNDlVbE1FQWRseDdvbXRLRDRlQXo5VWh3U3B0ZjNVVU01d1N1LUE1UVRlLXEzdG1yc1FNN2o3QlhHTG1jbW5RWHFqYkI1Q0ZOTHV2T0ZaNzBpYjBkeE9WZGtiVknSAdQBQVVfeXFMTm5aOWR3S05FZGNrYm1Bd0JLZ0gyakNPUmdCclVHX0hCdVFXZE93RTU3U0lwLVI5aHFsVTlzeVVMZ0kwai1XUjh2V3Z5ZWZyWmNXcWtZTWlIbkxNMzNZVmd1eWNNQWg5V2lJNl90NVJ6RmhiS2NQckFScWU1UDNYb2U4YkRsOXVpQVBpUVdqRjNYd2hxZGFxZGIyY1lDN2piT0Y5c3J4azBYQUJ3TmI5d1FnRHlkdmJOYk43cEdzMDdYZDJJZFdrOG5fMlM3N2RVazlYOHU?oc=5",
+            "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOblo5ZHdLTkVkY2tibUF3QktnSDJqQ09SZ0JyVUdfSEJ1UVdkT3dFNTdTSXAtUjlocWxVOXN5VUxnSTBqLVdSOHZXdnllZnJaY1dxa1lNaUhuTE0zM1lWZ3V5Y01BaDlXaUk2X3Q1UnpGaGJLY1ByQVJxZTVQM1hvZThiRGw5dWlBUGlRV2pGM1h3aHFkYXFkYjJjWUM3amJPRjlzcnhrMFhBQndOYjl3UWdEeWR2Yk5iTjdwR3MwN1hkMklkV2s4bl8yUzc3ZFVrOVg4ddIB1AFBVV95cUxOblo5ZHdLTkVkY2tibUF3QktnSDJqQ09SZ0JyVUdfSEJ1UVdkT3dFNTdTSXAtUjlocWxVOXN5VUxnSTBqLVdSOHZXdnllZnJaY1dxa1lNaUhuTE0zM1lWZ3V5Y01BaDlXaUk2X3Q1UnpGaGJLY1ByQVJxZTVQM1hvZThiRGw5dWlBUGlRV2pGM1h3aHFkYXFkYjJjWUM3amJPRjlzcnhrMFhBQndOYjl3UWdEeWR2Yk5iTjdwR3MwN1hkMklkV2s4bl8yUzc3ZFVrOVg4dQ?oc=5",
             "published": "Wed, 02 Sep 2026 06:46:25 GMT",
             "score": 2,
             "label": "Neutral"
@@ -2205,24 +2203,121 @@
             "label": "Neutral"
           },
           {
-            "title": "New India Assurance: FY27 profit may get capital gains boost from NSE stake sale, but watch underwriting loss - Livemint",
+            "title": "New India Assurance: FY27 profit may get capital gains boost from NSE stake sale, but watch underwriting loss - livemint.com",
             "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQdTZWMGZZQ2NZNkt1R3g4RVZZel9KQy0zQ2tWamRFMlNBZ0xyWHVoNXBCSVdOb1JWY1VoR0VfdDc1d3dNSjZQSmFIQk1rNk1uMTA2bGFBVEdZUGZFMmZsczYwelhaVE1lenpkNzJHY1hFdkhPVUMxWWY3Q2ZGR1NyR2ozbWxOM3JmdU8xNDdmb1p1UnVONGV4RENKVDRBako3aXZFdFZoNHJwVTlQaHNJWnhR0gG3AUFVX3lxTE9KTno0Tm1aWTEwUFBtUlNVRG5YbVMwcnBSZkkwblZTU3gzN2E2TmxSUEpzTExybXI2dVVNLVc4MEJSdzdmZ2tOamVSb044Tl9lOHdLTk14UDhoV25tVy1maDEyc1VvLTA4cEZkeDV6VnR5UlowaUR3ZnEwSjFUdk9wVGZsclpPZ0NUel9lOTVFVG9VT01ERFFyaFFub3V3WDlsT2NYTkhlQ0hfaFVNcU84ZmZ2RXlnOA?oc=5",
             "published": "Thu, 25 Jun 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "The 41% return delivered to New India Assurance's (NSE:NIACL) shareholders actually lagged YoY earnings growth - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPX0x2dmF4djdZalcxNmoxZWxFV2NUT1JLeU9zQkszdE1VMzRZQ2VLakt6N05PcGJSMHBubzJRVVlzUW9vdHdmWnNpNTdmM0NENEVUNDBoYzJyZVlJbmhUeUVQMlFBdFBBbDRiTlhmeHNXMnN0M0c5aklydjVVRE5XdzJ5QzdCakJlTWpWQk5UMHliSEprcGRyaDdFNWtuNlItZVRYT1FaX0lNYXMwZEhMbTdOZ2VnUG9WYU9oS1p5S2xMR0t3VEhGTzFFZWg1OWk4WjVoOEFMVkI4SnVz0gHiAUFVX3lxTE5KU0pBSEJsT09lQl81MHpCcHlvQm9LeUlTODFEdXlKVGstTDBFajl3ZlJ3OE9nRThHd3h5cXY1aWVpS25jT0J1MWVIZHpUSGE3V1JIUUQ5UmkwVFFOOG1hanBfYkhDcjZkWWlmOXBFNFg5MUZEUEFmNEhTam5xbVkySWdIN1JBcEFONjdSSDNBcWh1NVQ3NHFYNmUtM0VheFJJY1lhbHpMbjNpeTdWbzdVcUx2V0htNmk0cmN2OXl4MnJrWmxpdkd2MU84WHdJdmVRVWVYY2twNUdJa1pjV0RHVVE?oc=5",
-            "published": "Mon, 02 Feb 2026 08:00:00 GMT",
-            "score": 3,
+            "title": "New India Assurance shares rise 14% as insurer to offload over 1 crore NSE shares in IPO - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPeWFNMExrTGYwbWo2WWpDZTdOakxXcVVNS3VobWNIRDVWSkRyQndXZkg3TWJROFpwNllyek1ibEQ2djJiNFZ3ejJMalZVT2ZWN0pndVl2WDh4NkF2el8zeE5sbTFxdWNkMklqQ1JTaGE0ekN3RTU2MkpxcjNWbGlSUzFiaGdsQjg3aF8yaDRxRUluOC1CV2dWZGZxSTNuY1JranotNFNHTGxpSHlScE5rVm9nMEJBMHdYX2h1bGRPVU9EckdMbFVvWjNxaU1XR1ljUXctdGU1LXYwTzA?oc=5",
+            "published": "Wed, 17 Jun 2026 07:00:00 GMT",
+            "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 17,
-      "combined_score": 78.6,
-      "added_at": "2026-09-02T14:12:54.570278"
+      "combined_score": 70.6,
+      "added_at": "2026-09-02T15:12:43.050227",
+      "signal_state": "WATCHING"
+    },
+    {
+      "symbol": "UFLEX",
+      "base": {
+        "symbol": "UFLEX",
+        "price": 699.5,
+        "day_change": 8.44,
+        "volume": 2185373,
+        "avg_volume": 803211,
+        "volume_ratio": 2.72,
+        "high_52w": 723.5,
+        "pct_from_high": 3.43,
+        "market_cap": 5050.11
+      },
+      "technical": {
+        "symbol": "UFLEX",
+        "close": 699.5,
+        "rsi": 80.59,
+        "adx": 64.38,
+        "atr": 30.26,
+        "volume_ratio": 2.6,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "BREAKOUT",
+        "score": 76,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 654.11,
+        "target1": 760.03,
+        "target2": 805.42
+      },
+      "news": {
+        "score": 60,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "3 Fundamentally Strong Packaging Stocks in India (August 2026) - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5HZ3dDTnZWZVE3a1NkNDVXeXEtV3FvVVhTa0dqS3R4T25aQnlSQ29sU21mcFNtN1hfVk0xMWdNdlI2UllDb1Qta2x4b05OQXE2T29hTlJycWlHSkNMNWpISVZGUkhkMHQxSFZpU3VERXRUQ0hoeng0?oc=5",
+            "published": "Thu, 20 Aug 2026 04:52:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Uflex Ltd. Share Price Today - Uflex Ltd. Stock Price Live NSE/BSE - CNBC TV18",
+            "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5yeWdJOW5JczAzd0tUdHJXM05oQTAyaVlMNDFweWtPZEV4TnBsUW9lSGlleGIxaWJ2eWM5Tnpib1AtbjJPX21wUEVGRS11S0hmRi1nbmtJTGdCVDVRT3pvdlR2andOd2tNWWhmYUxrcmR0RFk?oc=5",
+            "published": "Sat, 03 Jan 2026 07:11:56 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Stocks to Watch Today: Info Edge, KEC International, RITES, NHPC, NTPC, NPST, Poonawalla Fincorp, Uflex,... - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMipgJBVV95cUxNSm44aDFqUXU1QmgzeVpWbE1Ud3Bqbks0UlZIbzZ6dk5zTXp6RElTTlZrVEZkMnMwN3dtOXJENGhHdWlGV0J4RHpQMUo0QTZhYkxBbFpPMlVKT1J1RXYtWEp5Q3RwNzNpYUdPYWFObXZCOVdsVnRQWlVRTFlmTWY4a1VxX0tuQnprZkpLeVRWVU1ldGc3VUVodjB1N3JnSmluSGxGZnlnMjM1NFlJaTNSZk5oZllkUmtPLTc4UUJfM2oxRk9XZTNkRGc2S2k1YkREYy0tNE8xVGkteHFlREhWbTVndmZvdkg3S1NPNGhHRk1wRGtDWTVqVnlnUWxaZU0xdUh4SEM2cy1OcXFlT09hNjdLcnVRemluYVBpX2N4YUpPYm5aMkHSAasCQVVfeXFMTjVHeWx0aThaTjU3NFhUbmpMNHJ2aTluQVZZaGtFZFhVd0R2Rkw0VUlrR1VWSzFSSnd2YVp0SEVPUmdWV1JLazloTzBOY1FwNE9PZ3FGbDBQWDRGcEhSdi1pemtldFI3ODFHYndUSnM2LWhRVjBrZmlnTDZUZ0pqSVpuQmJQQ3A0S1dsSmZucUxJWjJwUkphRTI0V0U1WmhWM0JFUlRLWWM0dlZQVDlYUllXLURQUjN2MFU0d0lENGdyMllRdTFLTGVUa25ZVDlOZmxLV3hWeUgtQmt5cHA3MVU4RlQ1MFl1dUtxekdUZ1EtWkh2dldqTU9sOVlmd3hFWXBWanV6UXprc2NQVDc1MXRWdW1HZU9rVm5TTmFuaVdzY1JnS0FwajBEdGs?oc=5",
+            "published": "Thu, 09 Apr 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Volume Gainers | July 22, 2026 - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE05ZGZaSnQ2TUNrRWQ2bVVWYVpjUWN2aTY2WWlRakJQSEZoNTJldkgtTFdmUDNuamRWQmRYVTEyekIxSHhsUlo0ZjVXeVlJNVdUT1JVODh3c0JlVi1mdFlPemRR?oc=5",
+            "published": "Wed, 22 Jul 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 Packaging Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBQUHJsemVDY2NjclFJN001Mnl1bndfS000eXU1NFNBOU1CMG96NDB2TzBpd0xhUUdTR0Nfc1YzRTNxVXFSNkdFQl9nX25udm5yZE5GWUFScHJkM1Y5TE4wSVQxUzFKLWhtcW1QRFZIRTJRWUo0bF84?oc=5",
+            "published": "Wed, 26 Aug 2026 05:09:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 70.8,
+      "added_at": "2026-09-02T15:13:13.931409"
     }
   ]
 }
