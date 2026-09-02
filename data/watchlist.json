@@ -302,35 +302,35 @@
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1569.3,
-        "day_change": 3.37,
-        "volume": 1509677,
-        "avg_volume": 707427,
-        "volume_ratio": 2.13,
+        "price": 1554.2,
+        "day_change": 2.38,
+        "volume": 1692348,
+        "avg_volume": 716126,
+        "volume_ratio": 2.36,
         "high_52w": 1578.0,
-        "pct_from_high": 0.55,
-        "market_cap": 33331.03
+        "pct_from_high": 1.53,
+        "market_cap": 33010.31
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1569.300048828125,
-        "rsi": 71.78,
+        "close": 1554.199951171875,
+        "rsi": 70.52,
         "adx": 32.56,
         "atr": 47.64,
-        "volume_ratio": 2.08,
+        "volume_ratio": 2.3,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": true,
+        "breakout": false,
         "macd_bullish": true,
         "macd_cross": true,
         "obv_accumulation": true,
         "patterns": [],
-        "setup": "BREAKOUT",
-        "score": 79,
+        "setup": "DOUBLE BOTTOM",
+        "score": 70,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -338,16 +338,15 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
-          "Confirmed Breakout",
           "MACD Bullish Crossover",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1497.85,
-        "target1": 1664.57,
-        "target2": 1736.03
+        "stop_loss": 1482.75,
+        "target1": 1649.47,
+        "target2": 1720.93
       },
       "news": {
         "score": 45,
@@ -391,36 +390,36 @@
         ]
       },
       "core_score": 22,
-      "combined_score": 74.5,
-      "added_at": "2026-09-02T10:44:24.960351",
+      "combined_score": 69.5,
+      "added_at": "2026-09-02T11:13:18.946307",
       "signal_state": "WATCHING"
     },
     {
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 127.65,
-        "day_change": 0.7,
-        "volume": 5578987,
-        "avg_volume": 1554354,
-        "volume_ratio": 3.59,
+        "price": 130.07,
+        "day_change": 2.61,
+        "volume": 5965211,
+        "avg_volume": 1572746,
+        "volume_ratio": 3.79,
         "high_52w": 137.5,
-        "pct_from_high": 7.72,
-        "market_cap": 1607.68
+        "pct_from_high": 5.71,
+        "market_cap": 1638.15
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 127.6500015258789,
-        "rsi": 92.75,
+        "close": 130.07000732421875,
+        "rsi": 93.07,
         "adx": 49.87,
         "atr": 6.57,
-        "volume_ratio": 3.46,
+        "volume_ratio": 3.66,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": false,
+        "near_breakout": true,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
@@ -429,13 +428,14 @@
           "3 White Soldiers"
         ],
         "setup": "DOUBLE BOTTOM",
-        "score": 66,
+        "score": 72,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
+          "Near Breakout",
           "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -443,9 +443,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 117.8,
-        "target1": 140.79,
-        "target2": 150.64
+        "stop_loss": 120.22,
+        "target1": 143.21,
+        "target2": 153.06
       },
       "news": {
         "score": 60,
@@ -459,6 +459,13 @@
             "label": "Neutral"
           },
           {
+            "title": "BODALCHEM Share Price Today - Bodal Chemicals on NSE/BSE - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBiTWFwQTBTMXVwdllYTk0teWdqZmxWMkVJZTVRXy1xWnVyaVVTczdRYXBxT21YaU5KbWQyS3dkM0tFX3FZd3MtcXd2eHdKankwMmtaN3J6UnVlX2s?oc=5",
+            "published": "Wed, 23 Apr 2025 07:16:44 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
             "title": "Under the Radar Chemical Stocks India 2026: 5 Hidden Picks - Univest",
             "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9RdS1zVlgyRkxpMmdXdzJaQWpVM0VwODc5SlkzOFFJZzRVM294c2pxWXlYcW5BMkN4ampjbmN4M2dkTVFSTUhJMS1JOFZpSkJRQUFQRzNUSW52Wi1pUEg2RXlLelFqLXlJT2xrQ0ZJYw?oc=5",
             "published": "Thu, 20 Aug 2026 04:41:00 GMT",
@@ -466,31 +473,24 @@
             "label": "Neutral"
           },
           {
-            "title": "Pros and Cons of Bodal Chemicals Share 2026 | Dye Intermediate - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPUzBqTndkejJ1cjdIYWs1ZF9MRWlub19KT3hxOGF2bWRkaGxOc1dqbjh3U3JHRXRnZm9yNldpRnhKdnFtVU8wUS1HX2poWmRpTzRkNlAwLUNwTkxaZzN3X0RhWmVKV09WcENZdnJSX1RyM0tzVEptekx4YzJYWlU1YmRn?oc=5",
-            "published": "Wed, 12 Aug 2026 07:00:00 GMT",
+            "title": "Bodal Chemicals share price zooms over 14%; here is why - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxORDJIRVVNV3VGLXp2bEdBRHFMMVkxdFdJbnVMU0NJNl93VlBiTGIyRmFsSzV0Q3JxTV9vVWktZFlfMGtXWHNpd2xlRExrZmtvRHhPX0VwUnBNMEFtbzltOXN3QzUtYUotMEt6b1E1VFNJWkZmZDB2ZjR2TldwWUlHTVVWc2hxbEdwYkNqM0hlM0JmOF9scTQzNXRJbzdsNldpd3lEUWxhWFFYeXQybGhhNFd3?oc=5",
+            "published": "Sun, 09 Mar 2025 08:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Bodal Chemicals (BODALCHEM.NS) Edges Lower Amid Consolidation; Key Support at \u20b959.11 in Focus - Jurik MA - vinanet.vn",
-            "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOb0E0ME14SjQtN0RjT0ZRUnYtRVZWc3Z2MWl1T2w2c2ttc0I0czFNcXFiaFBYU0NUWUxaaUVRR3pMV3dBME9naF9PdjBvUWNHOWNoLWF5YloxUExzMTFXNmJhVmJTVzM4cjUwUXNJS2daSGo4VlNFT2VTRk43TFNwZnFPOHNaWVBFNnZXaU04cFM4dTNHSzVUb0N1V3FLaXpnTE9PcFpjZWwzSG51ZjBhZDJKNi1wY09wbUZidU1aYmVrOU5NZ2Rjbg?oc=5",
-            "published": "Mon, 06 Jul 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Bodal Chemicals Ltd. Share Price Today - Bodal Chemicals Ltd. Stock Price Live NSE/BSE - CNBC TV18",
-            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNTXZoekxxamdJb09MVmZaNFBOVzR3SUpmSzFGQ3MwTGdBSkZrS3NTdUhhZ0pMVUVvb01BVVJUekU0VTNWcVBIM0RLM3ZzUWF5dDVHdGVyYmtDLTYtNU1LR1ZBQzdoRFdxLXhvV1hEZDhEdk5oNmtZVk9XMGdaUHdBVEZn?oc=5",
-            "published": "Sat, 03 Jan 2026 14:54:28 GMT",
+            "title": "Bodal Chemicals Share Price Today - Bodal Chemicals Ltd. Stock Price Live NSE/BSE - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE41LW5mYWVhdUtYaFkwdDNKdS1TYnNkZ28yOGRlUFZRWGpOR2RGYmZsbzY5My1fSzFrTW1mTjZrVms1OElpY29wVmZFOERXWEc1Sy11RkVQSUU2dw?oc=5",
+            "published": "Wed, 30 Jul 2025 22:34:42 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 20,
-      "combined_score": 68.3,
-      "added_at": "2026-09-02T10:42:40.588121",
+      "core_score": 23,
+      "combined_score": 74.6,
+      "added_at": "2026-09-02T11:12:16.743721",
       "signal_state": "WATCHING"
     },
     {
@@ -1745,22 +1745,22 @@
       "symbol": "TBZ",
       "base": {
         "symbol": "TBZ",
-        "price": 395.5,
-        "day_change": 7.82,
-        "volume": 12271810,
-        "avg_volume": 2791357,
-        "volume_ratio": 4.4,
+        "price": 397.3,
+        "day_change": 8.32,
+        "volume": 19097648,
+        "avg_volume": 3116397,
+        "volume_ratio": 6.13,
         "high_52w": 430.0,
-        "pct_from_high": 8.72,
-        "market_cap": 2639.2
+        "pct_from_high": 8.23,
+        "market_cap": 2651.21
       },
       "technical": {
         "symbol": "TBZ",
-        "close": 395.5,
-        "rsi": 80.92,
+        "close": 397.29998779296875,
+        "rsi": 81.09,
         "adx": 38.51,
         "atr": 23.0,
-        "volume_ratio": 4.27,
+        "volume_ratio": 5.94,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1788,25 +1788,18 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 361.01,
-        "target1": 441.49,
-        "target2": 475.99
+        "stop_loss": 362.81,
+        "target1": 443.29,
+        "target2": 477.79
       },
       "news": {
         "score": 55,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Multibagger stock: Why TBZ shares are locked at 20% upper circuit - Business Standard",
+            "title": "Multibagger stock: Why TBZ shares are locked at 20% upper circuit - business-standard.com",
             "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQc2d4TmZEd2pqYjRrUzJyczZGZGd3a2VmMFhHYm1lLUJVaHczeVhuUXRoaHZXYXRBNklJVWlFOGhzZTBMSnZkXzQxLVVDdEZ3NlN5Qi15b0ZqN3JiQUxXOTJlUUlTUFE1RzMwRk00eHdTbHptMXRXalJCOVRWZHZVdnliMUFGaDZPODV4OGlYeEQ4QTBpSU5wVnNlbkxOU2JOaGhfMEduR2FvaUxFQ2pPRi1KcGJSZEdaOFM1ZFQ0NUJ0RUNFTFNaZ2x30gHPAUFVX3lxTE1GQnZ6dHRmU2U5aTBNLVhhWWs5cmJlUjBrR2JMa3dJRUI3Nk8wZGF6U05rSlRpZzRic2cwdW84Vk54b1BLOTlKUklybXlmV3NNd01pZHNOUjAxTk5iRzRjcDVsdVFPRzRTS3Q3N1lwSFZOV2JxVVJjTHpPcXhSbWo1RmVuZmZZeFlZVmxUdnpyS2t6NENucDY0Tkt6eTZIbGRweGZtaFRTT2pIUkhQcWNmaUxxaFlydC1zak1xZU1IdjFmaUJ5WElDakJpaVVNbw?oc=5",
             "published": "Tue, 01 Sep 2026 06:37:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "TBZ shares zoom 20%, hit upper circuit after GRT Jewellers open offer - The Economic Times",
-            "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQU2ZUSzMwWTVsWWxGcDAtOXh6N1BXeDJDQzJ0V0J5NWZuRmpnTEdsalBXNWhZZlhIcEtiTEY2S291STZkd3hyV2J5MnIteGlhWHZCUjFsbmdIZHpRWlI3X2dHN1p5TWdQTmloVmF2V0tKNDNJNEx4azcyNW9rR2JfTHlLVGVsdC1oa3laejFMdzlGZFdHelR6Ukh0Y04ydXZtWnl0OGJOUU1vV1JyQWxjV19uTGI1LU02dlBRZF8wbmM3Y2NZRFd5YmF1QkFyNUVFMGVHQ2hIdU_SAd4BQVVfeXFMT2l6S0FsRFhxOGRuN3VTbHVkUEQxdDd4bUE3TThraEp4WnJMbk04ZEtEOHVkQXhSN1p1d3dSX20xLUpSLU8wb2FRT0xlMWlxc0hTM09QWF9sVlVqUVp1TWdPWENRQWYyaE1fZHduQXN1YU5PQktHekdsZGJ0OUJOOE5PdTVPUlJqQXQtaVA5RFY4MkZBZzVmOFdERDk5eXd2SXd0S1FKazNObTRrbHFVSFNOX3Ruck53Q193d2pUc0lnZXFObFBkbktaNmVTVzVIVFdOdXQ1Rnd1U3dkVm53?oc=5",
-            "published": "Tue, 01 Sep 2026 07:48:43 GMT",
             "score": 0,
             "label": "Neutral"
           },
@@ -1818,24 +1811,32 @@
             "label": "Neutral"
           },
           {
+            "title": "TBZ shares zoom 20%, hit upper circuit after GRT Jewellers open offer - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPaXpLQWxEWHE4ZG43dVNsdWRQRDF0N3htQTdNOGtoSnhackxuTThkS0Q4dWRBeFI3WnV3d1JfbTEtSlItTzBvYVFPTGUxaXFzSFMzT1BYX2xWVWpRWnVNZ09YQ1FBZjJoTV9kd25Bc3VhTk9CS0d6R2xkYnQ5Qk44Tk91NU9SUmpBdC1pUDlEVjgyRkFnNWY4V0REOTl5d3ZJd3RLUUprM05tNGtscVVIU05fdG5yTndDX3d3alRzSWdlcU5sUGRuS1o2ZVNXNUhUV051dDVGd3VTd2RWbnfSAd4BQVVfeXFMT2l6S0FsRFhxOGRuN3VTbHVkUEQxdDd4bUE3TThraEp4WnJMbk04ZEtEOHVkQXhSN1p1d3dSX20xLUpSLU8wb2FRT0xlMWlxc0hTM09QWF9sVlVqUVp1TWdPWENRQWYyaE1fZHduQXN1YU5PQktHekdsZGJ0OUJOOE5PdTVPUlJqQXQtaVA5RFY4MkZBZzVmOFdERDk5eXd2SXd0S1FKazNObTRrbHFVSFNOX3Ruck53Q193d2pUc0lnZXFObFBkbktaNmVTVzVIVFdOdXQ1Rnd1U3dkVm53?oc=5",
+            "published": "Tue, 01 Sep 2026 07:48:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Lumino Industries IPO allotment finalised: How to check status online on NSE, BSE, Bigshare Services; listing date, time here - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPQjdOUUM1a21PNWY1QUtobUpWRHY2NkZoWnNGaUZ1UUZHZlFhRVpjVEFiNTdieHZHSG1VM0JYNU1VSGlERDhLY1AtRzVTVTd6UnNuRVd2Yk9GdmxkaENKM2Z1OTVycy1jRHllSzRJTGd5bnJJZHNkdU0zV1Zoc0lGM1JaRE8wVHNvZ1lVX1l0dlBjX0xtcFlrQUkzbEx5ZU0tR3JPTFhZWllLZlpMTUVkbm91bk1nM3RCX256UkJPS1FqV05zOTZSVVU0cmFOUk1sQTRvLVhFbTZuVFBjaGl5NjZKMGVhZnhxVS1SRi04NFJWcnNRRGl5RVJhUWhFckk?oc=5",
+            "published": "Tue, 01 Sep 2026 03:09:25 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
             "title": "5 Jewellery Stocks India 2026: Strong Future Roadmaps - Univest",
             "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9lTzdDa2JRdWtBeUQ4MXQ1QVdLS2NsUW1WeEtwck9Kamt1MTA5YzZXdlVVSVU4TEtvTnZxMjlrbm4zbnR2ejZMc2w0bm9EMVZCU1duTUpoV0YtdmM3RXlIdzNKaWszNC1mLVpGZXRZZ1Q4Y0JqOC1z?oc=5",
             "published": "Tue, 25 Aug 2026 09:32:00 GMT",
             "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "Top stocks in news: Symbiotech, EPL, Milky Mist, TBZ, Skyways, PVR Inox, Hy-Tech, Cipla, Kotak Bank - Business Today",
-            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPZUI2U283WUJ3ZzMtQmpDTUVqRHVPZW5Bd3hCVk81ZkpBaFlvbVE3dXNQWkdwVHVqTF9zOTJOTTZVaWRpUGlIbFY4OV91WU9yWHNxMnlNc3NwX1Nvd3FVcTRaUnVrUTNyUUpuTUJzaGZQSl9MN0tuV09EVXMyanNVazNaZzJrbWE2cFFqWFhpWWlVcG1uNlQtZk5VbzgzQjdkS2ctXzUtbnY3Ulh6aWlrNjVNdzE1b0diU20wQ1RBNFJTVW5FY0p4RTM0U3RWTVVSTjhnRmgxVG1HYjlrVDZDb0ZNU201U0gycG5fdFdab9IB9AFBVV95cUxNY1ZKREdISnU4cTlOY3htLXl4dmhZc0ZxX0hJdjlfTXNxcXFQbjE4X1plQmg2aW5OSEhqdXdRaVkyQnFvMWZWUDZsdUEwdFkyLVdGN2xTYjBnWHRvanE4T3FKSUd6eWVyZ0tHemVySEpFdVFOUVJUT1ZWUzNieTNtdkdHTGlfUHRaTUZva1J2RDRYcGhwY1dXLUNLSjJOQmFzY3BPOWhSajdLcEtuY0RmcEw5bXlwQ0tSUFZNLUdROUJoRWlVTmZlbmdUUUdqMlBhWEVyQ3pWVFdrTDhiZUs4MjdGZ3BWNWhjTlM5MWk1clVfVkw0?oc=5",
-            "published": "Tue, 01 Sep 2026 02:08:58 GMT",
-            "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 17,
       "combined_score": 69.8,
-      "added_at": "2026-09-02T09:46:44.307487"
+      "added_at": "2026-09-02T11:13:32.436272",
+      "signal_state": "WATCHING"
     },
     {
       "symbol": "SOTL",
