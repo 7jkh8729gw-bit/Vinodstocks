@@ -68,5 +68,41 @@
     "exit_time": "2026-09-02T15:25:00",
     "max_favorable_pct": 1.57,
     "max_adverse_pct": 0.32
+  },
+  {
+    "date": "2026-09-03",
+    "symbol": "HINDOILEXP",
+    "alert_time": "14:04:41",
+    "bar_time": "2026-09-03T14:00:00+05:30",
+    "entry_price": 187.5,
+    "sl": 179.5,
+    "target1": 197.5,
+    "target2": 204.18,
+    "features": {
+      "rsi": 72.03,
+      "adx": 19.23,
+      "daily_volume_ratio": 10.87,
+      "daily_score": 73,
+      "news_score": 40,
+      "combined_score": 70.2,
+      "intraday_score": 97.3,
+      "intraday_volume_ratio": 3.786251939246519,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 0.0,
+      "move_since_morning_pct": 0.5361930294906166
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
