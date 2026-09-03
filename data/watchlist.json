@@ -5,45 +5,43 @@
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 145.45,
-        "day_change": 14.74,
-        "volume": 30271526,
-        "avg_volume": 2730190,
-        "volume_ratio": 11.09,
-        "high_52w": 151.89,
-        "pct_from_high": 4.43,
-        "market_cap": 1831.86
+        "price": 147.49,
+        "day_change": 2.78,
+        "volume": 7750997,
+        "avg_volume": 3079767,
+        "volume_ratio": 2.52,
+        "high_52w": 159.99,
+        "pct_from_high": 8.48,
+        "market_cap": 1857.55
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 145.4499969482422,
-        "rsi": 94.59,
-        "adx": 50.01,
-        "atr": 7.6,
-        "volume_ratio": 10.64,
+        "close": 147.49000549316406,
+        "rsi": 94.75,
+        "adx": 53.04,
+        "atr": 8.09,
+        "volume_ratio": 2.42,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": true,
-        "breakout": true,
+        "near_breakout": false,
+        "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
           "3 White Soldiers"
         ],
-        "setup": "BREAKOUT",
-        "score": 81,
+        "setup": "DOUBLE BOTTOM",
+        "score": 66,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
-          "Confirmed Breakout",
           "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -51,25 +49,32 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 134.05,
-        "target1": 160.64,
-        "target2": 172.04
+        "stop_loss": 135.35,
+        "target1": 163.68,
+        "target2": 175.82
       },
       "news": {
-        "score": 65,
+        "score": 70,
         "label": "Bullish",
         "headlines": [
           {
-            "title": "Under the Radar Chemical Stocks India 2026: 5 Hidden Picks - univest.in",
+            "title": "Bodal Chemicals Share Price news with valuation context - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQeTV6YzhzMklxeUZZTWNXWENEZjREQWNySTkxV1pkanNnc1ZaVElUNmozdGZSaDViSlVSYkw2QndERG5xZ19aZGllX1RZZ1pnT1JEU2w5M1c0bDBFNS14bXZOU1JoVWp0bkhoMXI5bW5VZWZyQkJfQXhrUEhXbkxmU1VHTG1wa3pUQ1E?oc=5",
+            "published": "Mon, 31 Aug 2026 03:49:50 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Under the Radar Chemical Stocks India 2026: 5 Hidden Picks - Univest",
             "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9RdS1zVlgyRkxpMmdXdzJaQWpVM0VwODc5SlkzOFFJZzRVM294c2pxWXlYcW5BMkN4ampjbmN4M2dkTVFSTUhJMS1JOFZpSkJRQUFQRzNUSW52Wi1pUEg2RXlLelFqLXlJT2xrQ0ZJYw?oc=5",
             "published": "Thu, 20 Aug 2026 04:41:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Pros and Cons of Bodal Chemicals Share 2026 | Dye Intermediate - univest.in",
-            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPUzBqTndkejJ1cjdIYWs1ZF9MRWlub19KT3hxOGF2bWRkaGxOc1dqbjh3U3JHRXRnZm9yNldpRnhKdnFtVU8wUS1HX2poWmRpTzRkNlAwLUNwTkxaZzN3X0RhWmVKV09WcENZdnJSX1RyM0tzVEptekx4YzJYWlU1YmRn?oc=5",
-            "published": "Wed, 12 Aug 2026 07:00:00 GMT",
+            "title": "Bodal Chemicals (BODALCHEM.NS) Edges Lower Amid Consolidation; Key Support at \u20b959.11 in Focus - Jurik MA - vinanet.vn",
+            "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOb0E0ME14SjQtN0RjT0ZRUnYtRVZWc3Z2MWl1T2w2c2ttc0I0czFNcXFiaFBYU0NUWUxaaUVRR3pMV3dBME9naF9PdjBvUWNHOWNoLWF5YloxUExzMTFXNmJhVmJTVzM4cjUwUXNJS2daSGo4VlNFT2VTRk43TFNwZnFPOHNaWVBFNnZXaU04cFM4dTNHSzVUb0N1V3FLaXpnTE9PcFpjZWwzSG51ZjBhZDJKNi1wY09wbUZidU1aYmVrOU5NZ2Rjbg?oc=5",
+            "published": "Mon, 06 Jul 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
@@ -81,24 +86,18 @@
             "label": "Neutral"
           },
           {
-            "title": "Bodal Chemicals share price zooms over 14%; here is why - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxORDJIRVVNV3VGLXp2bEdBRHFMMVkxdFdJbnVMU0NJNl93VlBiTGIyRmFsSzV0Q3JxTV9vVWktZFlfMGtXWHNpd2xlRExrZmtvRHhPX0VwUnBNMEFtbzltOXN3QzUtYUotMEt6b1E1VFNJWkZmZDB2ZjR2TldwWUlHTVVWc2hxbEdwYkNqM0hlM0JmOF9scTQzNXRJbzdsNldpd3lEUWxhWFFYeXQybGhhNFd3?oc=5",
-            "published": "Sun, 09 Mar 2025 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "BODALCHEM Stock Price and Chart \u2014 NSE:BODALCHEM - tradingview.com",
-            "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5XbmhNUGFaNXhQYXlSM0RIa2RDM2VqdzlUbENQbFotX0o1VUUyZndSY3FnMFR2bUk1RVVENTZ0MHJ4dHJnck12MXBkRGp5bjhPbFdXNVM5dTZ6NUw1UTBn?oc=5",
-            "published": "Fri, 21 Jul 2017 02:52:57 GMT",
-            "score": 0,
+            "title": "Bodal Chemicals Share Price Target 2026: Rs 83.3 Analyst Forecast - Univest",
+            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE1GbnpPbDFUcmotc0J1bmlMYmhXMTJidzJiU3lhUl9IdVhFWnBUTF9UVjI4Q3BzYnZwbFdQNjhTQzUzMjd0cnR2eFRxc19DcXVfVV83QjZVQ3lKREYtZGVzeFdIZm02OWNUalFtS0ozbGNkUQ?oc=5",
+            "published": "Tue, 09 Jun 2026 07:00:00 GMT",
+            "score": 1,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 20,
-      "combined_score": 77.6,
-      "added_at": "2026-09-03T08:39:00.691519",
+      "core_score": 17,
+      "combined_score": 67.3,
+      "added_at": "2026-09-03T10:03:45.074541",
+      "signal_state": "WATCHING",
       "first_seen_price": 145.45,
       "first_seen_at": "2026-09-03T08:39:00.691519"
     },
@@ -1270,6 +1269,207 @@
       "added_at": "2026-09-03T08:39:26.124095",
       "first_seen_price": 729.9,
       "first_seen_at": "2026-09-03T08:39:26.124095"
+    },
+    {
+      "symbol": "RAYMOND",
+      "base": {
+        "symbol": "RAYMOND",
+        "price": 735.25,
+        "day_change": 10.23,
+        "volume": 1616949,
+        "avg_volume": 589099,
+        "volume_ratio": 2.74,
+        "high_52w": 739.0,
+        "pct_from_high": 0.51,
+        "market_cap": 4896.52
+      },
+      "technical": {
+        "symbol": "RAYMOND",
+        "close": 735.25,
+        "rsi": 74.63,
+        "adx": 24.26,
+        "atr": 26.45,
+        "volume_ratio": 2.83,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": true,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "BREAKOUT",
+        "score": 84,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "MACD Bullish Crossover",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 695.57,
+        "target1": 788.16,
+        "target2": 827.84
+      },
+      "news": {
+        "score": 65,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "Raymond Realty Limited Actuals & Estimates (NSE:RAYMONDREL) - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOOEt5QTQ0YXhPRkJubDExUkNBSXktWlF2bVc5YnE3bnFZQTBXUVE0Zzlxb2xXR0Nlb2tjWlZFbml2Wko4dVp4TDlBUWkxTmxyMGFZY1lrTDJ3SUxaTHhYQUJydGIxQ1JWTnVRMVFZT1pLVzZnY2M5SHAwcFNBeW1tSGNrbXdsUi1HeFE?oc=5",
+            "published": "Thu, 25 Jun 2026 18:50:21 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Raymond Share Price Target 2026: Bull Case Rs 855, Bear Case Rs 6 - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5paTZFMHg3dFB2UnkzSTAwbFN3WW5EYmRENFpEdDN3eUJUcjFLa05hS21QNnYyQmFqbk1MUFlUWTRGcE1IUjVDcC1qSFNReS1yb3Q5dXRUZkRwci1FbXJHS0Vid1QxdlNSa1E?oc=5",
+            "published": "Thu, 02 Jul 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Raymond shares surge 4% on appointing ex-BEL CEO as defence vertical's CEO - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQdE5UakxMSEdkcTZ5SGNzYVBPaVZMQTU2OUV1S1pqOG5XZlYxRFIza0R4QlFFTThtZXBvSzZuTjNmQnlmLWs5dG95bUdDNjBIM1NsVGx3WjhrQVVyVHN0d195dW1TU0pZNlVLTGZhT0tuNEVocW1XYUxBX3IwaXNZdmJXSnpJaVQ3Zk5yRVFwN0pwWkxpdTk3RzgwV1FFMjExWS0zYTZsV3gtTlRBNXBsa1FJc09KWlplUTRPSEpVblZFaGhCbVo3M1ZETHdCc2hfRGxSN9IB2gFBVV95cUxOVXN1ZExkdGdtMG10UG1sV2NEODJSWUlPQmY5OXF6dlBpYnFwSkFFVjhzU0NHSmVYWFBsRENMR1pYRkxmV3JnQnpJcG9GVmJ6MTI1NFh2WlRCVXVkREtLNGtEM1JHS0g5cFItTEx5RG1mWUhzVFQ1MW03NXFDQURZdHdWRDdIdUc5OTFjWEdjdzVPcVpBZzR4SnoxVWRBZUd3T3FxX1AyNUhYSjYyREZ2M250ZzNBNVZ1dnhOTmVMZGpVYzBMMjdlb2NheEdqZ2oyeENoUzVQUGZrUQ?oc=5",
+            "published": "Mon, 06 Jul 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Raymond Realty Gets BSE & NSE In-Principle Nod for 13,80,588 ESOP 2025 Shares - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOWjYxSUh4R3A2LXBiWmRDRlNzc25nRTRwVDVQR1pWbDc5QmZBUm1ONkpZQ050SmJUUnVpYk14XzRUSUFCbURNR3dOZU4wMzk4UThTT0JTWkJack1zVnhCWEtiSFE4MUwtT0JIN0FfcDEtb0lZM1UySHlld0JfVVNmbnhXWUFCWkhOY09YWU5iMjVQUEtwbkFkaVpqNGthQTFkazZ0Vy1lbFBCN1VlZEl0TVRteVRxOUZSTU1hdlh0VkhwZzR0aGxzSERMWUFzUE15VFVsV25Takd0WXhRQm9kQjd6WThGNGtwWmwwaHFCSExqQXkzOFE?oc=5",
+            "published": "Tue, 12 May 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "RAYMONDREL Stock Price and Chart \u2014 NSE:RAYMONDREL - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwdVJJTmpCUUVQNjhIYklQY3pJSUFHaUhzSzVPX29ZQmp4Y2I4X3B4T2oyUllmRFp2UlBCcGc5MnVYOW9sTENlZDZLR2syWEpBMmtfejQyS2djeWhualR0Mw?oc=5",
+            "published": "Wed, 18 Mar 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 78.2,
+      "added_at": "2026-09-03T10:04:43.095261",
+      "first_seen_price": 735.25,
+      "first_seen_at": "2026-09-03T10:04:43.095261"
+    },
+    {
+      "symbol": "ANTELOPUS",
+      "base": {
+        "symbol": "ANTELOPUS",
+        "price": 1029.15,
+        "day_change": 8.2,
+        "volume": 6458314,
+        "avg_volume": 1009756,
+        "volume_ratio": 6.4,
+        "high_52w": 1034.8,
+        "pct_from_high": 0.55,
+        "market_cap": 3618.73
+      },
+      "technical": {
+        "symbol": "ANTELOPUS",
+        "close": 1029.1500244140625,
+        "rsi": 75.87,
+        "adx": 18.83,
+        "atr": 45.13,
+        "volume_ratio": 6.13,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "BREAKOUT",
+        "score": 78,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "MACD Bullish",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 961.46,
+        "target1": 1119.41,
+        "target2": 1187.1
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Antelopus Selan Energy shares rally 20% to 52-week high; what investors need to know - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPenlyY3lqaFJNdVFnYUp0YkY5cHA5VXNwWVdyX3hRUkR1ZVQxUzFaSWZSMndfMUNqUjBmZktCNVRNU0RsU2FoWWxyUDVjRUJ2ZEx4STJzbGdFVzYzSm1RbDFOZ2VHMlBybGNCZHNvSXFRQUR0aFNHMWpvSUNwd0pXLTk5VkdJRDhCUnVFRGxGWU14a2U1VjNnbnNzS2FjMG4tVEI4MnlmekdzMGtaZnlKOGJRTDFmeXZlRlFWUGdRMU42aEtpbk13MnJYMGVzUFFiT3c1Z0xVUEo?oc=5",
+            "published": "Wed, 02 Sep 2026 08:59:33 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Antelopus Selan Energy Share Price Target 2026: Rs 955 Analyst Forecast - Univest",
+            "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1JZldyOVo3dkJWRnNtMm5ObVhRVmh4bHE0bTgwcmRaZWlJMVZuQ0kxN0hyUW5OX1FVSjNFUVNoVUJRbTdNZmlLdldqUGNYSHFVbk9zSUp3TlpyVlRCenl1aEhoQktvWWZRcUpON21aVnRMTmhzQUVjVnVsTQ?oc=5",
+            "published": "Wed, 17 Jun 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Investors Shouldn't Be Too Comfortable With Antelopus Selan Energy's (NSE:ANTELOPUS) Earnings - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQX2MxMlloeFFraFNOQ0lUTm5LeDZGSk90SmNQa0lKbmNhczlMYXNBQ24wVW4zNkVuSG90b0IweUZuTXVkOTJ3SXFUblgzYkt5NkxacF8yNHI3Ql9kdEM4OWRZQnl1QUhGalRLOHg5cUpqV1lJVWprU3VFZWp4QUpzb21PX29fNVhZbjByN1VEZEZzdUFycHVpQXhnZktDb0wwSThuNWN4V2dIdC1sRnZ6TWM4Q2c2ZnlaTF83aXBXblRuTmdJSHloRXBSdkxtZlVGVmx4NHhsZ0hUcHhVN1FfVkFB0gHnAUFVX3lxTFBER3BxTWp4cWlzT0NiSloxZmg5MWM0N0ZfT3RkVTZwaGRMUmNJcnRzejJ0T1p3MF8xQ0xPeVJxczZQWlBWMzR5UnN1RHIyWmNPOGt3SUNkOFYtNTh1ZXRRdGR1bGNsNDh3dHR1N0ZFUnJvanRwS0lSNzk0OXdLQVU2NFc0d0xZQnRhZ095eEZ3M0dFcXF5bXFyQVMxSTBjdzhPT2ZqMjh1WG1qamp3MUhEUVI4SlJrWFdoU2NnLXpBRVc5aVNKWGg4aUJ3SmNyell3U0RWYTRYQ1FCV2Z5T3hJV2RzeUZXWQ?oc=5",
+            "published": "Tue, 12 May 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "GPT Infra, Coal India, Vi among buzzing stocks as SENSEX falls over 500 pts; NIFTY trades below 24,900 - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNMmJRVXhGNzNLOFFYSFJJS1lQb3Nyam1Wb29ON0NfOXJscGRsa0VFeVFsb2lkS0lwS0NnVDM0clRveW1vSUs1UzdVc1B3UkZOajM5RGloOERaN2Z3RUczd1g0TjQwZVMxNEhQdS1lX3BGdml4SDRIZk5jeEpVV0NmaWktbjI4Y1BYR3BwdFlrLUNRTmVsTjJvVjRmeEgwV3BUTzh2Vml2Y0RmcDY0aFhIWXNZQktLaDNLRWtBeUhtdGpPQVNpclJsTFAycF9jWDZiY0NTSVp0cVpMd1FSLWViRzVaeEJQU2tkTHFla2hrSQ?oc=5",
+            "published": "Wed, 02 Sep 2026 07:44:08 GMT",
+            "score": -2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Selan Expl Tech Share Price Today, Selan Expl Tech Stock Price Live NSE/BSE Updates - economictimes.indiatimes.com",
+            "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQRHBmeDM5dHVvclR1ck5nVzM2TkxscGxwUHd3N01NbFN6OVo3LUEzMEtBcWxBeEZEN2dXSkdaMDJvQ0luT3hnWmtMSm0yVHpPX2h5WF9uVXBaRVJFRUplM0FqWmJFZ0J3YXZ4VEtzX0tDclcwV1l5eXJaWHFkYllBVWUzc09qZW9aYjVwcXNSNGo2bXQzT0xidnA1NjU3LXFlRlA1YQ?oc=5",
+            "published": "Fri, 24 Jul 2026 11:35:35 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 74.9,
+      "added_at": "2026-09-03T10:03:36.146351",
+      "first_seen_price": 1029.15,
+      "first_seen_at": "2026-09-03T10:03:36.146351"
     }
   ]
 }
