@@ -1,0 +1,29 @@
+name: Market Open Pulse
+
+on:
+  schedule:
+    # 04:00 UTC = 09:30 IST, Monday-Friday (~15 min after market open)
+    - cron: "0 4 * * 1-5"
+  workflow_dispatch: {}
+
+jobs:
+  market_open_update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send market open pulse
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python nse_ai_breakout_actions.py market_open_update
