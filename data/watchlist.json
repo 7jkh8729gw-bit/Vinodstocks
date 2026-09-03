@@ -5,22 +5,22 @@
       "symbol": "ANTELOPUS",
       "base": {
         "symbol": "ANTELOPUS",
-        "price": 1001.3,
-        "day_change": 5.27,
-        "volume": 12042022,
-        "avg_volume": 1275647,
-        "volume_ratio": 9.44,
+        "price": 998.85,
+        "day_change": 5.01,
+        "volume": 12316516,
+        "avg_volume": 1288718,
+        "volume_ratio": 9.56,
         "high_52w": 1034.8,
-        "pct_from_high": 3.35,
-        "market_cap": 3520.81
+        "pct_from_high": 3.6,
+        "market_cap": 3512.19
       },
       "technical": {
         "symbol": "ANTELOPUS",
-        "close": 1001.2999877929688,
-        "rsi": 74.11,
+        "close": 998.8499755859375,
+        "rsi": 73.94,
         "adx": 18.83,
         "atr": 45.13,
-        "volume_ratio": 9.04,
+        "volume_ratio": 9.15,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -50,9 +50,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 933.61,
-        "target1": 1091.56,
-        "target2": 1159.25
+        "stop_loss": 931.16,
+        "target1": 1089.11,
+        "target2": 1156.8
       },
       "news": {
         "score": 60,
@@ -97,7 +97,7 @@
       },
       "core_score": 20,
       "combined_score": 74.9,
-      "added_at": "2026-09-03T13:45:13.922350",
+      "added_at": "2026-09-03T14:13:23.134250",
       "signal_state": "WATCHING",
       "first_seen_price": 1018.55,
       "first_seen_at": "2026-09-03T10:59:44.303615"
@@ -106,37 +106,37 @@
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 152.89,
-        "day_change": 6.54,
-        "volume": 9776285,
-        "avg_volume": 3176209,
-        "volume_ratio": 3.08,
+        "price": 151.72,
+        "day_change": 5.73,
+        "volume": 9949957,
+        "avg_volume": 3184480,
+        "volume_ratio": 3.12,
         "high_52w": 159.99,
-        "pct_from_high": 4.64,
-        "market_cap": 1925.43
+        "pct_from_high": 5.45,
+        "market_cap": 1910.82
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 152.88999938964844,
-        "rsi": 95.14,
+        "close": 151.72000122070312,
+        "rsi": 95.06,
         "adx": 53.04,
         "atr": 8.09,
-        "volume_ratio": 2.96,
+        "volume_ratio": 3.0,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": true,
+        "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
           "3 White Soldiers"
         ],
-        "setup": "BREAKOUT",
-        "score": 81,
+        "setup": "DOUBLE BOTTOM",
+        "score": 72,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -144,7 +144,6 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
-          "Confirmed Breakout",
           "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -152,21 +151,14 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 140.75,
-        "target1": 169.08,
-        "target2": 181.22
+        "stop_loss": 139.58,
+        "target1": 167.91,
+        "target2": 180.05
       },
       "news": {
-        "score": 75,
+        "score": 65,
         "label": "Bullish",
         "headlines": [
-          {
-            "title": "With EPS Growth And More, Bodal Chemicals (NSE:BODALCHEM) Makes An Interesting Case - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQOG1nUnlualdDdEs3bEs2UzZNclIyLXltMGliclhmdFRqeXJfTzdLaFI2czllbThOU3dadDFMZVJJLWZsalVuTnc0U3dBUW9XZ2RCT013WGVyYWIwX2tZelZuTWZYWUxDcDFUZVpKWkNWMlBJTkRvS0RJMVNmMVprcVhhMC00QUpCMUJPbUUxVGxRMEFEellCT0pCZkVsSXI4djY5Y09LakthWE5Ka3lIOVgxc3I3OWhpU0YxUWdPNU9QczJKQThEY29MeTFnVW5RUG9VWmZFTk1rYnfSAeABQVVfeXFMT0k0OWt4elJZelR4M1R5T2FKTmtvNkMtZ0JTS0t0cGxMLTUycGFRZFY4WFJqMlhrd3lmeEpSSkRSRGZvNG5UZDZZX0J6Y0g5bUJ3VGFrNVRTRHVEYk1RekV1aUVBRmUtdFphNVUtQml0MjdZaElsS1FlZUdPZHFheFZ6SXBfa0dvYzBrc0ZvQk5MRXRCRUEyLU5fS2pSeVZFR2pjaFA1RngzZnZSa2lVRnhvS0lWbDJKd05KYllsQ3RZRGdoUTZjQ0tUWkpuQU5ZNktfWHdpcGktY3loWm85Tjg?oc=5",
-            "published": "Fri, 21 Aug 2026 07:00:00 GMT",
-            "score": 2,
-            "label": "Neutral"
-          },
           {
             "title": "Under the Radar Chemical Stocks India 2026: 5 Hidden Picks - Univest",
             "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9RdS1zVlgyRkxpMmdXdzJaQWpVM0VwODc5SlkzOFFJZzRVM294c2pxWXlYcW5BMkN4ampjbmN4M2dkTVFSTUhJMS1JOFZpSkJRQUFQRzNUSW52Wi1pUEg2RXlLelFqLXlJT2xrQ0ZJYw?oc=5",
@@ -189,6 +181,13 @@
             "label": "Neutral"
           },
           {
+            "title": "BODALCHEM Stock Price and Chart \u2014 NSE:BODALCHEM - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5XbmhNUGFaNXhQYXlSM0RIa2RDM2VqdzlUbENQbFotX0o1VUUyZndSY3FnMFR2bUk1RVVENTZ0MHJ4dHJnck12MXBkRGp5bjhPbFdXNVM5dTZ6NUw1UTBn?oc=5",
+            "published": "Fri, 21 Jul 2017 02:52:57 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
             "title": "BODALCHEM Q2 2026 Earnings: Revenue Grows 15% YoY, EPS Stands at \u20b93.8 - High Estimate Range - vinanet.vn",
             "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPUDg2cC14VXk0OTR2OVRfcndZT3hVX19iTnVPVzYyS0FfUUxrYzR5UEp3RlVtUkNYRzRGUDRza21XYXNfWFYxd1BqaU1uOW9QNGI5WDEydVZ4aTRwSmVjdjByZ1RuZUNocjZRWWl0NHVyVTA5VnBQUlhLblJ5dURzVlFnZmtlMnFCLW5HR0plM2xUV2dxQVNfbWduU21sMFRyVWpKYmM3eWtVZw?oc=5",
             "published": "Mon, 06 Jul 2026 07:00:00 GMT",
@@ -198,8 +197,8 @@
         ]
       },
       "core_score": 20,
-      "combined_score": 79.6,
-      "added_at": "2026-09-03T13:45:23.158997",
+      "combined_score": 72.6,
+      "added_at": "2026-09-03T14:13:32.838513",
       "signal_state": "WATCHING",
       "first_seen_price": 150.0,
       "first_seen_at": "2026-09-03T10:59:52.833514"
@@ -210,9 +209,9 @@
         "symbol": "RBLBANK",
         "price": 409.6,
         "day_change": 5.19,
-        "volume": 16434113,
-        "avg_volume": 2654671,
-        "volume_ratio": 6.19,
+        "volume": 16960366,
+        "avg_volume": 2679731,
+        "volume_ratio": 6.33,
         "high_52w": 410.0,
         "pct_from_high": 0.1,
         "market_cap": 63492.43
@@ -223,7 +222,7 @@
         "rsi": 70.7,
         "adx": 16.91,
         "atr": 8.93,
-        "volume_ratio": 6.22,
+        "volume_ratio": 6.36,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -300,7 +299,7 @@
       },
       "core_score": 22,
       "combined_score": 79.6,
-      "added_at": "2026-09-03T13:46:24.899806",
+      "added_at": "2026-09-03T14:14:33.281046",
       "signal_state": "WATCHING",
       "first_seen_price": 408.2,
       "first_seen_at": "2026-09-03T11:25:47.221612"
@@ -309,22 +308,22 @@
       "symbol": "HINDOILEXP",
       "base": {
         "symbol": "HINDOILEXP",
-        "price": 183.28,
-        "day_change": 10.29,
-        "volume": 14833205,
-        "avg_volume": 1314289,
-        "volume_ratio": 11.29,
-        "high_52w": 188.65,
-        "pct_from_high": 2.93,
-        "market_cap": 2423.75
+        "price": 190.13,
+        "day_change": 14.41,
+        "volume": 22227310,
+        "avg_volume": 1666390,
+        "volume_ratio": 13.34,
+        "high_52w": 191.0,
+        "pct_from_high": 0.46,
+        "market_cap": 2513.42
       },
       "technical": {
         "symbol": "HINDOILEXP",
-        "close": 183.27999877929688,
-        "rsi": 72.03,
-        "adx": 19.23,
-        "atr": 6.67,
-        "volume_ratio": 10.87,
+        "close": 190.1300048828125,
+        "rsi": 75.28,
+        "adx": 19.4,
+        "atr": 6.91,
+        "volume_ratio": 12.81,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -351,9 +350,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 173.27,
-        "target1": 196.62,
-        "target2": 206.63
+        "stop_loss": 179.77,
+        "target1": 203.94,
+        "target2": 214.31
       },
       "news": {
         "score": 40,
@@ -381,24 +380,24 @@
             "label": "Neutral"
           },
           {
-            "title": "Hindustan Oil Exploration Company Ltd. Share Price Live Today - CNBC TV18",
-            "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQWFpOTUV1MDAyLUNtN0VneHl0OVFpX0xzZzdveWtnWHZnRFpBTUtlTzNUWDB0TldQR1R0NUZsa2I0MXlwR1JyQTNDWXlqTnl0eFdPMllnSmw5RVlDYTQ2QzhIVkRLcjhBWEpxSHJsczJJRXAwNVpGeE5vaHpNYldUNnFzNk5JUjZEeldGOTF2dkNGWjA0ZUtWaGpYRQ?oc=5",
-            "published": "Sat, 03 Jan 2026 09:55:06 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
             "title": "Hindustan Oil Exploration Company Share Price Target 2026: Rs 210 Analyst Forecast - Univest",
             "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNemJNbDhxLU5OQzY1YVFJU1N3MkRGSmtaRmk2ZHl2REtKRzc5VWRTdW8xUVYycWpBVWFyZ04tYjl0TlhQTXpnRHVUUDgyT1FtYWtRdFRoVkJQeUtmSVdhZXg3S284TjlKTG1wQkxDaTVnS3diMGptWEZwZ3NBc2Mwb1hYWmhxWUNOVFE?oc=5",
             "published": "Fri, 12 Jun 2026 07:00:00 GMT",
             "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Hindustan Oil Exploration Company Ltd. Share Price Today | Hindustan Oil Live NSE/BSE - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOQlRSYnJfeW1KYlE2R1BsMmt0V1dqcnVrc0N3a1RaQnF6YnAtYzVHdlNWcjV6YmFWSEI0aXVzS0FybFEtQnU4ekZIRGRmOHRNNld5NDAxOS1ZaVRJV2lmOUhVZWNObHdQTXotaXhoS3lfdkFWQld4d1M4T3B3NG5LUDk0SjNCS0xaTXdRbTVGbGk?oc=5",
+            "published": "Fri, 25 Mar 2022 08:38:55 GMT",
+            "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 22,
       "combined_score": 70.2,
-      "added_at": "2026-09-03T13:45:46.666475",
+      "added_at": "2026-09-03T14:13:56.884953",
       "signal_state": "WATCHING",
       "first_seen_price": 186.5,
       "first_seen_at": "2026-09-03T11:49:20.810532"
@@ -407,22 +406,22 @@
       "symbol": "ALEMBICLTD",
       "base": {
         "symbol": "ALEMBICLTD",
-        "price": 114.73,
-        "day_change": 14.72,
-        "volume": 29070253,
-        "avg_volume": 2056705,
-        "volume_ratio": 14.13,
+        "price": 112.51,
+        "day_change": 12.5,
+        "volume": 30362937,
+        "avg_volume": 2118261,
+        "volume_ratio": 14.33,
         "high_52w": 117.72,
-        "pct_from_high": 2.61,
-        "market_cap": 2947.34
+        "pct_from_high": 4.63,
+        "market_cap": 2889.05
       },
       "technical": {
         "symbol": "ALEMBICLTD",
-        "close": 114.7300033569336,
-        "rsi": 78.64,
+        "close": 112.51000213623047,
+        "rsi": 77.3,
         "adx": 33.73,
         "atr": 4.37,
-        "volume_ratio": 13.55,
+        "volume_ratio": 13.74,
         "ema_alignment": false,
         "dema_alignment": true,
         "golden_cross": false,
@@ -448,9 +447,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 108.18,
-        "target1": 123.47,
-        "target2": 130.02
+        "stop_loss": 105.96,
+        "target1": 121.25,
+        "target2": 127.8
       },
       "news": {
         "score": 55,
@@ -493,9 +492,9 @@
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 66.0,
-      "added_at": "2026-09-03T13:45:12.181117",
+      "core_score": 20,
+      "combined_score": 64.0,
+      "added_at": "2026-09-03T14:13:21.495527",
       "signal_state": "WATCHING",
       "first_seen_price": 105.38,
       "first_seen_at": "2026-09-03T11:48:41.011608"
@@ -504,22 +503,22 @@
       "symbol": "CGCL",
       "base": {
         "symbol": "CGCL",
-        "price": 271.4,
-        "day_change": 5.77,
-        "volume": 10865786,
-        "avg_volume": 6760607,
-        "volume_ratio": 1.61,
-        "high_52w": 272.0,
-        "pct_from_high": 0.22,
-        "market_cap": 26112.86
+        "price": 271.95,
+        "day_change": 5.98,
+        "volume": 11464181,
+        "avg_volume": 6789102,
+        "volume_ratio": 1.69,
+        "high_52w": 272.75,
+        "pct_from_high": 0.29,
+        "market_cap": 26165.78
       },
       "technical": {
         "symbol": "CGCL",
-        "close": 271.3999938964844,
-        "rsi": 67.82,
-        "adx": 32.84,
-        "atr": 11.58,
-        "volume_ratio": 1.58,
+        "close": 271.95001220703125,
+        "rsi": 68.02,
+        "adx": 32.88,
+        "atr": 11.64,
+        "volume_ratio": 1.66,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -532,7 +531,7 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "BREAKOUT",
-        "score": 77,
+        "score": 71,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -541,15 +540,14 @@
           "Double Bottom",
           "Near Breakout",
           "Confirmed Breakout",
-          "Healthy RSI",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 254.03,
-        "target1": 294.56,
-        "target2": 311.94
+        "stop_loss": 254.5,
+        "target1": 295.22,
+        "target2": 312.67
       },
       "news": {
         "score": 45,
@@ -593,8 +591,8 @@
         ]
       },
       "core_score": 16,
-      "combined_score": 67.3,
-      "added_at": "2026-09-03T13:45:26.406708",
+      "combined_score": 64.1,
+      "added_at": "2026-09-03T14:13:36.111000",
       "signal_state": "WATCHING",
       "first_seen_price": 270.6,
       "first_seen_at": "2026-09-03T12:47:30.927863"
@@ -603,22 +601,22 @@
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1600.0,
-        "day_change": 1.14,
-        "volume": 1295700,
-        "avg_volume": 811632,
-        "volume_ratio": 1.6,
+        "price": 1600.3,
+        "day_change": 1.16,
+        "volume": 1337253,
+        "avg_volume": 813610,
+        "volume_ratio": 1.64,
         "high_52w": 1630.0,
-        "pct_from_high": 1.88,
-        "market_cap": 33983.07
+        "pct_from_high": 1.86,
+        "market_cap": 33989.45
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1600.0,
-        "rsi": 74.09,
+        "close": 1600.300048828125,
+        "rsi": 74.11,
         "adx": 34.16,
         "atr": 50.37,
-        "volume_ratio": 1.64,
+        "volume_ratio": 1.69,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -648,26 +646,26 @@
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 1524.45,
-        "target1": 1700.74,
-        "target2": 1776.29
+        "stop_loss": 1524.75,
+        "target1": 1701.04,
+        "target2": 1776.59
       },
       "news": {
-        "score": 65,
-        "label": "Bullish",
+        "score": 45,
+        "label": "Neutral",
         "headlines": [
+          {
+            "title": "Sai Life Science surges 8% in two days; stock hits new high in weak market - business-standard.com",
+            "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOczByRGpMLUVhb2FwUUVCMmkzYXpBVjNHX0M0Q2ZjVWNOS1pUbjJONFNlRXVwMzlZTlhlczFLVmV0RXFZdjVLckd3bnVpVnBtbWdJN1lPRk03b3hEbi1IWmluMXRGeTFEZWNiUVFCX3B5WlliTk95LVNmWGJpTkQzaDJiMTNaUk5vVy1CYjFONXk0cEdHbEZ2R3FaRjljeWpTYUN6SXlKazhuMVF4M2oyNjJmTlFlQ2lweElYME9BajhRM3VMdFpKSm5iaGRxd20tbWMyQ0pB0gHbAUFVX3lxTE9yUlBtaWpKRzItQnR2elJJcUctVE9aY2FSOFlhZDZzYVBvX1pPTUx2Z0lTUmx2MGNHUG5fQ1NEc05BN2pINFlSNDJHeGZFbnRKLVlwNHc5VWdnOFlOWWN1cGM2VHNNazZZUWRJWFY5OWRUUFBMSmNaR2EzWk90Y1RuOXlTczVXYkpOeXp0Y0c2Z0pYT3JqOUw4OWpqYk01am1rMWJZOF82Z3M3NVN5dEk4N1RfMkxvSTVzNWotU3NlMmdtekNobjZZZGFZN25JcXRuOThfT2tWOC1rNA?oc=5",
+            "published": "Wed, 02 Sep 2026 05:49:38 GMT",
+            "score": -2,
+            "label": "Neutral"
+          },
           {
             "title": "Trade Spotlight: How should you trade Sai Life Sciences, EID Parry, Raymond, Glenmark Pharma, MCX India,... - Moneycontrol.com",
             "link": "https://news.google.com/rss/articles/CBMilgJBVV95cUxOdW95dGFTNGJiWE5rcnMtMWNzM2JVY1lyOEZ3R1ZGbTJIbGFvbmFaZnowRTdqd3A4LWYyWUV6LWg4YTA0Ykowa1pOQzllcWRqaXlMZVRhQi1NcmhKS0lXRnR2dVZKeUpZU2Nrb2RPRFM0UkM2VTFiT3dUazdlcGdxOWhhd2JKSDRab2NEVVhwSGZ0ZkZMR1RlNVNha3p5aWlzdmJqeHZSOEgyTVl3UVVkU1M1S0hSa0J5RkdtOWJqa2VsNHVmai1vVGV1MW41ZWNqNVNnakpOdi1UMlY0cjhmVEVLSll2NFdxS2EzR0tXbFBvMlJnSUZBNVhyT0FmOFBKVFU1VUg4OVE3bzk2bHVLZTF6OTRLd9IBmwJBVV95cUxOUEJZZGRDcEpvUi1rSTNnRjJfSEREcWFoNW1Zek0tWG9yVFd0aFJ0OGpLNDUySVBOejR1UVgxNUp5RmN3TWQ1RnAteU15a3dCYmM3S2NNQjRBZkJvNmVTUFlLLTFiS2cwR3hIRVpQaHpuY0lkUG15TDZBODhOUkQxS1ZrWWdiZl9PU3F6RHlDb1VpcWxucGJsNG1NX0o5VEEtdFM0UG9UM0JyaWF0OElfMklUOGdsVmlNV2ZNTk53ZXUzVnpueUVKS2k2bDlULVBCaGJwbEJqLUpNWVVYdFB0MElONzUzd1FrRFFOZURRTUFDQjJqYXloWkt2elBmTzZWWmpsdXVKcW9EQlpWcG5fU3lyQnBtdzFhYld3?oc=5",
             "published": "Fri, 21 Aug 2026 07:00:00 GMT",
             "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Breakout stocks to buy or sell: Sumeet Bagadia recommends five shares to buy today \u20142 September 2026 - Livemint",
-            "link": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxOMm9jZmtSY0JhQy1jSFVOT2RfMlNYZ0dxQ0lQLXE1ajBuOFI3UTQ5cEYtSkpIeERQaFhCMW9RN2pZR0xKX09scTZPSnZGOTA1emxlemJnWmlFQnJhdmZ1V09CRkp0UVNpM1Jrc2pQTlRRRU1xeTlHalN6VEQ5RkRaeGZtd2l4RWxkWnliNlNEaGhJdlRuSGMxSUROZ3VFRXVEV0R0MjlYaUFRYjVXUFdINXE2aERmV09XZVpaaS1lM0VXUzh3VkdreE9YQzdsWHcyM1lZS1RaLS1fbzZ3dkhTRm52RnNnMHJpTW1zcGZKdU42LUN3SDlTS0ZRMlrSAYICQVVfeXFMTlFjOW5lbm9YQ0ZIT1J1eldCbm41Szl0Rm01MTEzZzFCWnlYMDgtNm5qcHdCNm91UjZLSmpqRlByMkc5eUdGM3FYZVlnSWQtT0NPdjNiSGl5ZEY4V2UwUUt4VXdjZ1d0NTFmOXkyWldxVzRRdmRjS21uNE9mMGFzSVZNdXFETm1iVXBTR01WblBQRW14Umk5bjd2SkNpRlVEN3FOd3hBMW1NTHI1cS1sRmIxMEZINjM1UENmUndtVmsxNTVnZWllelM2V0doWnZNWS1Kb1BPYVN2WHdpdDlGalYzQl9zcDMwOFl6ZkVFdHV4cFV3RnIzZmhCRzJha3pEZ0d3?oc=5",
-            "published": "Wed, 02 Sep 2026 01:05:49 GMT",
-            "score": 2,
             "label": "Neutral"
           },
           {
@@ -678,26 +676,317 @@
             "label": "Neutral"
           },
           {
-            "title": "CDMO stocks in focus: Laurus Labs hits new high; Sai Life Sciences gains 2% - business-standard.com",
-            "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxObXJDYTk4TmpwT2JSUUxadjJLWVlXWDhwSi1rZVVDQjRrNDI3MkZYYjZYVGJZRmY2YXJiT3A4VTAxY214OHpDV1VpTDlTTnc5dlJBbzd5VGJNUmVlSEFUTnVUQXdGa05qVk9Ea2JmOF9xSnBFVmhYelUzT1R5TmFsOG8zYlRuNEFxQWJuc0QxYTVGWjFpQUlQRC1ZTml0VHNjdDNwNklOd0hTMG5tUkNjSE9tNFg0WVF4d2paWHQ5QjZkYy14MHNwMk5uckNMQjFDMHZXREtn0gHbAUFVX3lxTE5DS0k2YmoxNzBCbnpIMWRuNDlxVEJHM1dweFNSNXV1X1lkSFlBUU5iNkRHbG8yM2xrSVV3ekVyVFZpUkFFcDRhTmZNQzB1Z3Z4NHpjSnVEUEJxckRkNWxYeXhqMjl2Mzl0VWxkSjRPTnozYVp5dk9XS2tWV3MyZ1Q0SmlHWDBtT1FPUlFYaUNRZTFkX2F6UkdxemE3S25FVDFsOVNmdm9WZ2Fra2ZNUEF2NmhITzF0U19zU1dGZ1hvcjBFdmh6M3VtQmpqV01RdEdJV2hjeW1CbzFYcw?oc=5",
-            "published": "Mon, 18 May 2026 07:00:00 GMT",
+            "title": "Sai Life Sciences plans to recruit 700+ professionals in FY27 as Indian CRDMO demand accelerates - drugdiscoverytrends.com",
+            "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdDRlcU0yelk4aVlkRjhfQkV0NDR1M0JNQkR6dGNnYnBQSFdsbnhFV2lUdGszV21la0I2dUh6V0ZucU9ESXVqck5NXy1fR2dNb0lOZVpXN1VIZHd3Vm9NQU11YzBWSDlKUFN5U0I3ZS1jTnAwWkJVS01nbGx4Tm5IOHNJUzFKMlZMMGpoNldTOGYtNjhWNTRvZHhrclZlRkI1X2FTeExNb1BFTVN1U05Sbm9CR3J1M09KejZhQnhLbHNFMU5Kdm9qYWdFM0g?oc=5",
+            "published": "Wed, 25 Feb 2026 08:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Sai Life Sciences plans to recruit 700+ professionals in FY27 as Indian CRDMO demand accelerates - drugdiscoverytrends.com",
-            "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNdDRlcU0yelk4aVlkRjhfQkV0NDR1M0JNQkR6dGNnYnBQSFdsbnhFV2lUdGszV21la0I2dUh6V0ZucU9ESXVqck5NXy1fR2dNb0lOZVpXN1VIZHd3Vm9NQU11YzBWSDlKUFN5U0I3ZS1jTnAwWkJVS01nbGx4Tm5IOHNJUzFKMlZMMGpoNldTOGYtNjhWNTRvZHhrclZlRkI1X2FTeExNb1BFTVN1U05Sbm9CR3J1M09KejZhQnhLbHNFMU5Kdm9qYWdFM0g?oc=5",
-            "published": "Wed, 25 Feb 2026 08:00:00 GMT",
+            "title": "Sai Life Sciences schedules investor meetings in Singapore - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQU1dCNnN5V3l2aGVzTDNYbkpFblY5bE1qcmk3WlJrbHpkTmI0SDE0YW1nV1pFZWtpX2lObHJHa0ZvcjZhYlpBcHpPQVY3Snp1MDNReVVUZGw0UlBreWtSZDdGTUJsZDNJdGJTRXkwTWlLd3lMaFByMFhqa3YwRDB6YTh6ZGJMeUlkbHpPYkZUVDNfN3pRVEo0dVZONHFFU1REMEdXWkFXUmgxT0hnTGtxYm1XSFN2QQ?oc=5",
+            "published": "Wed, 05 Aug 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 19,
-      "combined_score": 73.8,
-      "added_at": "2026-09-03T13:46:28.942847",
+      "combined_score": 69.8,
+      "added_at": "2026-09-03T14:14:38.652574",
+      "signal_state": "WATCHING",
       "first_seen_price": 1600.0,
       "first_seen_at": "2026-09-03T13:46:28.942847"
+    },
+    {
+      "symbol": "RAYMOND",
+      "base": {
+        "symbol": "RAYMOND",
+        "price": 761.6,
+        "day_change": 14.18,
+        "volume": 12916668,
+        "avg_volume": 1186967,
+        "volume_ratio": 10.88,
+        "high_52w": 764.8,
+        "pct_from_high": 0.42,
+        "market_cap": 5068.56
+      },
+      "technical": {
+        "symbol": "RAYMOND",
+        "close": 761.5999755859375,
+        "rsi": 77.88,
+        "adx": 25.87,
+        "atr": 27.94,
+        "volume_ratio": 10.55,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "BREAKOUT",
+        "score": 81,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 719.68,
+        "target1": 817.49,
+        "target2": 859.4
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Raymond Realty Limited Actuals & Estimates (NSE:RAYMONDREL) - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOOEt5QTQ0YXhPRkJubDExUkNBSXktWlF2bVc5YnE3bnFZQTBXUVE0Zzlxb2xXR0Nlb2tjWlZFbml2Wko4dVp4TDlBUWkxTmxyMGFZY1lrTDJ3SUxaTHhYQUJydGIxQ1JWTnVRMVFZT1pLVzZnY2M5SHAwcFNBeW1tSGNrbXdsUi1HeFE?oc=5",
+            "published": "Thu, 25 Jun 2026 18:50:21 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Raymond Share Price Target 2026: Bull Case Rs 855, Bear Case Rs 6 - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE5paTZFMHg3dFB2UnkzSTAwbFN3WW5EYmRENFpEdDN3eUJUcjFLa05hS21QNnYyQmFqbk1MUFlUWTRGcE1IUjVDcC1qSFNReS1yb3Q5dXRUZkRwci1FbXJHS0Vid1QxdlNSa1E?oc=5",
+            "published": "Thu, 02 Jul 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Trade Spotlight: How should you trade Sai Life Sciences, EID Parry, Raymond, Glenmark Pharma, MCX India,... - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMilgJBVV95cUxOdW95dGFTNGJiWE5rcnMtMWNzM2JVY1lyOEZ3R1ZGbTJIbGFvbmFaZnowRTdqd3A4LWYyWUV6LWg4YTA0Ykowa1pOQzllcWRqaXlMZVRhQi1NcmhKS0lXRnR2dVZKeUpZU2Nrb2RPRFM0UkM2VTFiT3dUazdlcGdxOWhhd2JKSDRab2NEVVhwSGZ0ZkZMR1RlNVNha3p5aWlzdmJqeHZSOEgyTVl3UVVkU1M1S0hSa0J5RkdtOWJqa2VsNHVmai1vVGV1MW41ZWNqNVNnakpOdi1UMlY0cjhmVEVLSll2NFdxS2EzR0tXbFBvMlJnSUZBNVhyT0FmOFBKVFU1VUg4OVE3bzk2bHVLZTF6OTRLd9IBmwJBVV95cUxOUEJZZGRDcEpvUi1rSTNnRjJfSEREcWFoNW1Zek0tWG9yVFd0aFJ0OGpLNDUySVBOejR1UVgxNUp5RmN3TWQ1RnAteU15a3dCYmM3S2NNQjRBZkJvNmVTUFlLLTFiS2cwR3hIRVpQaHpuY0lkUG15TDZBODhOUkQxS1ZrWWdiZl9PU3F6RHlDb1VpcWxucGJsNG1NX0o5VEEtdFM0UG9UM0JyaWF0OElfMklUOGdsVmlNV2ZNTk53ZXUzVnpueUVKS2k2bDlULVBCaGJwbEJqLUpNWVVYdFB0MElONzUzd1FrRFFOZURRTUFDQjJqYXloWkt2elBmTzZWWmpsdXVKcW9EQlpWcG5fU3lyQnBtdzFhYld3?oc=5",
+            "published": "Fri, 21 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Raymond Realty Gets BSE & NSE In-Principle Nod for 13,80,588 ESOP 2025 Shares - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxOWjYxSUh4R3A2LXBiWmRDRlNzc25nRTRwVDVQR1pWbDc5QmZBUm1ONkpZQ050SmJUUnVpYk14XzRUSUFCbURNR3dOZU4wMzk4UThTT0JTWkJack1zVnhCWEtiSFE4MUwtT0JIN0FfcDEtb0lZM1UySHlld0JfVVNmbnhXWUFCWkhOY09YWU5iMjVQUEtwbkFkaVpqNGthQTFkazZ0Vy1lbFBCN1VlZEl0TVRteVRxOUZSTU1hdlh0VkhwZzR0aGxzSERMWUFzUE15VFVsV25Takd0WXhRQm9kQjd6WThGNGtwWmwwaHFCSExqQXkzOFE?oc=5",
+            "published": "Tue, 12 May 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Raymond Lifestyle Limited's (NSE:RAYMONDLSL) largest shareholders are private companies who were rewarded as market cap surged \u20b95.4b last week - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxQQmY4UVdEcExTcGtpdVdqeVhqRThPeXIzRG1qTnlOVXA0Y1k2S0NwR3AwZGJIeHJqSG5pMHl0a3J4TC1XdUdnZ3FWNklZLXZXODU2STAteEFiVU44bXF5MElNNGgyTW1oX3lzSVZMRTVhQWpvVnhDZjRLVUJCUVF0YVdzellQYXJQRU9qYWZvVHQydXNWWEUtZktFWUFMMHF6clctZjhrZnRiTlVyOThCYnJUblBBckthSGVCSno4VzRBbnQ4NDJCWXNOTFhPQ2NLVkJWMzBuOURMSDVmajFQQ0gtMVJZTU9mMDY40gHwAUFVX3lxTE1uU1BzZDRkZUVLZnE4elVPZGpzUDBJcW9JSEJ6MjM1ZDNwYm9KbjlaRUppTkVLRGFESFY1VzRXdVlidzlaTm9HcmNZNWlFbGlxZkMzMjJPbXB4Q2RIRlNhSFdSQWp4dnB4VGg2YW9zcXBHbG1hNnVSSXp4TWktaTZfeGF3VlZIbzBHdWl3TWx5NTRBZlJZZllYYVlTUlFNZnVzVWJDSC11VVNBam1ZWlBLZF83bVliLWYtV2hmLUlZVTZ4R25LOThBTzl0QkZlNDkxeG8yT3M2MGVrWnQ0ZGRUYVhEOERJMDhBODVOX3REZQ?oc=5",
+            "published": "Sat, 13 Sep 2025 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 77.6,
+      "added_at": "2026-09-03T14:14:33.111786",
+      "first_seen_price": 761.6,
+      "first_seen_at": "2026-09-03T14:14:33.111786"
+    },
+    {
+      "symbol": "REDINGTON",
+      "base": {
+        "symbol": "REDINGTON",
+        "price": 370.25,
+        "day_change": 2.11,
+        "volume": 7779885,
+        "avg_volume": 5138266,
+        "volume_ratio": 1.51,
+        "high_52w": 378.5,
+        "pct_from_high": 2.23,
+        "market_cap": 28945.2
+      },
+      "technical": {
+        "symbol": "REDINGTON",
+        "close": 370.25,
+        "rsi": 65.01,
+        "adx": 42.48,
+        "atr": 14.94,
+        "volume_ratio": 1.5,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 52,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Double Bottom",
+          "Healthy RSI",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 347.83,
+        "target1": 400.14,
+        "target2": 422.55
+      },
+      "news": {
+        "score": 75,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "This Just In: Analysts Are Boosting Their Redington Limited (NSE:REDINGTON) Outlook for This Year - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQb0wxWUVucHF3ZFRIeG5FMUxzQndyR3ZMZi1YWERSM25HTm5Yb2VJNHdJTWJucWZmOFBINFR6MzFudXJCdGFteDMzS051SGJDWDJ0WlRjZE5RajhFQVFEamZYcEx4VVpCcXJHVXEzUGlxQnp5V0ZRQm53cDhnMHZVd0U0d3N1YUstbm1BbERKZjVGU25BZHNYN3hUOFdKNzJVZ29CaE9QNld4T3dfTHJsdy1EazlaQ2IybGZBclNfeTZqRE9qWTAxSWx4NFFyUdIB0wFBVV95cUxPay1rek11WEFVdl9VMGhNdEpFeEdVcXRITXctMlBqZ2gtNXBiUmNQam9qZGJCSXF1enMxT082ZkZKNFpCYVlvNG13NEtqUWlBT25NUTJ2UEFEMEF2dk9HN1BheWUzSWIzeG00VjJXZ1BVaUJMSW53TWRIRGt5cnI2THRJVENINE9EdUtieUZnYnMwSmpMYmY1cldOWHhJTmdvY0w5NnV2YUJUa1o1Q0ozRmZwcW83SHNOaFpiX0FoSDRXRFBJY2hJWDBhSm9jRFJxbmJZ?oc=5",
+            "published": "Sun, 02 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Redington hits new all-time high, zooms 18% on record Q1 earnings - business-standard.com",
+            "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNYTZaeFJpbzBEV3F2SkE4RzJNaU9QMVE4a3l1OXNudmVKOHRQa2FsOWpiaU5vMVpWRGhGZ2FUc2ttQ1ZpUGdWcGtNcnVsV3dNSXlMYXQyUHNuVFVxV2pFYTlZWVEzcExQXzQ5YVQ3cXZXUnFPbkJMRlJMamFzR0RRcTZVX3Jha3RWVEYxdjBJMUtqT2NlOFpudXVJdTNaNFF1SzBTdk9JY3dEcEE1RnNGTnlrZS1fZjlCRUwzQlFjVEhGaG9kVHhkbnNYQ0F4RFpTaEVzTWpKUnNjZ9IB3wFBVV95cUxOME05eHRLVVlRbkppU0ZpRklfVnVJTkZKdERXeWtfc2VLUGs0b2ZuN3dtN0hWYUFYa0h4YWtmMWFqZUI5WDlRUVVoRlI2RUdRNl81aVB6dmhaUzBRNThITlZhNVNJRl9VWXdrLXVOMmpleW82S2lRS1BGdDFER205WktwVlV5V193eDVXaERHM3N0RkNscnRZY29VTlh2WlhnVzBubEEwekF6NzczOGx0dmdXQ21QeVgxRUtyNGVEdEVDbkhCQUt2NFJjR1Q3X0U0MkdvQnBMbGhqNXNSbVZV?oc=5",
+            "published": "Thu, 30 Jul 2026 07:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 Under the Radar Logistics and Supply Chain Stocks in India 2026 - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNOGRCT2dsSEdtSWRrNVljNkNVeXpLVFQ1RW54SlFkZW5CaUg4cEFvQTkzR3RwT0hmcldHcjA4QjJnamhFR2VMWWltLVdFT1BTdWpXWFNmUVpUSE9pWjR1RDZtaUU3d0FsYkNVWDhHSDhxYVZ3OVR0bzBweVZkQXhpaGJWbXpocDFfUl9n?oc=5",
+            "published": "Mon, 24 Aug 2026 09:48:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Redington shares surge up to 15% as report says 25% of iPhones are made in India - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOU2xoMUhRcC1ubnczMmNCeUZvajl1VEJiYnIyNUxRRDVseEZEdzdmRWZESnFvOXloeUNhaTN4bTdMWWdZeXhZbFJ5ZTJBZkNLV2pRU2RiR0dkNF96T1RSTnMxNE5lTFRBbzhPeG9KbDdjMTBiV2oyQUZvSUFQQS15VzZkb0pkTEhScFdQN3Vxd3MycHRkVlpWZjFmNUZIZjVGYldzSWJUNUxoVVFLTFFTcUpraEs0bzlhbmFVdXpZOGVlQdIBxwFBVV95cUxOSmxUc3pOc3E2SGRhZEQ2cjBDS0x3QzVGLVBPVFdxYzc0d3BBeUxrdWZRNUYtSk9sX0hKZ1hpMDR4Z2gtWTdFUHBVTmV4LUt5aTU1dkViRENRWmVVeVk4dWhxS3JtRU5sMkZaNlpSQk9HUDJLM3dJNV93amlvTS03YTdGZVNrQWN4WmpUTTJIeVh2ZENkdlV6R08yR2E1bElOYXA0aURrRk5HbU5hZVc0ZGhLczhodkt1TFFyWmdaamtGZms3ZlUw?oc=5",
+            "published": "Tue, 10 Mar 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Infosys, Hindalco, Redington: How FPI-heavy stocks fared in June as outflows hit \u20b953K crore - businesstoday.in",
+            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQRnl3QVFVNHhQOXB1Y2dEZ0x2aXg4Z2UtOEZqT1VKNTN4RXVrVTk2UHpySXpSQldhUUZ2TUQ0OGpXQUlPTDFuUUFqeVh5MllxZDdtaDFqeWk4cDRCNFNiZTRQZFZybGNsMnVUb0RFUzlJbXk5bExHWTIzTW9SbFktN19OUTNlNWFzeXFFYUlZWlhSSjhhYTRpaDV6X3RMdzEyYjgtY3RncXlHQ25JSng3cUd4SFNxVWZ5ZDA1a2JieXRTSVctVUpwOGFzNmRZZWZoUm9ST2ZlNzhkbS1aVS1KckZTZm5feGpicHYzZ0lhQdIB9AFBVV95cUxNU0VkN3NhYVFvSjY2QVZwT1lUazNxMF9UWWsyX3JRV1YyVERjTjY4X0NtSFlJTEtrZTB4SV9ueDNta0tGc0JQeGZsX3ZjMXRBU25jLWtMUDJocVJhVTJ0LTlFUGxuX1RNNG9aN3ZrYkNlZlN4RTRyYWJfbWE5WGFYNVVFODdqWHI0WGZ6bWtyQWVKWVBVWFlUa04wdXNFa2xlOE50eDR4X2g3eHpzdFVleGpOYjVFcVhBOTZlVS1SdWtRZktVZkpPejFTWXRYUEhWLUpFRjh4WlJrUnpzQVE0NWM3MWcxMGNzMVdJdEMtS3hCWm9v?oc=5",
+            "published": "Sun, 28 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 62.6,
+      "added_at": "2026-09-03T14:14:33.545478",
+      "first_seen_price": 370.25,
+      "first_seen_at": "2026-09-03T14:14:33.545478"
+    },
+    {
+      "symbol": "SUVEN",
+      "base": {
+        "symbol": "SUVEN",
+        "price": 375.55,
+        "day_change": 0.79,
+        "volume": 1429687,
+        "avg_volume": 925960,
+        "volume_ratio": 1.54,
+        "high_52w": 403.35,
+        "pct_from_high": 7.4,
+        "market_cap": 10611.64
+      },
+      "technical": {
+        "symbol": "SUVEN",
+        "close": 375.54998779296875,
+        "rsi": 59.58,
+        "adx": 35.5,
+        "atr": 20.5,
+        "volume_ratio": 1.53,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 55,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Double Bottom",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 344.79,
+        "target1": 416.56,
+        "target2": 447.31
+      },
+      "news": {
+        "score": 70,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "Suven Pharma Stock Prediction 2026: Expert Analysis, Forecast Scenarios and Full Stock Review - Univest",
+            "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE8zRTFyd2lFQ1BtZnFPSDhCVVFxOURzSThuWExiRGRKZlFEbzVzNTI2NmhCeHFVcUg2cXgtQUJoX1V2b0xvcVg1bDJaWGh0YVdLYWZ1WkZtaVFsQVdIT1o1QWNybTRpLUFDXy13?oc=5",
+            "published": "Thu, 11 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Suven Life Sciences - \u200b16 smallcaps where promoters raised stakes in the March quarter. Do you own any? - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxPNzlFVzRIbldTZmNvaTZCT2NDcDJ3WVB2eGs4QzM5YkJva29sdmxURDlSVFJ2T05SeXFXVDZMUUtiWlRwSnhqZFd3eXhDMnRuN0ZlamZlQlI2U25CS3ltUXM2bzloQkxPV0w3akN5X3NuZ1dZRFV1X0RzbGdTRDFsSU1rU25tWnB3UzJQVnBhdVpmZDdyMWNCWllYbzUtMTFKY1JyQzBnOE5vS1dLbXpGbmcweU5kVExHRzZXaDZoRDlkWm9EN181Wjd4MGdhV1hxVUlVeDZ4bzcxVzNvbG1JOWptSFZOQjc2UjlXSWJWLWNuQnpFVXA1Y2NpLXhOUjg?oc=5",
+            "published": "Tue, 19 May 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Suven Pharmaceuticals Q4 Results 2026: Date, Revenue, PAT & Analyst Outlook - Univest",
+            "link": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQUEdLR2dUVmZnZjFwRjZTZEhTeFlLOW9XSUF0RzFvdk5rX3BQRTVZTlcwdTh2elRVUFNSX3FVNGZsT21RR1RUblpKWlg3elhTWlZEbFRiNllqbzN0QXprZTBKaWtkTFJLVEpPNnlCZzNmeUJTcWRLUkRVVXZEdTlCUGM2dXA2R3l2VnVJdUhFWVdEazdmZE1kM1U5dw?oc=5",
+            "published": "Thu, 09 Apr 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Cohance Lifesciences merger with Suven Pharma gets NSE, BSE nod - The Times of India",
+            "link": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOdHJIT1NpYVFVUWpvM2QtMzVqMmhtLXQ5V0FmeVdXR3JiMEw4UGl2M3BDZlBmdjVpZ2NUUTlEb3dVajVsbzBvU2JBbUNEN1ZxUXVpNXM0TWZVUklSMUZwMzFmc3pkYnZabmpocmQ4TlIxNGNJOWh0WlpPanFYd2hrYU54NmZFN1BLOTlxMTJldllVdlVPQTljWkZlZWpJUHRvaXh0Y20teWtDMkM5dUpkUHdmMFZ0OVNMMmppcmZZSDJteWxUUjIzMVdsRjRpdGdVcWVLY01pVWY0ZENuQzhlanB30gHnAUFVX3lxTE44VmlZbWRLdmFfSzhWTnNDSlVCSzcyZkFka2NYcmJpNnBkLVMySVNSZzVHMllJdURCQnc2OE5veTBCQUFrTVZCcWZ2X3VfSVVyLW5ZWFVwMmNHa3Njdm42VkFsOW5QaEc4b0ROS0tjMmVCUVVmVy1URjRMeHRTWkVZTFNsTzdMODJJaXdlY2ZvRXBGTGE4UXhldkZobDcxYTZLekNONmlkWndoeG9IRU56cGI3M3FINjFQR0xpU1ZUNUE2WFd0NDBxRl9PZ05abmNFZktMQVlJZlZBUEZOek1SS243QTlkVQ?oc=5",
+            "published": "Sat, 27 Jul 2024 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Suven Life Sciences Ltd. Stock News - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNTjhNdFV2ZHpxM29KVnd5WFNzWjdrTU1lR1lfUG05Z2dJMUlFZUZ2NXRQNlZsWEdiQmUyMmEweXFzZ05hQ1JJZkI3TWJ5d2JNTi1VaVZLNFpiTElyeDlSSkl3VmExUFUzQmJVU0Q2QXFXV21kcFQzcm1BZ2dBV2pQR0VFd0Y?oc=5",
+            "published": "Mon, 31 Aug 2026 04:31:22 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 14,
+      "combined_score": 58.2,
+      "added_at": "2026-09-03T14:14:50.784335",
+      "first_seen_price": 375.55,
+      "first_seen_at": "2026-09-03T14:14:50.784335"
     }
   ]
 }
