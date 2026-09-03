@@ -5,22 +5,22 @@
       "symbol": "ANTELOPUS",
       "base": {
         "symbol": "ANTELOPUS",
-        "price": 1015.15,
-        "day_change": 6.73,
-        "volume": 9442124,
-        "avg_volume": 1151842,
-        "volume_ratio": 8.2,
+        "price": 1022.3,
+        "day_change": 7.48,
+        "volume": 9888499,
+        "avg_volume": 1173098,
+        "volume_ratio": 8.43,
         "high_52w": 1034.8,
-        "pct_from_high": 1.94,
-        "market_cap": 3569.51
+        "pct_from_high": 1.22,
+        "market_cap": 3594.65
       },
       "technical": {
         "symbol": "ANTELOPUS",
-        "close": 1015.1500244140625,
-        "rsi": 75.01,
+        "close": 1022.2999877929688,
+        "rsi": 75.46,
         "adx": 18.83,
         "atr": 45.13,
-        "volume_ratio": 7.85,
+        "volume_ratio": 8.07,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -50,9 +50,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 947.46,
-        "target1": 1105.41,
-        "target2": 1173.1
+        "stop_loss": 954.61,
+        "target1": 1112.56,
+        "target2": 1180.25
       },
       "news": {
         "score": 60,
@@ -97,7 +97,7 @@
       },
       "core_score": 22,
       "combined_score": 76.9,
-      "added_at": "2026-09-03T11:24:48.920565",
+      "added_at": "2026-09-03T11:48:42.784969",
       "signal_state": "WATCHING",
       "first_seen_price": 1018.55,
       "first_seen_at": "2026-09-03T10:59:44.303615"
@@ -106,43 +106,45 @@
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 149.4,
-        "day_change": 4.11,
-        "volume": 8962445,
-        "avg_volume": 3137455,
-        "volume_ratio": 2.86,
+        "price": 152.0,
+        "day_change": 5.92,
+        "volume": 9129628,
+        "avg_volume": 3145416,
+        "volume_ratio": 2.9,
         "high_52w": 159.99,
-        "pct_from_high": 7.09,
-        "market_cap": 1881.6
+        "pct_from_high": 5.26,
+        "market_cap": 1914.35
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 149.39999389648438,
-        "rsi": 94.9,
+        "close": 152.0,
+        "rsi": 95.08,
         "adx": 53.04,
         "atr": 8.09,
-        "volume_ratio": 2.75,
+        "volume_ratio": 2.79,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
         "hh_hl": true,
-        "near_breakout": false,
-        "breakout": false,
+        "near_breakout": true,
+        "breakout": true,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
           "3 White Soldiers"
         ],
-        "setup": "DOUBLE BOTTOM",
-        "score": 66,
+        "setup": "BREAKOUT",
+        "score": 81,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
           "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -150,9 +152,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 137.26,
-        "target1": 165.59,
-        "target2": 177.73
+        "stop_loss": 139.86,
+        "target1": 168.19,
+        "target2": 180.33
       },
       "news": {
         "score": 65,
@@ -196,8 +198,8 @@
         ]
       },
       "core_score": 17,
-      "combined_score": 66.3,
-      "added_at": "2026-09-03T11:24:56.423273",
+      "combined_score": 74.6,
+      "added_at": "2026-09-03T11:48:52.627879",
       "signal_state": "WATCHING",
       "first_seen_price": 150.0,
       "first_seen_at": "2026-09-03T10:59:52.833514"
@@ -206,22 +208,22 @@
       "symbol": "RBLBANK",
       "base": {
         "symbol": "RBLBANK",
-        "price": 408.2,
-        "day_change": 4.83,
-        "volume": 12279503,
-        "avg_volume": 2456833,
-        "volume_ratio": 5.0,
+        "price": 408.15,
+        "day_change": 4.82,
+        "volume": 13243589,
+        "avg_volume": 2502742,
+        "volume_ratio": 5.29,
         "high_52w": 409.0,
-        "pct_from_high": 0.2,
-        "market_cap": 63309.35
+        "pct_from_high": 0.21,
+        "market_cap": 63301.59
       },
       "technical": {
         "symbol": "RBLBANK",
-        "close": 408.20001220703125,
-        "rsi": 70.08,
+        "close": 408.1499938964844,
+        "rsi": 70.05,
         "adx": 16.83,
         "atr": 8.86,
-        "volume_ratio": 5.04,
+        "volume_ratio": 5.33,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -251,13 +253,13 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 394.91,
-        "target1": 425.92,
-        "target2": 439.21
+        "stop_loss": 394.86,
+        "target1": 425.87,
+        "target2": 439.16
       },
       "news": {
-        "score": 60,
-        "label": "Neutral",
+        "score": 65,
+        "label": "Bullish",
         "headlines": [
           {
             "title": "Bandhan Bank vs RBL Bank: Share Price, PE and ROE Compared - Univest",
@@ -267,17 +269,10 @@
             "label": "Neutral"
           },
           {
-            "title": "Stocks to Watch Today: Reliance Industries, ICICI Bank, HDFC Bank, NATCO Pharma, Oberoi Realty, RBL Bank,... - moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMiuAJBVV95cUxNc0hqNHZYRE5pdUdlMUkySUJubnZpYi1aX18xeDJ4WUpZdlR6amt6SU9CbXBkemtPSWF3OEVZNG9LajhCSmxWY2J0N01pc01YRG9wcW9jUG8xV2VFMDlGWERzS1k5Z2J3N2libG5Hc0JsN3hzY2FFYjNSVDVLTWlOQVl5bkVhTGxQeDhDRUswMmxPVXNjV1Q4MURhemdGWEV1MnZUcFQyaWVXc2JQZHlIeC1uV3poWmF6Z0l0UkQ0TmdEbE5GZzZxMjlBRDRKWGVPT2UwNnZYbWYtc3N6M3BJLTVWc0dxSjA5VVFRVlY2VDgxU2I5bjEzenZqYzJLbkxaa3J1VmQ3anhlNFhFRDNWQ2FxZ3piYk5rTFRnVFhLRzJOOG9hWjAwd3U4Y3ZqQ1JhMjNpZ1BIenDSAb4CQVVfeXFMT1Vsbk9nQ2hPU0o1WUVSZmpKX096a1Rrc3ZvWWFKY3AybjFrRXJ3U0k5Tjlzb3dneEdycGdjNmFCU0pkTjBMVDYxU1duS2VFZGlfNzNER3lGOExMclZSaTVTVmI5T3B4MTlFUzNSNzE0SUh2dDlVLWx6aDdiNnptT0I5eFg2TDZRU09JY2IxcDJYZVg0YzF3Vi02eWpXbVo3aWZ2LWN3RW9iR2ZIMlk2YThLVHpkTWpDMFdaRkFfSFVfQmcwdzhsZTctX1NaaVB5bkl3S3l4YUhibGZrc3dBR3IyR3hNb3FMZ2pxVWwwakFELXNpZUxubXZ1WTU0NzJlemlnZF8wcnBQaTdTSnhncU90Z1hIZk55S3gzcElNbFF3OEE1NlVIcnc5Ny1ocnN0OUVxRTJSdzUzVHp1S0RB?oc=5",
-            "published": "Mon, 20 Jul 2026 07:00:00 GMT",
+            "title": "Stocks to Watch Today: Emcure, Aurobindo Pharma, HFCL, RBL Bank, Coal India, Tata Steel, ITC Hotels, Power... - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMirAJBVV95cUxOOTVZaW9oWVJkeHZpWWtyOEFnSmo0SG9Wc0tQRnoxQVNNdUNEVW9CU1dSMjR4SWRmN3NVTlBLLWZEMTJCcFljSHV3ZnA0cEVkVUYwcG95UlpSUEFNOWtKRXFyTzVZbFlEemNaY1JjVEF2b0lKcTNKMDlEOE4yemg2ZHloemJVZWZab3BtTWE5MHd0d09aVTZkUmdWNF9LRmIzOHlwNWwxOTJwT2h3QWptZWVYcVg1Y2pXWHVCZGZNUjI0cElWYU5lNDlKVzA5cEFPSTc4VFc0bTRvX2UzREl2NkIwMnNLU2dNbjBzMGlMemltLWR6TWE1VkxPWjRZOUdEajZOWmNIUFk1NTNzbnNhUDR6dDd4TGF3dmJtZXhDR2FsSFNBZnZlRGdGdUnSAbICQVVfeXFMTnhFSjc3SG4yRlRxenhNaHVMWmtDc3R2RE15elhmNW9DNFotNk9oS21YbjIzanNPcExxaldIcDBPVHRJUkpacy16b25rV1hsN0lRS2JaQTRTWkF3dTV4QXhPMF9OTDhvZlpaUUVvUnVKNDV2SDRteEcwdjdXNnAwTnUxRndMNXREQWVIUkhkeTNiUGJmbVd6YVFLSmVNRzRzakFNWm82VHNhdzc0eEFjdnJldFdFMjlIeE1WWWxOd2dYc3NZN1JQeGJzT3JrYV9YZkFGNG9RWWo5ajJNMlhJTWRDdk14dnRoSTR6SHlQYzFBN09JYVpHdU5LZ2YxZDBLSnRZZTZSMVJBVUVObWdKYWVVTlh5dUxHZTBCVndtUkdiTVlaUG0zeDNJS2c1Y0RZNWJn?oc=5",
+            "published": "Mon, 18 May 2026 07:00:00 GMT",
             "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "RBLBANK Forecast \u2014 Price Target \u2014 Prediction for 2027 - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9rTWpSdnc3VmdJbDcxR21ZVGRjZEdJbE42MHRqRnBraW9fUktkRGJuSTJsdzBDWEtUQlFlVHMwTHczbm9NSlo0cGNNSzYxd05XUXZHWnlXZk4zTjhEUnJudTJaQUFUdFU0cmhEVHh1R2M2RFZUR0RiaU9B?oc=5",
-            "published": "Thu, 25 Jun 2026 14:30:45 GMT",
-            "score": 1,
             "label": "Neutral"
           },
           {
@@ -285,6 +280,13 @@
             "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOd1RzMFV6T0FxNktldURQV0ZXcWFySUdfQlZXVDFTT1hIWFloN2tRZHJFQTZXc09zbHBTUFdvbENfdXdVcHFhZ0NycDBwdllDcVhvU0RsX05wUWptam1Bd1hkbkNwaXJMT3BDOHYtcmdIWHFpcWVOVG5aRVBwZ2N1MGZNcEhkLWttSU9GQWpGdlhXakxQSXE2UzE1OWM1R1prb25rbk85WjlRTnFTWU5pWElOZzcyYlR4Z0dVU25FTW94TmFfZWFLc1Rla9IB0AFBVV95cUxNeE9GeFdfSmRScFBPVFVYT1hjTnNjWE9GekkxVjg3UVYwWFo3U1liaFN0dkJXckFHSnhNUEJoQWh3cTVpRjVtblpYNUhTS3IxMUxCOGxfRVJjQXZfSURzTWJ4aEQ0bDJJSUJZQ3BfYm5yWjlOalFDTVpjd0NsTlpxbTBLSEpDY0h3UmRuVUw2aFFybG00UUVDbjZLVWVvcS1NdldKcDM1LWhVaFoyQUpoMGloQ1NrN0xyTktDelEwMVZRRFB3WkExbkpVakg5WTNK?oc=5",
             "published": "Mon, 19 Jan 2026 08:00:00 GMT",
             "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Market Trading Guide: Buy Anant Raj, RBL Bank, 6 more stocks on Wednesday for gains up to 16% - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMigwJBVV95cUxOZkVxUzNjVTlXazFhR2QtNFdvdm9GdzA2LXdpVEstQTV3OWRfdm5CYWcyeE5uRkVrYlJIMnpJdWxjNGpYdHluLUxYZ1kxTDRQWi16QWJUdE1pWmQ1UjlGeWxTSmZYLUtWUkhuR1EzZWdqcTQtTWRVRnlUVE1Xc0VOQ0U1Rmc1QnllVGlmUllXOUhxNFdLdDBfX1ZuNl9RSUVPNW41S0RlWVk3YnhDUTQxRTZ1UUNOUE5KTlJBaG1Rd1FvR05oLU9sTlJMdGE0Q1MxQ0RUdk12ODk1andoV0E4dXp5RHZFcWd1bWFGR1lGYjBWd1lCSnVzNXFqb0dXb014cUdV?oc=5",
+            "published": "Tue, 05 May 2026 07:00:00 GMT",
+            "score": 2,
             "label": "Neutral"
           },
           {
@@ -297,10 +299,202 @@
         ]
       },
       "core_score": 25,
-      "combined_score": 81.6,
-      "added_at": "2026-09-03T11:25:47.221612",
+      "combined_score": 82.6,
+      "added_at": "2026-09-03T11:50:00.121713",
+      "signal_state": "WATCHING",
       "first_seen_price": 408.2,
       "first_seen_at": "2026-09-03T11:25:47.221612"
+    },
+    {
+      "symbol": "HINDOILEXP",
+      "base": {
+        "symbol": "HINDOILEXP",
+        "price": 186.5,
+        "day_change": 12.23,
+        "volume": 2995942,
+        "avg_volume": 750610,
+        "volume_ratio": 3.99,
+        "high_52w": 188.65,
+        "pct_from_high": 1.15,
+        "market_cap": 2468.72
+      },
+      "technical": {
+        "symbol": "HINDOILEXP",
+        "close": 186.5,
+        "rsi": 73.66,
+        "adx": 19.16,
+        "atr": 6.59,
+        "volume_ratio": 3.87,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "BREAKOUT",
+        "score": 73,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "MACD Bullish",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 176.62,
+        "target1": 199.67,
+        "target2": 209.55
+      },
+      "news": {
+        "score": 40,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "HOEC Falls 6% After Crude Quality Clarification - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxNSGRqU3l5N0NGT1E0X3owMmE4ak9GQVh5OWl4OGE4SE0zMThzN2FfdTdMakk3a1FFSXRRN1pVS2N4QXRZdnhybjhwSDNzU29pV05ZYWJ6Mno0eXhYcDJ1MXlMN1BzM2xGczNaTmRWUnhVNXdsOHRIcTVQd1dDeEF1b3k2SnlRdw?oc=5",
+            "published": "Tue, 28 Oct 2025 07:00:00 GMT",
+            "score": -2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Weak Statutory Earnings May Not Tell The Whole Story For Hindustan Oil Exploration (NSE:HINDOILEXP) - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQU0VXMV9aRnlENUlZd09FTDJETm9nOHhPb0ozS1dtR0pzNXhoSVlvNHNfSUF1aklBNWdTc2JfR01NQWVVNWRlZTJCODlmME9RMVBtNGpPXzBCZ2c0UzM5OFFpSkx1amRtM0IzRlNJRWh4QVp5TU1RX3pSbzYxTzVkQnk5QUtFR3AwQ3E2cmRWeDdNVTU3OEJnRHlseFNFYXZzNWdXdk5Cb1hWRzFLUWRvZ21ydWo3emdXaUdOMUdWc19hX3hyWUJBY1JZOVN0a1FzQkdRbVBhX3JtcU5hZlVQcmlpTGtVRXfSAewBQVVfeXFMTkZqOHl6Y09XaTJnTXpRaThLcFBXSXdwcVRTRXZkR0FxaDFTRnBFRUF3cVVwemZvb21GOGtEV3JaaV90OFdqWG1vQmFZZkdmbXlfOG0tZERCNURYN0Y0eVExMkt0T0ZNdW41Q0t0Vjc3Wi1xSllBemhOd1BOckdTakNNZXA0ZTI3X0gtbURENUh1VERHQ0FnVHF3Y3FMZElPN3gyeTNmTGdMeWJiREFtRU5xTzlpNjgxRTRYLW40cGlXZUR1MC1WcWpwbU5qNkVaSFdOMGxHOHFxQ2wtdm5COEU2TV9hdXJZbEFsWnU?oc=5",
+            "published": "Fri, 19 Jun 2026 07:00:00 GMT",
+            "score": -1,
+            "label": "Neutral"
+          },
+          {
+            "title": "HINDOILEXP Share Price Today - Hindustan Oil Exploration on NSE/BSE - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE8xOE1jTk4wUmNxWkpfcHNlNkpxcDhHcnVDazVmZHVjaDVLbHpkbHVCdlUtYTNNc2FYbXluTDhhX3E4ejR5Q1pNUXRVMXlpM3BVQmJza1JfZWhfS0FVRE1zcjhKUjZjYUpa?oc=5",
+            "published": "Tue, 04 Feb 2025 06:57:38 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Hindustan Oil Exploration Company Share Price Target 2026: Rs 210 Analyst Forecast - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNemJNbDhxLU5OQzY1YVFJU1N3MkRGSmtaRmk2ZHl2REtKRzc5VWRTdW8xUVYycWpBVWFyZ04tYjl0TlhQTXpnRHVUUDgyT1FtYWtRdFRoVkJQeUtmSVdhZXg3S284TjlKTG1wQkxDaTVnS3diMGptWEZwZ3NBc2Mwb1hYWmhxWUNOVFE?oc=5",
+            "published": "Fri, 12 Jun 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Hindustan Oil Exploration Company Ltd. Share Price Today | Hindustan Oil Live NSE/BSE - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOQlRSYnJfeW1KYlE2R1BsMmt0V1dqcnVrc0N3a1RaQnF6YnAtYzVHdlNWcjV6YmFWSEI0aXVzS0FybFEtQnU4ekZIRGRmOHRNNld5NDAxOS1ZaVRJV2lmOUhVZWNObHdQTXotaXhoS3lfdkFWQld4d1M4T3B3NG5LUDk0SjNCS0xaTXdRbTVGbGk?oc=5",
+            "published": "Fri, 25 Mar 2022 08:38:55 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 70.2,
+      "added_at": "2026-09-03T11:49:20.810532",
+      "first_seen_price": 186.5,
+      "first_seen_at": "2026-09-03T11:49:20.810532"
+    },
+    {
+      "symbol": "ALEMBICLTD",
+      "base": {
+        "symbol": "ALEMBICLTD",
+        "price": 105.38,
+        "day_change": 5.37,
+        "volume": 1098803,
+        "avg_volume": 724731,
+        "volume_ratio": 1.52,
+        "high_52w": 108.5,
+        "pct_from_high": 2.96,
+        "market_cap": 2705.97
+      },
+      "technical": {
+        "symbol": "ALEMBICLTD",
+        "close": 105.37999725341797,
+        "rsi": 71.6,
+        "adx": 32.7,
+        "atr": 3.51,
+        "volume_ratio": 1.47,
+        "ema_alignment": false,
+        "dema_alignment": true,
+        "golden_cross": false,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "BREAKOUT",
+        "score": 50,
+        "reasons": [
+          "DEMA bullish alignment",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 100.12,
+        "target1": 112.4,
+        "target2": 117.66
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Why Is Alembic Share Price Falling: Key Reasons and Investor Analysis 2026 - Univest",
+            "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9fMGxPXzhuRWtLZGhjWVUyNzNJOXNoVWRKM2Vmb0dJdnh6RTZ2VEJ6MXdFNU9FcjBpYUQzR044bWJQbjdOcUl3RE9PLXhnWTNnV2YzRmRvNGxCRWt0SmU3YUQ5YkFYMVpKWXBF?oc=5",
+            "published": "Thu, 14 May 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "ALEMBICLTD Stock Price and Chart \u2014 NSE:ALEMBICLTD - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBwSlNrd0ExWk9ick9kS09Oekl5U2FMVkl4cS1ZSUJleW1ybTNjRmJKZGpOWHRlQzNfWGFTeF82SVBfNC1WTXBHWDZJUVFiX1ROT04yUEN0ckV0Q3dBdTk3UA?oc=5",
+            "published": "Wed, 19 Jul 2017 19:32:51 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Alembic Limited (ALEMBICLTD) Holds Steady Near \u20b986 as Range-Bound Trading Continues - Call Spread Alert - vinanet.vn",
+            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPNEFYUnNtTE9jMGVIMHlMTlk0dHpLMmdTSjM1cEt3dEJieGk0S19TQ2xudHhyZjlZN1ctUENHdm05V0hXRVFIZlRObVNuLUN2OHZsaU8tNGdNeG92QzFCckpkQjRPV2Izd2N4WXd2OFR5N21IaHpWV0liZXY0elVDWm5DeXVEZnZ0NUI0MVJXRXFXZDFKVjZpT1lWNGtuOXdIUk9va3pUYlhtVXc0S0hBaHVGS1RzLUhreUswNA?oc=5",
+            "published": "Thu, 11 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "NOVARTIND Stock Price and Chart \u2014 NSE:NOVARTIND - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5UV0dBbUpsZlQtUkh0dWtZT0pJOUVZQ1lIN3dDMGhxZGF2N09ZcERaVE9zTl9lS1B3TThGT1RmR1JhTzFDeVVGMHZ6eGFJanlNOFdiWkk1M3JxUV9nOXZJ?oc=5",
+            "published": "Fri, 02 Oct 2020 17:56:24 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "INDSWFTLAB Stock Price and Chart \u2014 NSE:INDSWFTLAB - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBXa3NaQWZwc2hWMWJnMHZkSmxuRmNfUjRab3hOcGs0b0xxMVBQMU1rTUFjUjRhUG8wVkhHQkxIZXNBM2dBc1cxcDRGakxHQld2dEp0NWc1ekhHek5LcEU0aw?oc=5",
+            "published": "Fri, 18 Aug 2017 17:13:43 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 16,
+      "combined_score": 53.5,
+      "added_at": "2026-09-03T11:48:41.011608",
+      "first_seen_price": 105.38,
+      "first_seen_at": "2026-09-03T11:48:41.011608"
     }
   ]
 }
