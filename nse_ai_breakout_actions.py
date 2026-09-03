@@ -1273,11 +1273,19 @@ def merge_watchlist(existing_items, new_results):
     for item in new_results:
         symbol = item["symbol"]
         if symbol not in watchlist:
+            # First time this symbol has ever qualified today — freeze its
+            # reference price now. This must NEVER be overwritten by later
+            # rescans, or the extension guard (which compares against it)
+            # ends up comparing an already-elevated price to itself.
+            item["first_seen_price"] = item["base"]["price"]
+            item["first_seen_at"] = item["added_at"]
             watchlist[symbol] = item
             added.append(item)
         else:
             old = watchlist[symbol]
             item["signal_state"] = old.get("signal_state", "WATCHING")
+            item["first_seen_price"] = old.get("first_seen_price", old["base"]["price"])
+            item["first_seen_at"] = old.get("first_seen_at", old["added_at"])
             watchlist[symbol] = item
 
     # Keep the watchlist bounded so intraday polling stays sustainable
@@ -1312,6 +1320,7 @@ def format_morning_report(results):
         b = item["base"]
 
         patterns = ", ".join(t["patterns"]) if t["patterns"] else "None"
+        headline = n["headlines"][0]["title"] if n.get("headlines") else "No recent news"
 
         msg += (
             f"*{i}. {item['symbol']}* — "
@@ -1323,7 +1332,7 @@ def format_morning_report(results):
             f"🧠 Patterns: {patterns}\n"
             f"📊 RSI {t['rsi']} | ADX {t['adx']} | "
             f"MACD {'🟢' if t['macd_bullish'] else '🔴'}\n"
-            f"📰 News: {n['label']} ({n['score']}/100)\n"
+            f"📰 News ({n['label']}, {n['score']}/100): {headline}\n"
             f"🎯 SL ₹{t['stop_loss']:.2f} | "
             f"T1 ₹{t['target1']:.2f} | "
             f"T2 ₹{t['target2']:.2f}\n"
@@ -1472,8 +1481,11 @@ def analyze_intraday(symbol, morning_item, model_weights=None):
         day["High"].iloc[-lookback-1:-1].max()
     ) if lookback >= 2 else float(day["High"].iloc[:-1].max())
 
-    # Also compare with previous daily close / morning candidate.
-    morning_price = morning_item["base"]["price"]
+    # Use the FROZEN first-seen price for extension checks, not the live
+    # "base" price — that field gets overwritten by every later rescan,
+    # which would otherwise let the extension guard chase the price upward
+    # all day and never actually catch an already-extended stock.
+    morning_price = morning_item.get("first_seen_price", morning_item["base"]["price"])
 
     bullish_candle = last["Close"] > last["Open"]
 
@@ -1595,6 +1607,7 @@ def build_buy_alert_message(signal, watch_item):
     symbol = signal["symbol"]
     t = watch_item["technical"]
     n = watch_item["news"]
+    headline = n["headlines"][0]["title"] if n.get("headlines") else "No recent news"
 
     return (
         f"🚨 *AI BUY SIGNAL*\n"
@@ -1607,7 +1620,7 @@ def build_buy_alert_message(signal, watch_item):
         f"📐 Daily Setup: *{t['setup']}*\n"
         f"📊 Daily AI Score: *{watch_item['combined_score']}/100*\n"
         f"📈 RSI: {t['rsi']} | ADX: {t['adx']}\n"
-        f"📰 Catalyst: *{n['label']}*\n\n"
+        f"📰 Catalyst ({n['label']}, {n['score']}/100): {headline}\n\n"
         f"🎯 *Entry:* ₹{signal['price']:.2f}\n"
         f"🛑 *SL:* ₹{signal['sl']:.2f}\n"
         f"🚀 *T1:* ₹{signal['target1']:.2f}\n"
@@ -1639,6 +1652,9 @@ def cmd_scan():
 
     results = scan_universe(universe)
     watchlist_items = results[:WATCHLIST_MAX_SIZE]
+    for item in watchlist_items:
+        item["first_seen_price"] = item["base"]["price"]
+        item["first_seen_at"] = item["added_at"]
     save_watchlist(watchlist_items)
 
     # Fresh day: also reset the alert-dedup state.
