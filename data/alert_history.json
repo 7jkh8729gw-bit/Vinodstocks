@@ -103,7 +103,7 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 1.75,
-    "max_adverse_pct": 2.93
+    "max_adverse_pct": 2.95
   },
   {
     "date": "2026-09-03",
@@ -139,7 +139,7 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 5.0,
-    "max_adverse_pct": 1.83
+    "max_adverse_pct": 4.72
   },
   {
     "date": "2026-09-03",
@@ -174,7 +174,43 @@
     "outcome": "PENDING",
     "exit_price": null,
     "exit_time": null,
-    "max_favorable_pct": 0.08,
+    "max_favorable_pct": 0.09,
     "max_adverse_pct": 0.39
+  },
+  {
+    "date": "2026-09-03",
+    "symbol": "SUVEN",
+    "alert_time": "15:28:25",
+    "bar_time": "2026-09-03T15:25:00+05:30",
+    "entry_price": 381.0,
+    "sl": 356.4,
+    "target1": 411.75,
+    "target2": 432.25,
+    "features": {
+      "rsi": 60.0,
+      "adx": 35.5,
+      "daily_volume_ratio": 1.66,
+      "daily_score": 55,
+      "news_score": 70,
+      "combined_score": 61.2,
+      "intraday_score": 95.5,
+      "intraday_volume_ratio": 3.0187009219060434,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 0.0,
+      "near_breakout": 0.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 0.0,
+      "move_since_morning_pct": 1.4512048994807585
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
