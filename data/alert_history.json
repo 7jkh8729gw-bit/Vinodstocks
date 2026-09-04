@@ -248,5 +248,41 @@
     "exit_time": "2026-09-04T11:55:00",
     "max_favorable_pct": 5.62,
     "max_adverse_pct": 1.89
+  },
+  {
+    "date": "2026-09-04",
+    "symbol": "EXICOM",
+    "alert_time": "13:02:06",
+    "bar_time": "2026-09-04T13:00:00+05:30",
+    "entry_price": 175.51,
+    "sl": 165.6,
+    "target1": 187.9,
+    "target2": 196.16,
+    "features": {
+      "rsi": 62.77,
+      "adx": 14.77,
+      "daily_volume_ratio": 2.1,
+      "daily_score": 84,
+      "news_score": 90,
+      "combined_score": 84.2,
+      "intraday_score": 88.4,
+      "intraday_volume_ratio": 2.6589536085195604,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": -1.0095913667028051
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
