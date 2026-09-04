@@ -100,6 +100,14 @@ MIN_BUY_SCORE = float(os.getenv("MIN_BUY_SCORE", "75"))
 # caused by delayed data + 5-min polling.
 EXTENSION_CAP_PCT = float(os.getenv("EXTENSION_CAP_PCT", "6.0"))
 
+# Separate cap: rejects signals on stocks that already ran too far from
+# TODAY'S OPEN before ever qualifying for the watchlist. This catches a
+# case the EXTENSION_CAP_PCT guard above cannot: a stock that gaps/sprints
+# hard in the first hour, THEN satisfies the filters — it looks "fresh" to
+# the first-seen-price guard even though it's already deep into the day's
+# move by the time we see it.
+OPEN_EXTENSION_CAP_PCT = float(os.getenv("OPEN_EXTENSION_CAP_PCT", "8.0"))
+
 # --- Self-learning feedback loop ---
 MIN_SAMPLES_FOR_LEARNING = int(os.getenv("MIN_SAMPLES_FOR_LEARNING", "30"))
 LEARNING_FULL_INFLUENCE_SAMPLES = int(os.getenv("LEARNING_FULL_INFLUENCE_SAMPLES", "150"))
@@ -162,6 +170,29 @@ def market_is_open():
     start = dt_time(9, 15)
     end = dt_time(15, 30)
     return start <= n.time() <= end
+
+
+def session_elapsed_fraction():
+    """
+    Fraction of today's trading session elapsed (9:15-15:30 IST), floored
+    at 5% (~19 min) to avoid unstable ratios right at market open. Returns
+    None if the market isn't currently open — callers use that to know
+    they're looking at a complete prior session, not a partial one, and
+    should NOT apply this normalization.
+    """
+    if not market_is_open():
+        return None
+
+    n = now_ist().time()
+
+    def _minutes(t):
+        return t.hour * 60 + t.minute
+
+    start_min = _minutes(dt_time(9, 15))
+    end_min = _minutes(dt_time(15, 30))
+    elapsed = _minutes(n) - start_min
+    fraction = elapsed / (end_min - start_min)
+    return max(0.05, min(1.0, fraction))
 
 
 # ============================================================
@@ -428,10 +459,6 @@ def build_premarket_pulse_message():
     msg += (
         "\nℹ️ India VIX and NSE advance/decline aren't live yet before "
         "market open — check the follow-up update ~15 min after 9:15 AM.\n"
-    )
-    msg += (
-        "⚪ GIFT Nifty: no reliable free data source exists — "
-        "it trades on a separate exchange (NSE IX) only accessible via paid broker feeds.\n"
     )
 
     return msg
@@ -1209,13 +1236,23 @@ def apply_core_filters(symbol, df, info=None):
     volume = float(last["Volume"])
     avg_volume = float(x["Volume"].tail(21).mean())
 
+    # If we're running mid-session, "volume" above is cumulative-so-far,
+    # not a full day's volume — comparing it to a full-day 21-day average
+    # mechanically can't cross the ratio threshold until much later in the
+    # day, no matter how strong the real buying interest is right now. Scale
+    # the expected baseline by how much of the session has actually elapsed.
+    elapsed_fraction = session_elapsed_fraction()
+    volume_denominator = (
+        avg_volume * elapsed_fraction if elapsed_fraction is not None else avg_volume
+    )
+
     # --- Cheap pre-filter using only already-downloaded daily data ---
     prev_close_daily = float(x["Close"].iloc[-2]) if len(x) >= 2 else price
     day_change_daily = (
         ((price - prev_close_daily) / prev_close_daily) * 100
         if prev_close_daily > 0 else 0
     )
-    volume_ratio_daily = volume / avg_volume if avg_volume > 0 else 0
+    volume_ratio_daily = volume / volume_denominator if volume_denominator > 0 else 0
 
     if price < MIN_PRICE:
         return None
@@ -1249,9 +1286,7 @@ def apply_core_filters(symbol, df, info=None):
         ((price - prev_close) / prev_close) * 100
         if prev_close > 0 else 0
     )
-    volume_ratio = volume / avg_volume if avg_volume > 0 else 0
-    # Match Chartink's exact formula: (High/Close) - 1, i.e. relative to
-    # current price, not relative to the high itself.
+    volume_ratio = volume / volume_denominator if volume_denominator > 0 else 0
     pct_from_high = (
         ((high_52w / price) - 1) * 100
         if price > 0 else 100
@@ -1500,6 +1535,7 @@ FEATURE_NAMES = [
     "ema_alignment", "dema_alignment", "golden_cross", "double_bottom",
     "hh_hl", "near_breakout", "macd_bullish", "macd_cross",
     "obv_accumulation", "has_patterns", "move_since_morning_pct",
+    "move_from_open_pct",
 ]
 
 
@@ -1677,34 +1713,54 @@ def analyze_intraday(symbol, morning_item, model_weights=None):
     )
     too_extended = move_since_morning > EXTENSION_CAP_PCT
 
+    # Second, independent check: how far has price already run from TODAY'S
+    # OPEN, regardless of when the stock joined the watchlist. This catches
+    # a stock that sprints hard in the first hour and only THEN satisfies
+    # the daily filters — it looks "fresh" to the guard above (since it just
+    # joined), but may already be deep into an extended move for the day.
+    day_open = float(day["Open"].iloc[0])
+    move_from_open = (
+        ((price - day_open) / day_open) * 100
+        if day_open > 0 else 0
+    )
+    too_extended_from_open = move_from_open > OPEN_EXTENSION_CAP_PCT
+
     # --- Learned adjustment (self-learning feedback loop) ---
     # Once enough historical alerts have resolved outcomes, gradually blend
     # the heuristic score with a learned win-probability estimate.
     features = build_feature_dict(morning_item, score, volume_ratio, move_since_morning)
+    features["move_from_open_pct"] = round(move_from_open, 2)
     win_prob, blend_ratio = learned_adjustment(features, model_weights)
     if win_prob is not None and blend_ratio > 0:
         learned_score = win_prob * 100
         score = round(min(100, (1 - blend_ratio) * score + blend_ratio * learned_score), 1)
 
-    # --- Extension guard ---
+    # --- Extension guards ---
     # The combination of ~15min-delayed data + 5-min polling means a
     # "fresh" short-term breakout can still correspond to a stock that has
     # already run up a lot for the day by the time we detect it. Skip
     # alerting on those — the safer entry window has already passed.
     # Signal only after BOTH breakout and volume confirmation, and only
-    # if the stock hasn't already run too far since this morning's scan.
+    # if the stock hasn't already run too far since this morning's scan
+    # OR since today's open.
     buy_signal = (
         breakout
         and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO
         and bullish_candle
         and score >= MIN_BUY_SCORE
         and not too_extended
+        and not too_extended_from_open
     )
 
     if breakout and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO and too_extended:
         log.info(
             "%s: breakout+volume met but skipped, already +%.1f%% since morning scan (cap %.1f%%)",
             symbol, move_since_morning, EXTENSION_CAP_PCT
+        )
+    if breakout and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO and too_extended_from_open:
+        log.info(
+            "%s: breakout+volume met but skipped, already +%.1f%% from today's open (cap %.1f%%)",
+            symbol, move_from_open, OPEN_EXTENSION_CAP_PCT
         )
 
     atr = morning_item["technical"]["atr"]
