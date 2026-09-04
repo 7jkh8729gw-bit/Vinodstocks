@@ -212,5 +212,41 @@
     "exit_time": null,
     "max_favorable_pct": 0.0,
     "max_adverse_pct": 0.0
+  },
+  {
+    "date": "2026-09-04",
+    "symbol": "NIACL",
+    "alert_time": "10:04:46",
+    "bar_time": "2026-09-04T10:00:00+05:30",
+    "entry_price": 206.5,
+    "sl": 197.79,
+    "target1": 217.39,
+    "target2": 224.65,
+    "features": {
+      "rsi": 67.63,
+      "adx": 34.84,
+      "daily_volume_ratio": 6.54,
+      "daily_score": 78,
+      "news_score": 85,
+      "combined_score": 79.9,
+      "intraday_score": 92.8,
+      "intraday_volume_ratio": 2.913870001752546,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": 3.71151624730048
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
