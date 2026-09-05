@@ -108,6 +108,12 @@ EXTENSION_CAP_PCT = float(os.getenv("EXTENSION_CAP_PCT", "6.0"))
 # move by the time we see it.
 OPEN_EXTENSION_CAP_PCT = float(os.getenv("OPEN_EXTENSION_CAP_PCT", "8.0"))
 
+# Corporate actions radar
+CORP_ACTIONS_LOOKAHEAD_DAYS = int(os.getenv("CORP_ACTIONS_LOOKAHEAD_DAYS", "15"))
+# Ascending order — used to find the most urgent not-yet-sent reminder.
+CORP_ACTION_MILESTONES = [0, 1, 3, 7, 15]
+CORP_ACTION_TYPES_WANTED = {"Bonus", "Split", "Dividend", "Buyback"}
+
 # --- Self-learning feedback loop ---
 MIN_SAMPLES_FOR_LEARNING = int(os.getenv("MIN_SAMPLES_FOR_LEARNING", "30"))
 LEARNING_FULL_INFLUENCE_SAMPLES = int(os.getenv("LEARNING_FULL_INFLUENCE_SAMPLES", "150"))
@@ -204,6 +210,7 @@ WATCHLIST_FILE = os.path.join(DATA_DIR, "watchlist.json")
 ALERT_STATE_FILE = os.path.join(DATA_DIR, "alert_state.json")
 ALERT_HISTORY_FILE = os.path.join(DATA_DIR, "alert_history.json")
 MODEL_WEIGHTS_FILE = os.path.join(DATA_DIR, "model_weights.json")
+CORP_ACTIONS_FILE = os.path.join(DATA_DIR, "corporate_actions.json")
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -1874,6 +1881,114 @@ def cmd_scan():
 
 
 # ============================================================
+# CORPORATE ACTIONS RADAR — bonus / split / dividend / buyback
+# ============================================================
+
+def classify_corp_action_type(subject):
+    s = (subject or "").lower()
+    if "bonus" in s:
+        return "Bonus"
+    if "split" in s or "sub-divide" in s or "sub division" in s or "subdivision" in s:
+        return "Split"
+    if "dividend" in s:
+        return "Dividend"
+    if "buy back" in s or "buyback" in s or "buy-back" in s:
+        return "Buyback"
+    return None
+
+
+def fetch_corporate_actions_raw():
+    try:
+        from nse import NSE
+        with NSE("/tmp", server=True) as nse_client:
+            raw = nse_client.actions(segment="equities")
+        return raw or []
+    except Exception as e:
+        log.warning("Corporate actions fetch failed: %s", e)
+        return []
+
+
+def cmd_corporate_actions_check():
+    if now_ist().weekday() >= 5:
+        log.info("Weekend — skipping corporate actions check.")
+        return
+
+    raw = fetch_corporate_actions_raw()
+    if not raw:
+        log.info("No corporate actions data retrieved.")
+        return
+
+    state = load_json(CORP_ACTIONS_FILE, {})
+    today = now_ist().date()
+    sent_count = 0
+
+    for rec in raw:
+        subject = rec.get("subject", "")
+        action_type = classify_corp_action_type(subject)
+        if action_type not in CORP_ACTION_TYPES_WANTED:
+            continue
+
+        ex_date_str = rec.get("exDate", "")
+        try:
+            ex_date = datetime.strptime(ex_date_str, "%d-%b-%Y").date()
+        except Exception:
+            continue
+
+        days_until = (ex_date - today).days
+        if days_until < 0 or days_until > CORP_ACTIONS_LOOKAHEAD_DAYS:
+            continue
+
+        key = f"{rec.get('symbol', '')}::{subject}::{ex_date_str}"
+        entry = state.get(key, {"milestones_sent": []})
+
+        # Find the most specific (most urgent) applicable milestone that
+        # hasn't been sent yet. If a daily run gets missed, this correctly
+        # jumps straight to whatever's current rather than sending stale
+        # reminders.
+        milestone_label = None
+        for th in CORP_ACTION_MILESTONES:
+            if days_until <= th:
+                milestone_label = "EX_DATE" if th == 0 else f"T-{th}"
+                break
+
+        if milestone_label and milestone_label not in entry["milestones_sent"]:
+            when_text = "TODAY" if days_until == 0 else f"in {days_until} day(s)"
+            msg = (
+                f"📢 *Corporate Action — {action_type}*\n"
+                f"━━━━━━━━━━━━━━━━━━━━\n"
+                f"*{rec.get('symbol')}* — {rec.get('comp', '')}\n"
+                f"{subject}\n"
+                f"Ex-Date: {ex_date_str} ({when_text})\n"
+                f"Record Date: {rec.get('recDate', '-')}\n"
+            )
+            tg_send(msg)
+            entry["milestones_sent"].append(milestone_label)
+            sent_count += 1
+
+        entry.update({
+            "symbol": rec.get("symbol"),
+            "comp": rec.get("comp"),
+            "subject": subject,
+            "action_type": action_type,
+            "exDate": ex_date_str,
+        })
+        state[key] = entry
+
+    # Prune entries whose ex-date is well in the past, to keep the file small.
+    cleaned = {}
+    for k, v in state.items():
+        try:
+            exd = datetime.strptime(v["exDate"], "%d-%b-%Y").date()
+            if (exd - today).days >= -3:
+                cleaned[k] = v
+        except Exception:
+            cleaned[k] = v
+
+    save_json(CORP_ACTIONS_FILE, cleaned)
+    log.info("Corporate actions check complete. New reminders sent: %s", sent_count)
+
+
+# ============================================================
 # COMMAND: market_open_update  (once, ~15 min after market open)
 # ============================================================
 
@@ -2316,6 +2431,8 @@ def main():
         cmd_rescan()
     elif command == "market_open_update":
         cmd_market_open_update()
+    elif command == "corporate_actions_check":
+        cmd_corporate_actions_check()
     elif command == "recheck":
         cmd_recheck()
     elif command == "eod_finalize":
@@ -2323,7 +2440,7 @@ def main():
     elif command == "retrain":
         cmd_retrain()
     else:
-        print(f"Unknown command '{command}'. Use 'scan', 'market_open_update', 'rescan', 'recheck', 'eod_finalize', or 'retrain'.")
+        print(f"Unknown command '{command}'. Use 'scan', 'market_open_update', 'corporate_actions_check', 'rescan', 'recheck', 'eod_finalize', or 'retrain'.")
         sys.exit(1)
 
 
