@@ -1,0 +1,45 @@
+name: Corporate Actions Radar
+
+on:
+  schedule:
+    # 00:40 UTC = 06:10 IST, Monday-Friday (shortly after the 6:00 AM scan)
+    - cron: "40 0 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nse-ai-bot-state
+  cancel-in-progress: false
+
+jobs:
+  corp_actions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run corporate actions check
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python nse_ai_breakout_actions.py corporate_actions_check
+
+      - name: Commit updated corporate actions state
+        run: |
+          git config user.name "nse-ai-bot"
+          git config user.email "actions@github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Corporate actions state update [skip ci]"
+          git pull --rebase
+          git push
