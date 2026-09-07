@@ -284,6 +284,24 @@ def load_model_weights():
 # TELEGRAM HELPERS
 # ============================================================
 
+def sanitize_for_markdown(text):
+    """
+    Headlines and company names come from external sources (Google News,
+    NSE) and can contain stray *, _, ` characters that break Telegram's
+    Markdown parser and cause the ENTIRE message to be rejected. Strip/
+    replace them rather than risk that.
+    """
+    if not text:
+        return text
+    return (
+        text.replace("*", "")
+        .replace("_", " ")
+        .replace("`", "'")
+        .replace("[", "(")
+        .replace("]", ")")
+    )
+
+
 def tg_send(text, parse_mode="Markdown"):
     if not bot or not CHAT_ID:
         log.warning("Telegram is not configured.")
@@ -297,17 +315,41 @@ def tg_send(text, parse_mode="Markdown"):
             disable_web_page_preview=True
         )
     except Exception as e:
-        log.warning("Telegram send failed: %s", e)
-        return None
+        # Most common cause: a headline/company name from external data
+        # contains an unmatched *, _, or ` that breaks Telegram's Markdown
+        # parser, rejecting the ENTIRE message. Rather than lose it, retry
+        # as plain text so the alert still reaches you.
+        log.warning("Telegram Markdown send failed (%s) — retrying as plain text.", e)
+        try:
+            return bot.send_message(
+                CHAT_ID,
+                text,
+                parse_mode=None,
+                disable_web_page_preview=True
+            )
+        except Exception as e2:
+            log.warning("Telegram plain-text retry also failed: %s", e2)
+            return None
 
 
 def tg_long_send(text):
-    # Telegram message limit is ~4096 chars.
+    # Telegram message limit is ~4096 chars. Split on line boundaries (not
+    # a raw character count) so we never cut a *bold* or _italic_ marker in
+    # half across two messages.
+    max_len = 3500
+    lines = text.split("\n")
     chunks = []
-    while text:
-        chunks.append(text[:3900])
-        text = text[3900:]
+    current = ""
 
+    for line in lines:
+        if len(current) + len(line) + 1 > max_len:
+            chunks.append(current)
+            current = line
+        else:
+            current = current + "\n" + line if current else line
+
+    if current:
+        chunks.append(current)
 
     for chunk in chunks:
         tg_send(chunk)
@@ -1503,7 +1545,7 @@ def format_morning_report(results):
         b = item["base"]
 
         patterns = ", ".join(t["patterns"]) if t["patterns"] else "None"
-        headline = n["headlines"][0]["title"] if n.get("headlines") else "No recent news"
+        headline = sanitize_for_markdown(n["headlines"][0]["title"]) if n.get("headlines") else "No recent news"
 
         msg += (
             f"*{i}. {item['symbol']}* — "
@@ -1814,7 +1856,7 @@ def build_buy_alert_message(signal, watch_item):
     symbol = signal["symbol"]
     t = watch_item["technical"]
     n = watch_item["news"]
-    headline = n["headlines"][0]["title"] if n.get("headlines") else "No recent news"
+    headline = sanitize_for_markdown(n["headlines"][0]["title"]) if n.get("headlines") else "No recent news"
 
     return (
         f"🚨 *AI BUY SIGNAL*\n"
@@ -1953,11 +1995,13 @@ def cmd_corporate_actions_check():
 
         if milestone_label and milestone_label not in entry["milestones_sent"]:
             when_text = "TODAY" if days_until == 0 else f"in {days_until} day(s)"
+            comp_safe = sanitize_for_markdown(rec.get("comp", ""))
+            subject_safe = sanitize_for_markdown(subject)
             msg = (
                 f"📢 *Corporate Action — {action_type}*\n"
                 f"━━━━━━━━━━━━━━━━━━━━\n"
-                f"*{rec.get('symbol')}* — {rec.get('comp', '')}\n"
-                f"{subject}\n"
+                f"*{rec.get('symbol')}* — {comp_safe}\n"
+                f"{subject_safe}\n"
                 f"Ex-Date: {ex_date_str} ({when_text})\n"
                 f"Record Date: {rec.get('recDate', '-')}\n"
             )
