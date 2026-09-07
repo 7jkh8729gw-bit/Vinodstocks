@@ -320,6 +320,43 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 0.8,
-    "max_adverse_pct": 1.39
+    "max_adverse_pct": 2.04
+  },
+  {
+    "date": "2026-09-07",
+    "symbol": "RBLBANK",
+    "alert_time": "12:29:35",
+    "bar_time": "2026-09-07T12:25:00+05:30",
+    "entry_price": 413.35,
+    "sl": 402.45,
+    "target1": 426.97,
+    "target2": 436.05,
+    "features": {
+      "rsi": 72.83,
+      "adx": 19.41,
+      "daily_volume_ratio": 2.52,
+      "daily_score": 78,
+      "news_score": 75,
+      "combined_score": 79.9,
+      "intraday_score": 87.8,
+      "intraday_volume_ratio": 2.870561546424053,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": -0.24134038771193378,
+      "move_from_open_pct": -0.46
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
