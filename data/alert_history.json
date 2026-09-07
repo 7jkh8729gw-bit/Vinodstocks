@@ -284,5 +284,42 @@
     "exit_time": "2026-09-04T15:25:00",
     "max_favorable_pct": 2.4,
     "max_adverse_pct": 0.77
+  },
+  {
+    "date": "2026-09-07",
+    "symbol": "SHANTIGEAR",
+    "alert_time": "11:01:36",
+    "bar_time": "2026-09-07T11:00:00+05:30",
+    "entry_price": 646.5,
+    "sl": 611.88,
+    "target1": 689.77,
+    "target2": 718.62,
+    "features": {
+      "rsi": 80.63,
+      "adx": 53.72,
+      "daily_volume_ratio": 1.61,
+      "daily_score": 71,
+      "news_score": 75,
+      "combined_score": 70.1,
+      "intraday_score": 92.1,
+      "intraday_volume_ratio": 2.9940854860673567,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 0.0,
+      "move_since_morning_pct": 3.9806996381182147,
+      "move_from_open_pct": 4.3
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
