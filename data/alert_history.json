@@ -432,5 +432,42 @@
     "exit_time": "2026-09-07T15:25:00",
     "max_favorable_pct": 2.04,
     "max_adverse_pct": 1.13
+  },
+  {
+    "date": "2026-09-08",
+    "symbol": "EDELWEISS",
+    "alert_time": "12:58:22",
+    "bar_time": "2026-09-08T12:55:00+05:30",
+    "entry_price": 138.95,
+    "sl": 132.33,
+    "target1": 147.23,
+    "target2": 152.75,
+    "features": {
+      "rsi": 66.23,
+      "adx": 30.12,
+      "daily_volume_ratio": 1.65,
+      "daily_score": 68,
+      "news_score": 65,
+      "combined_score": 75.4,
+      "intraday_score": 84.8,
+      "intraday_volume_ratio": 2.067851465768177,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 0.0,
+      "move_since_morning_pct": 1.047194348223545,
+      "move_from_open_pct": 3.41
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
