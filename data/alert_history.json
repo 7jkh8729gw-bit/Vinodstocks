@@ -469,5 +469,42 @@
     "exit_time": null,
     "max_favorable_pct": 0.58,
     "max_adverse_pct": 0.89
+  },
+  {
+    "date": "2026-09-08",
+    "symbol": "DCBBANK",
+    "alert_time": "14:31:23",
+    "bar_time": "2026-09-08T14:30:00+05:30",
+    "entry_price": 231.1,
+    "sl": 222.03,
+    "target1": 242.44,
+    "target2": 250.0,
+    "features": {
+      "rsi": 73.01,
+      "adx": 40.2,
+      "daily_volume_ratio": 1.68,
+      "daily_score": 76,
+      "news_score": 60,
+      "combined_score": 75.8,
+      "intraday_score": 80.6,
+      "intraday_volume_ratio": 2.192619261926193,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": -1.2393136309762287,
+      "move_from_open_pct": 4.57
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
