@@ -5,22 +5,22 @@
       "symbol": "BEPL",
       "base": {
         "symbol": "BEPL",
-        "price": 132.61,
-        "day_change": 4.55,
-        "volume": 3470745,
-        "avg_volume": 1613219,
-        "volume_ratio": 3.84,
+        "price": 132.22,
+        "day_change": 4.24,
+        "volume": 3666766,
+        "avg_volume": 1622553,
+        "volume_ratio": 3.56,
         "high_52w": 138.5,
-        "pct_from_high": 4.44,
-        "market_cap": 3300.11
+        "pct_from_high": 4.75,
+        "market_cap": 3290.41
       },
       "technical": {
         "symbol": "BEPL",
-        "close": 132.61000061035156,
-        "rsi": 62.48,
+        "close": 132.22000122070312,
+        "rsi": 62.1,
         "adx": 37.55,
         "atr": 5.08,
-        "volume_ratio": 2.13,
+        "volume_ratio": 2.24,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -54,9 +54,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 124.99,
-        "target1": 142.77,
-        "target2": 150.39
+        "stop_loss": 124.6,
+        "target1": 142.38,
+        "target2": 150.0
       },
       "news": {
         "score": 55,
@@ -101,7 +101,7 @@
       },
       "core_score": 23,
       "combined_score": 86.2,
-      "added_at": "2026-09-08T12:45:03.194535",
+      "added_at": "2026-09-08T13:13:52.850062",
       "signal_state": "WATCHING",
       "first_seen_price": 129.15,
       "first_seen_at": "2026-09-08T11:12:40.753126"
@@ -110,22 +110,22 @@
       "symbol": "MIDHANI",
       "base": {
         "symbol": "MIDHANI",
-        "price": 476.4,
-        "day_change": 13.62,
-        "volume": 19822755,
-        "avg_volume": 2621251,
-        "volume_ratio": 13.5,
+        "price": 475.35,
+        "day_change": 13.37,
+        "volume": 22042572,
+        "avg_volume": 2726957,
+        "volume_ratio": 12.63,
         "high_52w": 478.95,
-        "pct_from_high": 0.54,
-        "market_cap": 8924.88
+        "pct_from_high": 0.76,
+        "market_cap": 8905.21
       },
       "technical": {
         "symbol": "MIDHANI",
-        "close": 476.3999938964844,
-        "rsi": 70.23,
+        "close": 475.3500061035156,
+        "rsi": 70.01,
         "adx": 15.13,
         "atr": 17.37,
-        "volume_ratio": 7.3,
+        "volume_ratio": 7.79,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -152,9 +152,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 450.35,
-        "target1": 511.13,
-        "target2": 537.18
+        "stop_loss": 449.3,
+        "target1": 510.08,
+        "target2": 536.13
       },
       "news": {
         "score": 100,
@@ -199,31 +199,131 @@
       },
       "core_score": 22,
       "combined_score": 83.8,
-      "added_at": "2026-09-08T12:45:56.823584",
+      "added_at": "2026-09-08T13:15:04.646872",
       "signal_state": "WATCHING",
       "first_seen_price": 449.8,
       "first_seen_at": "2026-09-08T10:44:11.190441"
     },
     {
+      "symbol": "EDELWEISS",
+      "base": {
+        "symbol": "EDELWEISS",
+        "price": 138.34,
+        "day_change": 2.51,
+        "volume": 17481712,
+        "avg_volume": 7430894,
+        "volume_ratio": 3.69,
+        "high_52w": 139.8,
+        "pct_from_high": 1.06,
+        "market_cap": 13094.32
+      },
+      "technical": {
+        "symbol": "EDELWEISS",
+        "close": 138.33999633789062,
+        "rsi": 66.98,
+        "adx": 30.12,
+        "atr": 5.66,
+        "volume_ratio": 2.28,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "BREAKOUT",
+        "score": 82,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 129.85,
+        "target1": 149.66,
+        "target2": 158.15
+      },
+      "news": {
+        "score": 65,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "Trade Spotlight: How should you trade Orkla India, Cochin Shipyard, Samvardhana Motherson, Karur Vysya... - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMitgJBVV95cUxQQ3AwWHRRRUFObU1aME01RzhtZUI2T0tkcFlvWnh6ejA3OGJmN05WQWhWaGRJZVNLMnBOcmRldFhPR0dDTmdhV2Q1R0dGY0hGbm1KOWlBOVVwemo1R1JrRmlHRU1YQWlyV1E5RzBPWWQyLU9EZDFvYnVKMnJ5NWV6NzVaamNyZTRWYlhZVXMxOW0xeEROdXRsMUZ6NWVqQ0NlTlJpUWJoZUJvVkpIZFpuS2ZJSHNFUS1jM0VQelI1SHhnN2pXbl9RVVE2TFFQbEtOby1OVExHNW1sMlpxdzRUZ0NHOWtIbzRra0VoQzZEeTNwODFtdzd4NE1nUjVFbURIY244T2RCVmdKbDZoUW5ydGE2emZ4NjFvSjM0anBFeDJKTHNjVGZaQ09DcnUyTkMtYnJleW1n0gG7AkFVX3lxTFAzQmVFWjRDVjF4SEdXQ25CcjVwYmlOaG1SR0pvUk1ObGJIRWN3TkdONFVJUFd5YjZyVExjaE9PNWplMmViQmI2Ni1HNnBtamdnWGsxV2JzQkRQSzR0TngwU3hHX2FQRGpFVno4bEFZZ0lKTHZOX296WEZZRzJXX1pfVFBaRjhzM0xELU5CQlliNHhGMEtKem9TTEMyb3N3WFJ4N085bDVYazVmRnUzbGNSTUNLN0RBem5zVjVILUdnREthLXUxZEYwMW9fSE05cEtwbjQyczgwdnZXclYxcnVfbzhyRXpnbzU5bFUzcDlmaVQ5SVY5b1Q1ZXJVZno2TFoycm4xbEVBRGRrQ1Jwd2RpYjJQSWd1TXFqN0NyMkRXcUZQNmRQdFlJXzBDblRoLTBtWUNYcHk1WWc4SQ?oc=5",
+            "published": "Thu, 23 Apr 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Edelweiss Stock Prediction 2026: Expert Analysis, Forecast Scenarios and Full Stock Review - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9XYUYyNTE4c3BVOW1JRDM0dkNGRWZ2Z0R0bk9ONE4tLTRXdGZ0U2JHcmV4UUYzanFua3haNmtURUlIS2s5anRDOGJpVUNZNmg5MEs5WDMxTi1aWmh4SUg2ZkFjQWxRWEE?oc=5",
+            "published": "Thu, 11 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Getting In Cheap On Edelweiss Financial Services Limited (NSE:EDELWEISS) Might Be Difficult - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxOc2hpcDhXbUN3dVY5OEhtU0Ezb25kV1VxZy0wMHpwNGFqT1dGZy1wb1NEckJiUEpsdnJDM0NHNk9RMW0zMzk1dEoxR2I1ZlNzQlRveC1zSDZ2cVVpMlYxTVdSdTJISkV6ZjEwYV9DUk40cVM3U2ozQkd4MWU1OW8zaFV3ajB6QU5NUF85M3k3bnVfSXVyb1E4aV9OZ1R4c0pPS1FNVWZIbGZYTF9YVkQtcllXWWNyMmlaODlURjYyQnQwaHlBM3pLZ0ZuZE4xcXkyLUZReWpYbHVMVGtpZVRUQ0FtZ094OUt2WWhFWlJhS0dCOWFfN2FrOVpDNjA5QVnSAYQCQVVfeXFMUG90UWNWRFp3WXBEYzIxeC00OUljaWkwdS1zdldnNHI2NV9vX2NYYUJZMk5xSWIwMlhJX2k2SWgwaXcxTVJyU2t5RHJabG80cjhhc0RDV3hBcVNveXlKYmREYmVCVFI5TFR0RXdBS0hCV3gtRlVGYi1zY29lLV9LdGEtUGZkMkZBcWRwOFRERW40NWFvODlCQXQ0TGx4SnFlRk9WTFQ1aEdfdGw1NkxGaWxFR2kzQlNWbUtKV3RzVFhZdjcwdGxOTHNvVHJvZ19XdElGNzA5WDJfMUxZYlhPUEFWNW0wTGUwXzRuTHZaRnptNUc4OEhfdVY4bFlpQjNtNERkeGw?oc=5",
+            "published": "Wed, 14 Jan 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Edelweiss Q2 Profit Up 28%; Board OKs \u20b91,000 Cr NCD - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQVnBTUGY1YWRlOHVZT2w2Z3o5RFdxd0RweHhpNTJoNFp2eDhSNEpOOTNvWnlrRDhhdTlndS1CdWRBOXpqNkRUWm9uYzU1RHgyd3NmSTJJTUNvRnVyaUFWeEI4UzI2OEJsbkloYjM5dl8tMkczZk85YkdzRmpJWlFmaFl2Ti1oSEJXZENldmUyZFN0Zw?oc=5",
+            "published": "Tue, 11 Nov 2025 08:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
+          },
+          {
+            "title": "Listing Ceremony of Bharat Bond ETF - NSE",
+            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPdGJvY3ViMUlBejNxdHlYMnRRaUpMalhka2dseWs3T0ZPV05QcnNHNUpYMnNaa3N4MExjWXhqTkgwbDBpcGlhMk4yNWI3d0o3bHBEdGhHTlJRVXlXU0Z5S3Y5RDROaUN2WWJVQWk5c0JlWHJyaG1jRUlPQjBLTTRFQXZTTGY?oc=5",
+            "published": "Fri, 03 Apr 2026 19:31:34 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 25,
+      "combined_score": 83.1,
+      "added_at": "2026-09-08T13:14:14.117275",
+      "signal_state": "WATCHING",
+      "first_seen_price": 137.51,
+      "first_seen_at": "2026-09-08T12:45:18.889815"
+    },
+    {
       "symbol": "RAYMOND",
       "base": {
         "symbol": "RAYMOND",
-        "price": 852.25,
-        "day_change": 10.25,
-        "volume": 10462088,
-        "avg_volume": 1908975,
-        "volume_ratio": 9.74,
+        "price": 852.5,
+        "day_change": 10.28,
+        "volume": 10894073,
+        "avg_volume": 1929546,
+        "volume_ratio": 8.82,
         "high_52w": 869.0,
-        "pct_from_high": 1.97,
-        "market_cap": 5671.85
+        "pct_from_high": 1.94,
+        "market_cap": 5673.51
       },
       "technical": {
         "symbol": "RAYMOND",
-        "close": 852.25,
-        "rsi": 81.35,
+        "close": 852.5,
+        "rsi": 81.36,
         "adx": 32.28,
         "atr": 34.91,
-        "volume_ratio": 5.34,
+        "volume_ratio": 5.5,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -251,12 +351,12 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 799.89,
-        "target1": 922.07,
-        "target2": 974.43
+        "stop_loss": 800.14,
+        "target1": 922.32,
+        "target2": 974.68
       },
       "news": {
-        "score": 90,
+        "score": 95,
         "label": "Bullish",
         "headlines": [
           {
@@ -274,17 +374,17 @@
             "label": "Neutral"
           },
           {
+            "title": "RAYMONDLSL Forecast \u2014 Price Target \u2014 Prediction for 2027 - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBQSWNUNjFLOHAxcmNQQWRteWh4eWI5U1RPa18xUC1HRWxrSVJ1U2diby03RU1GREQ4Zmw0STB3ZVhhZ3Zna0NBQzJEa2hjdno1RWhCTzg5bndlckxpb3BVRGQwVkNDY1hRUjJkTmFkVVlnNC15VVJxdTc3WThEdw?oc=5",
+            "published": "Fri, 26 Jun 2026 06:32:49 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
             "title": "Raymond Realty jumps 15% on strong Q4 show; profit up 44%, sales strong - Business Standard",
             "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNNXRzN05wNXhJUjVNTGlJM1pqb1hiUUVUQUVjTjM3TXR4dkFqcUtaa1hDZnNsU2MzdFJYaWlJR3J5RFdDOC1sZUUyRDYzekJaMEJLaG9rRmRrRjZDT2hXcFdPLURoZ3J0T2hIZ2c2MG9rUFJhcDVZdkJ1Yl84cEFkTUNqd0tyOXNLZEpPWFBjcS1JWm9PMVYzeFgzVEZIOEJUVUViXzh1aWdKOC14MUdLMzgxbHhwcTE5U0I2XzFYRnU4UHhfbkEzd2xRa2NDTkXSAdQBQVVfeXFMTW5SX0g0bm1saVZMTklfTXpXZ2VfeXE0OGtsRVpxMVJYVXFKa040blAzVjFOdDV5TDgzSmdnTnF2aUFqTTlJU1VJa0Y1dDBuN1FralpZdS14ZkY1c3d1eHJ5bUdFaDRwZHJyOTc0eWhwbUgwSmdpVTRHSHBWaDFMZmYyNk5DMjZIZi1pTmZYSXJQTXpUMHMzNE5xcXdVNFpHZFJNVHBjMlgzaVlGbHdsbWVWbnpGUmpQUGJzeHBMNGJHX2MxZDNnM05rc2hmQ3JVbm94em8?oc=5",
             "published": "Wed, 06 May 2026 07:00:00 GMT",
             "score": 4,
-            "label": "Neutral"
-          },
-          {
-            "title": "RAYMONDREL Stock Price and Chart \u2014 NSE:RAYMONDREL - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFAwdVJJTmpCUUVQNjhIYklQY3pJSUFHaUhzSzVPX29ZQmp4Y2I4X3B4T2oyUllmRFp2UlBCcGc5MnVYOW9sTENlZDZLR2syWEpBMmtfejQyS2djeWhualR0Mw?oc=5",
-            "published": "Wed, 18 Mar 2026 07:00:00 GMT",
-            "score": 0,
             "label": "Neutral"
           },
           {
@@ -297,8 +397,8 @@
         ]
       },
       "core_score": 22,
-      "combined_score": 81.8,
-      "added_at": "2026-09-08T12:46:15.676533",
+      "combined_score": 82.8,
+      "added_at": "2026-09-08T13:15:30.145394",
       "signal_state": "WATCHING",
       "first_seen_price": 824.5,
       "first_seen_at": "2026-09-08T09:45:05.390723"
@@ -404,122 +504,25 @@
       "first_seen_at": "2026-09-08T06:21:17.592536"
     },
     {
-      "symbol": "EDELWEISS",
-      "base": {
-        "symbol": "EDELWEISS",
-        "price": 137.51,
-        "day_change": 1.9,
-        "volume": 12217116,
-        "avg_volume": 7180199,
-        "volume_ratio": 3.04,
-        "high_52w": 138.24,
-        "pct_from_high": 0.53,
-        "market_cap": 13011.02
-      },
-      "technical": {
-        "symbol": "EDELWEISS",
-        "close": 137.50999450683594,
-        "rsi": 66.23,
-        "adx": 30.12,
-        "atr": 5.52,
-        "volume_ratio": 1.65,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "DOUBLE BOTTOM",
-        "score": 68,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Near Breakout",
-          "Healthy RSI",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "Volume Expansion",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 129.22,
-        "target1": 148.56,
-        "target2": 156.85
-      },
-      "news": {
-        "score": 65,
-        "label": "Bullish",
-        "headlines": [
-          {
-            "title": "Trade Spotlight: How should you trade Orkla India, Cochin Shipyard, Samvardhana Motherson, Karur Vysya... - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMitgJBVV95cUxQQ3AwWHRRRUFObU1aME01RzhtZUI2T0tkcFlvWnh6ejA3OGJmN05WQWhWaGRJZVNLMnBOcmRldFhPR0dDTmdhV2Q1R0dGY0hGbm1KOWlBOVVwemo1R1JrRmlHRU1YQWlyV1E5RzBPWWQyLU9EZDFvYnVKMnJ5NWV6NzVaamNyZTRWYlhZVXMxOW0xeEROdXRsMUZ6NWVqQ0NlTlJpUWJoZUJvVkpIZFpuS2ZJSHNFUS1jM0VQelI1SHhnN2pXbl9RVVE2TFFQbEtOby1OVExHNW1sMlpxdzRUZ0NHOWtIbzRra0VoQzZEeTNwODFtdzd4NE1nUjVFbURIY244T2RCVmdKbDZoUW5ydGE2emZ4NjFvSjM0anBFeDJKTHNjVGZaQ09DcnUyTkMtYnJleW1n0gG7AkFVX3lxTFAzQmVFWjRDVjF4SEdXQ25CcjVwYmlOaG1SR0pvUk1ObGJIRWN3TkdONFVJUFd5YjZyVExjaE9PNWplMmViQmI2Ni1HNnBtamdnWGsxV2JzQkRQSzR0TngwU3hHX2FQRGpFVno4bEFZZ0lKTHZOX296WEZZRzJXX1pfVFBaRjhzM0xELU5CQlliNHhGMEtKem9TTEMyb3N3WFJ4N085bDVYazVmRnUzbGNSTUNLN0RBem5zVjVILUdnREthLXUxZEYwMW9fSE05cEtwbjQyczgwdnZXclYxcnVfbzhyRXpnbzU5bFUzcDlmaVQ5SVY5b1Q1ZXJVZno2TFoycm4xbEVBRGRrQ1Jwd2RpYjJQSWd1TXFqN0NyMkRXcUZQNmRQdFlJXzBDblRoLTBtWUNYcHk1WWc4SQ?oc=5",
-            "published": "Thu, 23 Apr 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Edelweiss Stock Prediction 2026: Expert Analysis, Forecast Scenarios and Full Stock Review - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9XYUYyNTE4c3BVOW1JRDM0dkNGRWZ2Z0R0bk9ONE4tLTRXdGZ0U2JHcmV4UUYzanFua3haNmtURUlIS2s5anRDOGJpVUNZNmg5MEs5WDMxTi1aWmh4SUg2ZkFjQWxRWEE?oc=5",
-            "published": "Thu, 11 Jun 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Getting In Cheap On Edelweiss Financial Services Limited (NSE:EDELWEISS) Might Be Difficult - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi_wFBVV95cUxOc2hpcDhXbUN3dVY5OEhtU0Ezb25kV1VxZy0wMHpwNGFqT1dGZy1wb1NEckJiUEpsdnJDM0NHNk9RMW0zMzk1dEoxR2I1ZlNzQlRveC1zSDZ2cVVpMlYxTVdSdTJISkV6ZjEwYV9DUk40cVM3U2ozQkd4MWU1OW8zaFV3ajB6QU5NUF85M3k3bnVfSXVyb1E4aV9OZ1R4c0pPS1FNVWZIbGZYTF9YVkQtcllXWWNyMmlaODlURjYyQnQwaHlBM3pLZ0ZuZE4xcXkyLUZReWpYbHVMVGtpZVRUQ0FtZ094OUt2WWhFWlJhS0dCOWFfN2FrOVpDNjA5QVnSAYQCQVVfeXFMUG90UWNWRFp3WXBEYzIxeC00OUljaWkwdS1zdldnNHI2NV9vX2NYYUJZMk5xSWIwMlhJX2k2SWgwaXcxTVJyU2t5RHJabG80cjhhc0RDV3hBcVNveXlKYmREYmVCVFI5TFR0RXdBS0hCV3gtRlVGYi1zY29lLV9LdGEtUGZkMkZBcWRwOFRERW40NWFvODlCQXQ0TGx4SnFlRk9WTFQ1aEdfdGw1NkxGaWxFR2kzQlNWbUtKV3RzVFhZdjcwdGxOTHNvVHJvZ19XdElGNzA5WDJfMUxZYlhPUEFWNW0wTGUwXzRuTHZaRnptNUc4OEhfdVY4bFlpQjNtNERkeGw?oc=5",
-            "published": "Wed, 14 Jan 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Edelweiss Q2 Profit Up 28%; Board OKs \u20b91,000 Cr NCD - HDFC Sky",
-            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQVnBTUGY1YWRlOHVZT2w2Z3o5RFdxd0RweHhpNTJoNFp2eDhSNEpOOTNvWnlrRDhhdTlndS1CdWRBOXpqNkRUWm9uYzU1RHgyd3NmSTJJTUNvRnVyaUFWeEI4UzI2OEJsbkloYjM5dl8tMkczZk85YkdzRmpJWlFmaFl2Ti1oSEJXZENldmUyZFN0Zw?oc=5",
-            "published": "Tue, 11 Nov 2025 08:00:00 GMT",
-            "score": 3,
-            "label": "Neutral"
-          },
-          {
-            "title": "Listing Ceremony of Bharat Bond ETF - NSE",
-            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPdGJvY3ViMUlBejNxdHlYMnRRaUpMalhka2dseWs3T0ZPV05QcnNHNUpYMnNaa3N4MExjWXhqTkgwbDBpcGlhMk4yNWI3d0o3bHBEdGhHTlJRVXlXU0Z5S3Y5RDROaUN2WWJVQWk5c0JlWHJyaG1jRUlPQjBLTTRFQXZTTGY?oc=5",
-            "published": "Fri, 03 Apr 2026 19:31:34 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 25,
-      "combined_score": 75.4,
-      "added_at": "2026-09-08T12:45:18.889815",
-      "first_seen_price": 137.51,
-      "first_seen_at": "2026-09-08T12:45:18.889815"
-    },
-    {
       "symbol": "PPLPHARMA",
       "base": {
         "symbol": "PPLPHARMA",
-        "price": 227.47,
-        "day_change": 3.67,
-        "volume": 17858654,
-        "avg_volume": 4670579,
-        "volume_ratio": 6.8,
+        "price": 226.7,
+        "day_change": 3.32,
+        "volume": 18641415,
+        "avg_volume": 4707853,
+        "volume_ratio": 6.19,
         "high_52w": 231.93,
-        "pct_from_high": 1.96,
-        "market_cap": 30140.19
+        "pct_from_high": 2.31,
+        "market_cap": 30038.17
       },
       "technical": {
         "symbol": "PPLPHARMA",
-        "close": 227.47000122070312,
-        "rsi": 70.69,
+        "close": 226.6999969482422,
+        "rsi": 70.22,
         "adx": 33.13,
         "atr": 7.71,
-        "volume_ratio": 4.01,
+        "volume_ratio": 4.15,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -546,9 +549,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 215.91,
-        "target1": 242.89,
-        "target2": 254.45
+        "stop_loss": 215.14,
+        "target1": 242.12,
+        "target2": 253.68
       },
       "news": {
         "score": 50,
@@ -583,7 +586,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Piramal Pharma Ltd. Share Price Today - Piramal Pharma Ltd. Stock Price Live NSE/BSE - cnbctv18.com",
+            "title": "Piramal Pharma Ltd. Share Price Today - Piramal Pharma Ltd. Stock Price Live NSE/BSE - CNBC TV18",
             "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOUXVHS3NYLWU4b2ZzYU1XMlNlbFpmd0xfMHFfU1hBRDFsVjZObjFUb0xCc0wzejRTd2RoSV84M1RxLVFpYlRVcXJRMEo5LTRMTUo1dnhTOFd2anJsZDFGZVFXdGQ5UHoxdHNOUWR6SXpBUHZ2djJfZkd1bmVya0Y5Nw?oc=5",
             "published": "Sat, 03 Jan 2026 16:33:11 GMT",
             "score": 0,
@@ -593,7 +596,7 @@
       },
       "core_score": 25,
       "combined_score": 75.2,
-      "added_at": "2026-09-08T12:46:11.408193",
+      "added_at": "2026-09-08T13:15:24.678631",
       "signal_state": "WATCHING",
       "first_seen_price": 225.29,
       "first_seen_at": "2026-09-08T09:45:01.292989"
@@ -602,22 +605,22 @@
       "symbol": "DCBBANK",
       "base": {
         "symbol": "DCBBANK",
-        "price": 229.36,
-        "day_change": 3.5,
-        "volume": 5040624,
-        "avg_volume": 3251890,
-        "volume_ratio": 2.77,
+        "price": 230.58,
+        "day_change": 4.05,
+        "volume": 5456244,
+        "avg_volume": 3271681,
+        "volume_ratio": 2.62,
         "high_52w": 234.8,
-        "pct_from_high": 2.37,
-        "market_cap": 7389.5
+        "pct_from_high": 1.83,
+        "market_cap": 7426.46
       },
       "technical": {
         "symbol": "DCBBANK",
-        "close": 229.36000061035156,
-        "rsi": 72.37,
+        "close": 230.5800018310547,
+        "rsi": 72.97,
         "adx": 40.2,
         "atr": 7.56,
-        "volume_ratio": 1.52,
+        "volume_ratio": 1.63,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -647,9 +650,9 @@
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 218.02,
-        "target1": 244.49,
-        "target2": 255.83
+        "stop_loss": 219.24,
+        "target1": 245.71,
+        "target2": 257.05
       },
       "news": {
         "score": 50,
@@ -694,7 +697,7 @@
       },
       "core_score": 22,
       "combined_score": 73.8,
-      "added_at": "2026-09-08T12:45:14.224080",
+      "added_at": "2026-09-08T13:14:09.596486",
       "signal_state": "WATCHING",
       "first_seen_price": 234.0,
       "first_seen_at": "2026-09-08T09:44:13.726942"
@@ -801,22 +804,22 @@
       "symbol": "GUJTHEM",
       "base": {
         "symbol": "GUJTHEM",
-        "price": 452.55,
-        "day_change": 5.42,
-        "volume": 1445356,
-        "avg_volume": 578386,
-        "volume_ratio": 4.46,
+        "price": 455.5,
+        "day_change": 6.1,
+        "volume": 1533601,
+        "avg_volume": 582588,
+        "volume_ratio": 4.13,
         "high_52w": 479.0,
-        "pct_from_high": 5.84,
-        "market_cap": 5890.02
+        "pct_from_high": 5.16,
+        "market_cap": 5928.41
       },
       "technical": {
         "symbol": "GUJTHEM",
-        "close": 452.54998779296875,
-        "rsi": 70.85,
+        "close": 455.5,
+        "rsi": 71.45,
         "adx": 42.18,
         "atr": 20.72,
-        "volume_ratio": 2.39,
+        "volume_ratio": 2.51,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -844,9 +847,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 421.47,
-        "target1": 493.99,
-        "target2": 525.07
+        "stop_loss": 424.42,
+        "target1": 496.94,
+        "target2": 528.02
       },
       "news": {
         "score": 60,
@@ -881,9 +884,9 @@
             "label": "Neutral"
           },
           {
-            "title": "Gujarat Themis Biosyn Gains 2.2%, Approaches Key Resistance at \u20b9415.69 - IV Crush Alert - vinanet.vn",
-            "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPRzRNZ1hiUldkTk9SUzJSZm1zOFFpc3VHMnVaSEZKcHNsM0VyXzQwQ3VKczhHbXRGdndqSjk3S2ludG9xaHBwUDdCU3hPX2NxUjlpVWxyQmNNR0JpR2RkdEVRQmx0RHNKaU1TdXdZQXNrVVh0U1U3OVRxSmhVUEtGRGZwNWQ5WVNDY05UZFF6WFdLZzQ2S1A5aXFMeXpidEhJZlEtVVBkQlBCUQ?oc=5",
-            "published": "Mon, 15 Jun 2026 07:00:00 GMT",
+            "title": "Gujarat Themis Biosyn Limited Submits SEBI Certificate for Q4FY26 Compliance - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxQVWV4VGdscDNGanlDQlgxVDlhZ3VFZUI2aGh0eVNzb3VWX1I0QzRoSHp3REgxa29aVEVrckJ1ajYyM21mb3N6VTdlRjVzc1ZpVlhITElvSUhyeTZGb2Uzdlc1M1cxSmU3ZzBnam1mUmZDQXdBOHB3SEthMzhwVEVEbFR3bGpjR2pod2g0eWN6M3lYWnRGdENfTnRGX3FoRmplTEtXdXRxMDVTZnM1Tl9xT1FsbDJCckM0OTVXcWdRTGJCbG1ZNHVkbl9yYzBHUQ?oc=5",
+            "published": "Wed, 08 Apr 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
@@ -891,7 +894,7 @@
       },
       "core_score": 20,
       "combined_score": 73.8,
-      "added_at": "2026-09-08T12:45:30.366096",
+      "added_at": "2026-09-08T13:14:29.272873",
       "signal_state": "WATCHING",
       "first_seen_price": 443.65,
       "first_seen_at": "2026-09-08T09:44:26.726099"
@@ -1095,6 +1098,107 @@
       "first_seen_at": "2026-09-08T06:20:40.257617"
     },
     {
+      "symbol": "TNPETRO",
+      "base": {
+        "symbol": "TNPETRO",
+        "price": 143.07,
+        "day_change": 9.01,
+        "volume": 5397234,
+        "avg_volume": 3053768,
+        "volume_ratio": 2.75,
+        "high_52w": 146.99,
+        "pct_from_high": 2.74,
+        "market_cap": 1287.22
+      },
+      "technical": {
+        "symbol": "TNPETRO",
+        "close": 143.07000732421875,
+        "rsi": 77.53,
+        "adx": 68.53,
+        "atr": 6.85,
+        "volume_ratio": 1.7,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "Bullish Engulfing"
+        ],
+        "setup": "BREAKOUT",
+        "score": 76,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "Bullish Engulfing",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 132.8,
+        "target1": 156.76,
+        "target2": 167.03
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Is Tamilnadu Petroproducts Limited's (NSE:TNPETRO) Stock Price Struggling As A Result Of Its Mixed Financials? - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxOSVpxQnZEMzhFMVk4UGI4b3hoQ1NyTmtMbW5aSnA3d29KbW9kU3IzRkEyb1ZncHRyWENjVE1tWnpDWkd0ZF96Ny1GcEtQYkkyTDMyeVRNRzVmQUE1TmYzTUNJNy1MT2cxdDZNNWd0TlhKVHhwLWh6MEtLcDB0SmRTbnZpZ0h4Wjd4ZXdra0J1RGlzWGVVWU5Wd0pySjAzdFpvc1RFcnhrWTRkUmdwbDdOYkZqei1fMXIxWnlKdWsyUE16R2ZVcUZhR040NHJmRUs1V0xPYVA4dzFpd2xWVUJNU1dCMWTSAeoBQVVfeXFMT3ExRko5cXhiaVY1SVBZTWl4cXhUbmNxOFdDSWpaWWc2Sm1YNEJPdFVVYk1nVHNSSGZmeEN5MVVqdXhTdGtiSlBBNElmd0hCWVE5TUZ1T2M0YTgyQ0RvN09VN3NyS2REZTFXMHJ4TWp3RWpKN21QWHB6cE1FMjFBVVFPbjdUcHBvZW53NHJEU2FpWlVhNHkxcEVQOHV3V0JyWEQ2d2ZNcjRsclpWUURod1gwdDNEMW81dXB6RWpfbkl1VGhGT3JKX3lsUmZrcEd5cm53TkxRRV92R0xvOWktY0ptbkM2bUczXzNR?oc=5",
+            "published": "Wed, 12 Nov 2025 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "TN Petroproducts Stock Prediction 2026: Expert Analysis, Forecast Scenarios and Full Stock Review - Univest",
+            "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBKREx1LUg5Vlk2MjRRS0ZhZTZfT0k4U29sMnJsLVJVemlBTW1zQkdPb0VnYlRpeDVleFp2STdRSDFWNFRpU0tPNW5BN0o5bkdoTUVVNWoxdzlpd0JNc0picHhfRXZRRzhZMDNPaEIxRXQ?oc=5",
+            "published": "Fri, 19 Jun 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "TNPETRO Share Price Today - Tamilnadu Petroproducts on NSE/BSE - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5XSkZBbmlvaGNHejZnQ1Z5VVFqLTdfWUhMcWE0ZmQ1MkhzLVVDVWZHdVptMldQWGtpUUdmQnA3ZFdKVV9GeVdjaURVSkVPd0xCVlAtUkhVNHdORmEzOWF2RWV3OUlXZw?oc=5",
+            "published": "Wed, 23 Apr 2025 15:10:40 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Tamilnadu Petroproducts Share Price Today - Tamilnadu Petroproducts Ltd. Stock Price Live NSE/BSE - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1UbGNCTWdnQUtpNWhabFdHbTBoMlJ2VzhBbjBIWGdiQ0F1bUZmUGR5S2Ftekd3b29YbFVyU0luVzltNmJsRE9ydDBzRGtpWnMxWC1NSTBmMlFsa1dJR2lOQ2ZibDY?oc=5",
+            "published": "Wed, 30 Jul 2025 06:48:30 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Tamilnadu Petroproducts Ltd. Share Price Today | Tamilnadu Petro Live NSE/BSE - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQOFVMMmIzUEtzU0U1U2pjXzRLQ05wdm9KZ1d3bERzMzJaa0JPS1I1UERpcF9mc20yem5BcldwTnVPZ1dzUlExbHUxWFRMaldybDkwTzlCbmZ2WGVuc0U1ZXI3ekx5VU1FblNieW9qaXBSbG1oNGI3Q1JyWWhBS2VKdk5RQQ?oc=5",
+            "published": "Thu, 24 Mar 2022 10:26:35 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 70.8,
+      "added_at": "2026-09-08T13:16:01.101026",
+      "signal_state": "WATCHING",
+      "first_seen_price": 140.14,
+      "first_seen_at": "2026-09-08T10:44:51.942597"
+    },
+    {
       "symbol": "CUB",
       "base": {
         "symbol": "CUB",
@@ -1193,102 +1297,6 @@
       "added_at": "2026-09-08T06:20:12.744051",
       "first_seen_price": 238.48,
       "first_seen_at": "2026-09-08T06:20:12.744051"
-    },
-    {
-      "symbol": "CYIENTDLM",
-      "base": {
-        "symbol": "CYIENTDLM",
-        "price": 911.0,
-        "day_change": 4.83,
-        "volume": 995085,
-        "avg_volume": 760450,
-        "volume_ratio": 2.34,
-        "high_52w": 924.35,
-        "pct_from_high": 1.47,
-        "market_cap": 7230.1
-      },
-      "technical": {
-        "symbol": "CYIENTDLM",
-        "close": 911.0,
-        "rsi": 79.57,
-        "adx": 63.02,
-        "atr": 38.25,
-        "volume_ratio": 1.33,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "DOUBLE BOTTOM",
-        "score": 57,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Near Breakout",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 853.63,
-        "target1": 987.5,
-        "target2": 1044.87
-      },
-      "news": {
-        "score": 85,
-        "label": "Bullish",
-        "headlines": [
-          {
-            "title": "Cyient DLM's (NSE:CYIENTDLM) Profits Appear To Have Quality Issues - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPSVVxQW42eV9CMlRqLW04a3B1WHN6akk3Q09lRC1WZTRDXzBaNk5GYzJqM1J0RHlJOWNOd3pLdXd5Rzh4S2hWSFNvS2R6YkxnMEtKRTBYZEEyYzItRmx3Zk1lV2xHWUNZR0FBTjZjYnlLWUR2UkhiMVd5NEhLRUo5aHlDemZKSkR1VzBialV3aWpSX3ZqSURodDNZRkNsOVJrX3g1MWVTTlVjc0cxNXpEQkdyQ3o3ZjhMODdyakhaMjJoeWpFVklLQWM5Vmp2WEHSAdQBQVVfeXFMUGxvS0NpdXczWklLWUdkRGFGMnlhaEcyaHJZTzhqOGl5ODd6WFIxWUd0MUM2TVR1RkZnVDNHUEZMdUJONXNOTjBlNGFBeWgwbDFqbzZZd29GQzZ3RUk2WnNYd2JDS0tDSlVKZEp0WmhfNU8tRERMemZzdWN0SVFIcWR3bjgtTlFEZGRVWkU1QjVQcGthT2hTYWFqanVoUGpqMTJ5d1lXSThCZWJmT2lwcDdCSXNwRHhlSUp3YkdlT25URjdSSmY4ZkhXc1d5aFg3cnozYl8?oc=5",
-            "published": "Tue, 16 Jun 2026 07:00:00 GMT",
-            "score": 3,
-            "label": "Neutral"
-          },
-          {
-            "title": "Cyient DLM NSE:CYIENTDLM Analyst Meet Ask Investment Sept 2026 - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQSC1OR0dGNzhhR1VwbTE0dnI5UjdHVU1DR0M1WlFhaEp3RUJGUUVWZlRqNFNIa0pIOEJpLWRBc2Z5S1BRT29ndUh1dUItVFprdFl0b1lmMWs2RGF1azRTNmtNa0p2cXNDcnZzZHViRm51Q3pGeHlzREFINkdDZDdUZS1hMk9oQ0hLNjRRY0x2ZmhDblV3Q010NU5fQmxIU1R0Rkd3Nm5uSERINW1ZZVZ5UVhkUmlfeUdpZF9URk1lTQ?oc=5",
-            "published": "Fri, 28 Aug 2026 07:00:00 GMT",
-            "score": 2,
-            "label": "Neutral"
-          },
-          {
-            "title": "Dixon Tech, Kaynes Tech, Cyient DLM: EMS stocks surge on \u20b91.9L cr semiconductor, mobile manufacturing boost - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNRURDLXNPaHdOc2wxSzJxLTJlcEZWX0hlMjVyLXhuaHJoaTRxdWp1X1Z2SXM0UjlsUkNlelowSHdfUDJBVER4RzhRRnJ3VXNqS0VGNlZvVVJ0allPb0h0T294ODNDRDZOWElnMnN0Z3lDZHdadWoyR0VpQ0NPU01SdFRndXRJQS1rSEhnMHFrZDFZUGl0MFBwSGxRLUNuaGN3Rm1BaERPSEszQWdCRVcydGh4SXdrMGxSYVlFNzJONlFZSmw2V1dfU0RyLVByb25xT1lFWmJsZUN4U0ZEOU81TjJqYzNWSVFCazJ2bkRPS2NqbVVs?oc=5",
-            "published": "Wed, 15 Jul 2026 07:00:00 GMT",
-            "score": 2,
-            "label": "Neutral"
-          },
-          {
-            "title": "Cyient DLM Limited VP Operations Head Mujeeb Rahiman Resigns Effective April 2026 - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNN1pMRzFIMlRNN1Z6YXhPRVUzbXhRNmFHcU54bjJRaS1MZzZXZHpRWkZvbUR3enRocFQwU2JEYnVhVUt1UmJjZTA1ZXJSTS03NnFUakp6S2lBNGdRZ0RwSHFYN2VaLWlCUkNpV0Z5bEJmVGJ2RDNlNWQ1WkVVYmN6V3dRNHJmWEhkNUxPenZzT0pDUXVRT0ZfSFpMb1cwdUhoQV9obDBWbmRTSnhhQnZYdnVSbUNYbzZSWFFrS0tRcEo2d014ZTdn?oc=5",
-            "published": "Thu, 30 Apr 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Indian Manufacturing Stocks Gaining From Tighter Supply Chain Compliance - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOUnZycENGWUZsdVZZem1GemlPeVdBX2lxd3pUbHdzQ1MwOURLZmlSaEs5cFZ1bzVvcUNxTS1mLWhFYjNHNk1kaFIzQl84MFVUYmRabU1ueVhhcmRUeEhFUHVXMlA0QTZZby1KaGVJVEozbW5WeFpwVjJMQWFDUzRnLWMtRWhHSmxGY2w1c0pqTDNHbDRNS1ZQN0NuTmI5NDluV1V2UFpKNWhCMUhmV29YZ1lZaG5jOVA3OXV3eDJnTmVndUxjS1pXdzh2UF9Bd2xsR2JUUVVRY9IB3AFBVV95cUxPZ3poYW9aN3dWSGRzYkNuREpSVXlXZVZGdlJzVm9FU1VjY3hBNlZTSzJGUzRKbXpHaWpTbkFuc3ZUQ3k0OEVxa1A1Q0ROWnBnb05xUzBJSVdlT1ZCRjF2MEZSM0dqU0VZSFMzRlpDR2o3bVU3a0hXODlrWHRVU2ZSMERjRGxSRWJYMVVXZ01oQkZfdTF6Z2RhLXJDR1NXX05TZ1FaVHNyUmdib1p3V1dMdG4xTXhmbm0zeGJfYUZ4cGhkZkpIN1kzeUQzRnhRajF4SWxEWThDM2hUOVJE?oc=5",
-            "published": "Thu, 16 Jul 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 22,
-      "combined_score": 70.3,
-      "added_at": "2026-09-08T12:45:13.328546",
-      "signal_state": "WATCHING",
-      "first_seen_price": 856.95,
-      "first_seen_at": "2026-09-08T06:20:13.570528"
     },
     {
       "symbol": "TITAGARH",
@@ -1487,25 +1495,25 @@
       "first_seen_at": "2026-09-08T06:21:44.318273"
     },
     {
-      "symbol": "TNPETRO",
+      "symbol": "ASIANENE",
       "base": {
-        "symbol": "TNPETRO",
-        "price": 141.12,
-        "day_change": 7.52,
-        "volume": 4770524,
-        "avg_volume": 3023925,
-        "volume_ratio": 2.8,
-        "high_52w": 146.99,
-        "pct_from_high": 4.16,
-        "market_cap": 1269.68
+        "symbol": "ASIANENE",
+        "price": 550.35,
+        "day_change": 6.86,
+        "volume": 1320089,
+        "avg_volume": 802748,
+        "volume_ratio": 2.59,
+        "high_52w": 565.7,
+        "pct_from_high": 2.79,
+        "market_cap": 2674.23
       },
       "technical": {
-        "symbol": "TNPETRO",
-        "close": 141.1199951171875,
-        "rsi": 76.62,
-        "adx": 68.53,
-        "atr": 6.85,
-        "volume_ratio": 1.52,
+        "symbol": "ASIANENE",
+        "close": 550.3499755859375,
+        "rsi": 73.31,
+        "adx": 40.76,
+        "atr": 28.06,
+        "volume_ratio": 1.59,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1516,11 +1524,9 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [
-          "Bullish Engulfing"
-        ],
+        "patterns": [],
         "setup": "BREAKOUT",
-        "score": 76,
+        "score": 71,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -1529,63 +1535,157 @@
           "Double Bottom",
           "Near Breakout",
           "Confirmed Breakout",
-          "Bullish Engulfing",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 130.85,
-        "target1": 154.81,
-        "target2": 165.08
+        "stop_loss": 508.26,
+        "target1": 606.46,
+        "target2": 648.55
       },
       "news": {
         "score": 50,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Is Tamilnadu Petroproducts Limited's (NSE:TNPETRO) Stock Price Struggling As A Result Of Its Mixed Financials? - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxOSVpxQnZEMzhFMVk4UGI4b3hoQ1NyTmtMbW5aSnA3d29KbW9kU3IzRkEyb1ZncHRyWENjVE1tWnpDWkd0ZF96Ny1GcEtQYkkyTDMyeVRNRzVmQUE1TmYzTUNJNy1MT2cxdDZNNWd0TlhKVHhwLWh6MEtLcDB0SmRTbnZpZ0h4Wjd4ZXdra0J1RGlzWGVVWU5Wd0pySjAzdFpvc1RFcnhrWTRkUmdwbDdOYkZqei1fMXIxWnlKdWsyUE16R2ZVcUZhR040NHJmRUs1V0xPYVA4dzFpd2xWVUJNU1dCMWTSAeoBQVVfeXFMT3ExRko5cXhiaVY1SVBZTWl4cXhUbmNxOFdDSWpaWWc2Sm1YNEJPdFVVYk1nVHNSSGZmeEN5MVVqdXhTdGtiSlBBNElmd0hCWVE5TUZ1T2M0YTgyQ0RvN09VN3NyS2REZTFXMHJ4TWp3RWpKN21QWHB6cE1FMjFBVVFPbjdUcHBvZW53NHJEU2FpWlVhNHkxcEVQOHV3V0JyWEQ2d2ZNcjRsclpWUURod1gwdDNEMW81dXB6RWpfbkl1VGhGT3JKX3lsUmZrcEd5cm53TkxRRV92R0xvOWktY0ptbkM2bUczXzNR?oc=5",
-            "published": "Wed, 12 Nov 2025 08:00:00 GMT",
+            "title": "Concerns Surrounding Asian Energy Services' (NSE:ASIANENE) Performance - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxNMDBIbFUzOUNnTHUySzBMZ1AzTUlLaFZRUTFUc3FsNFo0engwMlgwZFJmcm5uaE5MQ00zdUJWX0QyYTM4TWNoR0hJVmh6bHhRcExLaTIyWDZwUUJtWEFVS2U0RjhyUW5Kc2FxazJfQ1dVNE1oTlpVWVJGdkRJemxETXlzOVVWZnlzUXA4NTBpWEZ3WGRPVUVIblpFMXNLN0RuOUNhTTQ3ZHJBcEZyQUhEcnJINVVXV0dNbzZzVFBVOG0yc1B0UmNjeFdnM2lIUVZERkE2LUZob2xjVm55SzhV0gHkAUFVX3lxTE5ZRDd1MGx2dnJzTVVWaDFqZVdNSGVpNWo4UU93VXExOG8zVENYZnlRcENKdGJMWlhKQ3h0U2t0Z2xqS1pVYkpYWWhWZVNBUHRfbGItZ1NTUUxsOUxvRkNTN2JNV2hRTWE0aUg3ZnJIb0Z2SHVlYzJ4am82aUZRdGNUQ1VrMUZzdUJOMllXZjNNdEYwcjdPOFZNaUFqYmFxSlNyMFlzREhOLVlzVGFuVzVMQkNNaGk4bkJ4aDRkTkE2cTZMNEllZGFacnc5YW41dFBuOFE2UUFvZmFmLWFZZHZLS3JEMA?oc=5",
+            "published": "Wed, 27 May 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "TN Petroproducts Stock Prediction 2026: Expert Analysis, Forecast Scenarios and Full Stock Review - Univest",
-            "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBKREx1LUg5Vlk2MjRRS0ZhZTZfT0k4U29sMnJsLVJVemlBTW1zQkdPb0VnYlRpeDVleFp2STdRSDFWNFRpU0tPNW5BN0o5bkdoTUVVNWoxdzlpd0JNc0picHhfRXZRRzhZMDNPaEIxRXQ?oc=5",
-            "published": "Fri, 19 Jun 2026 07:00:00 GMT",
+            "title": "Asian Energy Services Share Price Today and Valuation View - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOQ19scGJDMHhvZ3p0MFdSYkpPWXdrUkp1Tl8ySzYwYTZYbXlYTTJ2Nnl1dFVSZ3dTNWVJN2NZRHc3SUxObHNWejVWUlkwYlFZSnQ2bTVXd2hlTUpRWFRCUTg3RnV1ZXZQbS1meEhjbl93N0lSeG0xMktCWEVGOWNzQ3NMemZGSkQxTmc?oc=5",
+            "published": "Tue, 18 Aug 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "TNPETRO Share Price Today - Tamilnadu Petroproducts on NSE/BSE - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5XSkZBbmlvaGNHejZnQ1Z5VVFqLTdfWUhMcWE0ZmQ1MkhzLVVDVWZHdVptMldQWGtpUUdmQnA3ZFdKVV9GeVdjaURVSkVPd0xCVlAtUkhVNHdORmEzOWF2RWV3OUlXZw?oc=5",
-            "published": "Wed, 23 Apr 2025 15:10:40 GMT",
-            "score": 0,
+            "title": "Asian Energy Services Limited Revenue Breakdown \u2013 NSE:ASIANENE - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE9fak9HZkRYUXhWRERDd3NjcjN1T1EzWE9yQUZoWHQ5V2xsVjM3ZF95Q0N5QTNxb0QyRWVYSTl2VVl1S1JReVhhdl9ValdoaS1xTkJxUkxwbGpBdzhWVGpXcHFJSkp1cnZZY1dLY044VlZodHJWZzlDQQ?oc=5",
+            "published": "Wed, 29 Jul 2026 17:48:51 GMT",
+            "score": 2,
             "label": "Neutral"
           },
           {
-            "title": "Tamilnadu Petroproducts Share Price Today - Tamilnadu Petroproducts Ltd. Stock Price Live NSE/BSE - HDFC Sky",
-            "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1UbGNCTWdnQUtpNWhabFdHbTBoMlJ2VzhBbjBIWGdiQ0F1bUZmUGR5S2Ftekd3b29YbFVyU0luVzltNmJsRE9ydDBzRGtpWnMxWC1NSTBmMlFsa1dJR2lOQ2ZibDY?oc=5",
-            "published": "Wed, 30 Jul 2025 06:48:30 GMT",
-            "score": 0,
+            "title": "Asian Energy Services Share Price Today: Fall and Valuation - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQOHo1ZnRKU1VRaGNhaHhnMVJubktCR21HZnVveEFNRmlyNHVVbHk4Z2pmOV91VlVTVHVqUnpVMExRLWR3QVdITVFDQ2ZDaDhXNkZZbE5SSm82SlduV3RGLTNTekhBOW1xWERTV3phajI1clVxN0oxWFd4N3YxSXgwb3hUQkRpbzVDanc?oc=5",
+            "published": "Fri, 14 Aug 2026 07:00:00 GMT",
+            "score": -2,
             "label": "Neutral"
           },
           {
-            "title": "Tamilnadu Petroproducts Ltd. Share Price Today | Tamilnadu Petro Live NSE/BSE - Value Research",
-            "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQOFVMMmIzUEtzU0U1U2pjXzRLQ05wdm9KZ1d3bERzMzJaa0JPS1I1UERpcF9mc20yem5BcldwTnVPZ1dzUlExbHUxWFRMaldybDkwTzlCbmZ2WGVuc0U1ZXI3ekx5VU1FblNieW9qaXBSbG1oNGI3Q1JyWWhBS2VKdk5RQQ?oc=5",
-            "published": "Thu, 24 Mar 2022 10:26:35 GMT",
+            "title": "Asian Energy Services Limited Submits Q4FY26 Confirmation Certificate Under SEBI Regulations - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxOa3h1RDZYYzE0UE85RFp3TUhUU1BONktNRXpueTBEQWxwWWpuYWQ4U2pDOTRfSXNlRW5XbG91OXlwdzlYS0U3LXFoRktncnlZWjdJZWppSldGZk92QVlRbkFrYTlkSFQ2Q2k4MFZfb2laUVhCTDZjd3VsRk9CUDVGa1VEMUZyb3lrMFdwMVdqdkJpaVppUmhXaWVzaU0waVRTMkotSWFfY1FiV0tLRlc1QXBGOUM0R1dPRlRCc1I1X1c1dk9ORXFma3NtRmVWMk1FZVBteU5MMFRjUExoRlNPWVN2UQ?oc=5",
+            "published": "Fri, 10 Apr 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 17,
-      "combined_score": 68.8,
-      "added_at": "2026-09-08T12:46:39.047396",
+      "core_score": 19,
+      "combined_score": 68.1,
+      "added_at": "2026-09-08T13:13:45.461836",
+      "first_seen_price": 550.35,
+      "first_seen_at": "2026-09-08T13:13:45.461836"
+    },
+    {
+      "symbol": "CYIENTDLM",
+      "base": {
+        "symbol": "CYIENTDLM",
+        "price": 927.0,
+        "day_change": 6.67,
+        "volume": 1104793,
+        "avg_volume": 765674,
+        "volume_ratio": 2.26,
+        "high_52w": 927.0,
+        "pct_from_high": 0.0,
+        "market_cap": 7357.08
+      },
+      "technical": {
+        "symbol": "CYIENTDLM",
+        "close": 927.0,
+        "rsi": 80.7,
+        "adx": 63.04,
+        "atr": 38.44,
+        "volume_ratio": 1.46,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 57,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 869.34,
+        "target1": 1003.88,
+        "target2": 1061.53
+      },
+      "news": {
+        "score": 85,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "Cyient DLM's (NSE:CYIENTDLM) Profits Appear To Have Quality Issues - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPSVVxQW42eV9CMlRqLW04a3B1WHN6akk3Q09lRC1WZTRDXzBaNk5GYzJqM1J0RHlJOWNOd3pLdXd5Rzh4S2hWSFNvS2R6YkxnMEtKRTBYZEEyYzItRmx3Zk1lV2xHWUNZR0FBTjZjYnlLWUR2UkhiMVd5NEhLRUo5aHlDemZKSkR1VzBialV3aWpSX3ZqSURodDNZRkNsOVJrX3g1MWVTTlVjc0cxNXpEQkdyQ3o3ZjhMODdyakhaMjJoeWpFVklLQWM5Vmp2WEHSAdQBQVVfeXFMUGxvS0NpdXczWklLWUdkRGFGMnlhaEcyaHJZTzhqOGl5ODd6WFIxWUd0MUM2TVR1RkZnVDNHUEZMdUJONXNOTjBlNGFBeWgwbDFqbzZZd29GQzZ3RUk2WnNYd2JDS0tDSlVKZEp0WmhfNU8tRERMemZzdWN0SVFIcWR3bjgtTlFEZGRVWkU1QjVQcGthT2hTYWFqanVoUGpqMTJ5d1lXSThCZWJmT2lwcDdCSXNwRHhlSUp3YkdlT25URjdSSmY4ZkhXc1d5aFg3cnozYl8?oc=5",
+            "published": "Tue, 16 Jun 2026 07:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
+          },
+          {
+            "title": "Cyient DLM NSE:CYIENTDLM Analyst Meet Ask Investment Sept 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQSC1OR0dGNzhhR1VwbTE0dnI5UjdHVU1DR0M1WlFhaEp3RUJGUUVWZlRqNFNIa0pIOEJpLWRBc2Z5S1BRT29ndUh1dUItVFprdFl0b1lmMWs2RGF1azRTNmtNa0p2cXNDcnZzZHViRm51Q3pGeHlzREFINkdDZDdUZS1hMk9oQ0hLNjRRY0x2ZmhDblV3Q010NU5fQmxIU1R0Rkd3Nm5uSERINW1ZZVZ5UVhkUmlfeUdpZF9URk1lTQ?oc=5",
+            "published": "Fri, 28 Aug 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Dixon Tech, Kaynes Tech, Cyient DLM: EMS stocks surge on \u20b91.9L cr semiconductor, mobile manufacturing boost - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNRURDLXNPaHdOc2wxSzJxLTJlcEZWX0hlMjVyLXhuaHJoaTRxdWp1X1Z2SXM0UjlsUkNlelowSHdfUDJBVER4RzhRRnJ3VXNqS0VGNlZvVVJ0allPb0h0T294ODNDRDZOWElnMnN0Z3lDZHdadWoyR0VpQ0NPU01SdFRndXRJQS1rSEhnMHFrZDFZUGl0MFBwSGxRLUNuaGN3Rm1BaERPSEszQWdCRVcydGh4SXdrMGxSYVlFNzJONlFZSmw2V1dfU0RyLVByb25xT1lFWmJsZUN4U0ZEOU81TjJqYzNWSVFCazJ2bkRPS2NqbVVs?oc=5",
+            "published": "Wed, 15 Jul 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Cyient DLM Limited VP Operations Head Mujeeb Rahiman Resigns Effective April 2026 - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNN1pMRzFIMlRNN1Z6YXhPRVUzbXhRNmFHcU54bjJRaS1MZzZXZHpRWkZvbUR3enRocFQwU2JEYnVhVUt1UmJjZTA1ZXJSTS03NnFUakp6S2lBNGdRZ0RwSHFYN2VaLWlCUkNpV0Z5bEJmVGJ2RDNlNWQ1WkVVYmN6V3dRNHJmWEhkNUxPenZzT0pDUXVRT0ZfSFpMb1cwdUhoQV9obDBWbmRTSnhhQnZYdnVSbUNYbzZSWFFrS0tRcEo2d014ZTdn?oc=5",
+            "published": "Thu, 30 Apr 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Indian Manufacturing Stocks Gaining From Tighter Supply Chain Compliance - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxOUnZycENGWUZsdVZZem1GemlPeVdBX2lxd3pUbHdzQ1MwOURLZmlSaEs5cFZ1bzVvcUNxTS1mLWhFYjNHNk1kaFIzQl84MFVUYmRabU1ueVhhcmRUeEhFUHVXMlA0QTZZby1KaGVJVEozbW5WeFpwVjJMQWFDUzRnLWMtRWhHSmxGY2w1c0pqTDNHbDRNS1ZQN0NuTmI5NDluV1V2UFpKNWhCMUhmV29YZ1lZaG5jOVA3OXV3eDJnTmVndUxjS1pXdzh2UF9Bd2xsR2JUUVVRY9IB3AFBVV95cUxPZ3poYW9aN3dWSGRzYkNuREpSVXlXZVZGdlJzVm9FU1VjY3hBNlZTSzJGUzRKbXpHaWpTbkFuc3ZUQ3k0OEVxa1A1Q0ROWnBnb05xUzBJSVdlT1ZCRjF2MEZSM0dqU0VZSFMzRlpDR2o3bVU3a0hXODlrWHRVU2ZSMERjRGxSRWJYMVVXZ01oQkZfdTF6Z2RhLXJDR1NXX05TZ1FaVHNyUmdib1p3V1dMdG4xTXhmbm0zeGJfYUZ4cGhkZkpIN1kzeUQzRnhRajF4SWxEWThDM2hUOVJE?oc=5",
+            "published": "Thu, 16 Jul 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 67.3,
+      "added_at": "2026-09-08T13:14:07.258854",
       "signal_state": "WATCHING",
-      "first_seen_price": 140.14,
-      "first_seen_at": "2026-09-08T10:44:51.942597"
+      "first_seen_price": 856.95,
+      "first_seen_at": "2026-09-08T06:20:13.570528"
     },
     {
       "symbol": "JKPAPER",
@@ -2075,22 +2175,22 @@
       "symbol": "DEEPINDS",
       "base": {
         "symbol": "DEEPINDS",
-        "price": 805.5,
-        "day_change": 2.86,
-        "volume": 510481,
-        "avg_volume": 513315,
-        "volume_ratio": 1.78,
+        "price": 804.45,
+        "day_change": 2.73,
+        "volume": 521760,
+        "avg_volume": 513852,
+        "volume_ratio": 1.59,
         "high_52w": 814.9,
-        "pct_from_high": 1.17,
-        "market_cap": 5155.2
+        "pct_from_high": 1.3,
+        "market_cap": 5148.48
       },
       "technical": {
         "symbol": "DEEPINDS",
-        "close": 805.5,
-        "rsi": 74.03,
+        "close": 804.4500122070312,
+        "rsi": 73.94,
         "adx": 40.53,
         "atr": 37.5,
-        "volume_ratio": 0.97,
+        "volume_ratio": 0.99,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2118,9 +2218,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 749.26,
-        "target1": 880.49,
-        "target2": 936.74
+        "stop_loss": 748.21,
+        "target1": 879.44,
+        "target2": 935.69
       },
       "news": {
         "score": 50,
@@ -2165,7 +2265,7 @@
       },
       "core_score": 19,
       "combined_score": 63.1,
-      "added_at": "2026-09-08T12:45:15.063119",
+      "added_at": "2026-09-08T13:14:09.534139",
       "signal_state": "WATCHING",
       "first_seen_price": 786.45,
       "first_seen_at": "2026-09-08T06:20:15.072054"
@@ -2462,22 +2562,22 @@
       "symbol": "WOCKPHARMA",
       "base": {
         "symbol": "WOCKPHARMA",
-        "price": 2215.0,
-        "day_change": 0.22,
-        "volume": 915425,
-        "avg_volume": 978946,
-        "volume_ratio": 1.66,
+        "price": 2212.8,
+        "day_change": 0.12,
+        "volume": 952320,
+        "avg_volume": 980703,
+        "volume_ratio": 1.51,
         "high_52w": 2422.3,
-        "pct_from_high": 9.36,
-        "market_cap": 35992.02
+        "pct_from_high": 9.47,
+        "market_cap": 35956.27
       },
       "technical": {
         "symbol": "WOCKPHARMA",
-        "close": 2215.0,
-        "rsi": 70.59,
+        "close": 2212.800048828125,
+        "rsi": 70.5,
         "adx": 16.75,
         "atr": 82.27,
-        "volume_ratio": 0.94,
+        "volume_ratio": 0.98,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2504,9 +2604,9 @@
           "MACD Bullish",
           "OBV Accumulation"
         ],
-        "stop_loss": 2091.59,
-        "target1": 2379.55,
-        "target2": 2502.96
+        "stop_loss": 2089.39,
+        "target1": 2377.35,
+        "target2": 2500.76
       },
       "news": {
         "score": 75,
@@ -2551,7 +2651,7 @@
       },
       "core_score": 14,
       "combined_score": 61.5,
-      "added_at": "2026-09-08T12:46:48.991408",
+      "added_at": "2026-09-08T13:16:13.069646",
       "signal_state": "WATCHING",
       "first_seen_price": 2208.0,
       "first_seen_at": "2026-09-08T06:21:51.422653"
@@ -2560,22 +2660,22 @@
       "symbol": "BODALCHEM",
       "base": {
         "symbol": "BODALCHEM",
-        "price": 177.14,
-        "day_change": 3.48,
-        "volume": 3837951,
-        "avg_volume": 3597476,
-        "volume_ratio": 1.91,
+        "price": 177.61,
+        "day_change": 3.76,
+        "volume": 3889819,
+        "avg_volume": 3599946,
+        "volume_ratio": 1.7,
         "high_52w": 185.0,
-        "pct_from_high": 4.44,
-        "market_cap": 2230.97
+        "pct_from_high": 4.16,
+        "market_cap": 2236.89
       },
       "technical": {
         "symbol": "BODALCHEM",
-        "close": 177.13999938964844,
-        "rsi": 96.5,
+        "close": 177.61000061035156,
+        "rsi": 96.51,
         "adx": 58.6,
         "atr": 9.98,
-        "volume_ratio": 1.02,
+        "volume_ratio": 1.03,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2600,9 +2700,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 162.17,
-        "target1": 197.1,
-        "target2": 212.07
+        "stop_loss": 162.64,
+        "target1": 197.57,
+        "target2": 212.54
       },
       "news": {
         "score": 65,
@@ -2647,7 +2747,7 @@
       },
       "core_score": 17,
       "combined_score": 61.4,
-      "added_at": "2026-09-08T12:45:05.991268",
+      "added_at": "2026-09-08T13:13:57.255836",
       "signal_state": "WATCHING",
       "first_seen_price": 180.09,
       "first_seen_at": "2026-09-08T09:44:06.081216"
@@ -2656,22 +2756,22 @@
       "symbol": "SAILIFE",
       "base": {
         "symbol": "SAILIFE",
-        "price": 1651.7,
-        "day_change": 3.95,
-        "volume": 874140,
-        "avg_volume": 790620,
-        "volume_ratio": 1.96,
+        "price": 1651.2,
+        "day_change": 3.91,
+        "volume": 942431,
+        "avg_volume": 793872,
+        "volume_ratio": 1.85,
         "high_52w": 1657.2,
-        "pct_from_high": 0.33,
-        "market_cap": 35081.15
+        "pct_from_high": 0.36,
+        "market_cap": 35070.53
       },
       "technical": {
         "symbol": "SAILIFE",
-        "close": 1651.699951171875,
-        "rsi": 76.44,
+        "close": 1651.199951171875,
+        "rsi": 76.41,
         "adx": 37.02,
         "atr": 53.36,
-        "volume_ratio": 1.24,
+        "volume_ratio": 1.33,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2696,9 +2796,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 1571.66,
-        "target1": 1758.42,
-        "target2": 1838.46
+        "stop_loss": 1571.16,
+        "target1": 1757.92,
+        "target2": 1837.96
       },
       "news": {
         "score": 55,
@@ -2743,7 +2843,7 @@
       },
       "core_score": 19,
       "combined_score": 61.4,
-      "added_at": "2026-09-08T12:46:20.454626",
+      "added_at": "2026-09-08T13:15:37.537125",
       "signal_state": "WATCHING",
       "first_seen_price": 1644.9,
       "first_seen_at": "2026-09-08T11:49:04.005011"
@@ -2845,102 +2945,6 @@
       "added_at": "2026-09-08T11:48:56.448392",
       "first_seen_price": 255.5,
       "first_seen_at": "2026-09-08T11:48:56.448392"
-    },
-    {
-      "symbol": "INDSWFTLAB",
-      "base": {
-        "symbol": "INDSWFTLAB",
-        "price": 391.75,
-        "day_change": 6.25,
-        "volume": 1640678,
-        "avg_volume": 2199935,
-        "volume_ratio": 1.54,
-        "high_52w": 401.45,
-        "pct_from_high": 2.48,
-        "market_cap": 3401.82
-      },
-      "technical": {
-        "symbol": "INDSWFTLAB",
-        "close": 391.75,
-        "rsi": 73.37,
-        "adx": 58.94,
-        "atr": 20.49,
-        "volume_ratio": 0.73,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": true,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "DOUBLE BOTTOM",
-        "score": 60,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Near Breakout",
-          "MACD Bullish Crossover",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 361.02,
-        "target1": 432.72,
-        "target2": 463.45
-      },
-      "news": {
-        "score": 60,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Ind-Swift Laboratories Limited's (NSE:INDSWFTLAB) Shares Bounce 29% But Its Business Still Trails The Market - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxNN0JJM3JmSko3bzBmNWtiUHc4WV91NVNlMHBIZjh1bEdGM3ZGRTBIMkZYeWR5bGtCU0VvNVJXOTM0UE42WXNFUE5mUTNPd0lzYlZVdTJxdTBqOGhYUUYydENNQ3RWUjE0cVBPQS1rRkd4U1dVWkcwa2c2UFQ5S3kxTC12YnExR0dlSnRWN3NraGcxRE54VTMyNERZUTBtX0tnR1Azd0FOckRiMDIzQzFyNzR1R3BSNVlRbnJxNmF3bzMwcnU2UHQtOTZFbk5wSmRXQ0RjMlZ0SHVwZ2xOU1NQckdGbUptOXBEZ1NLVVZBdUtaSXBRSXFOSdIB_gFBVV95cUxOZ1VEdmJ0b3hhdmF4MGFQT2pvRURCeWVMbmdZNUNXNjJnTTQ0R0FfTXltbks3bS1LdlB0VjFjQmdTam15dmVyb0pQN09kVWFObzBFNHNkUGtfWEItdDhiUzdwODJkMG1kSmwzSjVNMWpHMV83Y0pJRjh2VmxMZ1ZLOEtmeGVHdjc2OGU3WlVoOWFhemdScWQtVkJDNk1GUzlQSXJqbGRjNkxEVkZPUDA0clVxSjlmWFVQOUdSWkZEOWdnM0Y0Q0pOd1pXVndHdncyTzU5N0drT1VGNHpYc1p3Ulo2bHpYeEo5ODBaazhlWmNPTVRkeXZndnJvM2h1Zw?oc=5",
-            "published": "Sat, 31 Jan 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Ind-Swift Laboratories Ltd. (INDSWFTLAB) Share Price Rises 8.68% as Small Cap Stock Gains Today - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQRGh1RDhFTkZyaEJQVXAzSzlFQW8xNVJCTFQ0YnI5UDUyX2FySmNqSkRGMWpWNGt2UUlGZUJjQUJCY1RZQXBTNGZNVjBTeGNETjNkMmxUZGotaGp6bWJvb0hrVnV4akg1dE5TQktBR1dOX2hHY3dORzNYeEJwd2N1R2FINlVVZnlqT3JV?oc=5",
-            "published": "Tue, 18 Aug 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "Ind-Swift Laboratories (NSE:INDSWFTLAB) delivers shareholders decent 16% CAGR over 3 years, surging 13% in the last week alone - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxPOXhDWW1lWTB6aFRwUHhhSWtJU2tPcFpCb2ZzNlRFQlk2UHJBdlZ0QWUxVE14TGNqc2QtTEctX0NBMnR1b0RxUGVHb010bFBnTDlZeHJGYnRSWEQzVThVOEFyZ2Z1d1ZIVnFILUlHRFRLZ1ZPWEowenhiT2MyQVQ1eVpmNVJqVTdXaGRHWTNnV2RiaGRmdTBQR0hpRzlsbzhmcnZDSzBpcHBiWVhsWVhXVWRFTXNjdV9rWjhlNDlETG1SSjFiY0lLYldENjlZTWJ2MG5wbG5peVZCYkFBMEFmdHBCZU9SYmxpc0x5WmV0MGVFMl96d0thQWhB0gH_AUFVX3lxTE45RXpDQnQtUVdia3EwOFE0NXNQZFJMS3NJUjZnYmFVUXVwdUFjZFNGbGJzUXV3c0Q5RzA2ZDdjUHMyaFpSRkk1aE5VRThkY042akVobzhDNVRPLTgtZjd4Qjl2SXc1dTNWR3d5djJOdUJ6dy1rMjRyWnpfNUVTekpZLTVXenJaZDlZVnBtSnR0b0FOVGtpMWl0WUtOQnhnS3h3NGFVaUcya25iSHpGbm5NRDRxRW1nYVRTLWNzZWF0N011a2NKRDZROWlvMkpOQzhFMHc4NmJ1ZldWVjY5em5qanRSQmp6Z3VCWm0yVURIX3RpM185R3hzSnFJTnc3dw?oc=5",
-            "published": "Wed, 14 Jan 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Ind-Swift Laboratories Allots 1.25 Lakh Equity Shares Under Employee Incentive Scheme - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNMkpBbnlIQ3N5aVMxSGxQNFZmSUR1T1VtZG1UQjdzaHhyTXd1WTVqNlBTVGZTMS0xX2ZaZnh0SmplbE5GaFBaSVJhcGpfekdQajhsS2h5ZEh0cUk5dkpHSFJBYmUwcV9nZkFOVUpvb1pSWlVLYVU3c3BwNkRwbGNER28zUThLUEV0cTNPRW9mTkZxdjhDR0Z6WGhZV0dpLS1NU1A4b1Nyc1U0RHQ5TTdfVjR4b0xtcTkxOGJWMW44WGNhZjFjaFdINlNnQkxlYW5Oc0d5TU1uQ0NfZw?oc=5",
-            "published": "Tue, 31 Mar 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Ind-Swift Laboratories Share Price Target 2026: Rs 190 Analyst Forecast - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE51U3lzdThPYmk5eVAxNldFVUtNdlQ2enhMRmh6MFZFRi1xY1B6VEdvNkJLWjlFWmpXVWpGOXRpTlBxeTZWc3lfU1dfYVFFYWdsTFpiWXFmbXFhVzVKaTJycjUwMEcxRVlzN1gzUGtnLTZqOEdCYjF6UDNn?oc=5",
-            "published": "Thu, 11 Jun 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 16,
-      "combined_score": 61.0,
-      "added_at": "2026-09-08T12:17:28.013737",
-      "signal_state": "WATCHING",
-      "first_seen_price": 397.8,
-      "first_seen_at": "2026-09-08T09:44:33.449647"
     }
   ]
 }
