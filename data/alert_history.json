@@ -579,6 +579,43 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 0.17,
-    "max_adverse_pct": 1.54
+    "max_adverse_pct": 1.82
+  },
+  {
+    "date": "2026-09-09",
+    "symbol": "AEGISVOPAK",
+    "alert_time": "14:27:56",
+    "bar_time": "2026-09-09T14:25:00+05:30",
+    "entry_price": 297.35,
+    "sl": 283.37,
+    "target1": 314.83,
+    "target2": 326.48,
+    "features": {
+      "rsi": 64.39,
+      "adx": 20.21,
+      "daily_volume_ratio": 1.86,
+      "daily_score": 73,
+      "news_score": 60,
+      "combined_score": 72.2,
+      "intraday_score": 92.3,
+      "intraday_volume_ratio": 3.978739361528679,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": -0.25159137755263256,
+      "move_from_open_pct": 2.18
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
