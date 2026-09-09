@@ -542,6 +542,43 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 0.73,
-    "max_adverse_pct": 0.58
+    "max_adverse_pct": 1.24
+  },
+  {
+    "date": "2026-09-09",
+    "symbol": "REDINGTON",
+    "alert_time": "12:07:48",
+    "bar_time": "2026-09-09T12:05:00+05:30",
+    "entry_price": 381.0,
+    "sl": 364.36,
+    "target1": 401.81,
+    "target2": 415.68,
+    "features": {
+      "rsi": 66.22,
+      "adx": 43.56,
+      "daily_volume_ratio": 0.14,
+      "daily_score": 63,
+      "news_score": 90,
+      "combined_score": 71.7,
+      "intraday_score": 84.3,
+      "intraday_volume_ratio": 1.803057482033294,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 0.0,
+      "move_since_morning_pct": 1.168348380244285,
+      "move_from_open_pct": 0.81
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
