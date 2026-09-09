@@ -506,5 +506,42 @@
     "exit_time": "2026-09-08T15:25:00",
     "max_favorable_pct": 0.12,
     "max_adverse_pct": 1.34
+  },
+  {
+    "date": "2026-09-09",
+    "symbol": "MIDHANI",
+    "alert_time": "11:25:50",
+    "bar_time": "2026-09-09T11:20:00+05:30",
+    "entry_price": 468.9,
+    "sl": 447.77,
+    "target1": 495.31,
+    "target2": 512.92,
+    "features": {
+      "rsi": 70.35,
+      "adx": 15.22,
+      "daily_volume_ratio": 10.26,
+      "daily_score": 76,
+      "news_score": 100,
+      "combined_score": 83.8,
+      "intraday_score": 82.6,
+      "intraday_volume_ratio": 4.413507143719375,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 1.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 0.0,
+      "move_since_morning_pct": -1.698114487110194,
+      "move_from_open_pct": -1.04
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
