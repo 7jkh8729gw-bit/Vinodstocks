@@ -815,29 +815,172 @@ def detect_golden_cross(df):
     return bool(alignment and (crossover or recent.sum() >= 7))
 
 
+def detect_inverse_head_and_shoulders(df):
+    """
+    Bullish reversal: three troughs — left shoulder, head (the lowest),
+    right shoulder — with the two shoulders roughly level and a meaningful
+    dip for the head. Same rigor as the double-bottom fix: strict 5-bar
+    pivots, only checks consecutive candidate triplets (not all combos)
+    to avoid matching unrelated noise far apart in the window.
+    """
+    if len(df) < 60:
+        return False
+
+    lows = df["Low"].values
+    highs = df["High"].values
+    close = df["Close"].values
+    lookback = min(120, len(df))
+    start = len(df) - lookback
+    window = 5
+
+    candidates = []
+    for i in range(start + window, len(df) - window):
+        left = lows[i - window:i]
+        right = lows[i + 1:i + 1 + window]
+        if lows[i] < left.min() and lows[i] < right.min():
+            candidates.append(i)
+
+    if len(candidates) < 3:
+        return False
+
+    for idx in range(len(candidates) - 2):
+        l_idx, h_idx, r_idx = candidates[idx], candidates[idx + 1], candidates[idx + 2]
+        if h_idx - l_idx < 8 or r_idx - h_idx < 8:
+            continue
+        if (r_idx - l_idx) > 90:
+            continue
+        if (len(df) - 1 - r_idx) > 40:
+            continue
+
+        L, H, R = lows[l_idx], lows[h_idx], lows[r_idx]
+        if not (H < L and H < R):
+            continue
+
+        avg_shoulder = (L + R) / 2
+        if avg_shoulder <= 0:
+            continue
+        if abs(L - R) / avg_shoulder > 0.07:
+            continue
+        if (avg_shoulder - H) / avg_shoulder < 0.03:
+            continue  # head not meaningfully lower — not a real H&S
+
+        neckline = min(highs[l_idx:h_idx + 1].max(), highs[h_idx:r_idx + 1].max())
+        if close[-1] >= neckline * 0.98:
+            return True
+
+    return False
+
+
+def detect_cup_and_handle(df):
+    """
+    Bullish continuation: a rounded 'cup' (gradual decline and recovery
+    back near the original high) followed by a shallow 'handle' pullback.
+    NOTE: inherently fuzzier than a geometric pattern like double-bottom
+    or H&S — treat with more skepticism until outcome data validates it.
+    """
+    if len(df) < 80:
+        return False
+
+    n = len(df)
+    cup_window = min(90, n - 10)
+    cup = df.iloc[-(cup_window + 10):-10] if n > cup_window + 10 else df.iloc[:-10]
+    if len(cup) < 30:
+        return False
+
+    left_rim = cup["High"].iloc[:10].max()
+    right_rim = cup["High"].iloc[-10:].max()
+    avg_rim = (left_rim + right_rim) / 2
+    if avg_rim <= 0:
+        return False
+    if abs(left_rim - right_rim) / avg_rim > 0.08:
+        return False
+
+    cup_bottom_pos = int(cup["Low"].values.argmin())
+    rel_pos = cup_bottom_pos / len(cup)
+    if rel_pos < 0.25 or rel_pos > 0.75:
+        return False  # bottom too close to an edge — V-shaped, not rounded
+
+    cup_bottom = float(cup["Low"].iloc[cup_bottom_pos])
+    depth_pct = (avg_rim - cup_bottom) / avg_rim * 100
+    if depth_pct < 12 or depth_pct > 50:
+        return False
+
+    handle = df.iloc[-10:]
+    handle_low = float(handle["Low"].min())
+    handle_pullback_pct = (right_rim - handle_low) / right_rim * 100 if right_rim > 0 else 100
+    if handle_pullback_pct > 15:
+        return False  # handle too deep to be a healthy consolidation
+
+    recent_close = float(df["Close"].iloc[-1])
+    return recent_close >= right_rim * 0.99
+
+
+def detect_bull_flag(df):
+    """
+    Bullish continuation: a sharp rally (the flagpole) followed by a
+    brief, tight, orderly consolidation (the flag) that doesn't give back
+    too much of the pole's gain, then a break above the flag's high.
+    """
+    if len(df) < 25:
+        return False
+
+    pole = df.iloc[-20:-6]
+    flag = df.iloc[-6:]
+    if len(pole) < 8 or len(flag) < 4:
+        return False
+
+    pole_start = float(pole["Close"].iloc[0])
+    pole_end = float(pole["Close"].iloc[-1])
+    if pole_start <= 0:
+        return False
+    pole_gain_pct = (pole_end - pole_start) / pole_start * 100
+    if pole_gain_pct < 12:
+        return False  # not a strong enough flagpole
+
+    flag_high = float(flag["High"].max())
+    flag_low = float(flag["Low"].min())
+    if flag_low <= 0:
+        return False
+    flag_range_pct = (flag_high - flag_low) / flag_low * 100
+    if flag_range_pct > 10:
+        return False  # too volatile to be an orderly flag
+
+    pole_move = pole_end - pole_start
+    if pole_move > 0:
+        retrace_pct = (pole_end - flag_low) / pole_move * 100
+        if retrace_pct > 50:
+            return False  # gave back too much of the rally
+
+    recent_close = float(df["Close"].iloc[-1])
+    return recent_close >= flag_high * 0.995
+
+
 def detect_double_bottom(df):
     """
-    Practical approximate double-bottom detector.
-    Looks for two swing lows within a tolerance and a neckline.
+    Stricter double-bottom detector. Requires:
+    - Genuine swing lows (5-bar window, strict less-than, not just "not higher")
+    - A MEANINGFUL rally between the two lows (the actual "W" shape) — this
+      was missing before, which let any two vaguely-similar lows anywhere
+      in a 120-day window count, regardless of what happened between them.
+    - The second low reasonably recent, so the pattern is still relevant.
     """
     if len(df) < 60:
         return False
 
     close = df["Close"].values
     lows = df["Low"].values
+    highs = df["High"].values
 
     lookback = min(120, len(df))
     start = len(df) - lookback
+    window = 5  # bars on each side required to confirm a genuine swing low
+    min_bounce_pct = 8.0  # the middle rally must clear the lows by at least this much
 
     candidates = []
-
-    for i in range(start + 3, len(df) - 3):
-        if (
-            lows[i] <= lows[i-1]
-            and lows[i] <= lows[i-2]
-            and lows[i] <= lows[i+1]
-            and lows[i] <= lows[i+2]
-        ):
+    for i in range(start + window, len(df) - window):
+        left = lows[i - window:i]
+        right = lows[i + 1:i + 1 + window]
+        if lows[i] < left.min() and lows[i] < right.min():
             candidates.append(i)
 
     if len(candidates) < 2:
@@ -849,27 +992,26 @@ def detect_double_bottom(df):
                 continue
 
             distance = b_idx - a_idx
-
-            if distance < 10 or distance > 80:
+            if distance < 15 or distance > 60:
+                continue
+            # Pattern should still be current, not stale.
+            if (len(df) - 1 - b_idx) > 40:
                 continue
 
-            a = lows[a_idx]
-            b = lows[b_idx]
-
+            a, b = lows[a_idx], lows[b_idx]
             avg_low = (a + b) / 2
             if avg_low <= 0:
                 continue
-
-            # Bottoms should be reasonably similar.
             if abs(a - b) / avg_low > 0.04:
                 continue
 
-            neckline = max(high for high in df["High"].iloc[a_idx:b_idx+1])
+            middle_peak = highs[a_idx:b_idx + 1].max()
+            bounce_pct = ((middle_peak - avg_low) / avg_low) * 100
+            if bounce_pct < min_bounce_pct:
+                continue  # no real "W" shape — just noise near a similar level
 
             recent_close = close[-1]
-
-            # Price should be near/above neckline for a valid setup.
-            if recent_close >= neckline * 0.97:
+            if recent_close >= middle_peak * 0.97:
                 return True
 
     return False
@@ -889,7 +1031,7 @@ def detect_higher_high_higher_low(df):
 
     return (
         recent_high >= previous_high
-        and recent_low >= previous_low * 0.97
+        and recent_low >= previous_low * 0.995
     )
 
 
@@ -1116,6 +1258,9 @@ def analyze_daily(symbol, df):
     patterns = detect_candlestick_patterns(x)
     golden_cross = detect_golden_cross(x)
     double_bottom = detect_double_bottom(x)
+    inverse_hs = detect_inverse_head_and_shoulders(x)
+    cup_and_handle = detect_cup_and_handle(x)
+    bull_flag = detect_bull_flag(x)
     hh_hl = detect_higher_high_higher_low(x)
     near_breakout = detect_near_breakout(x)
     breakout = detect_breakout(x)
@@ -1174,6 +1319,18 @@ def analyze_daily(symbol, df):
         score += 10
         reasons.append("Double Bottom")
 
+    if inverse_hs:
+        score += 11
+        reasons.append("Inverse Head & Shoulders")
+
+    if cup_and_handle:
+        score += 8
+        reasons.append("Cup and Handle")
+
+    if bull_flag:
+        score += 8
+        reasons.append("Bull Flag")
+
     if near_breakout:
         score += 6
         reasons.append("Near Breakout")
@@ -1218,18 +1375,28 @@ def analyze_daily(symbol, df):
 
     score = min(100, score)
 
-    if breakout:
-        setup = "BREAKOUT"
-    elif double_bottom:
-        setup = "DOUBLE BOTTOM"
-    elif golden_cross:
-        setup = "GOLDEN CROSS"
-    elif near_breakout:
-        setup = "NEAR BREAKOUT"
-    elif hh_hl:
-        setup = "UPTREND"
-    else:
-        setup = "BULLISH"
+    # Setup label: pick the STRONGEST genuinely confirmed setup, not just
+    # the first one checked. Ordered by real technical reliability, from
+    # combination setups (strongest — multiple signals confirming together)
+    # down to a generic fallback. This also lets a stock get credit for a
+    # combo like "Golden Cross + Breakout" instead of just showing
+    # "Breakout" and hiding that a golden cross confirmed it too.
+    setup_candidates = [
+        ("GOLDEN CROSS + BREAKOUT", golden_cross and breakout),
+        ("INVERSE HEAD & SHOULDERS BREAKOUT", inverse_hs and breakout),
+        ("DOUBLE BOTTOM BREAKOUT", double_bottom and breakout),
+        ("BREAKOUT", breakout),
+        ("INVERSE HEAD & SHOULDERS", inverse_hs),
+        ("DOUBLE BOTTOM", double_bottom),
+        ("CUP AND HANDLE", cup_and_handle),
+        ("GOLDEN CROSS", golden_cross),
+        ("BULL FLAG", bull_flag),
+        ("CANDLESTICK REVERSAL", bool(patterns) and near_breakout),
+        ("NEAR BREAKOUT", near_breakout),
+        ("UPTREND CONTINUATION", hh_hl),
+        ("BULLISH", True),  # fallback — always matches last
+    ]
+    setup = next(label for label, matched in setup_candidates if matched)
 
     stop_loss = close - (1.5 * atr) if atr > 0 else close * 0.97
     target1 = close + (2.0 * atr) if atr > 0 else close * 1.04
@@ -1246,6 +1413,9 @@ def analyze_daily(symbol, df):
         "dema_alignment": bool(dema_alignment),
         "golden_cross": bool(golden_cross),
         "double_bottom": bool(double_bottom),
+        "inverse_hs": bool(inverse_hs),
+        "cup_and_handle": bool(cup_and_handle),
+        "bull_flag": bool(bull_flag),
         "hh_hl": bool(hh_hl),
         "near_breakout": bool(near_breakout),
         "breakout": bool(breakout),
@@ -1582,6 +1752,7 @@ FEATURE_NAMES = [
     "rsi", "adx", "daily_volume_ratio", "daily_score", "news_score",
     "combined_score", "intraday_score", "intraday_volume_ratio",
     "ema_alignment", "dema_alignment", "golden_cross", "double_bottom",
+    "inverse_hs", "cup_and_handle", "bull_flag",
     "hh_hl", "near_breakout", "macd_bullish", "macd_cross",
     "obv_accumulation", "has_patterns", "move_since_morning_pct",
     "move_from_open_pct",
@@ -1604,6 +1775,9 @@ def build_feature_dict(morning_item, intraday_score, intraday_volume_ratio, move
         "dema_alignment": 1.0 if t["dema_alignment"] else 0.0,
         "golden_cross": 1.0 if t["golden_cross"] else 0.0,
         "double_bottom": 1.0 if t["double_bottom"] else 0.0,
+        "inverse_hs": 1.0 if t.get("inverse_hs") else 0.0,
+        "cup_and_handle": 1.0 if t.get("cup_and_handle") else 0.0,
+        "bull_flag": 1.0 if t.get("bull_flag") else 0.0,
         "hh_hl": 1.0 if t["hh_hl"] else 0.0,
         "near_breakout": 1.0 if t["near_breakout"] else 0.0,
         "macd_bullish": 1.0 if t["macd_bullish"] else 0.0,
