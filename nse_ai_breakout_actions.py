@@ -124,6 +124,12 @@ LEARNING_FULL_INFLUENCE_SAMPLES = int(os.getenv("LEARNING_FULL_INFLUENCE_SAMPLES
 # guard). Format: "YYYY-MM-DD". Leave empty to include all history.
 RETRAIN_MIN_DATE = os.getenv("RETRAIN_MIN_DATE", "").strip()
 
+# Bullish targets are sized from DAILY ATR (unlike the short bot), meaning
+# they're designed for multi-day swings — a trade taking 1-2 days to
+# resolve is expected, not a failure. Give a pending trade this many
+# trading days before giving up and marking it a timeout.
+MAX_HOLDING_DAYS = int(os.getenv("MAX_HOLDING_DAYS", "5"))
+
 # News
 NEWS_LOOKBACK_HOURS = int(os.getenv("NEWS_LOOKBACK_HOURS", "30"))
 MAX_NEWS_ITEMS = int(os.getenv("MAX_NEWS_ITEMS", "5"))
@@ -2301,98 +2307,135 @@ def record_new_alert(signal, morning_item):
     save_alert_history(history)
 
 
+def _trading_days_pending(alert_date_str, today_date_str):
+    try:
+        rng = pd.bdate_range(start=alert_date_str, end=today_date_str)
+        return max(0, len(rng) - 1)
+    except Exception:
+        return 0
+
+
+def _check_bars_for_outcome(rec, bars):
+    """
+    Walks bars in chronological order checking SL/T1/T2 hits. Mutates rec
+    in place. Returns True if resolved (SL or a target was hit).
+    """
+    entry, sl, t1, t2 = rec["entry_price"], rec["sl"], rec["target1"], rec["target2"]
+
+    for ts, bar in bars.iterrows():
+        high, low = float(bar["High"]), float(bar["Low"])
+
+        fav_pct = ((high - entry) / entry) * 100
+        adv_pct = ((entry - low) / entry) * 100
+        rec["max_favorable_pct"] = round(max(rec["max_favorable_pct"], fav_pct), 2)
+        rec["max_adverse_pct"] = round(max(rec["max_adverse_pct"], adv_pct), 2)
+
+        hit_sl, hit_t2, hit_t1 = low <= sl, high >= t2, high >= t1
+        if hit_sl or hit_t1 or hit_t2:
+            if hit_sl:
+                rec["outcome"], rec["exit_price"] = "STOPLOSS_HIT", sl
+            elif hit_t2:
+                rec["outcome"], rec["exit_price"] = "TARGET2_HIT", t2
+            else:
+                rec["outcome"], rec["exit_price"] = "TARGET1_HIT", t1
+            rec["exit_time"] = ts.isoformat()
+            return True
+
+    return False
+
+
 def update_pending_outcomes(finalize_eod=False):
     """
-    For every PENDING alert from today, walk forward through intraday bars
-    since the alert and check — in chronological order — whether SL,
-    target1, or target2 was touched first. Also tracks the best/worst
-    price reached so far (max_favorable_pct / max_adverse_pct), which
-    matters for exactly the case you flagged: a stock that spiked +10%
-    intraday but drifted back to +2% by day end. Even if no clean target
-    was hit, we still know it *could* have been a big winner with a
-    tighter exit.
+    Checks EVERY pending alert (not just today's — a trade sized from
+    daily ATR can legitimately take a few days to resolve) and walks
+    forward chronologically to see whether SL, target1, or target2 was
+    touched first. Also tracks max_favorable_pct / max_adverse_pct.
 
-    If finalize_eod=True, any still-PENDING alert is closed out as
-    "NO_TARGET_EOD" using the latest available price — meant to be called
-    once after market close.
+    Same-day alerts use fine-grained 5-min intraday bars. Older pending
+    alerts (from a previous day) switch to daily bars, since intraday
+    history isn't retained that far back anyway.
+
+    If finalize_eod=True, a pending alert is only force-closed as
+    "NO_TARGET_TIMEOUT" once it's been pending for MAX_HOLDING_DAYS
+    trading days — NOT on day one. Before that, it's correctly left as
+    PENDING so tomorrow's check can pick it back up.
     """
     history = load_alert_history()
     today = today_str()
     changed = False
 
     for rec in history:
-        if rec.get("date") != today or rec.get("outcome") != "PENDING":
+        if rec.get("outcome") != "PENDING":
             continue
 
         symbol = rec["symbol"]
-        df = yf_intraday(symbol)
-        if df is None or df.empty:
-            continue
+        alert_date = rec.get("date", today)
+        days_pending = _trading_days_pending(alert_date, today)
+        resolved = False
 
         try:
-            idx = _tz_naive_index(df)
-            df = df.copy()
-            df.index = idx
+            if alert_date == today:
+                df = yf_intraday(symbol)
+                if df is None or df.empty:
+                    continue
+                idx = _tz_naive_index(df)
+                df = df.copy()
+                df.index = idx
 
-            anchor = pd.to_datetime(rec["bar_time"])
-            try:
-                anchor = anchor.tz_localize(None)
-            except TypeError:
-                pass
+                anchor = pd.to_datetime(rec["bar_time"])
+                try:
+                    anchor = anchor.tz_localize(None)
+                except TypeError:
+                    pass
 
-            bars_since = df.loc[df.index > anchor]
-            if bars_since.empty:
-                continue
+                bars = df.loc[df.index > anchor]
+                if bars.empty:
+                    continue
 
-            entry = rec["entry_price"]
-            sl = rec["sl"]
-            t1 = rec["target1"]
-            t2 = rec["target2"]
-
-            resolved = False
-            for ts, bar in bars_since.iterrows():
-                high = float(bar["High"])
-                low = float(bar["Low"])
-
-                fav_pct = ((high - entry) / entry) * 100
-                adv_pct = ((entry - low) / entry) * 100
-                rec["max_favorable_pct"] = round(max(rec["max_favorable_pct"], fav_pct), 2)
-                rec["max_adverse_pct"] = round(max(rec["max_adverse_pct"], adv_pct), 2)
-
-                hit_sl = low <= sl
-                hit_t2 = high >= t2
-                hit_t1 = high >= t1
-
-                if hit_sl or hit_t1 or hit_t2:
-                    # Conservative: if SL and a target are touched in the
-                    # same bar, assume the worst case (SL first).
-                    if hit_sl:
-                        rec["outcome"] = "STOPLOSS_HIT"
-                        rec["exit_price"] = sl
-                    elif hit_t2:
-                        rec["outcome"] = "TARGET2_HIT"
-                        rec["exit_price"] = t2
-                    else:
-                        rec["outcome"] = "TARGET1_HIT"
-                        rec["exit_price"] = t1
-                    rec["exit_time"] = ts.isoformat()
-                    resolved = True
+                resolved = _check_bars_for_outcome(rec, bars)
+                if resolved:
                     changed = True
-                    break
+                last_price_for_timeout = float(bars["Close"].iloc[-1])
+                last_time_for_timeout = bars.index[-1]
+
+            else:
+                # 1+ days old — intraday history won't reach back this far,
+                # so use daily bars for the days since the alert.
+                daily = yf_daily(symbol)
+                if daily is None or daily.empty:
+                    continue
+
+                alert_dt = pd.to_datetime(alert_date)
+                bars = daily.loc[pd.to_datetime(daily.index) > alert_dt]
+                if bars.empty:
+                    continue
+
+                resolved = _check_bars_for_outcome(rec, bars)
+                if resolved:
+                    changed = True
+                last_price_for_timeout = float(bars["Close"].iloc[-1])
+                last_time_for_timeout = bars.index[-1]
 
             if not resolved:
-                changed = True  # max_favorable/adverse pct may have updated
-                if finalize_eod:
-                    last_close = float(bars_since["Close"].iloc[-1])
-                    rec["outcome"] = "NO_TARGET_EOD"
-                    rec["exit_price"] = round(last_close, 2)
-                    rec["exit_time"] = bars_since.index[-1].isoformat()
+                changed = True  # max_favorable/adverse may have updated regardless
+                if finalize_eod and days_pending >= MAX_HOLDING_DAYS:
+                    rec["outcome"] = "NO_TARGET_TIMEOUT"
+                    rec["exit_price"] = round(last_price_for_timeout, 2)
+                    rec["exit_time"] = (
+                        last_time_for_timeout.isoformat()
+                        if hasattr(last_time_for_timeout, "isoformat")
+                        else str(last_time_for_timeout)
+                    )
+                # else: correctly leave as PENDING — still within the
+                # holding window, will be re-checked again tomorrow.
 
         except Exception as e:
             log.debug("Outcome tracking failed for %s: %s", symbol, e)
 
     if changed:
         save_alert_history(history)
+
+    return history
 
     return history
 
@@ -2469,9 +2512,10 @@ def cmd_eod_finalize():
 
     today = today_str()
     today_records = [r for r in history if r.get("date") == today]
+    still_open_total = [r for r in history if r.get("outcome") == "PENDING"]
 
-    if not today_records:
-        log.info("No alerts were recorded today.")
+    if not today_records and not still_open_total:
+        log.info("No alerts recorded today, and nothing still open.")
         return
 
     counts = {}
@@ -2480,25 +2524,33 @@ def cmd_eod_finalize():
 
     wins = counts.get("TARGET1_HIT", 0) + counts.get("TARGET2_HIT", 0)
     losses = counts.get("STOPLOSS_HIT", 0)
-    no_target = counts.get("NO_TARGET_EOD", 0)
+    timed_out = counts.get("NO_TARGET_TIMEOUT", 0)
+    still_pending_today = counts.get("PENDING", 0)
     total = len(today_records)
 
-    avg_mfe = sum(r["max_favorable_pct"] for r in today_records) / total
-    avg_mae = sum(r["max_adverse_pct"] for r in today_records) / total
+    msg = f"📊 *End-of-Day Alert Report — {today}*\n" + ("━" * 20) + "\n"
 
-    msg = (
-        f"📊 *End-of-Day Alert Report — {today}*\n"
-        f"━━━━━━━━━━━━━━━━━━━━\n"
-        f"Total alerts: {total}\n"
-        f"🎯 Target hit: {wins}\n"
-        f"🛑 Stop-loss hit: {losses}\n"
-        f"➖ No target/SL hit: {no_target}\n\n"
-        f"📈 Avg best move reached: +{avg_mfe:.2f}%\n"
-        f"📉 Avg worst drawdown reached: -{avg_mae:.2f}%\n\n"
-        f"This data feeds the weekly self-learning retrain."
-    )
+    if total:
+        avg_mfe = sum(r["max_favorable_pct"] for r in today_records) / total
+        avg_mae = sum(r["max_adverse_pct"] for r in today_records) / total
+        msg += (
+            f"Today's alerts: {total}\n"
+            f"🎯 Target hit: {wins}\n"
+            f"🛑 Stop-loss hit: {losses}\n"
+            f"⏳ Still open (carrying to tomorrow): {still_pending_today}\n"
+            f"⌛ Timed out (no target after {MAX_HOLDING_DAYS} days): {timed_out}\n\n"
+            f"📈 Avg best move reached: +{avg_mfe:.2f}%\n"
+            f"📉 Avg worst drawdown reached: -{avg_mae:.2f}%\n\n"
+        )
+    else:
+        msg += "No new alerts today.\n\n"
+
+    if still_open_total:
+        msg += f"📦 Total open positions across all days: {len(still_open_total)}\n\n"
+
+    msg += "This data feeds the weekly self-learning retrain."
     tg_send(msg)
-    log.info("EOD finalize complete: %s", counts)
+    log.info("EOD finalize complete: %s (total open: %s)", counts, len(still_open_total))
 
 
 # ============================================================
@@ -2511,7 +2563,7 @@ def cmd_retrain():
 
     resolved = [
         r for r in history
-        if r.get("outcome") in ("TARGET1_HIT", "TARGET2_HIT", "STOPLOSS_HIT", "NO_TARGET_EOD")
+        if r.get("outcome") in ("TARGET1_HIT", "TARGET2_HIT", "STOPLOSS_HIT", "NO_TARGET_TIMEOUT")
         and r.get("features")
     ]
 
