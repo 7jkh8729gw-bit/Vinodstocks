@@ -107,120 +107,14 @@
       "first_seen_at": "2026-09-10T06:18:55.732287"
     },
     {
-      "symbol": "KROSS",
-      "base": {
-        "symbol": "KROSS",
-        "price": 234.06,
-        "day_change": 6.39,
-        "volume": 7419829,
-        "avg_volume": 712927,
-        "volume_ratio": 16.33,
-        "high_52w": 240.8,
-        "pct_from_high": 2.88,
-        "market_cap": 1509.91
-      },
-      "technical": {
-        "symbol": "KROSS",
-        "close": 234.05999755859375,
-        "rsi": 71.01,
-        "adx": 30.3,
-        "atr": 8.75,
-        "volume_ratio": 10.01,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": false,
-        "cup_and_handle": true,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": true,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 89,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Cup and Handle",
-          "Near Breakout",
-          "Confirmed Breakout",
-          "3 White Soldiers",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "Volume Expansion",
-          "OBV Accumulation",
-          "Strong Volume"
-        ],
-        "stop_loss": 220.93,
-        "target1": 251.56,
-        "target2": 264.69
-      },
-      "news": {
-        "score": 60,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Kross Share Price Target 2027, 2028 & 2030: Long-Term Analyst Forecast - Univest",
-            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9yY0FXQzcxdHBSU0doZzZ6RHZJcGNueDVINWFzdWRzMm84ZFVxcVJqX0Mtejc2MDZ3UThXMHBtRldaN1VWdDdBclREM3ZyN1RYb0NhbzNudGdJeEZYR3MxX2V2Z3lkNmJZMDRLMWZoTjNKQQ?oc=5",
-            "published": "Thu, 13 Aug 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "Kross Ltd files FY26 annual report with BSE and NSE - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQUkxhVXdTRzd0Zjhlb0pGVDNOM2l3OWEyZlpJRUxFRUszVDJpdmRqdVNaUlpFbHVrVF9uQjVXVFgtdFVyeDBWT2JiZDFtdDVfcVZXbDlqOF9tdU00NDd6RE9zODVNVDhGOXRIYkdMbVNVM2lVWjhER3hjcWtSenNCU3lNaTFHdHU0RWxEd2I2MFJrYW1VRHYxR0s5T3FWYTVB?oc=5",
-            "published": "Thu, 20 Aug 2026 10:20:50 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Kross Limited NSE:KROSS preferential issue board meeting August 2026 - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNNGJkbmZadk1CQmp3eTQycE5Fa3NaZnpMSnF0Y3QzODlMLS1ibldqLXQ5dUJTdGk4YTNkY3ZMOTd0Mm5FOU81aDV4RlBVcmJfRlhsMEdWSVNRaER0Q01MZGhvMmZ0US10RjRhMXpVYW9tcTZOREg4ckVkbGRKbkFPWmFGTnN5cmFPVUE1S1pKNFhCNDhrdWNPWlRkRUxhQTFpYU53YTVObjZrZEN6dlZYMnhwOXh1N1gxczVWT1FaNmkyRlNoSGc?oc=5",
-            "published": "Mon, 31 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Kross Limited's (NSE:KROSS) Stock Is Going Strong: Have Financials A Role To Play? - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQdzlLcUVCWXVhSFJnY0ZOZzNhb2pqeU43TnQ4RkdBaWJPWEJlUmg3MU1oYlNJbXF3dUc2bGVPRWFHTEtsZ3BfQzhFcHN1c1daZFlyUVc0cFhDM2h2ZEJOYzliLTRVVjNZbGgxWVQ5YUhUOFBpaFQyYUgwbFgwc016aDYwMVBURzNoaW9nREwyQkZFMHF2MmhiRklmUnBCYXgwb29pSnctWUNYbmJ3WFJNbEdOYkV6Q0o3VzIwcUdwVWRoX2d0Ql9XUWpSOHZaTlHSAdQBQVVfeXFMTUdwRG5VekE0THhFUWw1aXBacEprdDhzX3hmSHpoekF5aDl1dl9qQUU1YlplMExyM1RkZWN1N0lSMkNBWkQzRkpYMnJTcDVrcHY5WEtSeXZiX3lIV3NNRm9yUmpsek01NnFtUmk2MEZ2eGI2ejBfdEJjX3YtVmxDWjlmaDNkNVFHUERJTXZPakl3enQzLWRMSnh1dGR0T3ZLakg4MFBhUm54dEJVQXIxdXlQX3lXN3owQXN3R0VEZlplenFNWXQ3ZmZSeGg4RkVzb1UtR0E?oc=5",
-            "published": "Tue, 23 Dec 2025 08:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "KROSS LIMITED Share Price - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBPME1WdkdlTFVKVDdmdVBjdVA5UGhidnE1XzIxWG1rS2NQdkx2ZWtKRzNjcGhiMWRXWWhlS2RGQ3hFWDNjQnUyTUI0b3VBdHRHWjVFVDdjNHZ0U2R0blpZV29B?oc=5",
-            "published": "Tue, 05 May 2026 11:35:34 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 22,
-      "combined_score": 83.0,
-      "added_at": "2026-09-10T13:14:11.635938",
-      "signal_state": "WATCHING",
-      "first_seen_price": 231.71,
-      "first_seen_at": "2026-09-10T11:13:05.663329"
-    },
-    {
       "symbol": "LOTUSDEV",
       "base": {
         "symbol": "LOTUSDEV",
         "price": 207.88,
         "day_change": 5.0,
-        "volume": 11323714,
-        "avg_volume": 1436895,
-        "volume_ratio": 12.37,
+        "volume": 11350661,
+        "avg_volume": 1438178,
+        "volume_ratio": 10.96,
         "high_52w": 207.88,
         "pct_from_high": 0.0,
         "market_cap": 10159.59
@@ -231,7 +125,7 @@
         "rsi": 71.25,
         "adx": 23.69,
         "atr": 8.65,
-        "volume_ratio": 7.91,
+        "volume_ratio": 7.93,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -270,7 +164,7 @@
         "target2": 238.14
       },
       "news": {
-        "score": 65,
+        "score": 80,
         "label": "Bullish",
         "headlines": [
           {
@@ -281,14 +175,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Sri Lotus Developers and Realty Ltd Inches Up 1.2%, Approaches Resistance at \u20b9144.77 - High Low Breadth - siam.in",
-            "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOMTVBUWlwUXUzc09NeVZYLWxUc1JrYlJjakZkX0Mybk5CRndCby1tQWdsUm1SRzlTT3AyZFY4QlBOUGRDMmx6Qk5mazd5eUlPaGpuX29wNG93YlhxNVNzRk1BRE9EaXNuZHVrcXpKcnpvNlkxRnJDM0pCX0hfWS1HZk1EM2lfRDZHZ05zTVJqRVh6eENLY2FBdGlZdEsyS1llcVVwb3RPOUthanhCbTh4Vmo2MzlhOG81Z2psbHlB?oc=5",
-            "published": "Fri, 29 May 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Why Is Sri Lotus Developers and Realty Share Price Falling Key Reasons 2026 - Univest",
+            "title": "Why Is Sri Lotus Developers and Realty Share Price Falling Key Reasons 2026 - univest.in",
             "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPSThjZFJXQk15aTFDSlhmbjUxQ3hCQnpNcjk2U1YxdzBZRFQySTNuTGlRdUtjdC0wOHY4SU1DY0RpWkdyektkZThhRmJRd3hxWnpwb2U4dTZVcTVrbGZkTUpsWHVaQ2FvOEo0WHpieURwQkhfMkhQOGZsVHRXUncxSjdOTHpTckVZaXhv?oc=5",
             "published": "Tue, 16 Jun 2026 07:00:00 GMT",
             "score": 0,
@@ -307,36 +194,149 @@
             "published": "Thu, 08 Jan 2026 08:00:00 GMT",
             "score": 0,
             "label": "Neutral"
+          },
+          {
+            "title": "LOTUSDEV Mar 2026 Earnings: EPS of \u20b90.57 on Revenue of \u20b938.0 Crore; Stock Gains 3.69% - Analyst Coverage Count - vinanet.vn",
+            "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSmh6OEt6VHVoTmMxb2YxNVpmdVlhSEk1Uk1Gd0hhdXZkNERxV3FnRnk1cjAzWktSNnQ0c2RGT0VTSkp3TVdqbmNDdExKWFV3akkzejhVTDJTTnhUZ1JSNGw1Ymk1eDZxd0VoZFdnVzJINFloR3owbThoaW44LU9oc2M0YlV6V293aGowQTgwYWRCMXM5d2syMTQ2SjBPdlFYN25oa3RpODJVLXpUcDlmeTluYlpFZTRSMm00?oc=5",
+            "published": "Sun, 14 Jun 2026 07:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
           }
         ]
       },
       "core_score": 25,
-      "combined_score": 82.6,
-      "added_at": "2026-09-10T13:14:13.619031",
+      "combined_score": 85.6,
+      "added_at": "2026-09-10T13:45:41.083540",
       "signal_state": "WATCHING",
       "first_seen_price": 205.0,
       "first_seen_at": "2026-09-10T09:45:22.439406"
     },
     {
+      "symbol": "KROSS",
+      "base": {
+        "symbol": "KROSS",
+        "price": 234.15,
+        "day_change": 6.43,
+        "volume": 7860332,
+        "avg_volume": 733903,
+        "volume_ratio": 14.88,
+        "high_52w": 240.8,
+        "pct_from_high": 2.84,
+        "market_cap": 1510.49
+      },
+      "technical": {
+        "symbol": "KROSS",
+        "close": 234.14999389648438,
+        "rsi": 71.05,
+        "adx": 30.3,
+        "atr": 8.75,
+        "volume_ratio": 10.3,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": true,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 89,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Cup and Handle",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 221.02,
+        "target1": 251.65,
+        "target2": 264.78
+      },
+      "news": {
+        "score": 60,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Kross Ltd files FY26 annual report with BSE and NSE - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQUkxhVXdTRzd0Zjhlb0pGVDNOM2l3OWEyZlpJRUxFRUszVDJpdmRqdVNaUlpFbHVrVF9uQjVXVFgtdFVyeDBWT2JiZDFtdDVfcVZXbDlqOF9tdU00NDd6RE9zODVNVDhGOXRIYkdMbVNVM2lVWjhER3hjcWtSenNCU3lNaTFHdHU0RWxEd2I2MFJrYW1VRHYxR0s5T3FWYTVB?oc=5",
+            "published": "Thu, 20 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Kross Share Price Target 2027, 2028 & 2030: Long-Term Analyst Forecast - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9yY0FXQzcxdHBSU0doZzZ6RHZJcGNueDVINWFzdWRzMm84ZFVxcVJqX0Mtejc2MDZ3UThXMHBtRldaN1VWdDdBclREM3ZyN1RYb0NhbzNudGdJeEZYR3MxX2V2Z3lkNmJZMDRLMWZoTjNKQQ?oc=5",
+            "published": "Thu, 13 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Kross Limited NSE:KROSS preferential issue board meeting August 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNNGJkbmZadk1CQmp3eTQycE5Fa3NaZnpMSnF0Y3QzODlMLS1ibldqLXQ5dUJTdGk4YTNkY3ZMOTd0Mm5FOU81aDV4RlBVcmJfRlhsMEdWSVNRaER0Q01MZGhvMmZ0US10RjRhMXpVYW9tcTZOREg4ckVkbGRKbkFPWmFGTnN5cmFPVUE1S1pKNFhCNDhrdWNPWlRkRUxhQTFpYU53YTVObjZrZEN6dlZYMnhwOXh1N1gxczVWT1FaNmkyRlNoSGc?oc=5",
+            "published": "Mon, 31 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Kross Limited's (NSE:KROSS) Stock Is Going Strong: Have Financials A Role To Play? - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQdzlLcUVCWXVhSFJnY0ZOZzNhb2pqeU43TnQ4RkdBaWJPWEJlUmg3MU1oYlNJbXF3dUc2bGVPRWFHTEtsZ3BfQzhFcHN1c1daZFlyUVc0cFhDM2h2ZEJOYzliLTRVVjNZbGgxWVQ5YUhUOFBpaFQyYUgwbFgwc016aDYwMVBURzNoaW9nREwyQkZFMHF2MmhiRklmUnBCYXgwb29pSnctWUNYbmJ3WFJNbEdOYkV6Q0o3VzIwcUdwVWRoX2d0Ql9XUWpSOHZaTlHSAdQBQVVfeXFMTUdwRG5VekE0THhFUWw1aXBacEprdDhzX3hmSHpoekF5aDl1dl9qQUU1YlplMExyM1RkZWN1N0lSMkNBWkQzRkpYMnJTcDVrcHY5WEtSeXZiX3lIV3NNRm9yUmpsek01NnFtUmk2MEZ2eGI2ejBfdEJjX3YtVmxDWjlmaDNkNVFHUERJTXZPakl3enQzLWRMSnh1dGR0T3ZLakg4MFBhUm54dEJVQXIxdXlQX3lXN3owQXN3R0VEZlplenFNWXQ3ZmZSeGg4RkVzb1UtR0E?oc=5",
+            "published": "Tue, 23 Dec 2025 08:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "KROSS LIMITED Share Price - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBPME1WdkdlTFVKVDdmdVBjdVA5UGhidnE1XzIxWG1rS2NQdkx2ZWtKRzNjcGhiMWRXWWhlS2RGQ3hFWDNjQnUyTUI0b3VBdHRHWjVFVDdjNHZ0U2R0blpZV29B?oc=5",
+            "published": "Tue, 05 May 2026 11:35:34 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 83.0,
+      "added_at": "2026-09-10T13:45:38.446400",
+      "signal_state": "WATCHING",
+      "first_seen_price": 231.71,
+      "first_seen_at": "2026-09-10T11:13:05.663329"
+    },
+    {
       "symbol": "REDINGTON",
       "base": {
         "symbol": "REDINGTON",
-        "price": 394.1,
-        "day_change": 4.12,
-        "volume": 19475101,
-        "avg_volume": 6083731,
-        "volume_ratio": 5.02,
+        "price": 393.95,
+        "day_change": 4.08,
+        "volume": 20144576,
+        "avg_volume": 6115610,
+        "volume_ratio": 4.56,
         "high_52w": 403.25,
-        "pct_from_high": 2.32,
-        "market_cap": 30809.73
+        "pct_from_high": 2.36,
+        "market_cap": 30798.0
       },
       "technical": {
         "symbol": "REDINGTON",
-        "close": 394.1000061035156,
-        "rsi": 71.01,
+        "close": 393.95001220703125,
+        "rsi": 70.97,
         "adx": 45.09,
         "atr": 14.64,
-        "volume_ratio": 3.11,
+        "volume_ratio": 3.2,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -369,9 +369,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 372.14,
-        "target1": 423.37,
-        "target2": 445.33
+        "stop_loss": 371.99,
+        "target1": 423.22,
+        "target2": 445.18
       },
       "news": {
         "score": 75,
@@ -406,7 +406,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Pros and Cons of Investing in Redington India Share: IT Distribution Analysis 2026 - Univest",
+            "title": "Pros and Cons of Investing in Redington India Share: IT Distribution Analysis 2026 - univest.in",
             "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQYVdkcFVHUWtvbXdjeFNJS21STHREQXFsRDVJODBxRzJqM2l6SFI4dnBNWlNrRHJBTXdwOHIzdng1Z1cxV0xKdWJhVHAwT21Ia3VNQ09Cb1pXN0NHakxmYXc5QzJqY1ZWazUySnl2dk9YV2pEbkxWV3A2cmF3LVE1ZkJR?oc=5",
             "published": "Tue, 11 Aug 2026 07:00:00 GMT",
             "score": 0,
@@ -416,7 +416,7 @@
       },
       "core_score": 25,
       "combined_score": 79.1,
-      "added_at": "2026-09-10T13:14:40.385197",
+      "added_at": "2026-09-10T13:46:06.711350",
       "signal_state": "WATCHING",
       "first_seen_price": 382.5,
       "first_seen_at": "2026-09-10T09:46:03.852450"
@@ -425,22 +425,22 @@
       "symbol": "NOCIL",
       "base": {
         "symbol": "NOCIL",
-        "price": 196.75,
-        "day_change": 4.65,
-        "volume": 4860180,
-        "avg_volume": 1073838,
-        "volume_ratio": 7.1,
+        "price": 198.89,
+        "day_change": 5.79,
+        "volume": 5053729,
+        "avg_volume": 1083055,
+        "volume_ratio": 6.48,
         "high_52w": 204.5,
-        "pct_from_high": 3.94,
-        "market_cap": 3286.22
+        "pct_from_high": 2.82,
+        "market_cap": 3321.96
       },
       "technical": {
         "symbol": "NOCIL",
-        "close": 196.75,
-        "rsi": 80.03,
+        "close": 198.88999938964844,
+        "rsi": 80.95,
         "adx": 28.71,
         "atr": 6.64,
-        "volume_ratio": 4.34,
+        "volume_ratio": 4.48,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -474,9 +474,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 186.78,
-        "target1": 210.04,
-        "target2": 220.01
+        "stop_loss": 188.92,
+        "target1": 212.18,
+        "target2": 222.15
       },
       "news": {
         "score": 55,
@@ -497,7 +497,7 @@
             "label": "Neutral"
           },
           {
-            "title": "3 Fundamentally Strong Petrochemical Stocks in India (2026) - Univest",
+            "title": "3 Fundamentally Strong Petrochemical Stocks in India (2026) - univest.in",
             "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1uclBhWEhZU3pQalRwS0RqS3NhclpPTWV1ZGJYQmU4Mm44UUlSOTNWVmZhQVZxWl9CemtVRWNhZUZqS1FDUllVejlveEg0eW9fNW52ZV9jY2ljMFFycG13YjZSTTNiTnpKQjNObWVtSzEwR3FTcl9SQnBkeE0?oc=5",
             "published": "Thu, 20 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -519,9 +519,9 @@
           }
         ]
       },
-      "core_score": 23,
-      "combined_score": 78.6,
-      "added_at": "2026-09-10T13:14:27.466900",
+      "core_score": 22,
+      "combined_score": 77.6,
+      "added_at": "2026-09-10T13:45:53.573810",
       "signal_state": "WATCHING",
       "first_seen_price": 188.28,
       "first_seen_at": "2026-09-10T06:19:25.175801"
@@ -937,6 +937,108 @@
       "first_seen_at": "2026-09-10T06:18:23.460226"
     },
     {
+      "symbol": "SHAREINDIA",
+      "base": {
+        "symbol": "SHAREINDIA",
+        "price": 206.6,
+        "day_change": 9.05,
+        "volume": 47526908,
+        "avg_volume": 3907110,
+        "volume_ratio": 16.83,
+        "high_52w": 212.33,
+        "pct_from_high": 2.77,
+        "market_cap": 4520.94
+      },
+      "technical": {
+        "symbol": "SHAREINDIA",
+        "close": 206.60000610351562,
+        "rsi": 78.3,
+        "adx": 24.28,
+        "atr": 7.87,
+        "volume_ratio": 11.61,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 76,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 194.8,
+        "target1": 222.33,
+        "target2": 234.14
+      },
+      "news": {
+        "score": 45,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Share India Securities Ltd Revenue Breakdown \u2013 NSE:SHAREINDIA - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5aNzhpWjlCZmpzNmNhV0ZodXBERVZJUVR5enZibldhbnQ0SExoeFNFTlhJR2NqbVFxMlVnN2NxLVA3ZDI1dFh6akxCeDBrUnhVQlpyN3NkcFg1U0FsNDJCaFhpUzMwRTFXZ2VnVzBTZ3JVLVZ4c29SMk5pTQ?oc=5",
+            "published": "Sat, 25 Jul 2026 05:02:50 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Share India Securities receives penalty of \u20b95,09,000 from NSE - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPSjUxOXpNUTFsTGRwcHhmMmZPODFZT1FtT0NOV3RSckFSSVA3WFpTYzFuQlVLUEVkMlNaN0ItOGgyLXdhVHJvWnhJNTB4QW56TjNmcFBWdnM1LXpZTXgyRTdBdnZ6YUtnRWJnaFNFNkp2bkZXclpoaUJ5Um1OcE9VMGlWRUVTVVhnWE5Md2ZnUWZoYml0YTRFWVJMdGRJeDRSM0NOU1ZxYlZVSVQ5TmpfaVhKanVqZw?oc=5",
+            "published": "Tue, 23 Jun 2026 18:55:22 GMT",
+            "score": -3,
+            "label": "Neutral"
+          },
+          {
+            "title": "Share India Securities (NSE:SHAREINDIA): Did NCD Holders Approve Early Redemption? - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSV9VN0RiNHFNLUp1ZWhYWHV5TjdsRDhPQU51NHZNd096ZTlHNzJ0SGRTbTF6TmVwMW5QbXpRblBONEl0Wk8yZ1J0aTg0RjZkZjBQV3FOWHg2SlJycmxVZ2FDekYwVjBxZVFSTkFyZVNMQVl0RFZLVUVneEs4X0U0eDE1ZktCZkx0bjFWZVREWnUyc1I4UjNJQXE5aFUwVXZfcGxwMk1zWFVxYXh5NDZBMmVhT1BTNnpITjhwQzRVSWRqSlU?oc=5",
+            "published": "Thu, 03 Sep 2026 06:16:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Share India Securities Limited (NSE:SHAREINDIA) Looks Interesting, And It's About To Pay A Dividend - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPVmE3dWgxTU9tMTE0STkydGptU1ZEZC0zenFqOVRkM1R4dDYtN2tKS0x2ZC03R3hyRVgyVTI5enN1bjgtbEEtdThLdkczQ3BXQWdXV3hiVWVSY09yaWJHa1dscXY1NVBMVGhma2otODIxUXpvNmJnMlB3akdremtZVHJuR2NEaTVwZ3Bfel9XRVdWSHJyaDdUQVc5NmhYSE5JdXhyM0EyVFU0VE1TTEx6R0JYUkQ5TUZZajMxb3ZNd0V1NTZSbHR2X0tsYURJVnNYNWYxejVhbmJfOGo1WUd6NW4xcnRPblE3MGdpY0dVNThqR09JM2lwR1Bxb9IBgAJBVV95cUxQSngtUlhnalFFaXloUGxDWHFPZWFUOW9Hcm9EY1lFTVJhbmo2WTVSSjZqTjYtM2I0NzZ2VXZRblBEZEwxbjlMUDdfZUpMS0hSbER1bWZidndVOHRRbFRfanNvSWF5SlYtbjdOMVBUaWlBOEJ4RmM1MmU1dlJRUGNCS2doUXJra0xFRm1nSTB0Ykd6amFTc0tSeTlZckJQZkNael9Bb1VQaVV2Z2IxS1RHV2czN0lVOFdhUUxkN3dqTUR0X1AzMG1CaUE2SkNvU0phSjV2aGlJQWU1alNKR1VuVFM0YXdQNlVGY2xtT3dmY3ZRY2pUOHk3R2xfeVNNeS1B?oc=5",
+            "published": "Sat, 31 Jan 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Share India Securities Share Price Forecast to 2030 - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZmRIVUhEX1ROeEZBZzZCU3Z0RjZKQ2k2alhBUU5oWUhBSmp6cldLcWVWVjFLTU5JNkNUakpPSVZJOWU3cExCOXFwQ01PY2s0QjhQcm01REpfZTRUel81UElGNlpLTERGX1JBenZLenl1dkRXdFhjajZrdUtmUXZ5RE5hTl8wUTZt?oc=5",
+            "published": "Mon, 13 Jul 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 72.8,
+      "added_at": "2026-09-10T13:46:14.019284",
+      "signal_state": "WATCHING",
+      "first_seen_price": 206.97,
+      "first_seen_at": "2026-09-10T09:46:18.848158"
+    },
+    {
       "symbol": "GRANULES",
       "base": {
         "symbol": "GRANULES",
@@ -1139,106 +1241,106 @@
       "first_seen_at": "2026-09-10T09:46:16.341027"
     },
     {
-      "symbol": "SHAREINDIA",
+      "symbol": "OIL",
       "base": {
-        "symbol": "SHAREINDIA",
-        "price": 205.39,
-        "day_change": 8.41,
-        "volume": 46261035,
-        "avg_volume": 3846831,
-        "volume_ratio": 18.87,
-        "high_52w": 212.33,
-        "pct_from_high": 3.38,
-        "market_cap": 4494.02
+        "symbol": "OIL",
+        "price": 501.0,
+        "day_change": 0.41,
+        "volume": 3401069,
+        "avg_volume": 2251190,
+        "volume_ratio": 2.1,
+        "high_52w": 531.0,
+        "pct_from_high": 5.99,
+        "market_cap": 81493.05
       },
       "technical": {
-        "symbol": "SHAREINDIA",
-        "close": 205.38999938964844,
-        "rsi": 77.85,
-        "adx": 24.28,
-        "atr": 7.87,
-        "volume_ratio": 11.48,
+        "symbol": "OIL",
+        "close": 501.0,
+        "rsi": 66.67,
+        "adx": 30.4,
+        "atr": 12.7,
+        "volume_ratio": 1.5,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": false,
-        "cup_and_handle": false,
+        "double_bottom": false,
+        "inverse_hs": true,
+        "cup_and_handle": true,
         "bull_flag": false,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": true,
+        "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 76,
+        "setup": "INVERSE HEAD & SHOULDERS",
+        "score": 77,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
-          "Double Bottom",
+          "Inverse Head & Shoulders",
+          "Cup and Handle",
           "Near Breakout",
-          "Confirmed Breakout",
+          "Healthy RSI",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
-          "OBV Accumulation",
-          "Strong Volume"
+          "OBV Accumulation"
         ],
-        "stop_loss": 193.59,
-        "target1": 221.12,
-        "target2": 232.93
+        "stop_loss": 481.95,
+        "target1": 526.4,
+        "target2": 545.46
       },
       "news": {
         "score": 45,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Share India Securities Ltd Revenue Breakdown \u2013 NSE:SHAREINDIA - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5aNzhpWjlCZmpzNmNhV0ZodXBERVZJUVR5enZibldhbnQ0SExoeFNFTlhJR2NqbVFxMlVnN2NxLVA3ZDI1dFh6akxCeDBrUnhVQlpyN3NkcFg1U0FsNDJCaFhpUzMwRTFXZ2VnVzBTZ3JVLVZ4c29SMk5pTQ?oc=5",
-            "published": "Sat, 25 Jul 2026 05:02:50 GMT",
-            "score": 2,
+            "title": "Indian shares muted as easing US rate concerns, domestic earnings counter oil worries - Reuters",
+            "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOWUtCM0hIYk1wODVSVUtjaFN6ZzY5NzVvd3Jld1kzMnJLdnQ0VU5mOFlMV25IRldtLXA0R0VjWkplQmtJaVlfVVdMaGtsMGI3VUxjVlpoaFdkUnlSYzVnMkNZcHh3eGpYeFdEdmw3amNvZzlrMjRmOGV4TlRwQ3BJZ1g5OUY4d1ZYV1RVdDVfdWw0Si1KZGN0MS1nMHQ2NzdzN3FmMFlKenpNa0df?oc=5",
+            "published": "Mon, 10 Aug 2026 07:00:00 GMT",
+            "score": 1,
             "label": "Neutral"
           },
           {
-            "title": "Share India Securities receives penalty of \u20b95,09,000 from NSE - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPSjUxOXpNUTFsTGRwcHhmMmZPODFZT1FtT0NOV3RSckFSSVA3WFpTYzFuQlVLUEVkMlNaN0ItOGgyLXdhVHJvWnhJNTB4QW56TjNmcFBWdnM1LXpZTXgyRTdBdnZ6YUtnRWJnaFNFNkp2bkZXclpoaUJ5Um1OcE9VMGlWRUVTVVhnWE5Md2ZnUWZoYml0YTRFWVJMdGRJeDRSM0NOU1ZxYlZVSVQ5TmpfaVhKanVqZw?oc=5",
-            "published": "Tue, 23 Jun 2026 18:55:22 GMT",
-            "score": -3,
-            "label": "Neutral"
-          },
-          {
-            "title": "Share India Securities (NSE:SHAREINDIA): Did NCD Holders Approve Early Redemption? - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQSV9VN0RiNHFNLUp1ZWhYWHV5TjdsRDhPQU51NHZNd096ZTlHNzJ0SGRTbTF6TmVwMW5QbXpRblBONEl0Wk8yZ1J0aTg0RjZkZjBQV3FOWHg2SlJycmxVZ2FDekYwVjBxZVFSTkFyZVNMQVl0RFZLVUVneEs4X0U0eDE1ZktCZkx0bjFWZVREWnUyc1I4UjNJQXE5aFUwVXZfcGxwMk1zWFVxYXh5NDZBMmVhT1BTNnpITjhwQzRVSWRqSlU?oc=5",
-            "published": "Thu, 03 Sep 2026 06:16:00 GMT",
+            "title": "Indian Stocks Set for Biggest Drop in a Year as Brent Oil Surges - Bloomberg.com",
+            "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOUW5rVlJnVFlqSTQ0ekI2VGIzd2hjNjV6cWZUN3UxM2ZBZEFfcWR4NkhoaTB5TzlGajJLMFVfamQxMXZZZVNOcnpaTVUwZEs5OC1id1lPeVVTUzJNQU9ZWDdfV1V4THdoeHdSU21PM0JKN3pWN3ZISjNMX0RZdjZuT08yVEQxT3k4d3BEbTNsTm9ha1dBTURjc3hnQXR0TmxYcVpoSjNRN3hVWm16cjFBU1ZMdjRpUQ?oc=5",
+            "published": "Thu, 19 Mar 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Share India Securities Limited (NSE:SHAREINDIA) Looks Interesting, And It's About To Pay A Dividend - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPVmE3dWgxTU9tMTE0STkydGptU1ZEZC0zenFqOVRkM1R4dDYtN2tKS0x2ZC03R3hyRVgyVTI5enN1bjgtbEEtdThLdkczQ3BXQWdXV3hiVWVSY09yaWJHa1dscXY1NVBMVGhma2otODIxUXpvNmJnMlB3akdremtZVHJuR2NEaTVwZ3Bfel9XRVdWSHJyaDdUQVc5NmhYSE5JdXhyM0EyVFU0VE1TTEx6R0JYUkQ5TUZZajMxb3ZNd0V1NTZSbHR2X0tsYURJVnNYNWYxejVhbmJfOGo1WUd6NW4xcnRPblE3MGdpY0dVNThqR09JM2lwR1Bxb9IBgAJBVV95cUxQSngtUlhnalFFaXloUGxDWHFPZWFUOW9Hcm9EY1lFTVJhbmo2WTVSSjZqTjYtM2I0NzZ2VXZRblBEZEwxbjlMUDdfZUpMS0hSbER1bWZidndVOHRRbFRfanNvSWF5SlYtbjdOMVBUaWlBOEJ4RmM1MmU1dlJRUGNCS2doUXJra0xFRm1nSTB0Ykd6amFTc0tSeTlZckJQZkNael9Bb1VQaVV2Z2IxS1RHV2czN0lVOFdhUUxkN3dqTUR0X1AzMG1CaUE2SkNvU0phSjV2aGlJQWU1alNKR1VuVFM0YXdQNlVGY2xtT3dmY3ZRY2pUOHk3R2xfeVNNeS1B?oc=5",
-            "published": "Sat, 31 Jan 2026 08:00:00 GMT",
+            "title": "NSE Enters Energy Derivatives, Challenges MCX Dominance - UnlistedZone",
+            "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNLU5RYnc3Q1RiWkpHUy1kNWp6Y0VDWWdKYkx6TEp4NWN1WFJnQktBVnNoTS1YRjFJR1NJZzZGMTdPUHgxWTdzMHA5dmJNSk9IcHJiWjlOaTBxR2JFanpEY0tyN1RVb2xGdm5FamRMMl9iajZIWXEzQVpJb3JyMDE5cWdYNlNkV2hFVDJzYktJYU93bjRJREU2MTJB?oc=5",
+            "published": "Thu, 19 Mar 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Share India Securities Share Price Forecast to 2030 - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOZmRIVUhEX1ROeEZBZzZCU3Z0RjZKQ2k2alhBUU5oWUhBSmp6cldLcWVWVjFLTU5JNkNUakpPSVZJOWU3cExCOXFwQ01PY2s0QjhQcm01REpfZTRUel81UElGNlpLTERGX1JBenZLenl1dkRXdFhjajZrdUtmUXZ5RE5hTl8wUTZt?oc=5",
-            "published": "Mon, 13 Jul 2026 07:00:00 GMT",
+            "title": "Here's What We Like About Indian Oil's (NSE:IOC) Upcoming Dividend - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxOdU9sS0xTQzc0LXZ5b2NDaHgwbm9zTzBHYTRGckdHaUpWZTl1WWlBd0VZSmxDQzdFbmp6RklhZWhfWS1jNTZFaW5lZXUxOEFHc1A4d0lGT3dyX3BjaEo1cXZNc2ZYUGI2SmRiVm8yd25Gd2tsRWotZU01Y2ZLQXVlWGVoNk9sZlNLRlYyVDd5bG81cnk2TXpUUm9PSkgtMkJBZmIyR1RHVWhHWHJteENTSllxWWFlYWE3enBXQzlTbnJ0Q1FsaHhSVnVB0gHPAUFVX3lxTFBFV1VtOVpkVmJnY2R0czVaMXZDQ1J5b2JDLUVIM2doT2RWaVdUMkQ5NHN0VEV6NDBUdDVNU1VGSURvU3ZuUXdfM1NhMUJmV2FjcEg4c045eGFpQWtYV0JyX0xFLTZPWUVLbHRFUlU4Qk5RaDVPMW1KcTFSWC01WFhBRkVNVGg4cXVtWG1rWUlMQ0ttblBwR1JIdm5fZXAwRlVnSkVTVTlkVWFUckFHXzZWVi1IZVItcGtsdWkybGZNczd2N08xX2lMZXBUY1RjZw?oc=5",
+            "published": "Mon, 10 Aug 2026 07:00:00 GMT",
             "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Oil-linked stocks split: HPCL, Indian Oil, Asian Paints, IndiGo decline; ONGC, OIL gain as crude jumps - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQbEJCU0JCUWJFeFZBSk91NXVySHFyaWFzbUFweXlkU1FQSUNrdUg1SC1CRDI0dU1kOVJIRXNmd1RWd0N4RnlpLXBqSWZsaU55NkVpS1VGU2kzRXpkVS13TzUyZnNOendScXQ3WEtSdXRUd0RhLU5PRy13QXY0YWVqQm1iWnFmUVl5RElfb2Z5NDdsVm1Hb0FJR2hQZ1R3U1puY2d5N2JwSUl2czQyQ3IzUXVybm9KQ1Rxc0tHTnB3Wl9vcWdCMndyVWNHand0VlZjMDdNNXhuS18yRVVGYUJUTVJpaVY2Z2lRYkQ3Zg?oc=5",
+            "published": "Thu, 23 Jul 2026 07:00:00 GMT",
+            "score": -2,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 20,
-      "combined_score": 70.8,
-      "added_at": "2026-09-10T13:14:50.934594",
+      "combined_score": 71.3,
+      "added_at": "2026-09-10T13:45:55.271408",
       "signal_state": "WATCHING",
-      "first_seen_price": 206.97,
-      "first_seen_at": "2026-09-10T09:46:18.848158"
+      "first_seen_price": 511.2,
+      "first_seen_at": "2026-09-10T09:45:45.830965"
     },
     {
       "symbol": "JINDRILL",
@@ -1547,22 +1649,22 @@
       "symbol": "VSSL",
       "base": {
         "symbol": "VSSL",
-        "price": 401.7,
-        "day_change": 9.13,
-        "volume": 7134096,
-        "avg_volume": 501398,
-        "volume_ratio": 22.23,
+        "price": 401.5,
+        "day_change": 9.07,
+        "volume": 7393253,
+        "avg_volume": 513739,
+        "volume_ratio": 19.91,
         "high_52w": 423.85,
-        "pct_from_high": 5.51,
-        "market_cap": 3883.86
+        "pct_from_high": 5.57,
+        "market_cap": 3881.93
       },
       "technical": {
         "symbol": "VSSL",
-        "close": 401.70001220703125,
-        "rsi": 73.14,
+        "close": 401.5,
+        "rsi": 73.1,
         "adx": 44.9,
         "atr": 18.58,
-        "volume_ratio": 13.72,
+        "volume_ratio": 13.87,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1592,9 +1694,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 373.83,
-        "target1": 438.86,
-        "target2": 466.73
+        "stop_loss": 373.63,
+        "target1": 438.66,
+        "target2": 466.53
       },
       "news": {
         "score": 55,
@@ -1622,7 +1724,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Vardhman Special Steels Share Price Target 2027, 2028 and 2030: Long Term Analyst Forecast - Univest",
+            "title": "Vardhman Special Steels Share Price Target 2027, 2028 and 2030: Long Term Analyst Forecast - univest.in",
             "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNRmpkU2dxNXpEdnJnV1VITGpaVGFJVFFHVldFR2hQRzVHMGpXemVPMzJ0LUdNM05mM0V4SUpyTEpwZGlsT3kyTnRaRzdaX2FzX1NtYW8wc0tJb0lDLWF0ejZzanB1ZTFOZDgxaE9XYXNpR1dYRzJOaTNsaFJ0aWxRR2VFTkt0b0lQVFE?oc=5",
             "published": "Fri, 14 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -1639,7 +1741,8 @@
       },
       "core_score": 20,
       "combined_score": 69.0,
-      "added_at": "2026-09-10T13:15:15.197954",
+      "added_at": "2026-09-10T13:46:36.097030",
+      "signal_state": "WATCHING",
       "first_seen_price": 401.7,
       "first_seen_at": "2026-09-10T13:15:15.197954"
     },
@@ -1742,107 +1845,6 @@
       "signal_state": "WATCHING",
       "first_seen_price": 417.1,
       "first_seen_at": "2026-09-10T12:17:29.282434"
-    },
-    {
-      "symbol": "OIL",
-      "base": {
-        "symbol": "OIL",
-        "price": 501.45,
-        "day_change": 0.5,
-        "volume": 3195681,
-        "avg_volume": 2241410,
-        "volume_ratio": 2.24,
-        "high_52w": 531.0,
-        "pct_from_high": 5.89,
-        "market_cap": 81566.25
-      },
-      "technical": {
-        "symbol": "OIL",
-        "close": 501.45001220703125,
-        "rsi": 66.88,
-        "adx": 30.4,
-        "atr": 12.7,
-        "volume_ratio": 1.42,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": true,
-        "cup_and_handle": true,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "INVERSE HEAD & SHOULDERS",
-        "score": 72,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Inverse Head & Shoulders",
-          "Cup and Handle",
-          "Near Breakout",
-          "Healthy RSI",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 482.4,
-        "target1": 526.85,
-        "target2": 545.91
-      },
-      "news": {
-        "score": 45,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Indian shares muted as easing US rate concerns, domestic earnings counter oil worries - Reuters",
-            "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOWUtCM0hIYk1wODVSVUtjaFN6ZzY5NzVvd3Jld1kzMnJLdnQ0VU5mOFlMV25IRldtLXA0R0VjWkplQmtJaVlfVVdMaGtsMGI3VUxjVlpoaFdkUnlSYzVnMkNZcHh3eGpYeFdEdmw3amNvZzlrMjRmOGV4TlRwQ3BJZ1g5OUY4d1ZYV1RVdDVfdWw0Si1KZGN0MS1nMHQ2NzdzN3FmMFlKenpNa0df?oc=5",
-            "published": "Mon, 10 Aug 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "Indian Stocks Set for Biggest Drop in a Year as Brent Oil Surges - bloomberg.com",
-            "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOUW5rVlJnVFlqSTQ0ekI2VGIzd2hjNjV6cWZUN3UxM2ZBZEFfcWR4NkhoaTB5TzlGajJLMFVfamQxMXZZZVNOcnpaTVUwZEs5OC1id1lPeVVTUzJNQU9ZWDdfV1V4THdoeHdSU21PM0JKN3pWN3ZISjNMX0RZdjZuT08yVEQxT3k4d3BEbTNsTm9ha1dBTURjc3hnQXR0TmxYcVpoSjNRN3hVWm16cjFBU1ZMdjRpUQ?oc=5",
-            "published": "Thu, 19 Mar 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "NSE Enters Energy Derivatives, Challenges MCX Dominance - UnlistedZone",
-            "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNLU5RYnc3Q1RiWkpHUy1kNWp6Y0VDWWdKYkx6TEp4NWN1WFJnQktBVnNoTS1YRjFJR1NJZzZGMTdPUHgxWTdzMHA5dmJNSk9IcHJiWjlOaTBxR2JFanpEY0tyN1RVb2xGdm5FamRMMl9iajZIWXEzQVpJb3JyMDE5cWdYNlNkV2hFVDJzYktJYU93bjRJREU2MTJB?oc=5",
-            "published": "Thu, 19 Mar 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Oil India Limited's (NSE:OIL) Shares Bounce 25% But Its Business Still Trails The Market - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQMXgta2pMZ3U1MHNEVS12RHVyVWRoUmk4bkVNeXB5WW80UllMR1QwUUVKMEwxOG93aGh2TVlkVHRQM1BRQzM3RUQtNFdoVkM1MHBWOFk4TVQ3RDBIUjA1SzV1WTVaWXNBLTE2WjFhUmZON2FaZlZmY0t0VDJraDJaNGZodDFTbUpYTXZlTTRyUk5sbVFQZm4zT0ZPLUFPREZwMFh6cW9BY0Q3U1U5UzlJQTdwcWxMTjgzanVBWEZVVU1jV1NYM09N0gHMAUFVX3lxTFBqMzBhY1FYcFBnWjNTQ3lncFd0SEUwUnVLeDU4Yk1nT3lXTWlFNWUzeHFGdV9Gb2ZnUDZqbW5QdWRVVjNJaFNBem0yLXVfOEJ6R0ZsSm9WNkdXWGxxblcxZ1VhX1pLd0NTOHA0eE5XTEcybTBDYldaOXlWYXFlZURMV002cmJGdWJ0Q0NwaXR5c3dZTnRHVmQ5WlZLeWRoWlMxWXVzMGZ0bHY3NkZaX0owaGphV1hibjlhNE9tSDR6SHZuSE9PMGxsVzhrSA?oc=5",
-            "published": "Fri, 30 Jan 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Oil-linked stocks split: HPCL, Indian Oil, Asian Paints, IndiGo decline; ONGC, OIL gain as crude jumps - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQbEJCU0JCUWJFeFZBSk91NXVySHFyaWFzbUFweXlkU1FQSUNrdUg1SC1CRDI0dU1kOVJIRXNmd1RWd0N4RnlpLXBqSWZsaU55NkVpS1VGU2kzRXpkVS13TzUyZnNOendScXQ3WEtSdXRUd0RhLU5PRy13QXY0YWVqQm1iWnFmUVl5RElfb2Z5NDdsVm1Hb0FJR2hQZ1R3U1puY2d5N2JwSUl2czQyQ3IzUXVybm9KQ1Rxc0tHTnB3Wl9vcWdCMndyVWNHand0VlZjMDdNNXhuS18yRVVGYUJUTVJpaVY2Z2lRYkQ3Zg?oc=5",
-            "published": "Thu, 23 Jul 2026 07:00:00 GMT",
-            "score": -2,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 20,
-      "combined_score": 68.6,
-      "added_at": "2026-09-10T13:14:29.382320",
-      "signal_state": "WATCHING",
-      "first_seen_price": 511.2,
-      "first_seen_at": "2026-09-10T09:45:45.830965"
     },
     {
       "symbol": "MIDHANI",
@@ -2244,109 +2246,6 @@
       "first_seen_at": "2026-09-10T06:18:53.483995"
     },
     {
-      "symbol": "IKIO",
-      "base": {
-        "symbol": "IKIO",
-        "price": 226.67,
-        "day_change": 3.4,
-        "volume": 1264436,
-        "avg_volume": 731265,
-        "volume_ratio": 3.56,
-        "high_52w": 248.88,
-        "pct_from_high": 9.8,
-        "market_cap": 1751.72
-      },
-      "technical": {
-        "symbol": "IKIO",
-        "close": 226.6699981689453,
-        "rsi": 66.26,
-        "adx": 24.07,
-        "atr": 11.08,
-        "volume_ratio": 1.71,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "GOLDEN CROSS",
-        "score": 63,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Near Breakout",
-          "3 White Soldiers",
-          "Healthy RSI",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "Volume Expansion",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 210.05,
-        "target1": 248.83,
-        "target2": 265.45
-      },
-      "news": {
-        "score": 55,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "NSE Volume Gainers on July 2: IFGL Refractories, IKIO Technologies, Control Print Lead - HDFC Sky",
-            "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE44aDJLRk9iTnVkcDFsZ1F4TmthRFV3dmJwYWVlQ1ZoWWM5T1RpaVIyQUhhQkd5WVY2bThkVmZRci1uZUI4cmNibzJjSjBsZnM1aDR2NXh4dS1IOU5DTEZ5WjIwTQ?oc=5",
-            "published": "Thu, 02 Jul 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Insiders are the top stockholders in IKIO Technologies Limited (NSE:IKIO), and the recent 11% drop might have disappointed them - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNMXphYkczRUtHMG4yV0JVMG9GS0pUeWphX21GdXJKdlVSMzFIU0k4NEIxbmh0ZUJ0SzBNOFRRcnFJZ056OEVjdlNWcXVqMXdIcTNqdFV0YVNMLWd5VS1JSnZIb3NvazFMZjU5RXdVbF92amtqRE9ubWtQbV9UWEhBTG5DOFJFWWhLRzdUNnE1Um9fS2ZEbXl4VVdZSE1pUzJGb21VZXVKZjE2dHdDeGRyUm9BczFWaTdWS19XeUZKWFNjUFZYZmtyUVk0dTFod3Nkaldzc0RKYnJJMkMwb1HSAeMBQVVfeXFMUFdaMlI2UklYSjZFOWQ1YkRGQ0xEY2h4NEFScHh5S3dnYlZTSGFWZWJWVHJKM3FIWE5EajZqbWNCOWhqVEZDaVJ3dENDbDNqUWxYOG9HVjhKT1lHOE4wb0MzMWg3OU0yWVg3Z2tYYVhsWFAtZnN2ekJjQTZnMzFMZDNIX0ZBY2JpQmhWSGxHTGNCOHdxSHNnLUtKNURZYnNWaWhSbXd3bERxVjFLbkN0ZFIxUkxHSEQ1VllnMDBFOEFUbnZDcXNfdjk5M3dtRlQ0YVZRcWhiemhhX2lhWkM2d3FwNm8?oc=5",
-            "published": "Mon, 26 Jan 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Stock market holiday: BSE, NSE closed today, May 1, for Maharashtra Day - Business Standard",
-            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPZGZESG1ydlJJb1dRQWVmUVpDek1mZFRySHE2b2k4YW5vU0R4VkI1X0h2WGNiNjhwY2FhWnp6VTdLeUVGR0NkNzBrUDFfRGR6c2JZNFFvVlhaUHlNemJpNUNJcjNwdFJTN0lMbzM0UFJfRlpINC01Z21SXzZzNDlUU2VheFRYUWZUZlFyM2syc3NlMzFuVkc5Q09jdUJ6dHFOeEplWDZBc2FKQks2SDZ5TEc2MURpbEk5bVBmRXBKYmpPSlctNWFGR2NYaDBoUknSAdQBQVVfeXFMTVYxbWNMTTVDSmt3WXNOYU5VeXNvTHZSTEh0UWZ1anpveEFMT09JZWMzMlJEaFhJenhzeUlfMGlKQmd4TVJhNGlYUkREVkJjc1RJZUFqY3JKU2tjS0FUdVhfTU9HYVFwdWN1cEdCX2VmOXFwNExCQjNzLWFtbDVvTGRTYUZLQmwzNlVQTjRvVHd5R3BtanlNbGJLYVRHbWlST0NRZjNDM1gxQUVHYjVYMk1qVEFPNTkyX2t2Z1YwRk9BTDNhMlhTMkxNTEVJM00yVkUyOFQ?oc=5",
-            "published": "Fri, 01 May 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "IKIO Technologies to host Q1FY27 earnings call on Aug 11 - scanx.trade",
-            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNMXoyN0M0ZVFnN0c1Y3lvR25DRjVhVXVwaUxQeTVaTmlUV0Rrb2t6Y3UwUGxobk9acFYwYmkyYzAtVnBtbHR3a0tTQ2dMcmhqOFBlYy1CRVYtam12bnE0a0JuUEtHSDBVVktFa2dvcU9jN1dPenRya2I4NlRTMG91LVlCQThpN3ZRWkhmSTF5X3B3OUpVcm9ya3FOSGdTY040X0xycWhjOHp0M3E5MDl3XzlxaEdQOUVhSlB0Rw?oc=5",
-            "published": "Tue, 04 Aug 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "MARSONS Stock Price and Chart \u2014 NSE:MARSONS - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1YTFJIUDBCazV0SGRGSGpxcGhlQnQ1VW9UV1YxS19HVndIMVdRVjRDUko0cko5V1VicG0yelY2V05fbUpIU2lrcE9vT05DMXl3NGJ3QW9vXzhvckhD?oc=5",
-            "published": "Fri, 13 Mar 2026 03:53:55 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 20,
-      "combined_score": 65.7,
-      "added_at": "2026-09-10T12:17:24.367732",
-      "signal_state": "WATCHING",
-      "first_seen_price": 228.77,
-      "first_seen_at": "2026-09-10T09:44:58.200307"
-    },
-    {
       "symbol": "RAYMOND",
       "base": {
         "symbol": "RAYMOND",
@@ -2444,6 +2343,109 @@
       "signal_state": "WATCHING",
       "first_seen_price": 832.05,
       "first_seen_at": "2026-09-10T09:46:02.917128"
+    },
+    {
+      "symbol": "IKIO",
+      "base": {
+        "symbol": "IKIO",
+        "price": 227.2,
+        "day_change": 3.64,
+        "volume": 1430058,
+        "avg_volume": 739152,
+        "volume_ratio": 2.69,
+        "high_52w": 248.88,
+        "pct_from_high": 9.54,
+        "market_cap": 1755.82
+      },
+      "technical": {
+        "symbol": "IKIO",
+        "close": 227.1999969482422,
+        "rsi": 66.52,
+        "adx": 24.07,
+        "atr": 11.08,
+        "volume_ratio": 1.92,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "GOLDEN CROSS",
+        "score": 63,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Near Breakout",
+          "3 White Soldiers",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 210.58,
+        "target1": 249.36,
+        "target2": 265.98
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "NSE Volume Gainers on July 2: IFGL Refractories, IKIO Technologies, Control Print Lead - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE44aDJLRk9iTnVkcDFsZ1F4TmthRFV3dmJwYWVlQ1ZoWWM5T1RpaVIyQUhhQkd5WVY2bThkVmZRci1uZUI4cmNibzJjSjBsZnM1aDR2NXh4dS1IOU5DTEZ5WjIwTQ?oc=5",
+            "published": "Thu, 02 Jul 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Insiders are the top stockholders in IKIO Technologies Limited (NSE:IKIO), and the recent 11% drop might have disappointed them - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNMXphYkczRUtHMG4yV0JVMG9GS0pUeWphX21GdXJKdlVSMzFIU0k4NEIxbmh0ZUJ0SzBNOFRRcnFJZ056OEVjdlNWcXVqMXdIcTNqdFV0YVNMLWd5VS1JSnZIb3NvazFMZjU5RXdVbF92amtqRE9ubWtQbV9UWEhBTG5DOFJFWWhLRzdUNnE1Um9fS2ZEbXl4VVdZSE1pUzJGb21VZXVKZjE2dHdDeGRyUm9BczFWaTdWS19XeUZKWFNjUFZYZmtyUVk0dTFod3Nkaldzc0RKYnJJMkMwb1HSAeMBQVVfeXFMUFdaMlI2UklYSjZFOWQ1YkRGQ0xEY2h4NEFScHh5S3dnYlZTSGFWZWJWVHJKM3FIWE5EajZqbWNCOWhqVEZDaVJ3dENDbDNqUWxYOG9HVjhKT1lHOE4wb0MzMWg3OU0yWVg3Z2tYYVhsWFAtZnN2ekJjQTZnMzFMZDNIX0ZBY2JpQmhWSGxHTGNCOHdxSHNnLUtKNURZYnNWaWhSbXd3bERxVjFLbkN0ZFIxUkxHSEQ1VllnMDBFOEFUbnZDcXNfdjk5M3dtRlQ0YVZRcWhiemhhX2lhWkM2d3FwNm8?oc=5",
+            "published": "Mon, 26 Jan 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "IKIO Technologies to host Q1FY27 earnings call on Aug 11 - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNMXoyN0M0ZVFnN0c1Y3lvR25DRjVhVXVwaUxQeTVaTmlUV0Rrb2t6Y3UwUGxobk9acFYwYmkyYzAtVnBtbHR3a0tTQ2dMcmhqOFBlYy1CRVYtam12bnE0a0JuUEtHSDBVVktFa2dvcU9jN1dPenRya2I4NlRTMG91LVlCQThpN3ZRWkhmSTF5X3B3OUpVcm9ya3FOSGdTY040X0xycWhjOHp0M3E5MDl3XzlxaEdQOUVhSlB0Rw?oc=5",
+            "published": "Tue, 04 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Stock market holiday: BSE, NSE closed today, May 1, for Maharashtra Day - Business Standard",
+            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPZGZESG1ydlJJb1dRQWVmUVpDek1mZFRySHE2b2k4YW5vU0R4VkI1X0h2WGNiNjhwY2FhWnp6VTdLeUVGR0NkNzBrUDFfRGR6c2JZNFFvVlhaUHlNemJpNUNJcjNwdFJTN0lMbzM0UFJfRlpINC01Z21SXzZzNDlUU2VheFRYUWZUZlFyM2syc3NlMzFuVkc5Q09jdUJ6dHFOeEplWDZBc2FKQks2SDZ5TEc2MURpbEk5bVBmRXBKYmpPSlctNWFGR2NYaDBoUknSAdQBQVVfeXFMTVYxbWNMTTVDSmt3WXNOYU5VeXNvTHZSTEh0UWZ1anpveEFMT09JZWMzMlJEaFhJenhzeUlfMGlKQmd4TVJhNGlYUkREVkJjc1RJZUFqY3JKU2tjS0FUdVhfTU9HYVFwdWN1cEdCX2VmOXFwNExCQjNzLWFtbDVvTGRTYUZLQmwzNlVQTjRvVHd5R3BtanlNbGJLYVRHbWlST0NRZjNDM1gxQUVHYjVYMk1qVEFPNTkyX2t2Z1YwRk9BTDNhMlhTMkxNTEVJM00yVkUyOFQ?oc=5",
+            "published": "Fri, 01 May 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "MARSONS Stock Price and Chart \u2014 NSE:MARSONS - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1YTFJIUDBCazV0SGRGSGpxcGhlQnQ1VW9UV1YxS19HVndIMVdRVjRDUko0cko5V1VicG0yelY2V05fbUpIU2lrcE9vT05DMXl3NGJ3QW9vXzhvckhD?oc=5",
+            "published": "Fri, 13 Mar 2026 03:53:55 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 62.7,
+      "added_at": "2026-09-10T13:45:26.464456",
+      "signal_state": "WATCHING",
+      "first_seen_price": 228.77,
+      "first_seen_at": "2026-09-10T09:44:58.200307"
     },
     {
       "symbol": "ICIL",
@@ -2642,124 +2644,25 @@
       "first_seen_at": "2026-09-10T09:45:07.191027"
     },
     {
-      "symbol": "SAMBHV",
+      "symbol": "SOLARA",
       "base": {
-        "symbol": "SAMBHV",
-        "price": 132.54,
-        "day_change": 1.61,
-        "volume": 1990821,
-        "avg_volume": 1490349,
-        "volume_ratio": 2.1,
-        "high_52w": 141.32,
-        "pct_from_high": 6.62,
-        "market_cap": 3905.57
+        "symbol": "SOLARA",
+        "price": 709.7,
+        "day_change": 2.78,
+        "volume": 1284556,
+        "avg_volume": 820308,
+        "volume_ratio": 2.17,
+        "high_52w": 749.8,
+        "pct_from_high": 5.65,
+        "market_cap": 3424.34
       },
       "technical": {
-        "symbol": "SAMBHV",
-        "close": 132.5399932861328,
-        "rsi": 59.59,
-        "adx": 36.87,
-        "atr": 5.41,
-        "volume_ratio": 1.3,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": false,
-        "cup_and_handle": true,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": false,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "CUP AND HANDLE",
-        "score": 55,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Cup and Handle",
-          "Healthy RSI",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 124.43,
-        "target1": 143.35,
-        "target2": 151.46
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Sambhv Steel Tubes IPO allotment finalised: How to check status online on NSE, BSE, KFin Technologies; check listing date - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMijAJBVV95cUxNaU1sNWNDRVZFN09hdzdBSlBTMFpLQnRFTTlkWFlobVVOb1l5blEwNFVZeVE4XzhraFlQcldlWTJrTzQxd2wyeE1MdFkybjZheHhWZkNUX29iWFhwNUNWTF9JMHplY1FMRXptSlZfcFZVaHZUQ1I4QjFPdnhxU3pxZ0k3MDJTTWU2YUdQZEtEZzRXMVJza0pqcmFBOFllSHc1Z1N5d2xqWWRsOEd3RTMzY0RrTVlSZDB0RzloY2VsaU9rU3ZhY2NhbHhEaUpkanJjRWlHejRHU0pCbVQ1SkI5R1Y2MDlBQk11NjFaMlRNMUhGSmVmY1U3OFFkSXhUc0lLckNDUWYzQ3lqVmpR?oc=5",
-            "published": "Sat, 04 Jul 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "The recent 11% gain must have brightened Top Key Executive Suresh Goyal's week, Sambhv Steel Tubes Limited's (NSE:SAMBHV) most bullish insider - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQb01uNWE2VEFoMWlVdkg0NWxsWWgya0dPeGQ1X3NYWGw4Q2k3NmNGVldVaFVrS1pJY3czV2VwcUdiSUgzY0pRZUtGT2RNcHpsSEF6NVRNdTVibUhWMVJYWVliTmJwUG9oelVTQmNVSFRDdGxtVDMwR2ZEd0o1VGdiVlNMSkpQWkRBcHlPaTJNQWllT2VYLXBDV0Y0U2drdHBDcW52a0JkM1AwNU9MN2M4bDhLM095Nlhtb1A0ZUlpTDdYRHZIWS1SV3pwTTkzR1JDMWREY3MzX3o1N1Ji0gHiAUFVX3lxTE1YRkY2VHAxQS1DYkIwVlFIY05jY0EtVTBpLWFwVTRNTGhRQmlSSG1PWDVPSHFMVHlTSkpUSENZejN2S2pIaGI4M1ZBd2tPOFVFRzNwOFdqZEV3Um9xbmE2Y2N5LWo5OFdjUDF3bkFCY3dOR2JRcEc5TkR4dHd6bHJfOGstdldNZTlhdGdvNFNXN3F4emN5eDJkYnFmUW9CVVZRYVZUWE1kWGE4ZEwtN0RLeHlnbDZZd3N2WGxQa3dqTzFEajdkOURGRmhYQUtVNVFPSEdGcHJCeXJ5bjlaSEU2dGc?oc=5",
-            "published": "Wed, 04 Feb 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Sambhv Steel Tubes jumps 7% in trade; what's driving investors' interest? - Business Standard",
-            "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNN05kc3JUU0ZEbklFa3pRb1h5QlVFQW0xQXVBWVdLcFVGRkUwV3BaUnA5QTdrZ3JZR0xWSFRNejNjOHYzSlNOQU5TVFE2cmNqYVNHek9UM1N2dDZ3aWdidGtyX3NySWM0c1cxcFFHVWZZMVF1YkduQUhYbmVkZ1dGOEhuT1ptNVVNRDZWTVplSUY0NWpNRVAtdk1ucVo5ODgxcDdZeHN5Vm0wUF9wcC1Bb0E5aHRvSlVfdlB5WnhWejE1ZVYwdXRkMEJPcUE1QzkzdUdWRldibnQxcG5u0gHiAUFVX3lxTE5QTTh3TTd0Xy1udHA0WC00QUQyaVVTS2lJLXlFSXdrYnQtdDBOYnlQblA2azVCaG5rbGNpOFJUWnNYbGpBNHhKT1RkSUpZMHFoM3U0LVhRWTRsTGVxM2c1VVFrOF9mLUhYVnc5NERMR1J0RkpPNDYxWDJLTjNGcW9oLUttSlJuamdpZmZYRDExcDhQNE9EcFRBazN1dW9IUUJEQlRKSFJGYUtja2JfdmpyajlRU3hRWEpESUxoZEhReFdrUlBlMGNCbEE4ckxrTWJ2ZHdVSnBhRHIzNzBTV2RSRGc?oc=5",
-            "published": "Fri, 02 Jan 2026 08:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "SAMBHV STEEL TUBES LTD Share Price - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1MWXFoSWtmc0JzcUYzSUJXeFZEUklVOWhUVDJzN2RzbzZHTmpnUkc1alhMSzRCR2lGWFlIcldWY0M3c2Z1MXJiYmxxblRjcVVKREdjUXJMT0ZfZnN4VFlkVU8zUHY3aDlTdG1sWDVB?oc=5",
-            "published": "Tue, 05 May 2026 11:36:52 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "SAMBHV Stock Price and Chart \u2014 NSE:SAMBHV - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nSUttNWthcjJIVXFBUjFlcEk2UFR3N2JkajJwS0lPcnFrVjdkWWd4R1BKUE8zT0k1Zm9fX1A5MkhTX0ZqWUlGR0FSZnBmdXFoWXZnTE5fY2VYRm8?oc=5",
-            "published": "Wed, 02 Jul 2025 11:58:59 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 20,
-      "combined_score": 60.2,
-      "added_at": "2026-09-10T13:14:46.579152",
-      "signal_state": "WATCHING",
-      "first_seen_price": 134.55,
-      "first_seen_at": "2026-09-10T09:46:11.479836"
-    },
-    {
-      "symbol": "EBGNG",
-      "base": {
-        "symbol": "EBGNG",
-        "price": 682.0,
-        "day_change": 0.92,
-        "volume": 989496,
-        "avg_volume": 769124,
-        "volume_ratio": 2.03,
-        "high_52w": 704.9,
-        "pct_from_high": 3.36,
-        "market_cap": 7775.59
-      },
-      "technical": {
-        "symbol": "EBGNG",
-        "close": 682.0,
-        "rsi": 64.73,
-        "adx": 24.92,
-        "atr": 35.53,
-        "volume_ratio": 1.24,
+        "symbol": "SOLARA",
+        "close": 709.7000122070312,
+        "rsi": 74.61,
+        "adx": 47.11,
+        "atr": 32.37,
+        "volume_ratio": 1.5,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2775,69 +2678,68 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "GOLDEN CROSS",
-        "score": 53,
+        "score": 52,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Near Breakout",
-          "Healthy RSI",
           "MACD Bullish",
           "ADX Trend Strength",
+          "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 628.71,
-        "target1": 753.05,
-        "target2": 806.34
+        "stop_loss": 661.14,
+        "target1": 774.44,
+        "target2": 823.0
       },
       "news": {
-        "score": 55,
+        "score": 60,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Should You Be Adding GNG Electronics (NSE:EBGNG) To Your Watchlist Today? - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPa3M5REx6ekYtbXR3RFRRZkJha0NZNjBiRGxIREhoNWd2UV8tSkJfN3RVNkNYNUE5THUza1hWWFdhTjUzYWNUTTFLR1p4MFZEVjE4RkF2NUlJbzNXS1BoQmZEUFpfdnlVa0RwVnRrNllNZjIxYVhsVDNtQ2k5dXFMX1BWUm1YeW44SlJ4Z0tMczB1TVJlb2VVMm1DVkFZYi0xQ1RqZDdSbGpsUHc5a3lPSE9iVWlPcnlNUDFKSGM1eDREVmVIQVpVSVo1NUwxbkVGaTRJ0gHYAUFVX3lxTE9BX3FvaXJISURVcnJ2c194b2xPUTFSck5PalNiLU9fV0JSZEFjZEZUbmZ0dDJCbHMzdHFoOUdZc3NBQXNuZkJrSGJQam1iVVp0Vm1kRFB1cnVCN2xHLWhNZXVOUXp6MG14eFk5V093LXpnd1NoUlk3RnE4YVV3Y2k1dFFRNXRVVS0tMWpRZEJTNHNlMEpxUGxOYTFNck53cnA4MmlERDkyRk5vMXlkVTdsMUM1Mm5JNjRlMFEtdjM4cGgwaWFPaWpPR2FicldXbWJ4Z3JmZE9Mdg?oc=5",
-            "published": "Fri, 28 Aug 2026 07:00:00 GMT",
+            "title": "5 Under the Radar Pharma Specialty Stocks in India 2026 - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNTDFULXZtb3l5ZFJGRU9HNkhGb3BaRlFZNzczNXkxZlgzdjdRdkd4NjBENGhGRG0wX1E0bWw1TG9lS1VMajFBbEl4a25qcnAtQ0pHM3Q2OC1FOVRZZko4cGNxWHpZTG1zRVpFNlNKS0R4OF9EaDdCX29PUXBYWG10MUFwZw?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Elecon Eng. Co. Share Price - Live NSE: ELECON Stock Price & Chart - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE1iVHU2VWtwU3ZjU2RsTmg5MjFiZ1JsVUdGcC1qbnREVTVTWnVwS0UydGk3bWIwZ2lmQmsyYk9hcWhTSGw5T2wzZEh5Zl9kbzZvUDJpRnhudS1DNW9yZ1kyVmJxV2J1QVk?oc=5",
-            "published": "Fri, 04 Sep 2026 07:00:00 GMT",
+            "title": "Stocks to Watch Today: Solara Active, Wanbury, Enviro Infra, Mobikwik, BHEL, Sanofi Consumer, Fedbank Financial, Greenply, Ceat, Garden Reach in focus on 29 April - Moneycontrol.com",
+            "link": "https://news.google.com/rss/articles/CBMivgJBVV95cUxPVUY5M1NWX0xUUndhUWtrWFRqSXBYZlphQmlkeVdIUTN1NC01bEtzb3I4bWJ2RWU4SE9RSVFPYmNEd1VhZTI1SEdIVmdJbHdBUEd3ODRRbklOMDYyMG9yRTRoUVlVSk5GWlZVN2lic1BWLTdhWEFRbkk1NzE0WjNoQVBjVy12bEF4b2paSWNIQkl0Y1o4eXEzOGRBM0FYMHB1WkNVNUhId2hVU3NkNUU2ZmRzT0F4QjJPLXFndVozT3ZObkdkRldOU3Rqb3E4UFFBVXVnUTBCUUFJTTNOMEozTFlWLTQ0MWw4Nmc2Nzk3cF8zUUtjeDZSWUU2RXRfTzdQbHFiSnZDcFZMc2t5bC12X0FIV3dqYnBxak96Vi1kbUhJRzJUbUwwcWlQRUVjVWdBWXJiZG14QzdmbF95Ync?oc=5",
+            "published": "Wed, 29 Apr 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "EBGNG Forecast \u2014 Price Target \u2014 Prediction for 2027 - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5ZNU8yWkRNYzhBNDlUUXBZTEQ1em9tbHRLeGFCVWRXaXEta3hqNHhKTXVGNHA4clNKT1VEakVHV1EzVFhDQWlCOG4zNDZiVVBBeU5sS0E2anJ0RUMzMURwT0FVaDhyMDRuMGpJZGk5STZEUUlqd3Zr?oc=5",
-            "published": "Tue, 30 Jun 2026 21:46:04 GMT",
-            "score": 1,
+            "title": "Solara shares jump over 14% after pharma giant posts \u20b99.6 crore Q4 profit vs net loss; revenue up 42% YoY - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxQNXM0RkN2U29uN3lrV0lHdUZkNUVHZE1CQUJBdE9HZDdTMlVEanVxejFsRlBrUzh4UjhoZmZSNmxwU0JNVnV1R1pPcHBTNlpYSWxCTzN5aVBFYnRoNkZwR1RFY2FQNHEyVnRTd3FxX3pDdmN3em91TWowY2ZmMXZVRjhnZWlNU0ZlVjhhN0FOU3dhVURQNG9TYmJOajlKTHl5REt0N2lOUzZvUU5WVU4zVWVoVl9wWXlCVm9DWGk2SFdqNTJVYWFHN0tpNmZUcllRRWdQRHZ2LUJ0TDVVZzdJYUQzZmxVRlRJOF9sU3pnNUoxb0k?oc=5",
+            "published": "Fri, 15 May 2026 07:00:00 GMT",
+            "score": 2,
             "label": "Neutral"
           },
           {
-            "title": "GNG Electronics Limited (NSE: EBGNG) Stock Price, News & Analysis - Kalkine",
-            "link": "https://news.google.com/rss/articles/CBMiU0FVX3lxTE5hQXdPV0R4S2dHNl9VeGtCa09zbXhrTTZGU0lXYklDbkFiSU84OHBOdldOZzBSTmNhNkR3OGc0UFhXcVZvR0YxU2ZzQjh5VGlnVHdJ?oc=5",
-            "published": "Thu, 03 Sep 2026 08:28:00 GMT",
+            "title": "Solara Active Pharma Sciences Publishes Rights Share Call Advertisement - scanx.trade",
+            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQUmFfcWRCY0h5NkpZWm1iZHEyRjNMZk81TkFheWswZjB0aE1ER0FOT0xQLURfa1lYY21Scl84OWVESDFFRW55MWZhaTNDOGFMaVVTR0FYb0otNHl0VGt1VUdUdzA0Tm81U0dOX3FDbll1REFndUJrenVtaVdXWlZ5MGpxWTZzbkI5MmtSeXcxTFRVZTZ0SDh0WFZNSF9uWlpIanQyd2M0bG9UQnBDNm1fWmhWYlp5UWlreTE3bTNrVFhuMWpJdnctT01NVkw3QXp2LWRTYlgyZG01M3NhS2hCVDJ1UDM?oc=5",
+            "published": "Wed, 25 Mar 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "GNG Electronics Limited (NSE: EBGNG) Stock Price, News & Analysis - kalkine.ca",
-            "link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBZMVJPcl9wWmxBQ09QRDFhdDFKUGhIU3dJMjFQM180VkxnSi0yaXROQmg0WkJ6SFN3d2FOc21hRlJpYnJsZnI5R0RnaS1oZw?oc=5",
-            "published": "Thu, 27 Aug 2026 06:03:37 GMT",
+            "title": "Calculating The Intrinsic Value Of Solara Active Pharma Sciences Limited (NSE:SOLARA) - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNSlVMQ09WVVJKZnNia2RseWxrQjVNV0VrQmFKNGZYMGJkN08zcUM3cUVQOWt1UVpqRUNPMGk3T0VILUZ4elFDYUh2WDlNcFJiS1NVb3lGMVhaSGdKZFJTUTNNSFE2ZFpwWktjM1d3TXVHVFNIS293S21JVlBnbHFBOE5WbXZPX3RMMEgwSTJxcUNVeXZvZnduRVhEbTdHaHdLQ3dHT0xNQUU1eHJjMHZwYWNXb2RXbXhXTkktRlUyWnNadUxSWVRHWDQtSVAtRHZ6TXdrVzZsSXhodDd5aTkwT09fc0JYRTFpSTNBM3ZFR19YbHJ4ZmEyTjY0UjBQQdIBgwJBVV95cUxQWnJXWFNHUUdhQnVqZHAtS1dNRl8tdW1YZWZJVExFUXEzUXJwQjFwMkVuMFZfNE1selp0UElUVzhVSzI0OGVQNHBrUkVDWFJZSU8xb0xvalN6cDZsbU1KODhTUXp4WnM5TzZvdTQ5TEpDQ0JXa01sZTlxMGNzbmZOZ0lTRnRqOFpYUWl2Z3dEcW1xbl9VU1l1dTZ5djdqcmVNd3RIQWlHNnhrakN1M18xQjVzdjdmZldvbWdiOURmaGw4a1V2WGJFazB6TGJCSXo5QkFSRkd6ZHllYXBXMkhZdTZ5alNYVlRHQ0kxbkhoWm5EN0UyM3dMakJPNDZWMTJxX1U0?oc=5",
+            "published": "Wed, 10 Dec 2025 08:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 20,
-      "combined_score": 60.2,
-      "added_at": "2026-09-10T13:13:39.537304",
-      "signal_state": "WATCHING",
-      "first_seen_price": 675.8,
-      "first_seen_at": "2026-09-10T06:18:46.927166"
+      "combined_score": 60.6,
+      "added_at": "2026-09-10T13:46:17.835344",
+      "first_seen_price": 709.7,
+      "first_seen_at": "2026-09-10T13:46:17.835344"
     },
     {
       "symbol": "TITAGARH",
@@ -3034,6 +2936,105 @@
       "signal_state": "WATCHING",
       "first_seen_price": 1626.2,
       "first_seen_at": "2026-09-10T10:14:37.126714"
+    },
+    {
+      "symbol": "SAMBHV",
+      "base": {
+        "symbol": "SAMBHV",
+        "price": 132.7,
+        "day_change": 1.73,
+        "volume": 2028532,
+        "avg_volume": 1492144,
+        "volume_ratio": 1.88,
+        "high_52w": 141.32,
+        "pct_from_high": 6.5,
+        "market_cap": 3910.29
+      },
+      "technical": {
+        "symbol": "SAMBHV",
+        "close": 132.6999969482422,
+        "rsi": 59.76,
+        "adx": 36.87,
+        "atr": 5.41,
+        "volume_ratio": 1.32,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": true,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "CUP AND HANDLE",
+        "score": 55,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Cup and Handle",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 124.59,
+        "target1": 143.51,
+        "target2": 151.62
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "SAMBHV STEEL TUBES LTD Share Price - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1MWXFoSWtmc0JzcUYzSUJXeFZEUklVOWhUVDJzN2RzbzZHTmpnUkc1alhMSzRCR2lGWFlIcldWY0M3c2Z1MXJiYmxxblRjcVVKREdjUXJMT0ZfZnN4VFlkVU8zUHY3aDlTdG1sWDVB?oc=5",
+            "published": "Tue, 05 May 2026 11:36:52 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "The recent 11% gain must have brightened Top Key Executive Suresh Goyal's week, Sambhv Steel Tubes Limited's (NSE:SAMBHV) most bullish insider - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQb01uNWE2VEFoMWlVdkg0NWxsWWgya0dPeGQ1X3NYWGw4Q2k3NmNGVldVaFVrS1pJY3czV2VwcUdiSUgzY0pRZUtGT2RNcHpsSEF6NVRNdTVibUhWMVJYWVliTmJwUG9oelVTQmNVSFRDdGxtVDMwR2ZEd0o1VGdiVlNMSkpQWkRBcHlPaTJNQWllT2VYLXBDV0Y0U2drdHBDcW52a0JkM1AwNU9MN2M4bDhLM095Nlhtb1A0ZUlpTDdYRHZIWS1SV3pwTTkzR1JDMWREY3MzX3o1N1Ji0gHiAUFVX3lxTE1YRkY2VHAxQS1DYkIwVlFIY05jY0EtVTBpLWFwVTRNTGhRQmlSSG1PWDVPSHFMVHlTSkpUSENZejN2S2pIaGI4M1ZBd2tPOFVFRzNwOFdqZEV3Um9xbmE2Y2N5LWo5OFdjUDF3bkFCY3dOR2JRcEc5TkR4dHd6bHJfOGstdldNZTlhdGdvNFNXN3F4emN5eDJkYnFmUW9CVVZRYVZUWE1kWGE4ZEwtN0RLeHlnbDZZd3N2WGxQa3dqTzFEajdkOURGRmhYQUtVNVFPSEdGcHJCeXJ5bjlaSEU2dGc?oc=5",
+            "published": "Wed, 04 Feb 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Sambhv Steel Tubes jumps 7% in trade; what's driving investors' interest? - Business Standard",
+            "link": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNN05kc3JUU0ZEbklFa3pRb1h5QlVFQW0xQXVBWVdLcFVGRkUwV3BaUnA5QTdrZ3JZR0xWSFRNejNjOHYzSlNOQU5TVFE2cmNqYVNHek9UM1N2dDZ3aWdidGtyX3NySWM0c1cxcFFHVWZZMVF1YkduQUhYbmVkZ1dGOEhuT1ptNVVNRDZWTVplSUY0NWpNRVAtdk1ucVo5ODgxcDdZeHN5Vm0wUF9wcC1Bb0E5aHRvSlVfdlB5WnhWejE1ZVYwdXRkMEJPcUE1QzkzdUdWRldibnQxcG5u0gHiAUFVX3lxTE5QTTh3TTd0Xy1udHA0WC00QUQyaVVTS2lJLXlFSXdrYnQtdDBOYnlQblA2azVCaG5rbGNpOFJUWnNYbGpBNHhKT1RkSUpZMHFoM3U0LVhRWTRsTGVxM2c1VVFrOF9mLUhYVnc5NERMR1J0RkpPNDYxWDJLTjNGcW9oLUttSlJuamdpZmZYRDExcDhQNE9EcFRBazN1dW9IUUJEQlRKSFJGYUtja2JfdmpyajlRU3hRWEpESUxoZEhReFdrUlBlMGNCbEE4ckxrTWJ2ZHdVSnBhRHIzNzBTV2RSRGc?oc=5",
+            "published": "Fri, 02 Jan 2026 08:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SAMBHV Stock Price and Chart \u2014 NSE:SAMBHV - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nSUttNWthcjJIVXFBUjFlcEk2UFR3N2JkajJwS0lPcnFrVjdkWWd4R1BKUE8zT0k1Zm9fX1A5MkhTX0ZqWUlGR0FSZnBmdXFoWXZnTE5fY2VYRm8?oc=5",
+            "published": "Wed, 02 Jul 2025 11:58:59 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Sambhv Steel Tubes Ltd Share Price Today | Sambhv Steel Tubes Live NSE/BSE - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBPT2U2WUdtQ080ZjFzNGlZNmRJWFBXMUhQTjdUY3ozUV9ueUUybk1PUmlyT2c3WU1qMnR1WjlfclFqeXpvSl9zazVWVTNRVlhpaEIxU3c5NWRkekFEamgwWFVJOTl0eUhPX2dtLTBJaHA1UzJEZFZiNVpydHNjdw?oc=5",
+            "published": "Wed, 02 Jul 2025 06:41:56 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 57.2,
+      "added_at": "2026-09-10T13:46:10.889785",
+      "signal_state": "WATCHING",
+      "first_seen_price": 134.55,
+      "first_seen_at": "2026-09-10T09:46:11.479836"
     }
   ]
 }
