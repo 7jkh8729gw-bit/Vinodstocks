@@ -736,7 +736,7 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 0.37,
-    "max_adverse_pct": 2.36
+    "max_adverse_pct": 2.59
   },
   {
     "date": "2026-09-10",
@@ -776,7 +776,7 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 2.15,
-    "max_adverse_pct": 1.09
+    "max_adverse_pct": 1.55
   },
   {
     "date": "2026-09-10",
@@ -817,5 +817,45 @@
     "exit_time": null,
     "max_favorable_pct": 2.2,
     "max_adverse_pct": 0.37
+  },
+  {
+    "date": "2026-09-10",
+    "symbol": "REDINGTON",
+    "alert_time": "15:29:55",
+    "bar_time": "2026-09-10T15:25:00+05:30",
+    "entry_price": 394.15,
+    "sl": 376.58,
+    "target1": 416.11,
+    "target2": 430.75,
+    "features": {
+      "rsi": 70.36,
+      "adx": 45.09,
+      "daily_volume_ratio": 3.47,
+      "daily_score": 71,
+      "news_score": 95,
+      "combined_score": 83.1,
+      "intraday_score": 97.1,
+      "intraday_volume_ratio": 3.2098717102554217,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 0.0,
+      "inverse_hs": 0.0,
+      "cup_and_handle": 0.0,
+      "bull_flag": 0.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": 3.0457500382965685,
+      "move_from_open_pct": 0.82
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
