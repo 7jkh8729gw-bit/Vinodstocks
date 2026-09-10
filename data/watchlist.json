@@ -110,22 +110,22 @@
       "symbol": "KROSS",
       "base": {
         "symbol": "KROSS",
-        "price": 233.71,
-        "day_change": 6.23,
-        "volume": 4409424,
-        "avg_volume": 569574,
-        "volume_ratio": 15.95,
-        "high_52w": 237.6,
-        "pct_from_high": 1.66,
-        "market_cap": 1507.65
+        "price": 240.17,
+        "day_change": 9.17,
+        "volume": 6031875,
+        "avg_volume": 646834,
+        "volume_ratio": 16.65,
+        "high_52w": 240.8,
+        "pct_from_high": 0.26,
+        "market_cap": 1549.32
       },
       "technical": {
         "symbol": "KROSS",
-        "close": 233.7100067138672,
-        "rsi": 70.84,
-        "adx": 29.96,
-        "atr": 8.33,
-        "volume_ratio": 7.47,
+        "close": 240.1699981689453,
+        "rsi": 73.6,
+        "adx": 30.3,
+        "atr": 8.75,
+        "volume_ratio": 8.98,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -160,9 +160,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 221.22,
-        "target1": 250.37,
-        "target2": 262.86
+        "stop_loss": 227.04,
+        "target1": 257.67,
+        "target2": 270.8
       },
       "news": {
         "score": 60,
@@ -207,7 +207,7 @@
       },
       "core_score": 22,
       "combined_score": 83.0,
-      "added_at": "2026-09-10T12:17:34.253501",
+      "added_at": "2026-09-10T12:45:57.515759",
       "signal_state": "WATCHING",
       "first_seen_price": 231.71,
       "first_seen_at": "2026-09-10T11:13:05.663329"
@@ -218,9 +218,9 @@
         "symbol": "LOTUSDEV",
         "price": 207.88,
         "day_change": 5.0,
-        "volume": 11302257,
-        "avg_volume": 1435873,
-        "volume_ratio": 16.22,
+        "volume": 11318563,
+        "avg_volume": 1436650,
+        "volume_ratio": 14.0,
         "high_52w": 207.88,
         "pct_from_high": 0.0,
         "market_cap": 10159.59
@@ -231,7 +231,7 @@
         "rsi": 71.25,
         "adx": 23.69,
         "atr": 8.65,
-        "volume_ratio": 7.9,
+        "volume_ratio": 7.91,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -312,35 +312,35 @@
       },
       "core_score": 25,
       "combined_score": 82.6,
-      "added_at": "2026-09-10T12:17:36.944301",
+      "added_at": "2026-09-10T12:46:00.971557",
       "signal_state": "WATCHING",
       "first_seen_price": 205.0,
       "first_seen_at": "2026-09-10T09:45:22.439406"
     },
     {
-      "symbol": "NOCIL",
+      "symbol": "REDINGTON",
       "base": {
-        "symbol": "NOCIL",
-        "price": 196.35,
-        "day_change": 4.44,
-        "volume": 4175959,
-        "avg_volume": 1041256,
-        "volume_ratio": 8.26,
-        "high_52w": 204.5,
-        "pct_from_high": 4.15,
-        "market_cap": 3279.53
+        "symbol": "REDINGTON",
+        "price": 393.1,
+        "day_change": 3.86,
+        "volume": 18710669,
+        "avg_volume": 6047329,
+        "volume_ratio": 5.5,
+        "high_52w": 403.25,
+        "pct_from_high": 2.58,
+        "market_cap": 30731.55
       },
       "technical": {
-        "symbol": "NOCIL",
-        "close": 196.35000610351562,
-        "rsi": 79.84,
-        "adx": 28.71,
-        "atr": 6.64,
-        "volume_ratio": 3.85,
+        "symbol": "REDINGTON",
+        "close": 393.1000061035156,
+        "rsi": 70.74,
+        "adx": 45.09,
+        "atr": 14.64,
+        "volume_ratio": 3.0,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
-        "double_bottom": true,
+        "double_bottom": false,
         "inverse_hs": false,
         "cup_and_handle": false,
         "bull_flag": false,
@@ -351,76 +351,75 @@
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
-          "3 White Soldiers"
+          "Morning Star"
         ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 81,
+        "score": 71,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
-          "Double Bottom",
           "Near Breakout",
           "Confirmed Breakout",
-          "3 White Soldiers",
+          "Morning Star",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 186.38,
-        "target1": 209.64,
-        "target2": 219.61
+        "stop_loss": 371.14,
+        "target1": 422.37,
+        "target2": 444.33
       },
       "news": {
-        "score": 55,
-        "label": "Neutral",
+        "score": 80,
+        "label": "Bullish",
         "headlines": [
           {
-            "title": "NOCIL NSE:NOCIL Clarifies Volume Spurt to Exchanges - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQM0dTaWNpMm1zbUp5SW8ySGEzckU0N1p1S0tzVF9VRWg0bU9wS1BJc0V0Vm9XWkw1bE9PSW9BSFpXUUx1RGtxclJsQ0Fvb1BUdThyNFhTRnMyRjM5REZ5SXlEdkhrT3Q4U1F6ampZWE9BY3FwQVNyUlFVOVJqdlh1cDBsejQyNVBLUi14MFIwQlF2TklwdWlqalVZeVM1X25XczdXVkpmVzZsOFZteVZQOQ?oc=5",
-            "published": "Wed, 09 Sep 2026 07:08:00 GMT",
+            "title": "iPhone Duo Launch Boosts Redington Shares: Stock Rises 5.33% as Apple Raises iPhone Prices in India - India Infoline",
+            "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPQUwwOXVHVVJMMVJYaGhwNS05TWxDWWI0aVlvSEdycVdVU2wtR2loZ0F4TVNwWFFhRUNEUFVmbUlPbDV6Ym82QTdjQVIyWlpsY3RMelJicVYyQWRpU01nUG1VLTlNTmpkazYyVXhhd0dvVFVFNTNCR0ZDYmNRYmVJRlJyWGcyS0R4OHhXajZqb0VPaXluS3FjLWVHUWJHUnByd21FQkcxcnc4YXg5dDV5Nkh1ZGtaVDVhLU82WkhmeGI0WThBVXBqODdKVkdsdHhkakpLaE9QdjRzZw?oc=5",
+            "published": "Thu, 10 Sep 2026 06:29:06 GMT",
+            "score": 3,
+            "label": "Neutral"
+          },
+          {
+            "title": "Stocks to watch, Sept 10: Redington, OMCs, ONGC, OIL, Asian Paints, Wipro, IRB Infra, Dilip Buildcon - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxNeHROaVQzcWJ1WklXd1VoWDFLa1NrUWJnT1hMTHlPeVNaTkpFSExaRlo0MWl3N29oYjU3MldHZ2N0R09PdjUyNWhGWmgwaVg5cFY0M2JJRHZXVElhQWlZVlBTU2E5Wmk1Y2xrdVhvUC0zMUJtcTNMaUtHdS0xOWUySThwYlY3ZkZfRWY5M2hZb0Nod2xBb1ltMlVCYjlrdFRvMC1yQzhvMmpxclNDUUwwMTlyUHJUZExNLXVneDNaNV9YRjc5TTBrRUpPd2NON0plcENBSF9iRk1BSGxxWkk3NkNKTEhDQQ?oc=5",
+            "published": "Thu, 10 Sep 2026 02:31:02 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "NOCIL Limited (NSE:NOCIL) Stock Goes Ex-Dividend In Just Three Days - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPTDd5aFJlakRSLXkxenAyNnhPQ0trTV9HTk5qbHUxRlF1cFZvSnZZQUF1X3ZRU0tlRHdrWGhlN29PMzhxRnlhQzNVN2YyaHNvVDZtVkFvNkZJODczWllwVE1hUi04VVhPdUtPOFpLS01OQ3llMUtZazlkaWpmSGFERm1WeFZQT1FsX25vdHJUU2w3bFB3OXY5eTNZVXJLbjRJTFU1SzJiYmFBU2p2d2dFWkcyTFZZd3ZxeTE2Y1JZSlNoWlVZM1BTMdIBzgFBVV95cUxNZmhfMERIaVRKMVE1cUNVM1RsMFhfWVl4MFN2M2QzZF91ZEZyRXFVWjFXTWhJRjBGQkw2VHk4ZktWN0J5WEg1UjlQVWF2Rll2YTN1R00yNFVlVnNUNTk2cVZRTlU3cWFvaUpMU3pSQVYxWVZnTXZTVGtPQ1JzMjBJYXJueTdvWFJEdGRpekRUS3dOeDRwVGx5M0p2LUNoVTEzZFFNakNBdUE4SHVua2tIRFpvY0dyMm9hRkxFdjhrZjRhaFc1YjAxRVpLRm1idw?oc=5",
-            "published": "Mon, 20 Jul 2026 07:00:00 GMT",
+            "title": "Apple iPhone 18 Pro, Pro Max to launch in India on Sept 18; Redington shares jump 5% to hit 52-week high - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNb0RSbS1iVUVWQlR4a3lBM3JFczM0amtyTXp5cklCSFVnVU5aR21NUXVUanU5dW4ybkpKRDFGRjVNWG5uVE43MHUzei1wWE52cXpRVFAyYVNoS1hIVy1fTlRXdGJQZmh4M2IzVU43SkRsS2JPc2NZZjU4T0llS1pvTkxjVTBQallySjN3OFZaYWlreVBNWDY4ODQyM2FmQjB3WG55SnBGbG9ydmRCWmU2UGR4cUlPRXpOLU9OQmJ2MlBwTnFDQ0NYbW51aENPY3dWWDE0MWktR242eE0?oc=5",
+            "published": "Thu, 10 Sep 2026 03:12:18 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Is Redington Limited (NSE:REDINGTON) Potentially Undervalued? - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZmVaR3NHaXVwZXNPZ0FCS0xyZndYLU5YS0l0SXRzT0MxX3NWVVdsR2dWRnJ2Y2x0MGEzdzdsWWszVnRYMkhEQVN5SENzZWhPX09Tb2l6LXc0QjZZNXFUVnRhX0hvajhWczJDeTJPRUZXSnpSaDBtNUpOTEpUZ3ZON0k1VWlreXA0c0NVUVNpOWlidF9VZnJsSHFqeUR6VFI3N2UzZFotYWZxWEJTWXBSVU9YYWo0c3dRRk5lOEhHN1N6cUpxaDFaT2gtYnDSAdIBQVVfeXFMTnJEbUktTUtXZkhRNGRXckF6RVozUWprV3VzQ1JuVGp1dm5yMTBkeGd3aW5zdTRXX2NRaDNwdmhxOEtmQlRzYloyOEkwT1NaRGVEVFhhb1RSYjhTUWFNcnVocjJJX2tQOFVWVl8wVURuWV9PUE5yTlA0cDE4eWtRSlIyZmFzS1hDLUxPYjJmem1reVRwQ1l5VUpadldNTTQyWmZDTUV0ODBiV1gzMDBVdHppck1XYVk5MGNrTHJkdmhjc0Y2QlVDZlA0QUVwMnhJMTFR?oc=5",
+            "published": "Tue, 02 Jun 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "3 Fundamentally Strong Petrochemical Stocks in India (2026) - Univest",
-            "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1uclBhWEhZU3pQalRwS0RqS3NhclpPTWV1ZGJYQmU4Mm44UUlSOTNWVmZhQVZxWl9CemtVRWNhZUZqS1FDUllVejlveEg0eW9fNW52ZV9jY2ljMFFycG13YjZSTTNiTnpKQjNObWVtSzEwR3FTcl9SQnBkeE0?oc=5",
-            "published": "Thu, 20 Aug 2026 07:00:00 GMT",
+            "title": "5 IT Hardware Stocks India 2026: Strong Future Roadmaps - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5tcndkT0taczNnc3VMdU5Hc1QzT01hYWtwUUQxdEdWcnc2YXdUTS1GTEVYX3dqX1YxM1pOVDA4endGN2VwN19XclBteWJLWkZCU2ljRWpGdGhMcjFQa0hMa0tEMVZhVGVHRDZxYzJqdDg1ZUFOeEJ5MFVn?oc=5",
+            "published": "Wed, 26 Aug 2026 07:00:00 GMT",
             "score": 1,
-            "label": "Neutral"
-          },
-          {
-            "title": "NOCIL AGM Notice, \u20b91.50 Dividend; Shares Slip 2% - HDFC Sky",
-            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQdlpIWlY4Q1RNakxRRXlrdER6ZDZYcmVGdUJQQkZwa0tuSzJGaVpvZTdjMHNzVDJqTl81TWJuV3N2UXRiSUdjMHQwdFVaYUVNcnBZUGFIaUZzRDFXSHYyRk1QRTVPbFFOYU91dGxNUEN1ZlFvbHBOYUdRa2pWdHJ3UF9FcFhaTTFzMkcyTllnQ0JPUQ?oc=5",
-            "published": "Fri, 05 Jun 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "NOCIL soars 12%; Arvind Mafatlal Group stock rallies 28% in 3 days - Business Standard",
-            "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxONzBaeHp1RzdNaFAzV3F2WVdaaTk0X3lmSU1SR0NucmNSRUNRU29FQnY4UzNoQlh3ZmRXMHlXRHl1ZUsycHFmUjBWVnVjUzVBN2s0OWsyWlQ3Z2lwNmp6Z18xaXc3UnF1cjdLOFIwZFBBOHNKeDdXeTZkblZRYmxSYVA5elhQZjNYVmFqSjFubnUtZWw3dTJmNEl4SndTcUl6aTUtNlRDUmluUkFDY0tKZS14T1VkRngyZWltNUZ6QXNnVTJvTTdmUGJB0gHPAUFVX3lxTE5Ick5ETFlXWGVqVUNFSzhEUjNLa3BNN09kclp3aW84TXVEQm5rV0RMV3E2NWVLM1NqaVBKbk5EU1dwS3VMck00RGdSQ1dBWHplbEpNNFF6a29WRE5qU1hGRnl0a1JqR18zMDk2UXJRS1Qya2RxQWRWNWZJX2FjYjdieXZsUlZnSTNYS0RTZDN1bFI0Vmw3MEVYaWVsU2wzZWEzckhwMmZTN21HRF9QbzRPczFsNTdDQmlTZGhHZnNJRkg2eTNxTHFFZXVKODVjTQ?oc=5",
-            "published": "Tue, 24 Mar 2026 07:00:00 GMT",
-            "score": 0,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 23,
-      "combined_score": 78.6,
-      "added_at": "2026-09-10T12:17:47.618161",
+      "core_score": 25,
+      "combined_score": 80.1,
+      "added_at": "2026-09-10T12:46:28.774462",
       "signal_state": "WATCHING",
-      "first_seen_price": 188.28,
-      "first_seen_at": "2026-09-10T06:19:25.175801"
+      "first_seen_price": 382.5,
+      "first_seen_at": "2026-09-10T09:46:03.852450"
     },
     {
       "symbol": "ANTELOPUS",
@@ -729,29 +728,29 @@
       "first_seen_at": "2026-09-10T06:18:56.696901"
     },
     {
-      "symbol": "REDINGTON",
+      "symbol": "NOCIL",
       "base": {
-        "symbol": "REDINGTON",
-        "price": 397.65,
-        "day_change": 5.06,
-        "volume": 17137829,
-        "avg_volume": 5972432,
-        "volume_ratio": 5.91,
-        "high_52w": 403.25,
-        "pct_from_high": 1.41,
-        "market_cap": 31087.26
+        "symbol": "NOCIL",
+        "price": 198.01,
+        "day_change": 5.32,
+        "volume": 4698736,
+        "avg_volume": 1066150,
+        "volume_ratio": 7.83,
+        "high_52w": 204.5,
+        "pct_from_high": 3.28,
+        "market_cap": 3307.26
       },
       "technical": {
-        "symbol": "REDINGTON",
-        "close": 397.6499938964844,
-        "rsi": 71.95,
-        "adx": 45.09,
-        "atr": 14.64,
-        "volume_ratio": 2.79,
+        "symbol": "NOCIL",
+        "close": 198.00999450683594,
+        "rsi": 80.58,
+        "adx": 28.71,
+        "atr": 6.64,
+        "volume_ratio": 4.23,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
-        "double_bottom": false,
+        "double_bottom": true,
         "inverse_hs": false,
         "cup_and_handle": false,
         "bull_flag": false,
@@ -762,75 +761,76 @@
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
-          "Morning Star"
+          "3 White Soldiers"
         ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 71,
+        "score": 81,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
+          "Double Bottom",
           "Near Breakout",
           "Confirmed Breakout",
-          "Morning Star",
+          "3 White Soldiers",
           "MACD Bullish",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 375.69,
-        "target1": 426.92,
-        "target2": 448.88
+        "stop_loss": 188.04,
+        "target1": 211.3,
+        "target2": 221.27
       },
       "news": {
-        "score": 75,
-        "label": "Bullish",
+        "score": 55,
+        "label": "Neutral",
         "headlines": [
           {
-            "title": "Stocks to watch, Sept 10: Redington, OMCs, ONGC, OIL, Asian Paints, Wipro, IRB Infra, Dilip Buildcon - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxNeHROaVQzcWJ1WklXd1VoWDFLa1NrUWJnT1hMTHlPeVNaTkpFSExaRlo0MWl3N29oYjU3MldHZ2N0R09PdjUyNWhGWmgwaVg5cFY0M2JJRHZXVElhQWlZVlBTU2E5Wmk1Y2xrdVhvUC0zMUJtcTNMaUtHdS0xOWUySThwYlY3ZkZfRWY5M2hZb0Nod2xBb1ltMlVCYjlrdFRvMC1yQzhvMmpxclNDUUwwMTlyUHJUZExNLXVneDNaNV9YRjc5TTBrRUpPd2NON0plcENBSF9iRk1BSGxxWkk3NkNKTEhDQQ?oc=5",
-            "published": "Thu, 10 Sep 2026 02:31:02 GMT",
+            "title": "NOCIL NSE:NOCIL Clarifies Volume Spurt to Exchanges - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQM0dTaWNpMm1zbUp5SW8ySGEzckU0N1p1S0tzVF9VRWg0bU9wS1BJc0V0Vm9XWkw1bE9PSW9BSFpXUUx1RGtxclJsQ0Fvb1BUdThyNFhTRnMyRjM5REZ5SXlEdkhrT3Q4U1F6ampZWE9BY3FwQVNyUlFVOVJqdlh1cDBsejQyNVBLUi14MFIwQlF2TklwdWlqalVZeVM1X25XczdXVkpmVzZsOFZteVZQOQ?oc=5",
+            "published": "Wed, 09 Sep 2026 07:08:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Apple iPhone 18 Pro, Pro Max to launch in India on Sept 18; Redington shares jump 5% to hit 52-week high - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNb0RSbS1iVUVWQlR4a3lBM3JFczM0amtyTXp5cklCSFVnVU5aR21NUXVUanU5dW4ybkpKRDFGRjVNWG5uVE43MHUzei1wWE52cXpRVFAyYVNoS1hIVy1fTlRXdGJQZmh4M2IzVU43SkRsS2JPc2NZZjU4T0llS1pvTkxjVTBQallySjN3OFZaYWlreVBNWDY4ODQyM2FmQjB3WG55SnBGbG9ydmRCWmU2UGR4cUlPRXpOLU9OQmJ2MlBwTnFDQ0NYbW51aENPY3dWWDE0MWktR242eE0?oc=5",
-            "published": "Thu, 10 Sep 2026 03:12:18 GMT",
-            "score": 2,
-            "label": "Neutral"
-          },
-          {
-            "title": "Is Redington Limited (NSE:REDINGTON) Potentially Undervalued? - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPZmVaR3NHaXVwZXNPZ0FCS0xyZndYLU5YS0l0SXRzT0MxX3NWVVdsR2dWRnJ2Y2x0MGEzdzdsWWszVnRYMkhEQVN5SENzZWhPX09Tb2l6LXc0QjZZNXFUVnRhX0hvajhWczJDeTJPRUZXSnpSaDBtNUpOTEpUZ3ZON0k1VWlreXA0c0NVUVNpOWlidF9VZnJsSHFqeUR6VFI3N2UzZFotYWZxWEJTWXBSVU9YYWo0c3dRRk5lOEhHN1N6cUpxaDFaT2gtYnDSAdIBQVVfeXFMTnJEbUktTUtXZkhRNGRXckF6RVozUWprV3VzQ1JuVGp1dm5yMTBkeGd3aW5zdTRXX2NRaDNwdmhxOEtmQlRzYloyOEkwT1NaRGVEVFhhb1RSYjhTUWFNcnVocjJJX2tQOFVWVl8wVURuWV9PUE5yTlA0cDE4eWtRSlIyZmFzS1hDLUxPYjJmem1reVRwQ1l5VUpadldNTTQyWmZDTUV0ODBiV1gzMDBVdHppck1XYVk5MGNrTHJkdmhjc0Y2QlVDZlA0QUVwMnhJMTFR?oc=5",
-            "published": "Tue, 02 Jun 2026 07:00:00 GMT",
+            "title": "NOCIL Limited (NSE:NOCIL) Stock Goes Ex-Dividend In Just Three Days - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPTDd5aFJlakRSLXkxenAyNnhPQ0trTV9HTk5qbHUxRlF1cFZvSnZZQUF1X3ZRU0tlRHdrWGhlN29PMzhxRnlhQzNVN2YyaHNvVDZtVkFvNkZJODczWllwVE1hUi04VVhPdUtPOFpLS01OQ3llMUtZazlkaWpmSGFERm1WeFZQT1FsX25vdHJUU2w3bFB3OXY5eTNZVXJLbjRJTFU1SzJiYmFBU2p2d2dFWkcyTFZZd3ZxeTE2Y1JZSlNoWlVZM1BTMdIBzgFBVV95cUxNZmhfMERIaVRKMVE1cUNVM1RsMFhfWVl4MFN2M2QzZF91ZEZyRXFVWjFXTWhJRjBGQkw2VHk4ZktWN0J5WEg1UjlQVWF2Rll2YTN1R00yNFVlVnNUNTk2cVZRTlU3cWFvaUpMU3pSQVYxWVZnTXZTVGtPQ1JzMjBJYXJueTdvWFJEdGRpekRUS3dOeDRwVGx5M0p2LUNoVTEzZFFNakNBdUE4SHVua2tIRFpvY0dyMm9hRkxFdjhrZjRhaFc1YjAxRVpLRm1idw?oc=5",
+            "published": "Mon, 20 Jul 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Pros and Cons of Investing in Redington India Share: IT Distribution Analysis 2026 - Univest",
-            "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQYVdkcFVHUWtvbXdjeFNJS21STHREQXFsRDVJODBxRzJqM2l6SFI4dnBNWlNrRHJBTXdwOHIzdng1Z1cxV0xKdWJhVHAwT21Ia3VNQ09Cb1pXN0NHakxmYXc5QzJqY1ZWazUySnl2dk9YV2pEbkxWV3A2cmF3LVE1ZkJR?oc=5",
-            "published": "Tue, 11 Aug 2026 07:00:00 GMT",
+            "title": "3 Fundamentally Strong Petrochemical Stocks in India (2026) - Univest",
+            "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1uclBhWEhZU3pQalRwS0RqS3NhclpPTWV1ZGJYQmU4Mm44UUlSOTNWVmZhQVZxWl9CemtVRWNhZUZqS1FDUllVejlveEg0eW9fNW52ZV9jY2ljMFFycG13YjZSTTNiTnpKQjNObWVtSzEwR3FTcl9SQnBkeE0?oc=5",
+            "published": "Thu, 20 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "NOCIL AGM Notice, \u20b91.50 Dividend; Shares Slip 2% - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQdlpIWlY4Q1RNakxRRXlrdER6ZDZYcmVGdUJQQkZwa0tuSzJGaVpvZTdjMHNzVDJqTl81TWJuV3N2UXRiSUdjMHQwdFVaYUVNcnBZUGFIaUZzRDFXSHYyRk1QRTVPbFFOYU91dGxNUEN1ZlFvbHBOYUdRa2pWdHJ3UF9FcFhaTTFzMkcyTllnQ0JPUQ?oc=5",
+            "published": "Fri, 05 Jun 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Redington hits new all-time high, zooms 18% on record Q1 earnings - Business Standard",
-            "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNYTZaeFJpbzBEV3F2SkE4RzJNaU9QMVE4a3l1OXNudmVKOHRQa2FsOWpiaU5vMVpWRGhGZ2FUc2ttQ1ZpUGdWcGtNcnVsV3dNSXlMYXQyUHNuVFVxV2pFYTlZWVEzcExQXzQ5YVQ3cXZXUnFPbkJMRlJMamFzR0RRcTZVX3Jha3RWVEYxdjBJMUtqT2NlOFpudXVJdTNaNFF1SzBTdk9JY3dEcEE1RnNGTnlrZS1fZjlCRUwzQlFjVEhGaG9kVHhkbnNYQ0F4RFpTaEVzTWpKUnNjZ9IB3wFBVV95cUxOME05eHRLVVlRbkppU0ZpRklfVnVJTkZKdERXeWtfc2VLUGs0b2ZuN3dtN0hWYUFYa0h4YWtmMWFqZUI5WDlRUVVoRlI2RUdRNl81aVB6dmhaUzBRNThITlZhNVNJRl9VWXdrLXVOMmpleW82S2lRS1BGdDFER205WktwVlV5V193eDVXaERHM3N0RkNscnRZY29VTlh2WlhnVzBubEEwekF6NzczOGx0dmdXQ21QeVgxRUtyNGVEdEVDbkhCQUt2NFJjR1Q3X0U0MkdvQnBMbGhqNXNSbVZV?oc=5",
-            "published": "Thu, 30 Jul 2026 07:00:00 GMT",
-            "score": 3,
+            "title": "NOCIL soars 12%; Arvind Mafatlal Group stock rallies 28% in 3 days - Business Standard",
+            "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxONzBaeHp1RzdNaFAzV3F2WVdaaTk0X3lmSU1SR0NucmNSRUNRU29FQnY4UzNoQlh3ZmRXMHlXRHl1ZUsycHFmUjBWVnVjUzVBN2s0OWsyWlQ3Z2lwNmp6Z18xaXc3UnF1cjdLOFIwZFBBOHNKeDdXeTZkblZRYmxSYVA5elhQZjNYVmFqSjFubnUtZWw3dTJmNEl4SndTcUl6aTUtNlRDUmluUkFDY0tKZS14T1VkRngyZWltNUZ6QXNnVTJvTTdmUGJB0gHPAUFVX3lxTE5Ick5ETFlXWGVqVUNFSzhEUjNLa3BNN09kclp3aW84TXVEQm5rV0RMV3E2NWVLM1NqaVBKbk5EU1dwS3VMck00RGdSQ1dBWHplbEpNNFF6a29WRE5qU1hGRnl0a1JqR18zMDk2UXJRS1Qya2RxQWRWNWZJX2FjYjdieXZsUlZnSTNYS0RTZDN1bFI0Vmw3MEVYaWVsU2wzZWEzckhwMmZTN21HRF9QbzRPczFsNTdDQmlTZGhHZnNJRkg2eTNxTHFFZXVKODVjTQ?oc=5",
+            "published": "Tue, 24 Mar 2026 07:00:00 GMT",
+            "score": 0,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 76.1,
-      "added_at": "2026-09-10T12:17:58.636639",
+      "core_score": 20,
+      "combined_score": 75.6,
+      "added_at": "2026-09-10T12:46:14.575253",
       "signal_state": "WATCHING",
-      "first_seen_price": 382.5,
-      "first_seen_at": "2026-09-10T09:46:03.852450"
+      "first_seen_price": 188.28,
+      "first_seen_at": "2026-09-10T06:19:25.175801"
     },
     {
       "symbol": "AEGISVOPAK",
@@ -940,22 +940,22 @@
       "symbol": "SHAREINDIA",
       "base": {
         "symbol": "SHAREINDIA",
-        "price": 207.33,
-        "day_change": 9.43,
-        "volume": 42928908,
-        "avg_volume": 3688158,
-        "volume_ratio": 23.85,
+        "price": 207.38,
+        "day_change": 9.46,
+        "volume": 44483841,
+        "avg_volume": 3762202,
+        "volume_ratio": 21.01,
         "high_52w": 212.33,
-        "pct_from_high": 2.41,
-        "market_cap": 4536.91
+        "pct_from_high": 2.39,
+        "market_cap": 4538.0
       },
       "technical": {
         "symbol": "SHAREINDIA",
-        "close": 207.3300018310547,
-        "rsi": 78.56,
+        "close": 207.3800048828125,
+        "rsi": 78.58,
         "adx": 24.28,
         "atr": 7.87,
-        "volume_ratio": 11.11,
+        "volume_ratio": 11.29,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -986,9 +986,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 195.53,
-        "target1": 223.06,
-        "target2": 234.87
+        "stop_loss": 195.58,
+        "target1": 223.11,
+        "target2": 234.92
       },
       "news": {
         "score": 45,
@@ -1033,7 +1033,7 @@
       },
       "core_score": 22,
       "combined_score": 72.8,
-      "added_at": "2026-09-10T12:18:05.855471",
+      "added_at": "2026-09-10T12:46:38.617176",
       "signal_state": "WATCHING",
       "first_seen_price": 206.97,
       "first_seen_at": "2026-09-10T09:46:18.848158"
@@ -1547,22 +1547,22 @@
       "symbol": "JKPAPER",
       "base": {
         "symbol": "JKPAPER",
-        "price": 417.1,
-        "day_change": 2.02,
-        "volume": 500064,
-        "avg_volume": 541403,
-        "volume_ratio": 1.9,
+        "price": 417.5,
+        "day_change": 2.12,
+        "volume": 532671,
+        "avg_volume": 542955,
+        "volume_ratio": 1.75,
         "high_52w": 444.8,
-        "pct_from_high": 6.64,
-        "market_cap": 7562.81
+        "pct_from_high": 6.54,
+        "market_cap": 7570.06
       },
       "technical": {
         "symbol": "JKPAPER",
-        "close": 417.1000061035156,
-        "rsi": 63.52,
+        "close": 417.5,
+        "rsi": 63.69,
         "adx": 47.26,
         "atr": 14.0,
-        "volume_ratio": 0.91,
+        "volume_ratio": 0.97,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1591,9 +1591,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 396.1,
-        "target1": 445.09,
-        "target2": 466.09
+        "stop_loss": 396.5,
+        "target1": 445.49,
+        "target2": 466.49
       },
       "news": {
         "score": 80,
@@ -1638,7 +1638,8 @@
       },
       "core_score": 17,
       "combined_score": 68.8,
-      "added_at": "2026-09-10T12:17:29.282434",
+      "added_at": "2026-09-10T12:45:50.808038",
+      "signal_state": "WATCHING",
       "first_seen_price": 417.1,
       "first_seen_at": "2026-09-10T12:17:29.282434"
     },
@@ -1646,22 +1647,22 @@
       "symbol": "OIL",
       "base": {
         "symbol": "OIL",
-        "price": 499.2,
-        "day_change": 0.05,
-        "volume": 2841862,
-        "avg_volume": 2224561,
-        "volume_ratio": 2.63,
+        "price": 501.55,
+        "day_change": 0.52,
+        "volume": 3042488,
+        "avg_volume": 2234115,
+        "volume_ratio": 2.42,
         "high_52w": 531.0,
-        "pct_from_high": 6.37,
-        "market_cap": 81200.26
+        "pct_from_high": 5.87,
+        "market_cap": 81582.51
       },
       "technical": {
         "symbol": "OIL",
-        "close": 499.20001220703125,
-        "rsi": 65.84,
+        "close": 501.54998779296875,
+        "rsi": 66.92,
         "adx": 30.4,
-        "atr": 12.65,
-        "volume_ratio": 1.27,
+        "atr": 12.7,
+        "volume_ratio": 1.35,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1691,9 +1692,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 480.23,
-        "target1": 524.5,
-        "target2": 543.47
+        "stop_loss": 482.5,
+        "target1": 526.95,
+        "target2": 546.01
       },
       "news": {
         "score": 45,
@@ -1707,7 +1708,7 @@
             "label": "Neutral"
           },
           {
-            "title": "Indian Stocks Set for Biggest Drop in a Year as Brent Oil Surges - Bloomberg.com",
+            "title": "Indian Stocks Set for Biggest Drop in a Year as Brent Oil Surges - bloomberg.com",
             "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOUW5rVlJnVFlqSTQ0ekI2VGIzd2hjNjV6cWZUN3UxM2ZBZEFfcWR4NkhoaTB5TzlGajJLMFVfamQxMXZZZVNOcnpaTVUwZEs5OC1id1lPeVVTUzJNQU9ZWDdfV1V4THdoeHdSU21PM0JKN3pWN3ZISjNMX0RZdjZuT08yVEQxT3k4d3BEbTNsTm9ha1dBTURjc3hnQXR0TmxYcVpoSjNRN3hVWm16cjFBU1ZMdjRpUQ?oc=5",
             "published": "Thu, 19 Mar 2026 07:00:00 GMT",
             "score": 0,
@@ -1738,7 +1739,7 @@
       },
       "core_score": 20,
       "combined_score": 68.6,
-      "added_at": "2026-09-10T12:17:48.985114",
+      "added_at": "2026-09-10T12:46:16.055112",
       "signal_state": "WATCHING",
       "first_seen_price": 511.2,
       "first_seen_at": "2026-09-10T09:45:45.830965"
@@ -2348,22 +2349,22 @@
       "symbol": "SAMBHV",
       "base": {
         "symbol": "SAMBHV",
-        "price": 132.9,
-        "day_change": 1.89,
-        "volume": 1886732,
-        "avg_volume": 1485392,
-        "volume_ratio": 2.6,
+        "price": 132.74,
+        "day_change": 1.76,
+        "volume": 1949947,
+        "avg_volume": 1488402,
+        "volume_ratio": 2.33,
         "high_52w": 141.32,
-        "pct_from_high": 6.34,
-        "market_cap": 3916.18
+        "pct_from_high": 6.46,
+        "market_cap": 3911.47
       },
       "technical": {
         "symbol": "SAMBHV",
-        "close": 132.89999389648438,
-        "rsi": 59.97,
+        "close": 132.74000549316406,
+        "rsi": 59.8,
         "adx": 36.87,
         "atr": 5.41,
-        "volume_ratio": 1.23,
+        "volume_ratio": 1.27,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2372,29 +2373,28 @@
         "cup_and_handle": true,
         "bull_flag": false,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [],
         "setup": "CUP AND HANDLE",
-        "score": 61,
+        "score": 55,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Cup and Handle",
-          "Near Breakout",
           "Healthy RSI",
           "MACD Bullish",
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 124.79,
-        "target1": 143.71,
-        "target2": 151.82
+        "stop_loss": 124.63,
+        "target1": 143.55,
+        "target2": 151.66
       },
       "news": {
         "score": 55,
@@ -2438,8 +2438,8 @@
         ]
       },
       "core_score": 20,
-      "combined_score": 64.6,
-      "added_at": "2026-09-10T12:18:02.520588",
+      "combined_score": 61.2,
+      "added_at": "2026-09-10T12:46:34.025165",
       "signal_state": "WATCHING",
       "first_seen_price": 134.55,
       "first_seen_at": "2026-09-10T09:46:11.479836"
@@ -2644,22 +2644,22 @@
       "symbol": "EBGNG",
       "base": {
         "symbol": "EBGNG",
-        "price": 680.2,
-        "day_change": 0.65,
-        "volume": 948012,
-        "avg_volume": 767148,
-        "volume_ratio": 2.55,
+        "price": 677.45,
+        "day_change": 0.24,
+        "volume": 965628,
+        "avg_volume": 767987,
+        "volume_ratio": 2.25,
         "high_52w": 704.9,
-        "pct_from_high": 3.63,
-        "market_cap": 7755.06
+        "pct_from_high": 4.05,
+        "market_cap": 7723.71
       },
       "technical": {
         "symbol": "EBGNG",
-        "close": 680.2000122070312,
-        "rsi": 64.49,
+        "close": 677.4500122070312,
+        "rsi": 64.11,
         "adx": 24.92,
         "atr": 35.53,
-        "volume_ratio": 1.19,
+        "volume_ratio": 1.21,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2687,9 +2687,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 626.91,
-        "target1": 751.25,
-        "target2": 804.54
+        "stop_loss": 624.16,
+        "target1": 748.5,
+        "target2": 801.79
       },
       "news": {
         "score": 55,
@@ -2734,7 +2734,7 @@
       },
       "core_score": 20,
       "combined_score": 60.2,
-      "added_at": "2026-09-10T12:17:08.479136",
+      "added_at": "2026-09-10T12:45:24.150330",
       "signal_state": "WATCHING",
       "first_seen_price": 675.8,
       "first_seen_at": "2026-09-10T06:18:46.927166"
