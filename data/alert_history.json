@@ -652,10 +652,10 @@
       "move_since_morning_pct": -0.9134051791321081,
       "move_from_open_pct": 1.42
     },
-    "outcome": "PENDING",
-    "exit_price": null,
-    "exit_time": null,
-    "max_favorable_pct": 4.85,
+    "outcome": "TARGET2_HIT",
+    "exit_price": 918.23,
+    "exit_time": "2026-09-11T00:00:00",
+    "max_favorable_pct": 12.07,
     "max_adverse_pct": 0.38
   },
   {
@@ -857,5 +857,45 @@
     "exit_time": null,
     "max_favorable_pct": 0.69,
     "max_adverse_pct": 2.52
+  },
+  {
+    "date": "2026-09-11",
+    "symbol": "MANINDS",
+    "alert_time": "09:58:44",
+    "bar_time": "2026-09-11T09:55:00+05:30",
+    "entry_price": 893.2,
+    "sl": 838.97,
+    "target1": 960.99,
+    "target2": 1006.18,
+    "features": {
+      "rsi": 77.15,
+      "adx": 59.17,
+      "daily_volume_ratio": 6.53,
+      "daily_score": 81,
+      "news_score": 33,
+      "combined_score": 68.2,
+      "intraday_score": 88.1,
+      "intraday_volume_ratio": 3.1208766590270973,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "inverse_hs": 0.0,
+      "cup_and_handle": 0.0,
+      "bull_flag": 0.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": 1.911120110335011,
+      "move_from_open_pct": 2.93
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
