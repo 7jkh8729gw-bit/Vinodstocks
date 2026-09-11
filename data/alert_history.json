@@ -936,7 +936,7 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 0.01,
-    "max_adverse_pct": 2.35
+    "max_adverse_pct": 2.37
   },
   {
     "date": "2026-09-11",
@@ -976,6 +976,46 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 1.11,
-    "max_adverse_pct": 0.3
+    "max_adverse_pct": 0.33
+  },
+  {
+    "date": "2026-09-11",
+    "symbol": "GLAND",
+    "alert_time": "13:28:45",
+    "bar_time": "2026-09-11T13:25:00+05:30",
+    "entry_price": 2933.6,
+    "sl": 2824.27,
+    "target1": 3070.27,
+    "target2": 3161.38,
+    "features": {
+      "rsi": 71.96,
+      "adx": 40.04,
+      "daily_volume_ratio": 2.5,
+      "daily_score": 59,
+      "news_score": 60,
+      "combined_score": 66.5,
+      "intraday_score": 90.9,
+      "intraday_volume_ratio": 7.321942446043166,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 0.0,
+      "inverse_hs": 0.0,
+      "cup_and_handle": 0.0,
+      "bull_flag": 0.0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 0.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": -3.0599399360171113,
+      "move_from_open_pct": 0.02
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
