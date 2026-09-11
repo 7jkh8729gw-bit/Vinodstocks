@@ -1,64 +1,55 @@
 """
-NSE AI BREAKOUT BOT V2
-======================
-Complete replacement for the previous Render/Flask-based screener.
+NSE AI BREAKOUT BOT — GitHub Actions Edition
+=============================================
+Same detection logic as the always-on V2 bot, restructured to run as
+short-lived scheduled jobs instead of a 24/5 daemon.
 
-What V2 does:
-1. Scans the broad NSE equity universe.
-2. Applies the user's core trend/liquidity/52-week-high filters.
-3. Builds a morning candidate list from daily OHLCV data.
-4. Detects bullish daily-chart structures:
-   - Golden Cross / bullish EMA alignment
-   - Double Bottom
-   - Higher High / Higher Low
-   - Bullish Engulfing
-   - Hammer
-   - Morning Star
-   - 3 White Soldiers
-   - MACD bullish crossover
-   - RSI strength
-   - OBV accumulation
-   - Near-breakout / breakout
-5. Searches Google News RSS for recent stock-specific headlines and
-   estimates catalyst sentiment using a transparent keyword model.
-6. Creates a composite AI-style score (rules + weighted evidence).
-7. Before market: sends the ranked morning watchlist to Telegram.
-8. During market: continuously checks ONLY the morning candidates for
-   intraday volume spikes and breakout conditions and sends BUY alerts.
-9. At the same time, the main universe scan continues periodically so
-   NEW stocks that meet the criteria can join the live watchlist.
-10. Stores state locally to avoid repeated Telegram alerts.
-11. NO Flask / Render Web Service is used.
+Three commands, each run by a separate GitHub Actions workflow:
+
+    python nse_ai_breakout_actions.py scan
+        Pre-market (~8:45 AM IST): scans the full NSE universe, builds the
+        ranked watchlist, sends the Telegram morning report, saves
+        data/watchlist.json for the other two commands to use.
+
+    python nse_ai_breakout_actions.py rescan
+        Every ~30 min during market hours: re-scans the full universe for
+        NEW stocks that now pass the filters and merges them into the
+        existing watchlist (capped at WATCHLIST_MAX_SIZE).
+
+    python nse_ai_breakout_actions.py recheck
+        Every ~5 min during market hours: loads the watchlist ONLY (fast,
+        no full-universe re-download) and checks each stock for an
+        intraday volume-spike + breakout buy signal. Tracks which symbols
+        were already alerted today in data/alert_state.json to avoid
+        duplicate pings.
+
+All state lives in ./data/*.json so the workflow can commit it back to the
+repo between runs. No threads, no infinite loops, no persistent Telegram
+polling — each run does one job and exits.
 
 IMPORTANT:
 - This is a rule-based quantitative assistant, not a guarantee of profit.
 - yfinance is convenient but is not a guaranteed real-time NSE feed.
-- For production-grade intraday execution, replace the market-data layer
-  with a broker/data-provider API.
 - Never blindly execute a signal; verify price, liquidity, spread and SL.
 """
 
 import os
 import re
+import sys
 import time
 import json
 import math
-import pickle
 import logging
-import threading
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, time as dt_time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import numpy as np
 import pandas as pd
 import yfinance as yf
 import requests
 import telebot
-from telebot import types
-from datasets import load_dataset
 
 from ta.momentum import RSIIndicator
 from ta.trend import MACD, EMAIndicator, ADXIndicator
@@ -91,7 +82,9 @@ MORNING_SCAN_HOUR = int(os.getenv("MORNING_SCAN_HOUR", "8"))
 MORNING_SCAN_MINUTE = int(os.getenv("MORNING_SCAN_MINUTE", "45"))
 
 # Main universe re-scan during market
-UNIVERSE_RESCAN_MINUTES = int(os.getenv("UNIVERSE_RESCAN_MINUTES", "15"))
+# (30 min default, not 15 — a full-universe scan is heavy even with the
+# cheap-filter-first fix, and yfinance has no official rate-limit guarantee)
+UNIVERSE_RESCAN_MINUTES = int(os.getenv("UNIVERSE_RESCAN_MINUTES", "30"))
 
 # Intraday breakout scan
 INTRADAY_SCAN_SECONDS = int(os.getenv("INTRADAY_SCAN_SECONDS", "60"))
@@ -102,19 +95,51 @@ MIN_INTRADAY_VOLUME_RATIO = float(os.getenv("MIN_INTRADAY_VOLUME_RATIO", "1.8"))
 MIN_BREAKOUT_SCORE = float(os.getenv("MIN_BREAKOUT_SCORE", "70"))
 MIN_BUY_SCORE = float(os.getenv("MIN_BUY_SCORE", "75"))
 
-# V2.1 PRE-BREAKOUT ENGINE
-RESISTANCE_LOOKBACK = int(os.getenv("RESISTANCE_LOOKBACK", "60"))
-RESISTANCE_PIVOT_WINDOW = int(os.getenv("RESISTANCE_PIVOT_WINDOW", "3"))
-MAX_PREBREAKOUT_DISTANCE = float(os.getenv("MAX_PREBREAKOUT_DISTANCE", "4.0"))
-MIN_COMPRESSION_SCORE = float(os.getenv("MIN_COMPRESSION_SCORE", "45"))
-MIN_SETUP_SCORE = float(os.getenv("MIN_SETUP_SCORE", "60"))
-EXTENDED_DAY_CHANGE = float(os.getenv("EXTENDED_DAY_CHANGE", "7"))
-VERY_EXTENDED_DAY_CHANGE = float(os.getenv("VERY_EXTENDED_DAY_CHANGE", "10"))
-EXTENDED_RSI = float(os.getenv("EXTENDED_RSI", "72"))
-VERY_EXTENDED_RSI = float(os.getenv("VERY_EXTENDED_RSI", "78"))
-MIN_RR = float(os.getenv("MIN_RR", "1.5"))
-VWAP_LOOKBACK_BARS = int(os.getenv("VWAP_LOOKBACK_BARS", "75"))
-BREAKOUT_CONFIRM_BARS = int(os.getenv("BREAKOUT_CONFIRM_BARS", "1"))
+# Skip alerts on stocks that have already moved more than this % since the
+# morning scan by the time a breakout is detected — reduces chasing risk
+# caused by delayed data + 5-min polling.
+EXTENSION_CAP_PCT = float(os.getenv("EXTENSION_CAP_PCT", "6.0"))
+
+# Separate cap: rejects signals on stocks that already ran too far from
+# TODAY'S OPEN before ever qualifying for the watchlist. This catches a
+# case the EXTENSION_CAP_PCT guard above cannot: a stock that gaps/sprints
+# hard in the first hour, THEN satisfies the filters — it looks "fresh" to
+# the first-seen-price guard even though it's already deep into the day's
+# move by the time we see it.
+OPEN_EXTENSION_CAP_PCT = float(os.getenv("OPEN_EXTENSION_CAP_PCT", "8.0"))
+
+# Corporate actions radar
+CORP_ACTIONS_LOOKAHEAD_DAYS = int(os.getenv("CORP_ACTIONS_LOOKAHEAD_DAYS", "15"))
+# Ascending order — used to find the most urgent not-yet-sent reminder.
+CORP_ACTION_MILESTONES = [0, 1, 3, 7, 15]
+CORP_ACTION_TYPES_WANTED = {"Bonus", "Split", "Dividend", "Buyback"}
+
+# --- Self-learning feedback loop ---
+MIN_SAMPLES_FOR_LEARNING = int(os.getenv("MIN_SAMPLES_FOR_LEARNING", "30"))
+LEARNING_FULL_INFLUENCE_SAMPLES = int(os.getenv("LEARNING_FULL_INFLUENCE_SAMPLES", "150"))
+
+# Alerts recorded before this date are excluded from training entirely.
+# Set this to the date you deploy a scoring/logic fix, so the model never
+# learns from data generated by since-fixed bugs (e.g. a broken extension
+# guard). Format: "YYYY-MM-DD". Leave empty to include all history.
+RETRAIN_MIN_DATE = os.getenv("RETRAIN_MIN_DATE", "").strip()
+
+# Bullish targets are sized from DAILY ATR (unlike the short bot), meaning
+# they're designed for multi-day swings — a trade taking 1-2 days to
+# resolve is expected, not a failure. Give a pending trade this many
+# trading days before giving up and marking it a timeout.
+MAX_HOLDING_DAYS = int(os.getenv("MAX_HOLDING_DAYS", "5"))
+
+# Widened from 1.5x — a stop this tight relative to daily ATR is prone to
+# getting clipped by ordinary intraday noise before a genuine setup has a
+# chance to work, exactly the "stopped out then reversed and rallied"
+# pattern. This is a real tradeoff, not a free fix: wider stops mean less
+# capital at risk per false signal, but more capital at risk when you're
+# genuinely wrong. Tune via env var once enough trades accumulate to see
+# which side of that tradeoff actually pays off empirically.
+SL_ATR_MULT = float(os.getenv("SL_ATR_MULT", "2.0"))
+TARGET1_ATR_MULT = float(os.getenv("TARGET1_ATR_MULT", "2.5"))
+TARGET2_ATR_MULT = float(os.getenv("TARGET2_ATR_MULT", "4.0"))
 
 # News
 NEWS_LOOKBACK_HOURS = int(os.getenv("NEWS_LOOKBACK_HOURS", "30"))
@@ -123,13 +148,12 @@ MAX_NEWS_ITEMS = int(os.getenv("MAX_NEWS_ITEMS", "5"))
 # Universe data workers
 MAX_WORKERS = int(os.getenv("MAX_WORKERS", "8"))
 
-# Persistence
-STATE_FILE = "ai_bot_v2_state.pkl"
-CACHE_FILE = "ai_bot_v2_daily_cache.pkl"
-WATCHLIST_FILE = "ai_bot_v2_watchlist.pkl"
-
 # Optional: limit Telegram morning list to this many stocks
 MORNING_TOP_N = int(os.getenv("MORNING_TOP_N", "20"))
+
+# Hard cap on watchlist size — keeps the free yfinance data source from
+# getting rate-limited during the frequent intraday recheck runs.
+WATCHLIST_MAX_SIZE = int(os.getenv("WATCHLIST_MAX_SIZE", "30"))
 
 # ============================================================
 # TELEGRAM
@@ -145,23 +169,7 @@ logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(message)s"
 )
 
-log = logging.getLogger("NSE-AI-V2")
-
-
-# ============================================================
-# GLOBAL STATE
-# ============================================================
-
-STATE = {
-    "alerted": set(),
-    "morning_sent_date": None,
-    "last_universe_scan": None,
-    "last_status_date": None,
-}
-
-WATCHLIST = {}
-UNIVERSE = []
-UNIVERSE_LOCK = threading.Lock()
+log = logging.getLogger("NSE-AI-ACTIONS")
 
 
 # ============================================================
@@ -187,60 +195,129 @@ def market_is_open():
     return start <= n.time() <= end
 
 
-def before_market():
-    n = now_ist()
-    return n.weekday() < 5 and n.time() < dt_time(9, 15)
+def session_elapsed_fraction():
+    """
+    Fraction of today's trading session elapsed (9:15-15:30 IST), floored
+    at 5% (~19 min) to avoid unstable ratios right at market open. Returns
+    None if the market isn't currently open — callers use that to know
+    they're looking at a complete prior session, not a partial one, and
+    should NOT apply this normalization.
+    """
+    if not market_is_open():
+        return None
 
+    n = now_ist().time()
 
-def after_market():
-    n = now_ist()
-    return n.weekday() < 5 and n.time() > dt_time(15, 30)
+    def _minutes(t):
+        return t.hour * 60 + t.minute
+
+    start_min = _minutes(dt_time(9, 15))
+    end_min = _minutes(dt_time(15, 30))
+    elapsed = _minutes(n) - start_min
+    fraction = elapsed / (end_min - start_min)
+    return max(0.05, min(1.0, fraction))
 
 
 # ============================================================
-# PERSISTENCE
+# PERSISTENCE (JSON files under ./data, committed back by the workflow)
 # ============================================================
 
-def load_pickle(path, default):
+DATA_DIR = "data"
+WATCHLIST_FILE = os.path.join(DATA_DIR, "watchlist.json")
+ALERT_STATE_FILE = os.path.join(DATA_DIR, "alert_state.json")
+ALERT_HISTORY_FILE = os.path.join(DATA_DIR, "alert_history.json")
+MODEL_WEIGHTS_FILE = os.path.join(DATA_DIR, "model_weights.json")
+CORP_ACTIONS_FILE = os.path.join(DATA_DIR, "corporate_actions.json")
+
+os.makedirs(DATA_DIR, exist_ok=True)
+
+
+def load_json(path, default):
     try:
         if os.path.exists(path):
-            with open(path, "rb") as f:
-                return pickle.load(f)
+            with open(path, "r") as f:
+                return json.load(f)
     except Exception as e:
         log.warning("Could not load %s: %s", path, e)
     return default
 
 
-def save_pickle(path, obj):
+def save_json(path, obj):
     try:
-        with open(path, "wb") as f:
-            pickle.dump(obj, f)
+        with open(path, "w") as f:
+            json.dump(obj, f, indent=2)
+        log.info("Saved %s", path)
     except Exception as e:
         log.warning("Could not save %s: %s", path, e)
 
 
-def load_state():
-    global STATE, WATCHLIST
-    old_state = load_pickle(STATE_FILE, {})
-    if isinstance(old_state, dict):
-        STATE.update(old_state)
-
-    if not isinstance(STATE.get("alerted"), set):
-        STATE["alerted"] = set()
-
-    WATCHLIST = load_pickle(WATCHLIST_FILE, {})
-    if not isinstance(WATCHLIST, dict):
-        WATCHLIST = {}
+def load_watchlist():
+    """Returns {"date": "YYYY-MM-DD", "items": [...]} or a fresh empty one."""
+    data = load_json(WATCHLIST_FILE, {})
+    if not isinstance(data, dict) or "items" not in data:
+        data = {"date": today_str(), "items": []}
+    return data
 
 
-def save_state():
-    save_pickle(STATE_FILE, STATE)
-    save_pickle(WATCHLIST_FILE, WATCHLIST)
+def save_watchlist(items):
+    save_json(WATCHLIST_FILE, {"date": today_str(), "items": items})
+
+
+def load_alert_state():
+    data = load_json(ALERT_STATE_FILE, {})
+    if not isinstance(data, dict) or "date" not in data:
+        data = {"date": today_str(), "alerted": []}
+    # Reset the alerted list whenever we cross into a new day.
+    if data["date"] != today_str():
+        data = {"date": today_str(), "alerted": []}
+    return data
+
+
+def save_alert_state(state):
+    save_json(ALERT_STATE_FILE, state)
+
+
+# ============================================================
+# ALERT HISTORY (for the self-learning feedback loop)
+# ============================================================
+
+def load_alert_history():
+    data = load_json(ALERT_HISTORY_FILE, [])
+    return data if isinstance(data, list) else []
+
+
+def save_alert_history(records):
+    save_json(ALERT_HISTORY_FILE, records)
+
+
+def load_model_weights():
+    data = load_json(MODEL_WEIGHTS_FILE, None)
+    if not data or "coef" not in data:
+        return None
+    return data
 
 
 # ============================================================
 # TELEGRAM HELPERS
 # ============================================================
+
+def sanitize_for_markdown(text):
+    """
+    Headlines and company names come from external sources (Google News,
+    NSE) and can contain stray *, _, ` characters that break Telegram's
+    Markdown parser and cause the ENTIRE message to be rejected. Strip/
+    replace them rather than risk that.
+    """
+    if not text:
+        return text
+    return (
+        text.replace("*", "")
+        .replace("_", " ")
+        .replace("`", "'")
+        .replace("[", "(")
+        .replace("]", ")")
+    )
+
 
 def tg_send(text, parse_mode="Markdown"):
     if not bot or not CHAT_ID:
@@ -255,16 +332,41 @@ def tg_send(text, parse_mode="Markdown"):
             disable_web_page_preview=True
         )
     except Exception as e:
-        log.warning("Telegram send failed: %s", e)
-        return None
+        # Most common cause: a headline/company name from external data
+        # contains an unmatched *, _, or ` that breaks Telegram's Markdown
+        # parser, rejecting the ENTIRE message. Rather than lose it, retry
+        # as plain text so the alert still reaches you.
+        log.warning("Telegram Markdown send failed (%s) — retrying as plain text.", e)
+        try:
+            return bot.send_message(
+                CHAT_ID,
+                text,
+                parse_mode=None,
+                disable_web_page_preview=True
+            )
+        except Exception as e2:
+            log.warning("Telegram plain-text retry also failed: %s", e2)
+            return None
 
 
 def tg_long_send(text):
-    # Telegram message limit is ~4096 chars.
+    # Telegram message limit is ~4096 chars. Split on line boundaries (not
+    # a raw character count) so we never cut a *bold* or _italic_ marker in
+    # half across two messages.
+    max_len = 3500
+    lines = text.split("\n")
     chunks = []
-    while text:
-        chunks.append(text[:3900])
-        text = text[3900:]
+    current = ""
+
+    for line in lines:
+        if len(current) + len(line) + 1 > max_len:
+            chunks.append(current)
+            current = line
+        else:
+            current = current + "\n" + line if current else line
+
+    if current:
+        chunks.append(current)
 
     for chunk in chunks:
         tg_send(chunk)
@@ -276,45 +378,228 @@ def tg_long_send(text):
 
 def get_all_nse_stocks():
     """
-    Uses the same Hugging Face security master approach as V1.
-    Removes obvious non-equity / malformed symbols.
+    Primary: official NSE equity list CSV (no extra package dependency).
+    Fallback: Hugging Face security master dataset (lazy-imported so the
+    'datasets' package is only needed if the primary source fails).
     """
     log.info("Loading NSE universe...")
 
     try:
+        session = requests.Session()
+        session.headers.update({"User-Agent": "Mozilla/5.0"})
+        session.get("https://www.nseindia.com", timeout=10)
+        resp = session.get(
+            "https://archives.nseindia.com/content/equities/EQUITY_L.csv",
+            timeout=15
+        )
+        if resp.status_code == 200 and "SYMBOL" in resp.text[:200]:
+            from io import StringIO
+            df = pd.read_csv(StringIO(resp.text))
+            symbols = sorted(set(
+                s for s in df["SYMBOL"].astype(str).str.strip().str.upper()
+                if re.fullmatch(r"[A-Z0-9&._-]+", s)
+            ))
+            if len(symbols) > 500:
+                log.info("NSE universe loaded from NSE archives: %s symbols", len(symbols))
+                return symbols
+    except Exception as e:
+        log.warning("NSE archives list failed: %s", e)
+
+    try:
+        from datasets import load_dataset
         ds = load_dataset(
             "tickertruth/nse-india-security-master",
             data_files="data/nse_security_master.csv"
         )
         df = ds["train"].to_pandas()
-
         df = df[df["active_flag"] == True]
-
-        symbols = (
-            df["nse_symbol"]
-            .astype(str)
-            .str.strip()
-            .str.upper()
-            .tolist()
-        )
-
         symbols = sorted(set(
-            s for s in symbols
+            s for s in df["nse_symbol"].astype(str).str.strip().str.upper()
             if re.fullmatch(r"[A-Z0-9&._-]+", s)
         ))
-
-        log.info("NSE universe loaded: %s symbols", len(symbols))
+        log.info("NSE universe loaded from Hugging Face fallback: %s symbols", len(symbols))
         return symbols
-
     except Exception as e:
         log.exception("Universe loading failed: %s", e)
-        return [
-            "RELIANCE",
-            "TCS",
-            "HDFCBANK",
-            "INFY",
-            "ICICIBANK",
-        ]
+        return ["RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK"]
+
+
+def get_symbol_company_map():
+    """
+    Fetches SYMBOL -> company name from the same NSE archives CSV used by
+    get_all_nse_stocks(). Needed to match news headlines (which mention
+    company names like "Man Industries") against our own ticker universe
+    (which only speaks in symbols like "MANINDS").
+    """
+    try:
+        session = requests.Session()
+        session.headers.update({"User-Agent": "Mozilla/5.0"})
+        session.get("https://www.nseindia.com", timeout=10)
+        resp = session.get(
+            "https://archives.nseindia.com/content/equities/EQUITY_L.csv",
+            timeout=15
+        )
+        if resp.status_code == 200 and "SYMBOL" in resp.text[:200]:
+            from io import StringIO
+            df = pd.read_csv(StringIO(resp.text))
+            name_col = "NAME OF COMPANY" if "NAME OF COMPANY" in df.columns else None
+            if name_col:
+                mapping = {}
+                for _, row in df.iterrows():
+                    symbol = str(row["SYMBOL"]).strip().upper()
+                    name = str(row[name_col]).strip()
+                    if re.fullmatch(r"[A-Z0-9&._-]+", symbol) and name and name.lower() != "nan":
+                        mapping[symbol] = name
+                if len(mapping) > 500:
+                    log.info("Loaded %s symbol-to-company mappings", len(mapping))
+                    return mapping
+    except Exception as e:
+        log.warning("Symbol-company map fetch failed: %s", e)
+    return {}
+
+
+def clean_company_name_for_matching(name):
+    """
+    Strips only the safest, most generic corporate suffixes — NOT words
+    like 'Industries' or 'Motors' that are often the actual distinctive
+    part of a brand name. Deliberately conservative: matching on the full
+    remaining phrase avoids the false-positive risk of matching on a
+    single generic word (e.g. just 'Man').
+    """
+    cleaned = re.sub(
+        r"\b(limited|ltd\.?|private|pvt\.?)\b", "", name, flags=re.IGNORECASE
+    )
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
+def get_nse_session():
+    session = requests.Session()
+    session.headers.update({
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Accept": "application/json",
+        "Accept-Language": "en-US,en;q=0.9",
+    })
+    try:
+        session.get("https://www.nseindia.com", timeout=10)
+    except Exception:
+        pass
+    return session
+
+
+# ============================================================
+# MARKET PULSE — global cues shown at the top of the morning report
+# ============================================================
+
+def fetch_index_status(name, ticker):
+    """Green/red based on last available session change for a global index."""
+    try:
+        fi = yf.Ticker(ticker).fast_info
+        last = float(_fast_info_get(fi, "last_price", "lastPrice") or 0)
+        prev = float(
+            _fast_info_get(fi, "previous_close", "regularMarketPreviousClose", "previousClose") or 0
+        )
+        if last <= 0 or prev <= 0:
+            return None
+        change_pct = ((last - prev) / prev) * 100
+        return {"name": name, "last": last, "change_pct": round(change_pct, 2), "is_green": change_pct >= 0}
+    except Exception as e:
+        log.debug("Index fetch failed for %s: %s", name, e)
+        return None
+
+
+def fetch_india_vix():
+    try:
+        fi = yf.Ticker("^INDIAVIX").fast_info
+        last = float(_fast_info_get(fi, "last_price", "lastPrice") or 0)
+        if last <= 0:
+            return None
+        return {"value": round(last, 2), "above_15": last > 15}
+    except Exception as e:
+        log.debug("India VIX fetch failed: %s", e)
+        return None
+
+
+def fetch_nse_breadth():
+    """
+    NSE's own index-breadth endpoint. NOTE: the morning scan runs at 8:45 AM,
+    30 min before market open — this will reflect whatever NSE's API returns
+    pre-open (often the previous session's closing breadth), not live
+    intraday advance/decline.
+    """
+    try:
+        session = get_nse_session()
+        resp = session.get(
+            "https://www.nseindia.com/api/equity-stockIndices?index=NIFTY%2050",
+            timeout=10
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            adv = data.get("advance", {})
+            advances = int(adv.get("advances", 0))
+            declines = int(adv.get("declines", 0))
+            unchanged = int(adv.get("unchanged", 0))
+            if advances or declines:
+                return {
+                    "advances": advances,
+                    "declines": declines,
+                    "unchanged": unchanged,
+                    "advances_more": advances > declines,
+                }
+    except Exception as e:
+        log.debug("NSE breadth fetch failed: %s", e)
+    return None
+
+
+def build_premarket_pulse_message():
+    """Dow/Nasdaq are meaningful at 8:45 AM IST — the US session already
+    closed hours earlier. VIX and NSE breadth are NOT included here since
+    both require live NSE trading (see build_market_open_pulse_message)."""
+    dow = fetch_index_status("Dow Jones", "^DJI")
+    nasdaq = fetch_index_status("Nasdaq", "^IXIC")
+
+    msg = "🌍 *Global Market Pulse*\n" + ("━" * 20) + "\n"
+
+    if dow:
+        msg += f"{'🟢' if dow['is_green'] else '🔴'} Dow Jones: {dow['change_pct']:+.2f}%\n"
+    else:
+        msg += "⚪ Dow Jones: data unavailable\n"
+
+    if nasdaq:
+        msg += f"{'🟢' if nasdaq['is_green'] else '🔴'} Nasdaq: {nasdaq['change_pct']:+.2f}%\n"
+    else:
+        msg += "⚪ Nasdaq: data unavailable\n"
+
+    msg += (
+        "\nℹ️ India VIX and NSE advance/decline aren't live yet before "
+        "market open — check the follow-up update ~15 min after 9:15 AM.\n"
+    )
+
+    return msg
+
+
+def build_market_open_pulse_message():
+    """VIX and NSE breadth are only live once the exchange is trading —
+    call this shortly after 9:15 AM, not at the 8:45 AM pre-market scan."""
+    vix = fetch_india_vix()
+    breadth = fetch_nse_breadth()
+
+    msg = "🇮🇳 *Market Open Pulse*\n" + ("━" * 20) + "\n"
+
+    if vix:
+        msg += f"India VIX: {vix['value']} ({'above' if vix['above_15'] else 'below'} 15)\n"
+    else:
+        msg += "⚪ India VIX: data unavailable\n"
+
+    if breadth:
+        msg += (
+            f"{'🟢' if breadth['advances_more'] else '🔴'} NSE Breadth: "
+            f"{breadth['advances']} advances vs {breadth['declines']} declines\n"
+        )
+    else:
+        msg += "⚪ NSE Advance/Decline: data unavailable\n"
+
+    return msg
 
 
 # ============================================================
@@ -380,32 +665,61 @@ def yf_intraday(symbol):
         return None
 
 
+def _fast_info_get(fi, *keys, default=0):
+    for k in keys:
+        try:
+            v = fi[k]
+            if v is not None:
+                return v
+        except Exception:
+            pass
+        try:
+            v = getattr(fi, k)
+            if v is not None:
+                return v
+        except Exception:
+            pass
+    return default
+
+
 def get_info(symbol):
     """
-    yfinance info is relatively expensive and can fail.
-    It is used only when needed.
+    Uses yfinance's fast_info instead of the full .info property.
+
+    .info requires a "crumb" auth token from Yahoo that has been failing
+    broadly with HTTP 401 "Invalid Crumb" errors, especially from
+    datacenter/shared IPs like GitHub Actions runners. fast_info hits a
+    lighter endpoint that doesn't need that crumb exchange, so it's much
+    more reliable here.
     """
     try:
         t = yf.Ticker(f"{symbol}.NS")
-        info = t.info or {}
+        fi = t.fast_info
+
+        price = float(_fast_info_get(fi, "last_price", "lastPrice") or 0)
+        prev_close = float(
+            _fast_info_get(fi, "previous_close", "regularMarketPreviousClose", "previousClose") or 0
+        )
+        volume = int(_fast_info_get(fi, "last_volume", "regularMarketVolume") or 0)
+        market_cap = float(_fast_info_get(fi, "market_cap", "marketCap") or 0)
+
+        # Fallback: derive market cap from shares outstanding if fast_info
+        # didn't provide it directly.
+        if not market_cap:
+            shares = _fast_info_get(fi, "shares", "shares_outstanding")
+            if shares and price:
+                market_cap = float(shares) * price
 
         return {
-            "price": float(
-                info.get("regularMarketPrice")
-                or info.get("currentPrice")
-                or 0
-            ),
-            "prev_close": float(
-                info.get("regularMarketPreviousClose")
-                or info.get("previousClose")
-                or 0
-            ),
-            "volume": int(info.get("regularMarketVolume") or 0),
-            "high_52w": float(info.get("fiftyTwoWeekHigh") or 0),
-            "market_cap": float(info.get("marketCap") or 0) / 1e7,
+            "price": price,
+            "prev_close": prev_close,
+            "volume": volume,
+            "high_52w": 0,  # computed from daily history in apply_core_filters instead
+            "market_cap": market_cap / 1e7,
         }
 
-    except Exception:
+    except Exception as e:
+        log.debug("fast_info failed for %s: %s", symbol, e)
         return {
             "price": 0,
             "prev_close": 0,
@@ -566,132 +880,235 @@ def detect_golden_cross(df):
     return bool(alignment and (crossover or recent.sum() >= 7))
 
 
-def _pivot_lows(df, window=3):
-    lows = df["Low"].astype(float).values
-    out = []
-    for i in range(window, len(df) - window):
-        if lows[i] <= np.min(lows[i-window:i]) and lows[i] <= np.min(lows[i+1:i+window+1]):
-            out.append(i)
-    return out
+def detect_inverse_head_and_shoulders(df):
+    """
+    Bullish reversal: three troughs — left shoulder, head (the lowest),
+    right shoulder — with the two shoulders roughly level and a meaningful
+    dip for the head. Same rigor as the double-bottom fix: strict 5-bar
+    pivots, only checks consecutive candidate triplets (not all combos)
+    to avoid matching unrelated noise far apart in the window.
+    """
+    if len(df) < 60:
+        return False
+
+    lows = df["Low"].values
+    highs = df["High"].values
+    close = df["Close"].values
+    lookback = min(120, len(df))
+    start = len(df) - lookback
+    window = 5
+
+    candidates = []
+    for i in range(start + window, len(df) - window):
+        left = lows[i - window:i]
+        right = lows[i + 1:i + 1 + window]
+        if lows[i] < left.min() and lows[i] < right.min():
+            candidates.append(i)
+
+    if len(candidates) < 3:
+        return False
+
+    for idx in range(len(candidates) - 2):
+        l_idx, h_idx, r_idx = candidates[idx], candidates[idx + 1], candidates[idx + 2]
+        if h_idx - l_idx < 8 or r_idx - h_idx < 8:
+            continue
+        if (r_idx - l_idx) > 90:
+            continue
+        if (len(df) - 1 - r_idx) > 40:
+            continue
+
+        L, H, R = lows[l_idx], lows[h_idx], lows[r_idx]
+        if not (H < L and H < R):
+            continue
+
+        avg_shoulder = (L + R) / 2
+        if avg_shoulder <= 0:
+            continue
+        if abs(L - R) / avg_shoulder > 0.07:
+            continue
+        if (avg_shoulder - H) / avg_shoulder < 0.03:
+            continue  # head not meaningfully lower — not a real H&S
+
+        neckline = min(highs[l_idx:h_idx + 1].max(), highs[h_idx:r_idx + 1].max())
+        if close[-1] >= neckline * 0.98:
+            return True
+
+    return False
 
 
-def _pivot_highs(df, window=3):
-    highs = df["High"].astype(float).values
-    out = []
-    for i in range(window, len(df) - window):
-        if highs[i] >= np.max(highs[i-window:i]) and highs[i] >= np.max(highs[i+1:i+window+1]):
-            out.append(i)
-    return out
-
-
-def detect_double_bottom(df, return_details=False):
-    """Strict double-bottom: separated equal lows, meaningful rebound, neckline, and retest/approach."""
+def detect_cup_and_handle(df):
+    """
+    Bullish continuation: a rounded 'cup' (gradual decline and recovery
+    back near the original high) followed by a shallow 'handle' pullback.
+    NOTE: inherently fuzzier than a geometric pattern like double-bottom
+    or H&S — treat with more skepticism until outcome data validates it.
+    """
     if len(df) < 80:
-        return ({"valid": False} if return_details else False)
-    x = df.tail(min(150, len(df))).reset_index(drop=True)
-    lows = x["Low"].astype(float)
-    highs = x["High"].astype(float)
-    closes = x["Close"].astype(float)
-    pivots = _pivot_lows(x, 3)
-    best = None
-    for ai, a in enumerate(pivots[:-1]):
-        for b in pivots[ai+1:]:
-            sep = b - a
-            if sep < 12 or sep > 70:
-                continue
-            low1, low2 = lows.iloc[a], lows.iloc[b]
-            avg_low = (low1 + low2) / 2
-            if avg_low <= 0 or abs(low1-low2)/avg_low > 0.035:
-                continue
-            valley = float(highs.iloc[a+1:b].max())
-            if valley <= avg_low * 1.07:
-                continue
-            # Second bottom should be a genuine pullback, not just two adjacent lows.
-            if closes.iloc[b] > valley * 1.01:
-                continue
-            recent_high = float(closes.iloc[-1])
-            distance = (valley - recent_high) / valley * 100
-            if distance < -3.0 or distance > 5.0:
-                continue
-            score = 100 - abs(low1-low2)/avg_low*1000 + min(20, (valley/avg_low-1)*100)
-            candidate = {"valid": True, "first_low": float(low1), "second_low": float(low2),
-                         "neckline": valley, "distance_to_neckline": round(distance,2), "score": round(score,1)}
-            if best is None or candidate["score"] > best["score"]:
-                best = candidate
-    if return_details:
-        return best or {"valid": False}
-    return bool(best)
+        return False
+
+    n = len(df)
+    cup_window = min(90, n - 10)
+    cup = df.iloc[-(cup_window + 10):-10] if n > cup_window + 10 else df.iloc[:-10]
+    if len(cup) < 30:
+        return False
+
+    left_rim = cup["High"].iloc[:10].max()
+    right_rim = cup["High"].iloc[-10:].max()
+    avg_rim = (left_rim + right_rim) / 2
+    if avg_rim <= 0:
+        return False
+    if abs(left_rim - right_rim) / avg_rim > 0.08:
+        return False
+
+    cup_bottom_pos = int(cup["Low"].values.argmin())
+    rel_pos = cup_bottom_pos / len(cup)
+    if rel_pos < 0.25 or rel_pos > 0.75:
+        return False  # bottom too close to an edge — V-shaped, not rounded
+
+    cup_bottom = float(cup["Low"].iloc[cup_bottom_pos])
+    depth_pct = (avg_rim - cup_bottom) / avg_rim * 100
+    if depth_pct < 12 or depth_pct > 50:
+        return False
+
+    handle = df.iloc[-10:]
+    handle_low = float(handle["Low"].min())
+    handle_pullback_pct = (right_rim - handle_low) / right_rim * 100 if right_rim > 0 else 100
+    if handle_pullback_pct > 15:
+        return False  # handle too deep to be a healthy consolidation
+
+    recent_close = float(df["Close"].iloc[-1])
+    return recent_close >= right_rim * 0.99
 
 
-def find_daily_resistance(df, lookback=60):
-    x = df.tail(min(lookback, len(df))).reset_index(drop=True)
-    pivots = _pivot_highs(x, 3)
-    current = float(x["Close"].iloc[-1])
-    candidates = [float(x["High"].iloc[i]) for i in pivots if float(x["High"].iloc[i]) >= current * 0.98]
-    if not candidates:
-        candidates = [float(x["High"].max())]
-    resistance = min(candidates, key=lambda v: abs(v-current))
-    return resistance
-
-
-def calculate_compression_score(df):
+def detect_bull_flag(df):
+    """
+    Bullish continuation: a sharp rally (the flagpole) followed by a
+    brief, tight, orderly consolidation (the flag) that doesn't give back
+    too much of the pole's gain, then a break above the flag's high.
+    """
     if len(df) < 25:
-        return 0.0
-    x = df.copy()
-    close = x["Close"].astype(float)
-    atr = x["ATR"] if "ATR" in x else pd.Series(index=x.index, dtype=float)
-    recent = x.tail(20)
-    range_pct = (recent["High"].max() - recent["Low"].min()) / max(close.iloc[-1], 0.01) * 100
-    atr_pct = float(atr.iloc[-1] / close.iloc[-1] * 100) if pd.notna(atr.iloc[-1]) else 0
-    daily_ranges = ((x["High"]-x["Low"]) / x["Close"]).tail(20)
-    contraction = 1 - (daily_ranges.tail(10).mean() / max(daily_ranges.head(10).mean(), 1e-9))
-    score = 0
-    if range_pct <= 12: score += 35
-    elif range_pct <= 18: score += 25
-    elif range_pct <= 25: score += 15
-    if atr_pct <= 3: score += 25
-    elif atr_pct <= 4.5: score += 18
-    elif atr_pct <= 6: score += 10
-    if contraction >= 0.25: score += 25
-    elif contraction >= 0.10: score += 15
-    elif contraction >= 0: score += 8
-    # Higher lows improve base quality.
-    lows = recent["Low"].tail(10).values
-    if len(lows) >= 6 and lows[-1] >= np.min(lows[:5]) * 1.005:
-        score += 15
-    return round(min(100, score), 1)
+        return False
+
+    pole = df.iloc[-20:-6]
+    flag = df.iloc[-6:]
+    if len(pole) < 8 or len(flag) < 4:
+        return False
+
+    pole_start = float(pole["Close"].iloc[0])
+    pole_end = float(pole["Close"].iloc[-1])
+    if pole_start <= 0:
+        return False
+    pole_gain_pct = (pole_end - pole_start) / pole_start * 100
+    if pole_gain_pct < 12:
+        return False  # not a strong enough flagpole
+
+    flag_high = float(flag["High"].max())
+    flag_low = float(flag["Low"].min())
+    if flag_low <= 0:
+        return False
+    flag_range_pct = (flag_high - flag_low) / flag_low * 100
+    if flag_range_pct > 10:
+        return False  # too volatile to be an orderly flag
+
+    pole_move = pole_end - pole_start
+    if pole_move > 0:
+        retrace_pct = (pole_end - flag_low) / pole_move * 100
+        if retrace_pct > 50:
+            return False  # gave back too much of the rally
+
+    recent_close = float(df["Close"].iloc[-1])
+    return recent_close >= flag_high * 0.995
 
 
-def calculate_relative_strength(df):
-    """Internal price-strength proxy when index data is unavailable."""
+def detect_double_bottom(df):
+    """
+    Stricter double-bottom detector. Requires:
+    - Genuine swing lows (5-bar window, strict less-than, not just "not higher")
+    - A MEANINGFUL rally between the two lows (the actual "W" shape) — this
+      was missing before, which let any two vaguely-similar lows anywhere
+      in a 120-day window count, regardless of what happened between them.
+    - The second low reasonably recent, so the pattern is still relevant.
+    """
+    if len(df) < 60:
+        return False
+
+    close = df["Close"].values
+    lows = df["Low"].values
+    highs = df["High"].values
+
+    lookback = min(120, len(df))
+    start = len(df) - lookback
+    window = 5  # bars on each side required to confirm a genuine swing low
+    min_bounce_pct = 8.0  # the middle rally must clear the lows by at least this much
+
+    candidates = []
+    for i in range(start + window, len(df) - window):
+        left = lows[i - window:i]
+        right = lows[i + 1:i + 1 + window]
+        if lows[i] < left.min() and lows[i] < right.min():
+            candidates.append(i)
+
+    if len(candidates) < 2:
+        return False
+
+    for a_idx in candidates[:-1]:
+        for b_idx in candidates:
+            if b_idx <= a_idx:
+                continue
+
+            distance = b_idx - a_idx
+            if distance < 15 or distance > 60:
+                continue
+            # Pattern should still be current, not stale.
+            if (len(df) - 1 - b_idx) > 40:
+                continue
+
+            a, b = lows[a_idx], lows[b_idx]
+            avg_low = (a + b) / 2
+            if avg_low <= 0:
+                continue
+            if abs(a - b) / avg_low > 0.04:
+                continue
+
+            middle_peak = highs[a_idx:b_idx + 1].max()
+            bounce_pct = ((middle_peak - avg_low) / avg_low) * 100
+            if bounce_pct < min_bounce_pct:
+                continue  # no real "W" shape — just noise near a similar level
+
+            recent_close = close[-1]
+            if recent_close >= middle_peak * 0.97:
+                return True
+
+    return False
+
+
+def detect_higher_high_higher_low(df):
     if len(df) < 30:
-        return 50.0
-    ret20 = float(df["Close"].iloc[-1] / df["Close"].iloc[-21] - 1)
-    ret5 = float(df["Close"].iloc[-1] / df["Close"].iloc[-6] - 1)
-    score = 50 + ret20*180 + ret5*120
-    return round(max(0, min(100, score)), 1)
+        return False
 
+    x = df.iloc[-30:]
 
-def classify_setup(day_change, rsi, setup_score, distance, compression, breakout=False):
-    if breakout:
-        if day_change >= VERY_EXTENDED_DAY_CHANGE or rsi >= VERY_EXTENDED_RSI:
-            return "EXTENDED BREAKOUT"
-        return "BREAKOUT CONFIRMED"
-    if day_change >= VERY_EXTENDED_DAY_CHANGE or rsi >= VERY_EXTENDED_RSI:
-        return "EXTENDED MOMENTUM"
-    if setup_score >= 75 and distance <= 2.0 and compression >= 55:
-        return "PRE-BREAKOUT"
-    if setup_score >= MIN_SETUP_SCORE and distance <= MAX_PREBREAKOUT_DISTANCE:
-        return "BREAKOUT WATCH"
-    return "BULLISH WATCH"
+    recent_high = x["High"].iloc[-1]
+    previous_high = x["High"].iloc[-15:-3].max()
+
+    recent_low = x["Low"].iloc[-1]
+    previous_low = x["Low"].iloc[-15:-3].min()
+
+    return (
+        recent_high >= previous_high
+        and recent_low >= previous_low * 0.995
+    )
 
 
 def detect_near_breakout(df):
-    if len(df) < 40:
+    if len(df) < 30:
         return False
-    resistance = find_daily_resistance(df, RESISTANCE_LOOKBACK)
-    close = float(df["Close"].iloc[-1])
-    return close <= resistance and ((resistance-close)/resistance*100) <= MAX_PREBREAKOUT_DISTANCE
+
+    resistance = df["High"].iloc[-21:-1].max()
+    close = df["Close"].iloc[-1]
+
+    return close >= resistance * 0.985
+
 
 def detect_breakout(df):
     if len(df) < 25:
@@ -885,97 +1302,352 @@ def compute_news_score(symbol):
 
 
 # ============================================================
-# DAILY AI-STYLE ANALYSIS
+# CATALYST NEWS SCANNER — parallel news discovery, pre-market only
+# ============================================================
+# A stock with a genuinely big catalyst (order win, approval, contract)
+# may not show any technical signature yet — our per-symbol news check
+# never even LOOKS at it, since it only runs on stocks that already
+# passed technical filters. This scans broad catalyst-type queries once
+# daily (during the pre-market scan, not on every 5-min recheck) and
+# matches headlines back to our own universe by company name.
+#
+# Deliberately narrow, catalyst-specific queries — NOT a generic "stock
+# market news today" search — since that returns mostly noise/opinion
+# pieces with no real signal. Each query targets one concrete catalyst
+# type known to move a stock before its chart reacts.
+
+CATALYST_NEWS_QUERIES = [
+    '"bags order" OR "wins order" India NSE stock',
+    '"wins contract" OR "signs contract" India NSE stock',
+    '"gets approval" OR "receives approval" India NSE stock',
+    '"capacity expansion" India NSE stock',
+    '"signs agreement" OR "strategic partnership" India NSE stock',
+]
+
+NEWS_CANDIDATES_FILE = os.path.join(DATA_DIR, "news_candidates.json")
+CATALYST_SENTIMENT_MIN = int(os.getenv("CATALYST_SENTIMENT_MIN", "5"))  # matches "Bullish" threshold elsewhere
+CATALYST_MAX_DAY_CHANGE = float(os.getenv("CATALYST_MAX_DAY_CHANGE", "12"))  # don't chase one already fully priced in
+CATALYST_MAX_CANDIDATES = int(os.getenv("CATALYST_MAX_CANDIDATES", "10"))
+
+
+def fetch_catalyst_headlines(query):
+    try:
+        q = urllib.parse.quote(query)
+        url = f"https://news.google.com/rss/search?q={q}&hl=en-IN&gl=IN&ceid=IN:en"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            xml_data = response.read()
+        root = ET.fromstring(xml_data)
+        items = []
+        for item in root.findall(".//item")[:30]:
+            title = clean_text(item.findtext("title"))
+            if title:
+                items.append(title)
+        return items
+    except Exception as e:
+        log.debug("Catalyst query failed (%s): %s", query, e)
+        return []
+
+
+def match_headline_to_symbol(headline, symbol_company_map):
+    """
+    Conservative substring match: requires the company's FULL cleaned name
+    (not a single word from it) to appear in the headline. Avoids the
+    false-positive risk of e.g. matching "Man" alone against any headline
+    containing that common word.
+    """
+    headline_lower = headline.lower()
+    for symbol, company_name in symbol_company_map.items():
+        cleaned = clean_company_name_for_matching(company_name)
+        if len(cleaned) < 5:
+            continue  # too short/generic to match safely
+        if cleaned.lower() in headline_lower:
+            return symbol
+    return None
+
+
+def scan_news_catalysts(already_watchlisted_symbols):
+    """
+    Runs once, during the pre-market scan. Returns a list of candidates
+    with a genuine bullish catalyst but no confirmed technical setup yet.
+    These get saved separately and picked up by the existing rescan cycle
+    (which already runs every 30 min) to check for technical confirmation
+    later in the day — no new expensive workflow needed for that part.
+    """
+    log.info("Scanning for news catalysts (pre-technical)...")
+    symbol_company_map = get_symbol_company_map()
+    if not symbol_company_map:
+        log.warning("No symbol-company map available — skipping catalyst scan.")
+        return []
+
+    all_headlines = []
+    for query in CATALYST_NEWS_QUERIES:
+        all_headlines.extend(fetch_catalyst_headlines(query))
+        time.sleep(0.3)
+
+    log.info("Fetched %s catalyst headlines across %s queries", len(all_headlines), len(CATALYST_NEWS_QUERIES))
+
+    matched = {}  # symbol -> best (headline, score)
+    for headline in all_headlines:
+        symbol = match_headline_to_symbol(headline, symbol_company_map)
+        if not symbol or symbol in already_watchlisted_symbols:
+            continue
+        score, label = news_sentiment(headline)
+        if label != "Bullish" or score < CATALYST_SENTIMENT_MIN:
+            continue  # not all news is meaningful — require real conviction
+        if symbol not in matched or score > matched[symbol][1]:
+            matched[symbol] = (headline, score)
+
+    if not matched:
+        log.info("No qualifying catalyst matches found today.")
+        return []
+
+    log.info("Found %s candidate symbols with strong catalyst headlines", len(matched))
+
+    candidates = []
+    for symbol, (headline, score) in matched.items():
+        try:
+            info = get_info(symbol)
+            price = info.get("price", 0)
+            prev_close = info.get("prev_close", 0)
+            if price < MIN_PRICE or info.get("market_cap", 0) < MIN_MARKET_CAP_CR:
+                continue
+            day_change = ((price - prev_close) / prev_close * 100) if prev_close > 0 else 0
+            if day_change > CATALYST_MAX_DAY_CHANGE:
+                continue  # already fully priced in — same chasing risk as any extension guard
+            candidates.append({
+                "symbol": symbol,
+                "company": symbol_company_map.get(symbol, symbol),
+                "headline": sanitize_for_markdown(headline),
+                "sentiment_score": score,
+                "price": price,
+                "day_change": round(day_change, 2),
+                "discovered_date": today_str(),
+                "confirmed_technical": False,
+                "confirmed_date": None,
+            })
+        except Exception as e:
+            log.debug("Catalyst liquidity check failed for %s: %s", symbol, e)
+
+    candidates.sort(key=lambda c: c["sentiment_score"], reverse=True)
+    candidates = candidates[:CATALYST_MAX_CANDIDATES]
+
+    save_json(NEWS_CANDIDATES_FILE, {"date": today_str(), "items": candidates})
+    return candidates
+
+
+def format_news_catalyst_section(candidates):
+    if not candidates:
+        return ""
+    msg = "\n📰 *News-Driven Candidates (Pre-Technical)*\n"
+    msg += "Strong catalyst found, no confirmed breakout yet — being tracked.\n"
+    msg += ("━" * 20) + "\n"
+    for i, c in enumerate(candidates, 1):
+        msg += (
+            f"{i}. *{c['symbol']}* — {c['company']}\n"
+            f"💰 ₹{c['price']:.2f} | 📈 {c['day_change']:.2f}%\n"
+            f"📰 {c['headline']}\n"
+            f"━━━━━━━━━━━━━━━━\n"
+        )
+    return msg
+
+
+
 # ============================================================
 
 def analyze_daily(symbol, df):
     if df is None or len(df) < 210:
         return None
+
     x = add_indicators(df)
-    last, prev = x.iloc[-1], x.iloc[-2]
+
+    last = x.iloc[-1]
+    prev = x.iloc[-2]
+
     close = float(last["Close"])
-    atr = float(last["ATR"]) if pd.notna(last["ATR"]) else 0
+    atr = float(last["ATR"]) if not pd.isna(last["ATR"]) else 0
+
     if close <= 0:
         return None
 
     patterns = detect_candlestick_patterns(x)
     golden_cross = detect_golden_cross(x)
-    db = detect_double_bottom(x, True)
-    double_bottom = db.get("valid", False)
+    double_bottom = detect_double_bottom(x)
+    inverse_hs = detect_inverse_head_and_shoulders(x)
+    cup_and_handle = detect_cup_and_handle(x)
+    bull_flag = detect_bull_flag(x)
     hh_hl = detect_higher_high_higher_low(x)
-    resistance = find_daily_resistance(x, RESISTANCE_LOOKBACK)
-    distance = max(0.0, (resistance-close)/resistance*100) if resistance > 0 else 100
-    near_breakout = distance <= MAX_PREBREAKOUT_DISTANCE
-    breakout = close > resistance * 1.002
+    near_breakout = detect_near_breakout(x)
+    breakout = detect_breakout(x)
 
-    macd_cross = last["MACD"] > last["MACDSignal"] and prev["MACD"] <= prev["MACDSignal"]
-    rsi = float(last["RSI"]) if pd.notna(last["RSI"]) else 50
-    adx = float(last["ADX"]) if pd.notna(last["ADX"]) else 0
-    rsi_prev = float(x["RSI"].iloc[-6]) if pd.notna(x["RSI"].iloc[-6]) else rsi
-    macd_hist_slope = float(last["MACDHist"] - x["MACDHist"].iloc[-5]) if pd.notna(x["MACDHist"].iloc[-5]) else 0
-    obv_accumulation = len(x) >= 10 and x["OBV"].iloc[-1] > x["OBV"].iloc[-6]
-    ema_alignment = last["EMA10"] > last["EMA20"] > last["EMA50"] > last["EMA200"]
-    dema_alignment = last["DEMA10"] > last["DEMA50"] > last["DEMA200"]
-    volume_ratio = float(last["Volume"] / last["AvgVol20"]) if pd.notna(last["AvgVol20"]) and last["AvgVol20"] > 0 else 0
-    compression = calculate_compression_score(x)
-    relative_strength = calculate_relative_strength(x)
+    macd_cross = (
+        last["MACD"] > last["MACDSignal"]
+        and prev["MACD"] <= prev["MACDSignal"]
+    )
 
-    # Setup score: Trend 20, Structure 30, Volume/Accumulation 20, Momentum 15, RS 10, Catalyst reserved 5.
-    trend = 0
-    trend += 7 if dema_alignment else 0
-    trend += 5 if ema_alignment else 0
-    trend += 4 if golden_cross else 0
-    trend += 4 if hh_hl else 0
-    structure = 0
-    structure += 10 if distance <= 1.5 else 7 if distance <= 3 else 4 if distance <= MAX_PREBREAKOUT_DISTANCE else 0
-    structure += min(10, compression/10)
-    structure += 10 if double_bottom else 5 if near_breakout else 0
-    volume_score = 0
-    volume_score += 7 if 0.7 <= volume_ratio <= 2.5 else 4 if volume_ratio > 2.5 else 2
-    volume_score += 7 if obv_accumulation else 0
-    volume_score += 6 if compression >= 50 else 3
-    momentum = 0
-    momentum += 6 if 52 <= rsi <= 68 else 3 if 48 <= rsi < 52 else 0
-    momentum += 4 if rsi > rsi_prev else 0
-    momentum += 3 if macd_hist_slope > 0 else 0
-    momentum += 2 if adx >= 20 and adx > float(x["ADX"].iloc[-6]) else 1 if adx >= 20 else 0
-    rs_score = 10 if relative_strength >= 65 else 7 if relative_strength >= 55 else 4 if relative_strength >= 45 else 0
-    setup_score = round(min(100, trend + structure + volume_score + momentum + rs_score), 1)
+    rsi = float(last["RSI"]) if not pd.isna(last["RSI"]) else 50
+    adx = float(last["ADX"]) if not pd.isna(last["ADX"]) else 0
 
-    # Structural support: recent pivot/support, with ATR fallback.
-    support_candidates = list(x["Low"].tail(40).nsmallest(8).astype(float))
-    support = max([v for v in support_candidates if v < close*0.995] or [close - 1.5*atr if atr > 0 else close*0.97])
-    sl = support * 0.995
-    if sl >= close:
-        sl = close - 1.2*atr if atr > 0 else close*0.97
-    risk = close - sl
-    target1 = max(close + 2*risk, resistance) if resistance > close else close + 2*risk
-    target2 = close + 3*risk
-    rr = (target1-close)/risk if risk > 0 else 0
+    obv_accumulation = (
+        len(x) >= 10
+        and x["OBV"].iloc[-1] > x["OBV"].iloc[-6]
+    )
 
-    day_change = float((close / float(prev["Close"]) - 1)*100) if float(prev["Close"]) > 0 else 0
-    setup = classify_setup(day_change, rsi, setup_score, distance, compression, breakout)
+    ema_alignment = (
+        last["EMA10"] > last["EMA20"]
+        > last["EMA50"]
+        > last["EMA200"]
+    )
+
+    dema_alignment = (
+        last["DEMA10"] > last["DEMA50"] > last["DEMA200"]
+    )
+
+    volume_ratio = (
+        float(last["Volume"]) / float(last["AvgVol20"])
+        if last["AvgVol20"] and not pd.isna(last["AvgVol20"])
+        else 0
+    )
+
+    score = 0
     reasons = []
-    if dema_alignment: reasons.append("DEMA trend aligned")
-    if near_breakout: reasons.append(f"{distance:.1f}% below resistance")
-    if compression >= 50: reasons.append("Price compression")
-    if double_bottom: reasons.append("Validated Double Bottom")
-    if obv_accumulation: reasons.append("OBV accumulation")
-    if rsi > rsi_prev: reasons.append("RSI rising")
-    if macd_hist_slope > 0: reasons.append("MACD histogram rising")
-    if relative_strength >= 65: reasons.append("Strong relative strength")
+
+    # Trend: 30 points
+    if ema_alignment:
+        score += 8
+        reasons.append("EMA bullish alignment")
+
+    if dema_alignment:
+        score += 7
+        reasons.append("DEMA bullish alignment")
+
+    if golden_cross:
+        score += 8
+        reasons.append("Golden Cross")
+
+    if hh_hl:
+        score += 7
+        reasons.append("Higher High / Higher Low")
+
+    # Structure / patterns: 25 points
+    if double_bottom:
+        score += 10
+        reasons.append("Double Bottom")
+
+    if inverse_hs:
+        score += 11
+        reasons.append("Inverse Head & Shoulders")
+
+    if cup_and_handle:
+        score += 8
+        reasons.append("Cup and Handle")
+
+    if bull_flag:
+        score += 8
+        reasons.append("Bull Flag")
+
+    if near_breakout:
+        score += 6
+        reasons.append("Near Breakout")
+
+    if breakout:
+        score += 9
+        reasons.append("Confirmed Breakout")
+
+    # Candles: up to 15
+    if patterns:
+        score += min(15, len(patterns) * 5)
+        reasons.extend(patterns)
+
+    # Momentum: 15
+    if 50 <= rsi <= 68:
+        score += 6
+        reasons.append("Healthy RSI")
+
+    if macd_cross:
+        score += 6
+        reasons.append("MACD Bullish Crossover")
+    elif last["MACD"] > last["MACDSignal"]:
+        score += 3
+        reasons.append("MACD Bullish")
+
+    if adx >= 20:
+        score += 3
+        reasons.append("ADX Trend Strength")
+
+    # Volume / accumulation: 15
+    if volume_ratio >= 1.5:
+        score += 5
+        reasons.append("Volume Expansion")
+
+    if obv_accumulation:
+        score += 5
+        reasons.append("OBV Accumulation")
+
+    if volume_ratio >= 2:
+        score += 5
+        reasons.append("Strong Volume")
+
+    score = min(100, score)
+
+    # Setup label: pick the STRONGEST genuinely confirmed setup, not just
+    # the first one checked. Ordered by real technical reliability, from
+    # combination setups (strongest — multiple signals confirming together)
+    # down to a generic fallback. This also lets a stock get credit for a
+    # combo like "Golden Cross + Breakout" instead of just showing
+    # "Breakout" and hiding that a golden cross confirmed it too.
+    setup_candidates = [
+        ("GOLDEN CROSS + BREAKOUT", golden_cross and breakout),
+        ("INVERSE HEAD & SHOULDERS BREAKOUT", inverse_hs and breakout),
+        ("DOUBLE BOTTOM BREAKOUT", double_bottom and breakout),
+        ("BREAKOUT", breakout),
+        ("INVERSE HEAD & SHOULDERS", inverse_hs),
+        ("DOUBLE BOTTOM", double_bottom),
+        ("CUP AND HANDLE", cup_and_handle),
+        ("GOLDEN CROSS", golden_cross),
+        ("BULL FLAG", bull_flag),
+        ("CANDLESTICK REVERSAL", bool(patterns) and near_breakout),
+        ("NEAR BREAKOUT", near_breakout),
+        ("UPTREND CONTINUATION", hh_hl),
+        ("BULLISH", True),  # fallback — always matches last
+    ]
+    setup = next(label for label, matched in setup_candidates if matched)
+
+    stop_loss = close - (SL_ATR_MULT * atr) if atr > 0 else close * 0.965
+    target1 = close + (TARGET1_ATR_MULT * atr) if atr > 0 else close * 1.04
+    target2 = close + (TARGET2_ATR_MULT * atr) if atr > 0 else close * 1.07
 
     return {
-        "symbol": symbol, "close": close, "rsi": round(rsi,2), "adx": round(adx,2), "atr": round(atr,2),
-        "volume_ratio": round(volume_ratio,2), "ema_alignment": bool(ema_alignment), "dema_alignment": bool(dema_alignment),
-        "golden_cross": bool(golden_cross), "double_bottom": bool(double_bottom), "hh_hl": bool(hh_hl),
-        "near_breakout": bool(near_breakout), "breakout": bool(breakout), "macd_bullish": bool(last["MACD"] > last["MACDSignal"]),
-        "macd_cross": bool(macd_cross), "obv_accumulation": bool(obv_accumulation), "patterns": patterns,
-        "setup": setup, "score": setup_score, "setup_score": setup_score, "trend_score": round(trend,1),
-        "structure_score": round(structure,1), "volume_score": round(volume_score,1), "momentum_score": round(momentum,1),
-        "relative_strength": relative_strength, "compression_score": compression, "resistance": round(resistance,2),
-        "distance_to_resistance": round(distance,2), "support": round(support,2), "risk_reward": round(rr,2),
-        "reasons": reasons, "stop_loss": round(sl,2), "target1": round(target1,2), "target2": round(target2,2)
+        "symbol": symbol,
+        "close": close,
+        "rsi": round(rsi, 2),
+        "adx": round(adx, 2),
+        "atr": round(atr, 2),
+        "volume_ratio": round(volume_ratio, 2),
+        "ema_alignment": bool(ema_alignment),
+        "dema_alignment": bool(dema_alignment),
+        "golden_cross": bool(golden_cross),
+        "double_bottom": bool(double_bottom),
+        "inverse_hs": bool(inverse_hs),
+        "cup_and_handle": bool(cup_and_handle),
+        "bull_flag": bool(bull_flag),
+        "hh_hl": bool(hh_hl),
+        "near_breakout": bool(near_breakout),
+        "breakout": bool(breakout),
+        "macd_bullish": bool(last["MACD"] > last["MACDSignal"]),
+        "macd_cross": bool(macd_cross),
+        "obv_accumulation": bool(obv_accumulation),
+        "patterns": patterns,
+        "setup": setup,
+        "score": round(score, 1),
+        "reasons": reasons,
+        "stop_loss": round(stop_loss, 2),
+        "target1": round(target1, 2),
+        "target2": round(target2, 2),
+        # A meaningful multi-week resistance level, used by the intraday
+        # engine so a "breakout" means clearing real resistance, not just
+        # ticking above the last hour's minor high.
+        "resistance_20d": float(x["High"].tail(20).max()),
     }
 
 
@@ -984,6 +1656,14 @@ def analyze_daily(symbol, df):
 # ============================================================
 
 def apply_core_filters(symbol, df, info=None):
+    """
+    IMPORTANT (performance/rate-limit fix):
+    yfinance's `.info` property (used inside get_info()) is slow and the
+    easiest way to get your IP rate-limited by Yahoo Finance if called on
+    every symbol in the universe. So we run all the CHEAP checks first,
+    using only the daily OHLCV we already downloaded, and only call
+    get_info() for symbols that survive those checks.
+    """
     if df is None or len(df) < 210:
         return None
 
@@ -992,71 +1672,73 @@ def apply_core_filters(symbol, df, info=None):
 
     price = float(last["Close"])
     volume = float(last["Volume"])
+    avg_volume = float(x["Volume"].tail(21).mean())
 
+    # If we're running mid-session, "volume" above is cumulative-so-far,
+    # not a full day's volume — comparing it to a full-day 21-day average
+    # mechanically can't cross the ratio threshold until much later in the
+    # day, no matter how strong the real buying interest is right now. Scale
+    # the expected baseline by how much of the session has actually elapsed.
+    elapsed_fraction = session_elapsed_fraction()
+    volume_denominator = (
+        avg_volume * elapsed_fraction if elapsed_fraction is not None else avg_volume
+    )
+
+    # --- Cheap pre-filter using only already-downloaded daily data ---
+    prev_close_daily = float(x["Close"].iloc[-2]) if len(x) >= 2 else price
+    day_change_daily = (
+        ((price - prev_close_daily) / prev_close_daily) * 100
+        if prev_close_daily > 0 else 0
+    )
+    volume_ratio_daily = volume / volume_denominator if volume_denominator > 0 else 0
+
+    if price < MIN_PRICE:
+        return None
+    if avg_volume <= MIN_AVG_VOLUME:
+        return None
+    if volume < MIN_DAY_VOLUME:
+        return None
+    # Small buffer here since info's prev_close (live) can differ slightly
+    # from yesterday's daily close used for this rough check.
+    if day_change_daily < -1 or day_change_daily >= MAX_DAY_CHANGE + 2:
+        return None
+    if volume_ratio_daily < MIN_DAILY_VOLUME_RATIO * 0.9:
+        return None
+    if REQUIRE_50_ABOVE_200 and float(last["DEMA50"]) <= float(last["DEMA200"]):
+        return None
+    if REQUIRE_10_ABOVE_50 and float(last["DEMA10"]) <= float(last["DEMA50"]):
+        return None
+
+    # --- Only now do we pay for the expensive .info call ---
     if info is None:
         info = get_info(symbol)
 
-    prev_close = info["prev_close"] or (
-        float(x["Close"].iloc[-2]) if len(x) >= 2 else price
-    )
-
-    high_52w = info["high_52w"]
-    if high_52w <= 0:
-        high_52w = float(x["High"].tail(252).max())
-
+    prev_close = info["prev_close"] or prev_close_daily
+    # Match Chartink's exact definition: Max(252 daily highs), not yfinance's
+    # built-in 52-week-high field (which uses calendar weeks, not trading days,
+    # and can disagree with Chartink by a few percent).
+    high_52w = float(x["High"].tail(252).max())
     market_cap = info["market_cap"]
-
-    avg_volume = float(
-        x["Volume"].tail(21).mean()
-    )
 
     day_change = (
         ((price - prev_close) / prev_close) * 100
         if prev_close > 0 else 0
     )
-
-    volume_ratio = (
-        volume / avg_volume
-        if avg_volume > 0 else 0
-    )
-
+    volume_ratio = volume / volume_denominator if volume_denominator > 0 else 0
     pct_from_high = (
-        ((high_52w - price) / high_52w) * 100
-        if high_52w > 0 else 100
+        ((high_52w / price) - 1) * 100
+        if price > 0 else 100
     )
 
-    # Required user filters
+    # Final precise filters using live info data
     if market_cap < MIN_MARKET_CAP_CR:
         return None
-
-    if price < MIN_PRICE:
+    if day_change < 0 or day_change >= MAX_DAY_CHANGE:
         return None
-
-    if day_change < 0:
-        return None
-
-    if day_change >= MAX_DAY_CHANGE:
-        return None
-
-    if volume < MIN_DAY_VOLUME:
-        return None
-
-    if avg_volume <= MIN_AVG_VOLUME:
-        return None
-
     if pct_from_high > MAX_FROM_52W_HIGH:
         return None
-
     if volume_ratio < MIN_DAILY_VOLUME_RATIO:
         return None
-
-    if REQUIRE_50_ABOVE_200:
-        if float(last["DEMA50"]) <= float(last["DEMA200"]):
-            return None
-
-    if REQUIRE_10_ABOVE_50:
-        if float(last["DEMA10"]) <= float(last["DEMA50"]):
-            return None
 
     return {
         "symbol": symbol,
@@ -1093,18 +1775,39 @@ def analyze_candidate(symbol):
 
         news = compute_news_score(symbol)
 
-        # V2.1: technical setup is primary; news is only a catalyst modifier.
+        # Final V2 score:
+        # Technical/chart = 55%
+        # News catalyst = 20%
+        # Core market/volume = 25%
         core_score = 0
-        core_score += 10 if base["volume_ratio"] >= 2 else 7 if base["volume_ratio"] >= 1.5 else 4
-        core_score += 8 if base["pct_from_high"] <= 3 else 6 if base["pct_from_high"] <= 7 else 3
-        core_score += 7 if 0 <= base["day_change"] <= 5 else 4
-        extension_penalty = 0
-        if base["day_change"] > VERY_EXTENDED_DAY_CHANGE: extension_penalty += 10
-        elif base["day_change"] > EXTENDED_DAY_CHANGE: extension_penalty += 5
-        if technical["rsi"] >= VERY_EXTENDED_RSI: extension_penalty += 10
-        elif technical["rsi"] >= EXTENDED_RSI: extension_penalty += 5
-        combined = technical["setup_score"] * 0.70 + core_score * 0.20 + news["score"] * 0.10 - extension_penalty
-        combined = max(0, min(100, combined))
+
+        if base["volume_ratio"] >= 3:
+            core_score += 10
+        elif base["volume_ratio"] >= 2:
+            core_score += 7
+        else:
+            core_score += 4
+
+        if base["pct_from_high"] <= 3:
+            core_score += 8
+        elif base["pct_from_high"] <= 7:
+            core_score += 6
+        else:
+            core_score += 3
+
+        if 0 <= base["day_change"] <= 5:
+            core_score += 7
+        else:
+            core_score += 4
+
+        combined = (
+            technical["score"] * 0.55
+            + news["score"] * 0.20
+            + core_score * (25 / 25)
+        )
+
+        # Normalize because core_score is 0-25.
+        combined = min(100, combined)
 
         return {
             "symbol": symbol,
@@ -1113,8 +1816,6 @@ def analyze_candidate(symbol):
             "news": news,
             "core_score": round(core_score, 1),
             "combined_score": round(combined, 1),
-            "extension_penalty": extension_penalty,
-            "status": technical["setup"],
             "added_at": now_ist().isoformat(),
         }
 
@@ -1127,10 +1828,7 @@ def analyze_candidate(symbol):
 # PARALLEL UNIVERSE SCAN
 # ============================================================
 
-def scan_universe(symbols=None):
-    if symbols is None:
-        symbols = UNIVERSE
-
+def scan_universe(symbols):
     log.info("Starting main universe scan: %s stocks", len(symbols))
 
     results = []
@@ -1178,35 +1876,62 @@ def scan_universe(symbols=None):
 # WATCHLIST MANAGEMENT
 # ============================================================
 
-def merge_watchlist(results):
+def merge_watchlist(existing_items, new_results):
+    """
+    existing_items / return value: plain list of watchlist item dicts
+    (no globals, no locks — this runs once per script invocation).
+    """
+    watchlist = {item["symbol"]: item for item in existing_items}
     added = []
 
-    with UNIVERSE_LOCK:
-        for item in results:
-            symbol = item["symbol"]
+    for item in new_results:
+        symbol = item["symbol"]
+        if symbol not in watchlist:
+            # First time this symbol has ever qualified today — freeze its
+            # reference price now. This must NEVER be overwritten by later
+            # rescans, or the extension guard (which compares against it)
+            # ends up comparing an already-elevated price to itself.
+            item["first_seen_price"] = item["base"]["price"]
+            item["first_seen_at"] = item["added_at"]
+            watchlist[symbol] = item
+            added.append(item)
+        else:
+            old = watchlist[symbol]
+            item["signal_state"] = old.get("signal_state", "WATCHING")
+            item["first_seen_price"] = old.get("first_seen_price", old["base"]["price"])
+            item["first_seen_at"] = old.get("first_seen_at", old["added_at"])
+            watchlist[symbol] = item
 
-            if symbol not in WATCHLIST:
-                WATCHLIST[symbol] = item
-                added.append(item)
-            else:
-                # Update latest analysis while preserving signal state.
-                old = WATCHLIST[symbol]
+    # Keep the watchlist bounded so intraday polling stays sustainable
+    # on the free yfinance data source.
+    merged = list(watchlist.values())
+    if len(merged) > WATCHLIST_MAX_SIZE:
+        merged = sorted(
+            merged, key=lambda x: x["combined_score"], reverse=True
+        )[:WATCHLIST_MAX_SIZE]
 
-                signal_state = old.get(
-                    "signal_state",
-                    "WATCHING"
-                )
-
-                item["signal_state"] = signal_state
-                WATCHLIST[symbol] = item
-
-    save_state()
-    return added
+    return merged, added
 
 
 # ============================================================
 # MORNING REPORT
 # ============================================================
+
+def get_corp_action_note(symbol):
+    """
+    Cross-references the corporate actions radar's own data. Directly
+    answers "why did this stock already run up" when a bonus/dividend/
+    split/buyback is the real explanation — instead of the technical and
+    corporate-action systems staying siloed from each other.
+    """
+    actions = load_json(CORP_ACTIONS_FILE, {})
+    matches = [v for v in actions.values() if v.get("symbol") == symbol]
+    if not matches:
+        return None
+    matches.sort(key=lambda v: v.get("exDate", ""))
+    m = matches[0]
+    return f"{m.get('action_type', '')} — Ex-Date {m.get('exDate', '-')}"
+
 
 def format_morning_report(results):
     date = today_str()
@@ -1214,9 +1939,9 @@ def format_morning_report(results):
     top = results[:MORNING_TOP_N]
 
     msg = (
-        f"ð *NSE AI BREAKOUT V2*\n"
-        f"ð {date}\n"
-        f"ð Candidates passing core filters: *{len(results)}*\n\n"
+        f"🌅 *NSE AI BREAKOUT V2*\n"
+        f"📅 {date}\n"
+        f"🔎 Candidates passing core filters: *{len(results)}*\n\n"
     )
 
     for i, item in enumerate(top, 1):
@@ -1225,28 +1950,31 @@ def format_morning_report(results):
         b = item["base"]
 
         patterns = ", ".join(t["patterns"]) if t["patterns"] else "None"
+        headline = sanitize_for_markdown(n["headlines"][0]["title"]) if n.get("headlines") else "No recent news"
+        corp_note = get_corp_action_note(item["symbol"])
 
         msg += (
-            f"*{i}. {item['symbol']}* â "
+            f"*{i}. {item['symbol']}* — "
             f"AI Score *{item['combined_score']}/100*\n"
-            f"ð° â¹{b['price']:.2f} | "
-            f"ð {b['day_change']:.2f}% | "
-            f"ð Vol {b['volume_ratio']:.2f}x\n"
-            f"ð· Status: *{t['setup']}* | Setup *{t['setup_score']}/100*\n"
-            f"ð Resistance â¹{t['resistance']:.2f} | Distance *{t['distance_to_resistance']:.2f}%*\n"
-            f"ð Compression {t['compression_score']}/100 | RS {t['relative_strength']}/100\n"
-            f"ð§  Patterns: {patterns}\n"
-            f"ð RSI {t['rsi']} | ADX {t['adx']} | MACD {'ð¢' if t['macd_bullish'] else 'ð´'}\n"
-            f"ð° Catalyst: {n['label']} ({n['score']}/100) [10% weight]\n"
-            f"ð¡ Support â¹{t['support']:.2f} | R:R {t['risk_reward']:.2f}\n"
-            f"ð¯ SL â¹{t['stop_loss']:.2f} | T1 â¹{t['target1']:.2f} | T2 â¹{t['target2']:.2f}\n"
-            f"ââââââââââââââââ\n"
+            f"💰 ₹{b['price']:.2f} | "
+            f"📈 {b['day_change']:.2f}% | "
+            f"📊 Vol {b['volume_ratio']:.2f}x\n"
+            f"📐 Setup: *{t['setup']}*\n"
+            f"🧠 Patterns: {patterns}\n"
+            f"📊 RSI {t['rsi']} | ADX {t['adx']} | "
+            f"MACD {'🟢' if t['macd_bullish'] else '🔴'}\n"
+            f"📰 News ({n['label']}, {n['score']}/100): {headline}\n"
+            + (f"📢 Corporate Action: {corp_note}\n" if corp_note else "")
+            + f"🎯 SL ₹{t['stop_loss']:.2f} | "
+            f"T1 ₹{t['target1']:.2f} | "
+            f"T2 ₹{t['target2']:.2f}\n"
+            f"━━━━━━━━━━━━━━━━\n"
         )
 
     msg += (
-        "\nâ¡ *Live mode:* I will now watch these candidates for "
+        "\n⚡ *Live mode:* I will now watch these candidates for "
         "intraday volume expansion + breakout confirmation.\n"
-        "ð The main universe scanner will also continue searching "
+        "🔄 The main universe scanner will also continue searching "
         "for NEW qualifying stocks."
     )
 
@@ -1254,431 +1982,1056 @@ def format_morning_report(results):
 
 
 # ============================================================
+# SELF-LEARNING FEEDBACK LOOP — feature extraction + model scoring
+# ============================================================
+
+FEATURE_NAMES = [
+    "rsi", "adx", "daily_volume_ratio", "daily_score", "news_score",
+    "combined_score", "intraday_score", "intraday_volume_ratio",
+    "ema_alignment", "dema_alignment", "golden_cross", "double_bottom",
+    "inverse_hs", "cup_and_handle", "bull_flag",
+    "hh_hl", "near_breakout", "macd_bullish", "macd_cross",
+    "obv_accumulation", "has_patterns", "move_since_morning_pct",
+    "move_from_open_pct",
+]
+
+
+def build_feature_dict(morning_item, intraday_score, intraday_volume_ratio, move_since_morning_pct=0.0):
+    t = morning_item["technical"]
+    n = morning_item["news"]
+    return {
+        "rsi": t["rsi"],
+        "adx": t["adx"],
+        "daily_volume_ratio": t["volume_ratio"],
+        "daily_score": t["score"],
+        "news_score": n["score"],
+        "combined_score": morning_item["combined_score"],
+        "intraday_score": intraday_score,
+        "intraday_volume_ratio": intraday_volume_ratio,
+        "ema_alignment": 1.0 if t["ema_alignment"] else 0.0,
+        "dema_alignment": 1.0 if t["dema_alignment"] else 0.0,
+        "golden_cross": 1.0 if t["golden_cross"] else 0.0,
+        "double_bottom": 1.0 if t["double_bottom"] else 0.0,
+        "inverse_hs": 1.0 if t.get("inverse_hs") else 0.0,
+        "cup_and_handle": 1.0 if t.get("cup_and_handle") else 0.0,
+        "bull_flag": 1.0 if t.get("bull_flag") else 0.0,
+        "hh_hl": 1.0 if t["hh_hl"] else 0.0,
+        "near_breakout": 1.0 if t["near_breakout"] else 0.0,
+        "macd_bullish": 1.0 if t["macd_bullish"] else 0.0,
+        "macd_cross": 1.0 if t["macd_cross"] else 0.0,
+        "obv_accumulation": 1.0 if t["obv_accumulation"] else 0.0,
+        "has_patterns": 1.0 if t["patterns"] else 0.0,
+        "move_since_morning_pct": move_since_morning_pct,
+    }
+
+
+def learned_adjustment(feature_dict, weights):
+    """
+    Returns (probability_of_win 0-1, blend_ratio 0-1) using the trained
+    logistic regression weights, or (None, 0) if there's no usable model
+    yet. blend_ratio scales from 0 at MIN_SAMPLES_FOR_LEARNING samples up
+    to 1 at LEARNING_FULL_INFLUENCE_SAMPLES, so the learned model only
+    gradually earns influence over the heuristic score as data accumulates.
+    """
+    if not weights:
+        return None, 0.0
+
+    try:
+        n_samples = weights.get("n_samples", 0)
+        if n_samples < MIN_SAMPLES_FOR_LEARNING:
+            return None, 0.0
+
+        names = weights["features"]
+        mean = weights["mean"]
+        scale = weights["scale"]
+        coef = weights["coef"]
+        intercept = weights["intercept"]
+
+        z = intercept
+        for i, name in enumerate(names):
+            x = feature_dict.get(name, 0.0)
+            denom = scale[i] if scale[i] else 1.0
+            z += coef[i] * ((x - mean[i]) / denom)
+
+        prob = 1.0 / (1.0 + math.exp(-z))
+
+        blend_ratio = min(
+            1.0,
+            max(0.0, (n_samples - MIN_SAMPLES_FOR_LEARNING)) /
+            max(1, (LEARNING_FULL_INFLUENCE_SAMPLES - MIN_SAMPLES_FOR_LEARNING))
+        )
+        return prob, blend_ratio
+
+    except Exception as e:
+        log.debug("learned_adjustment failed: %s", e)
+        return None, 0.0
+
+
+# ============================================================
 # INTRADAY BREAKOUT ENGINE
 # ============================================================
 
-def analyze_intraday(symbol, morning_item):
+def analyze_intraday(symbol, morning_item, model_weights=None):
     df = yf_intraday(symbol)
+
     if df is None or len(df) < 10:
         return None
+
+    # Restrict to today's bars when possible.
     today = now_ist().date()
+
     try:
         dates = pd.to_datetime(df.index)
-        day = df.loc[dates.date == today].copy()
+        today_mask = dates.date == today
+        today_df = df.loc[today_mask]
+
+        if len(today_df) >= 3:
+            day = today_df.copy()
+        else:
+            day = df.tail(30).copy()
     except Exception:
         day = df.tail(30).copy()
+
     if len(day) < 3:
         return None
+
     last = day.iloc[-1]
-    price = float(last["Close"]); volume = float(last["Volume"])
+
+    price = float(last["Close"])
+    volume = float(last["Volume"])
+
+    # Average of prior same-day bars.
     prior = day.iloc[:-1]
-    avg_bar_volume = float(prior["Volume"].tail(12).mean()) if len(prior) else 0
-    volume_ratio = volume / avg_bar_volume if avg_bar_volume > 0 else 0
-    lookback = min(12, len(day)-1)
-    local_resistance = float(day["High"].iloc[-lookback-1:-1].max()) if lookback >= 2 else float(day["High"].iloc[:-1].max())
-    daily_resistance = float(morning_item["technical"].get("resistance", local_resistance))
-    resistance = max(local_resistance, daily_resistance)
-    bullish = float(last["Close"]) > float(last["Open"])
-    rng = max(float(last["High"]-last["Low"]), 0.01)
-    body = abs(float(last["Close"]-last["Open"]))
-    strong_body = body/rng >= 0.55
-    typical = (day["High"]+day["Low"]+day["Close"])/3
-    vwap = float((typical*day["Volume"]).cumsum().iloc[-1] / max(day["Volume"].cumsum().iloc[-1],1))
-    breakout = price > resistance * 1.001
-    volume_score = 30 if volume_ratio >= 3 else 25 if volume_ratio >= 2.5 else 18 if volume_ratio >= MIN_INTRADAY_VOLUME_RATIO else 0
-    score = (35 if breakout else 0) + volume_score + (10 if bullish else 0) + (10 if strong_body else 0) + (5 if price > vwap else 0)
-    score += min(10, morning_item["technical"]["setup_score"]/10)
-    score = round(min(100, score),1)
-    buy_signal = breakout and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO and bullish and price > vwap and score >= MIN_BUY_SCORE
+
+    avg_bar_volume = (
+        float(prior["Volume"].tail(12).mean())
+        if len(prior) else 0
+    )
+
+    volume_ratio = (
+        volume / avg_bar_volume
+        if avg_bar_volume > 0 else 0
+    )
+
+    # Breakout level from today's recent bars.
+    lookback = min(12, len(day) - 1)
+    intraday_resistance = float(
+        day["High"].iloc[-lookback-1:-1].max()
+    ) if lookback >= 2 else float(day["High"].iloc[:-1].max())
+
+    # Use the FROZEN first-seen price for extension checks, not the live
+    # "base" price — that field gets overwritten by every later rescan,
+    # which would otherwise let the extension guard chase the price upward
+    # all day and never actually catch an already-extended stock.
+    morning_price = morning_item.get("first_seen_price", morning_item["base"]["price"])
+
+    bullish_candle = last["Close"] > last["Open"]
+
+    range_size = max(
+        float(last["High"] - last["Low"]),
+        0.01
+    )
+
+    body = abs(float(last["Close"] - last["Open"]))
+    strong_body = body / range_size >= 0.55
+
+    # Require BOTH a fresh local high (immediate strength) AND clearing the
+    # actual 20-day resistance from the daily scan — breaking only the
+    # last hour's minor high isn't a meaningful breakout, it's noise.
+    resistance_20d = morning_item["technical"].get("resistance_20d", intraday_resistance)
+    resistance = max(intraday_resistance, resistance_20d)
+    breakout = price > intraday_resistance and price > resistance_20d
+
+    # Score
+    score = 0
+
+    if breakout:
+        score += 35
+
+    if volume_ratio >= 3:
+        score += 30
+    elif volume_ratio >= 2.5:
+        score += 25
+    elif volume_ratio >= MIN_INTRADAY_VOLUME_RATIO:
+        score += 18
+
+    if bullish_candle:
+        score += 10
+
+    if strong_body:
+        score += 10
+
+    if price > morning_price:
+        score += 5
+
+    # Daily confirmation
+    daily_score = morning_item["technical"]["score"]
+    score += min(10, daily_score / 10)
+
+    score = round(min(100, score), 1)
+
+    # Compute this BEFORE building features, so the model can see (and later
+    # learn from) how extended a stock already was at signal time.
+    move_since_morning = (
+        ((price - morning_price) / morning_price) * 100
+        if morning_price > 0 else 0
+    )
+    too_extended = move_since_morning > EXTENSION_CAP_PCT
+
+    # Second, independent check: how far has price already run from TODAY'S
+    # OPEN, regardless of when the stock joined the watchlist. This catches
+    # a stock that sprints hard in the first hour and only THEN satisfies
+    # the daily filters — it looks "fresh" to the guard above (since it just
+    # joined), but may already be deep into an extended move for the day.
+    day_open = float(day["Open"].iloc[0])
+    move_from_open = (
+        ((price - day_open) / day_open) * 100
+        if day_open > 0 else 0
+    )
+    too_extended_from_open = move_from_open > OPEN_EXTENSION_CAP_PCT
+
+    # --- Learned adjustment (self-learning feedback loop) ---
+    # Once enough historical alerts have resolved outcomes, gradually blend
+    # the heuristic score with a learned win-probability estimate.
+    features = build_feature_dict(morning_item, score, volume_ratio, move_since_morning)
+    features["move_from_open_pct"] = round(move_from_open, 2)
+    win_prob, blend_ratio = learned_adjustment(features, model_weights)
+    if win_prob is not None and blend_ratio > 0:
+        learned_score = win_prob * 100
+        score = round(min(100, (1 - blend_ratio) * score + blend_ratio * learned_score), 1)
+
+    # --- Extension guards ---
+    # The combination of ~15min-delayed data + 5-min polling means a
+    # "fresh" short-term breakout can still correspond to a stock that has
+    # already run up a lot for the day by the time we detect it. Skip
+    # alerting on those — the safer entry window has already passed.
+    # Signal only after BOTH breakout and volume confirmation, and only
+    # if the stock hasn't already run too far since this morning's scan
+    # OR since today's open.
+    buy_signal = (
+        breakout
+        and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO
+        and bullish_candle
+        and score >= MIN_BUY_SCORE
+        and not too_extended
+        and not too_extended_from_open
+    )
+
+    if breakout and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO and too_extended:
+        log.info(
+            "%s: breakout+volume met but skipped, already +%.1f%% since morning scan (cap %.1f%%)",
+            symbol, move_since_morning, EXTENSION_CAP_PCT
+        )
+    if breakout and volume_ratio >= MIN_INTRADAY_VOLUME_RATIO and too_extended_from_open:
+        log.info(
+            "%s: breakout+volume met but skipped, already +%.1f%% from today's open (cap %.1f%%)",
+            symbol, move_from_open, OPEN_EXTENSION_CAP_PCT
+        )
+
     atr = morning_item["technical"]["atr"]
-    support = morning_item["technical"].get("support", price-1.2*atr)
-    sl = min(support*0.995, price-0.8*atr) if atr > 0 else price*0.985
-    if sl <= 0 or sl >= price: sl = price-1.2*atr if atr > 0 else price*0.985
-    risk = price-sl
-    target1 = max(price+2*risk, daily_resistance if daily_resistance > price else 0)
-    target2 = price+3*risk
-    rr = (target1-price)/risk if risk > 0 else 0
-    if rr < MIN_RR:
-        buy_signal = False
-    return {"symbol":symbol,"price":round(price,2),"resistance":round(resistance,2),"daily_resistance":round(daily_resistance,2),
-            "volume_ratio":round(volume_ratio,2),"vwap":round(vwap,2),"score":score,"breakout":breakout,
-            "bullish_candle":bullish,"strong_body":strong_body,"buy_signal":buy_signal,"sl":round(sl,2),
-            "target1":round(target1,2),"target2":round(target2,2),"risk_reward":round(rr,2),"time":now_ist().strftime("%H:%M:%S")}
+
+    sl = (
+        price - 1.2 * atr
+        if atr > 0 else price * 0.985
+    )
+
+    target1 = (
+        price + 1.5 * atr
+        if atr > 0 else price * 1.025
+    )
+
+    target2 = (
+        price + 2.5 * atr
+        if atr > 0 else price * 1.045
+    )
+
+    return {
+        "symbol": symbol,
+        "price": round(price, 2),
+        "resistance": round(resistance, 2),
+        "volume_ratio": round(volume_ratio, 2),
+        "score": score,
+        "breakout": breakout,
+        "bullish_candle": bullish_candle,
+        "strong_body": strong_body,
+        "buy_signal": buy_signal,
+        "sl": round(sl, 2),
+        "target1": round(target1, 2),
+        "target2": round(target2, 2),
+        "time": now_ist().strftime("%H:%M:%S"),
+        "bar_time": pd.to_datetime(day.index[-1]).isoformat(),
+        "features": features,
+    }
 
 
 # ============================================================
 # LIVE BUY ALERT
 # ============================================================
 
-def alert_key(symbol):
-    return f"{today_str()}::{symbol}::BUY"
-
-
-def send_buy_alert(signal, morning_item):
+def build_buy_alert_message(signal, watch_item):
     symbol = signal["symbol"]
-    key = alert_key(symbol)
+    t = watch_item["technical"]
+    n = watch_item["news"]
+    headline = sanitize_for_markdown(n["headlines"][0]["title"]) if n.get("headlines") else "No recent news"
+    corp_note = get_corp_action_note(symbol)
 
-    if key in STATE["alerted"]:
-        return
-
-    STATE["alerted"].add(key)
-
-    t = morning_item["technical"]
-    n = morning_item["news"]
-
-    msg = (
-        f"ð¨ *AI BUY SIGNAL â V2*\n"
-        f"ââââââââââââââââââââ\n"
-        f"ð *{symbol}*\n"
-        f"ð° Price: *â¹{signal['price']:.2f}*\n"
-        f"ð Breakout: *â¹{signal['resistance']:.2f}*\n"
-        f"ð Intraday Volume: *{signal['volume_ratio']:.2f}x*\n"
-        f"ð§  Breakout Score: *{signal['score']}/100*\n"
-        f"ð VWAP: â¹{signal['vwap']:.2f} | Vol: *{signal['volume_ratio']:.2f}x*\n"
-        f"ð Daily Setup: *{t['setup']}* | Setup *{t['setup_score']}/100*\n"
-        f"ð Daily Resistance: â¹{signal['daily_resistance']:.2f}\n"
-        f"ð RSI: {t['rsi']} | ADX: {t['adx']} | R:R {signal['risk_reward']:.2f}\n"
-        f"ð° Catalyst: *{n['label']}*\n\n"
-        f"ð¯ *Entry:* â¹{signal['price']:.2f}\n"
-        f"ð *SL:* â¹{signal['sl']:.2f}\n"
-        f"ð *T1:* â¹{signal['target1']:.2f}\n"
-        f"ð *T2:* â¹{signal['target2']:.2f}\n\n"
-        f"â ï¸ Confirm spread/liquidity before entering.\n"
-        f"â° {signal['time']}"
+    return (
+        f"🚨 *AI BUY SIGNAL*\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"📌 *{symbol}*\n"
+        f"💰 Price: *₹{signal['price']:.2f}*\n"
+        f"🚀 Breakout: *₹{signal['resistance']:.2f}*\n"
+        f"📊 Intraday Volume: *{signal['volume_ratio']:.2f}x*\n"
+        f"🧠 Breakout Score: *{signal['score']}/100*\n\n"
+        f"📐 Daily Setup: *{t['setup']}*\n"
+        f"📊 Daily AI Score: *{watch_item['combined_score']}/100*\n"
+        f"📈 RSI: {t['rsi']} | ADX: {t['adx']}\n"
+        f"📰 Catalyst ({n['label']}, {n['score']}/100): {headline}\n"
+        + (f"📢 Corporate Action: {corp_note}\n" if corp_note else "")
+        + f"\n🎯 *Entry:* ₹{signal['price']:.2f}\n"
+        f"🛑 *SL:* ₹{signal['sl']:.2f}\n"
+        f"🚀 *T1:* ₹{signal['target1']:.2f}\n"
+        f"🌟 *T2:* ₹{signal['target2']:.2f}\n\n"
+        f"⚠️ Confirm spread/liquidity before entering.\n"
+        f"⏰ {signal['time']}"
     )
 
-    tg_send(msg)
-    save_state()
-
 
 # ============================================================
-# CONTINUOUS INTRADAY WATCHER
+# COMMAND: scan  (pre-market, ~8:45 AM IST)
 # ============================================================
 
-def intraday_watcher():
-    log.info("Intraday watcher started.")
-
-    while True:
-        try:
-            if market_is_open():
-                with UNIVERSE_LOCK:
-                    items = list(WATCHLIST.values())
-
-                if items:
-                    log.info(
-                        "Intraday scan: watching %s stocks",
-                        len(items)
-                    )
-
-                for item in items:
-                    try:
-                        signal = analyze_intraday(
-                            item["symbol"],
-                            item
-                        )
-
-                        if signal and signal["buy_signal"]:
-                            send_buy_alert(signal, item)
-
-                    except Exception as e:
-                        log.debug(
-                            "Intraday error %s: %s",
-                            item.get("symbol"),
-                            e
-                        )
-
-                    time.sleep(0.15)
-
-            time.sleep(INTRADAY_SCAN_SECONDS)
-
-        except Exception as e:
-            log.exception("Intraday watcher failure: %s", e)
-            time.sleep(10)
-
-
-# ============================================================
-# MAIN UNIVERSE CONTINUOUS SCANNER
-# ============================================================
-
-def universe_monitor():
-    log.info("Continuous universe monitor started.")
-
-    while True:
-        try:
-            if market_is_open():
-                n = now_ist()
-
-                last = STATE.get("last_universe_scan")
-
-                due = False
-
-                if last is None:
-                    due = True
-                else:
-                    try:
-                        previous = datetime.fromisoformat(last)
-                        due = (
-                            n - previous
-                            >= timedelta(
-                                minutes=UNIVERSE_RESCAN_MINUTES
-                            )
-                        )
-                    except Exception:
-                        due = True
-
-                if due:
-                    log.info("Running new-stock universe scan...")
-
-                    results = scan_universe()
-
-                    new_items = merge_watchlist(results)
-
-                    STATE["last_universe_scan"] = n.isoformat()
-                    save_state()
-
-                    if new_items:
-                        # Only alert Telegram when genuinely NEW candidates
-                        # appear after the morning scan.
-                        top_new = sorted(
-                            new_items,
-                            key=lambda x: x["combined_score"],
-                            reverse=True
-                        )[:10]
-
-                        msg = (
-                            f"ð *NEW AI CANDIDATES â V2*\n"
-                            f"â° {n.strftime('%H:%M:%S')}\n"
-                            f"ð {len(new_items)} new stocks passed filters.\n\n"
-                        )
-
-                        for i, item in enumerate(top_new, 1):
-                            t = item["technical"]
-                            msg += (
-                                f"{i}. *{item['symbol']}* "
-                                f"Score {item['combined_score']}\n"
-                                f"   Setup: {t['setup']} | "
-                                f"Vol {item['base']['volume_ratio']}x\n"
-                            )
-
-                        tg_send(msg)
-
-            time.sleep(30)
-
-        except Exception as e:
-            log.exception("Universe monitor failure: %s", e)
-            time.sleep(30)
-
-
-# ============================================================
-# MORNING SCAN
-# ============================================================
-
-def run_morning_scan():
+def cmd_scan():
     if now_ist().weekday() >= 5:
+        log.info("Weekend — skipping morning scan.")
         return
 
-    log.info("Starting V2 morning scan.")
-
+    log.info("Starting morning scan.")
     tg_send(
-        "ð *NSE AI V2 Morning Scan Started*\n"
+        "🌅 *NSE AI Morning Scan Started*\n"
         "Scanning the NSE universe for trend + chart patterns + catalysts..."
     )
 
-    results = scan_universe()
+    try:
+        tg_send(build_premarket_pulse_message())
+    except Exception as e:
+        log.warning("Market pulse failed: %s", e)
 
-    with UNIVERSE_LOCK:
-        WATCHLIST.clear()
-        for item in results:
-            WATCHLIST[item["symbol"]] = item
-
-    STATE["morning_sent_date"] = today_str()
-    STATE["last_universe_scan"] = now_ist().isoformat()
-
-    save_state()
-
-    if results:
-        tg_long_send(format_morning_report(results))
-    else:
-        tg_send(
-            "ð *NSE AI V2*\n"
-            "No stock passed all core filters today."
-        )
-
-
-# ============================================================
-# DAILY SCHEDULER
-# ============================================================
-
-def scheduler_loop():
-    log.info(
-        "Scheduler active. Morning scan %02d:%02d IST.",
-        MORNING_SCAN_HOUR,
-        MORNING_SCAN_MINUTE
-    )
-
-    morning_done = False
-    current_date = None
-
-    while True:
-        try:
-            n = now_ist()
-
-            if n.date() != current_date:
-                current_date = n.date()
-                morning_done = False
-
-                # Do not reuse yesterday's alerted symbols.
-                STATE["alerted"] = {
-                    x for x in STATE.get("alerted", set())
-                    if x.startswith(today_str() + "::")
-                }
-
-            scheduled_time = dt_time(
-                MORNING_SCAN_HOUR,
-                MORNING_SCAN_MINUTE
-            )
-
-            if (
-                n.weekday() < 5
-                and n.time() >= scheduled_time
-                and not morning_done
-            ):
-                # Morning scan can run before market, or if the process
-                # starts late it runs immediately after startup.
-                run_morning_scan()
-                morning_done = True
-
-            time.sleep(20)
-
-        except Exception as e:
-            log.exception("Scheduler failure: %s", e)
-            time.sleep(30)
-
-
-# ============================================================
-# TELEGRAM COMMANDS
-# ============================================================
-
-def register_commands():
-    if not bot:
+    universe = get_all_nse_stocks()
+    if not universe:
+        tg_send("⚠️ Could not load the NSE stock universe. Check the logs.")
         return
 
-    @bot.message_handler(commands=["start"])
-    def start_cmd(message):
-        bot.reply_to(
-            message,
-            "ð¤ NSE AI Breakout Bot V2 is running.\n\n"
-            "/scan - run a fresh universe scan\n"
-            "/watchlist - show current watchlist\n"
-            "/status - show bot status"
+    results = scan_universe(universe)
+    watchlist_items = results[:WATCHLIST_MAX_SIZE]
+    for item in watchlist_items:
+        item["first_seen_price"] = item["base"]["price"]
+        item["first_seen_at"] = item["added_at"]
+    save_watchlist(watchlist_items)
+
+    # Fresh day: also reset the alert-dedup state.
+    save_alert_state({"date": today_str(), "alerted": []})
+
+    watchlisted_symbols = {item["symbol"] for item in watchlist_items}
+    try:
+        catalyst_candidates = scan_news_catalysts(watchlisted_symbols)
+    except Exception as e:
+        log.warning("Catalyst news scan failed: %s", e)
+        catalyst_candidates = []
+
+    if watchlist_items:
+        report = format_morning_report(results)
+        report += format_news_catalyst_section(catalyst_candidates)
+        tg_long_send(report)
+    elif catalyst_candidates:
+        tg_long_send(
+            "📊 *NSE AI*\nNo stock passed all core filters today."
+            + format_news_catalyst_section(catalyst_candidates)
         )
+    else:
+        tg_send("📊 *NSE AI*\nNo stock passed all core filters today.")
 
-    @bot.message_handler(commands=["scan"])
-    def scan_cmd(message):
-        bot.reply_to(
-            message,
-            "ð Manual V2 scan started..."
-        )
-
-        def worker():
-            results = scan_universe()
-            merge_watchlist(results)
-
-            if results:
-                tg_long_send(format_morning_report(results))
-            else:
-                tg_send("ð No qualifying stocks found.")
-
-        threading.Thread(target=worker, daemon=True).start()
-
-    @bot.message_handler(commands=["watchlist"])
-    def watchlist_cmd(message):
-        with UNIVERSE_LOCK:
-            items = list(WATCHLIST.values())
-
-        items.sort(
-            key=lambda x: x.get("combined_score", 0),
-            reverse=True
-        )
-
-        if not items:
-            bot.reply_to(message, "Watchlist is empty.")
-            return
-
-        msg = "ð *CURRENT V2 WATCHLIST*\n\n"
-
-        for i, item in enumerate(items[:30], 1):
-            t = item["technical"]
-            msg += (
-                f"{i}. *{item['symbol']}* "
-                f"{item['combined_score']}/100 â "
-                f"{t['setup']}\n"
-            )
-
-        bot.reply_to(
-            message,
-            msg,
-            parse_mode="Markdown"
-        )
-
-    @bot.message_handler(commands=["status"])
-    def status_cmd(message):
-        with UNIVERSE_LOCK:
-            count = len(WATCHLIST)
-
-        bot.reply_to(
-            message,
-            f"ð¤ *NSE AI V2 STATUS*\n\n"
-            f"Universe: {len(UNIVERSE)}\n"
-            f"Watchlist: {count}\n"
-            f"Market open: {market_is_open()}\n"
-            f"Last universe scan: "
-            f"{STATE.get('last_universe_scan', 'Never')}\n"
-            f"Morning scan: "
-            f"{STATE.get('morning_sent_date', 'Not sent')}",
-            parse_mode="Markdown"
-        )
+    log.info(
+        "Morning scan complete. Watchlist size: %s, catalyst candidates: %s",
+        len(watchlist_items), len(catalyst_candidates)
+    )
 
 
 # ============================================================
-# STARTUP
+# CORPORATE ACTIONS RADAR — bonus / split / dividend / buyback
+# ============================================================
+
+def classify_corp_action_type(subject):
+    s = (subject or "").lower()
+    if "bonus" in s:
+        return "Bonus"
+    if "split" in s or "sub-divide" in s or "sub division" in s or "subdivision" in s:
+        return "Split"
+    if "dividend" in s:
+        return "Dividend"
+    if "buy back" in s or "buyback" in s or "buy-back" in s:
+        return "Buyback"
+    return None
+
+
+def fetch_corporate_actions_raw():
+    try:
+        from nse import NSE
+        with NSE("/tmp", server=True) as nse_client:
+            raw = nse_client.actions(segment="equities")
+        return raw or []
+    except Exception as e:
+        log.warning("Corporate actions fetch failed: %s", e)
+        return []
+
+
+def cmd_corporate_actions_check():
+    if now_ist().weekday() >= 5:
+        log.info("Weekend — skipping corporate actions check.")
+        return
+
+    raw = fetch_corporate_actions_raw()
+    if not raw:
+        log.info("No corporate actions data retrieved.")
+        return
+
+    state = load_json(CORP_ACTIONS_FILE, {})
+    today = now_ist().date()
+    sent_count = 0
+
+    for rec in raw:
+        subject = rec.get("subject", "")
+        action_type = classify_corp_action_type(subject)
+        if action_type not in CORP_ACTION_TYPES_WANTED:
+            continue
+
+        ex_date_str = rec.get("exDate", "")
+        try:
+            ex_date = datetime.strptime(ex_date_str, "%d-%b-%Y").date()
+        except Exception:
+            continue
+
+        days_until = (ex_date - today).days
+        if days_until < 0 or days_until > CORP_ACTIONS_LOOKAHEAD_DAYS:
+            continue
+
+        key = f"{rec.get('symbol', '')}::{subject}::{ex_date_str}"
+        entry = state.get(key, {"milestones_sent": []})
+
+        # Find the most specific (most urgent) applicable milestone that
+        # hasn't been sent yet. If a daily run gets missed, this correctly
+        # jumps straight to whatever's current rather than sending stale
+        # reminders.
+        milestone_label = None
+        for th in CORP_ACTION_MILESTONES:
+            if days_until <= th:
+                milestone_label = "EX_DATE" if th == 0 else f"T-{th}"
+                break
+
+        if milestone_label and milestone_label not in entry["milestones_sent"]:
+            when_text = "TODAY" if days_until == 0 else f"in {days_until} day(s)"
+            comp_safe = sanitize_for_markdown(rec.get("comp", ""))
+            subject_safe = sanitize_for_markdown(subject)
+            msg = (
+                f"📢 *Corporate Action — {action_type}*\n"
+                f"━━━━━━━━━━━━━━━━━━━━\n"
+                f"*{rec.get('symbol')}* — {comp_safe}\n"
+                f"{subject_safe}\n"
+                f"Ex-Date: {ex_date_str} ({when_text})\n"
+                f"Record Date: {rec.get('recDate', '-')}\n"
+            )
+            tg_send(msg)
+            entry["milestones_sent"].append(milestone_label)
+            sent_count += 1
+
+        entry.update({
+            "symbol": rec.get("symbol"),
+            "comp": rec.get("comp"),
+            "subject": subject,
+            "action_type": action_type,
+            "exDate": ex_date_str,
+        })
+        state[key] = entry
+
+    # Prune entries whose ex-date is well in the past, to keep the file small.
+    cleaned = {}
+    for k, v in state.items():
+        try:
+            exd = datetime.strptime(v["exDate"], "%d-%b-%Y").date()
+            if (exd - today).days >= -3:
+                cleaned[k] = v
+        except Exception:
+            cleaned[k] = v
+
+    save_json(CORP_ACTIONS_FILE, cleaned)
+    log.info("Corporate actions check complete. New reminders sent: %s", sent_count)
+
+
+# ============================================================
+# COMMAND: market_open_update  (once, ~15 min after market open)
+# ============================================================
+
+def cmd_market_open_update():
+    if now_ist().weekday() >= 5:
+        log.info("Weekend — skipping market open update.")
+        return
+
+    log.info("Sending market open pulse (VIX + breadth).")
+    try:
+        tg_send(build_market_open_pulse_message())
+    except Exception as e:
+        log.warning("Market open pulse failed: %s", e)
+
+
+# ============================================================
+# COMMAND: rescan  (every ~30 min during market hours)
+# ============================================================
+
+def cmd_rescan():
+    if not market_is_open():
+        log.info("Market closed — skipping universe rescan.")
+        return
+
+    log.info("Starting periodic universe rescan for new candidates.")
+    watchlist_data = load_watchlist()
+    existing_items = watchlist_data.get("items", [])
+
+    universe = get_all_nse_stocks()
+    if not universe:
+        log.warning("Could not load universe for rescan.")
+        return
+
+    results = scan_universe(universe)
+    merged, added = merge_watchlist(existing_items, results)
+    save_watchlist(merged)
+
+    # If any of today's news-flagged candidates just showed up here, the
+    # loop closes naturally: the full-universe rescan already checks every
+    # stock, including ones we flagged on catalyst news alone. Mark them
+    # confirmed so the news-candidates file reflects reality.
+    if added:
+        news_data = load_json(NEWS_CANDIDATES_FILE, {})
+        if news_data.get("date") == today_str():
+            added_symbols = {item["symbol"] for item in added}
+            confirmed_now = []
+            for c in news_data.get("items", []):
+                if c["symbol"] in added_symbols and not c.get("confirmed_technical"):
+                    c["confirmed_technical"] = True
+                    c["confirmed_date"] = now_ist().isoformat()
+                    confirmed_now.append(c["symbol"])
+            if confirmed_now:
+                save_json(NEWS_CANDIDATES_FILE, news_data)
+                tg_send(
+                    "📰➡️📈 *News catalyst confirmed technically*\n"
+                    + "\n".join(f"• {s}" for s in confirmed_now)
+                    + "\n\nThese were flagged on news alone earlier — now showing a real breakout setup too."
+                )
+
+    if added:
+        top_new = sorted(added, key=lambda x: x["combined_score"], reverse=True)[:10]
+        n = now_ist()
+        msg = (
+            f"🔄 *NEW AI CANDIDATES*\n"
+            f"⏰ {n.strftime('%H:%M:%S')}\n"
+            f"🆕 {len(added)} new stocks passed filters.\n\n"
+        )
+        for i, item in enumerate(top_new, 1):
+            t = item["technical"]
+            msg += (
+                f"{i}. *{item['symbol']}* Score {item['combined_score']}\n"
+                f"   Setup: {t['setup']} | Vol {item['base']['volume_ratio']}x\n"
+            )
+        tg_send(msg)
+
+    log.info("Rescan complete. Watchlist size: %s (+%s new)", len(merged), len(added))
+
+
+# ============================================================
+# COMMAND: recheck  (every ~5 min during market hours)
+# ============================================================
+
+# ============================================================
+# SELF-LEARNING FEEDBACK LOOP — outcome recording + tracking
+# ============================================================
+
+def _tz_naive_index(df):
+    idx = pd.to_datetime(df.index)
+    try:
+        idx = idx.tz_localize(None)
+    except TypeError:
+        pass
+    return idx
+
+
+def record_new_alert(signal, morning_item):
+    history = load_alert_history()
+    history.append({
+        "date": today_str(),
+        "symbol": signal["symbol"],
+        "alert_time": signal["time"],
+        "bar_time": signal["bar_time"],
+        "entry_price": signal["price"],
+        "sl": signal["sl"],
+        "target1": signal["target1"],
+        "target2": signal["target2"],
+        "features": signal["features"],
+        "outcome": "PENDING",
+        "exit_price": None,
+        "exit_time": None,
+        "max_favorable_pct": 0.0,
+        "max_adverse_pct": 0.0,
+    })
+    save_alert_history(history)
+
+
+def _trading_days_pending(alert_date_str, today_date_str):
+    try:
+        rng = pd.bdate_range(start=alert_date_str, end=today_date_str)
+        return max(0, len(rng) - 1)
+    except Exception:
+        return 0
+
+
+def _check_bars_for_outcome(rec, bars):
+    """
+    Walks bars in chronological order checking SL/T1/T2 hits. Mutates rec
+    in place. Returns True if resolved (SL or a target was hit).
+    """
+    entry, sl, t1, t2 = rec["entry_price"], rec["sl"], rec["target1"], rec["target2"]
+
+    for ts, bar in bars.iterrows():
+        high, low = float(bar["High"]), float(bar["Low"])
+
+        fav_pct = ((high - entry) / entry) * 100
+        adv_pct = ((entry - low) / entry) * 100
+        rec["max_favorable_pct"] = round(max(rec["max_favorable_pct"], fav_pct), 2)
+        rec["max_adverse_pct"] = round(max(rec["max_adverse_pct"], adv_pct), 2)
+
+        hit_sl, hit_t2, hit_t1 = low <= sl, high >= t2, high >= t1
+        if hit_sl or hit_t1 or hit_t2:
+            if hit_sl:
+                rec["outcome"], rec["exit_price"] = "STOPLOSS_HIT", sl
+            elif hit_t2:
+                rec["outcome"], rec["exit_price"] = "TARGET2_HIT", t2
+            else:
+                rec["outcome"], rec["exit_price"] = "TARGET1_HIT", t1
+            rec["exit_time"] = ts.isoformat()
+            return True
+
+    return False
+
+
+def update_pending_outcomes(finalize_eod=False):
+    """
+    Checks EVERY pending alert (not just today's — a trade sized from
+    daily ATR can legitimately take a few days to resolve) and walks
+    forward chronologically to see whether SL, target1, or target2 was
+    touched first. Also tracks max_favorable_pct / max_adverse_pct.
+
+    Same-day alerts use fine-grained 5-min intraday bars. Older pending
+    alerts (from a previous day) switch to daily bars, since intraday
+    history isn't retained that far back anyway.
+
+    If finalize_eod=True, a pending alert is only force-closed as
+    "NO_TARGET_TIMEOUT" once it's been pending for MAX_HOLDING_DAYS
+    trading days — NOT on day one. Before that, it's correctly left as
+    PENDING so tomorrow's check can pick it back up.
+    """
+    history = load_alert_history()
+    today = today_str()
+    changed = False
+
+    for rec in history:
+        if rec.get("outcome") != "PENDING":
+            continue
+
+        symbol = rec["symbol"]
+        alert_date = rec.get("date", today)
+        days_pending = _trading_days_pending(alert_date, today)
+        resolved = False
+
+        try:
+            if alert_date == today:
+                df = yf_intraday(symbol)
+                if df is None or df.empty:
+                    continue
+                idx = _tz_naive_index(df)
+                df = df.copy()
+                df.index = idx
+
+                anchor = pd.to_datetime(rec["bar_time"])
+                try:
+                    anchor = anchor.tz_localize(None)
+                except TypeError:
+                    pass
+
+                bars = df.loc[df.index > anchor]
+                if bars.empty:
+                    continue
+
+                resolved = _check_bars_for_outcome(rec, bars)
+                if resolved:
+                    changed = True
+                last_price_for_timeout = float(bars["Close"].iloc[-1])
+                last_time_for_timeout = bars.index[-1]
+
+            else:
+                # 1+ days old — intraday history won't reach back this far,
+                # so use daily bars for the days since the alert.
+                daily = yf_daily(symbol)
+                if daily is None or daily.empty:
+                    continue
+
+                alert_dt = pd.to_datetime(alert_date)
+                bars = daily.loc[pd.to_datetime(daily.index) > alert_dt]
+                if bars.empty:
+                    continue
+
+                resolved = _check_bars_for_outcome(rec, bars)
+                if resolved:
+                    changed = True
+                last_price_for_timeout = float(bars["Close"].iloc[-1])
+                last_time_for_timeout = bars.index[-1]
+
+            if not resolved:
+                changed = True  # max_favorable/adverse may have updated regardless
+                if finalize_eod and days_pending >= MAX_HOLDING_DAYS:
+                    rec["outcome"] = "NO_TARGET_TIMEOUT"
+                    rec["exit_price"] = round(last_price_for_timeout, 2)
+                    rec["exit_time"] = (
+                        last_time_for_timeout.isoformat()
+                        if hasattr(last_time_for_timeout, "isoformat")
+                        else str(last_time_for_timeout)
+                    )
+                # else: correctly leave as PENDING — still within the
+                # holding window, will be re-checked again tomorrow.
+
+        except Exception as e:
+            log.debug("Outcome tracking failed for %s: %s", symbol, e)
+
+    if changed:
+        save_alert_history(history)
+
+    return history
+
+    return history
+
+
+def cmd_recheck():
+    if not market_is_open():
+        log.info("Market closed — skipping intraday recheck.")
+        return
+
+    # Update outcomes for today's already-fired alerts first, every cycle.
+    try:
+        update_pending_outcomes()
+    except Exception as e:
+        log.warning("update_pending_outcomes failed: %s", e)
+
+    model_weights = load_model_weights()
+    if model_weights:
+        log.info(
+            "Using learned model (n_samples=%s) blended into scoring.",
+            model_weights.get("n_samples")
+        )
+
+    watchlist_data = load_watchlist()
+    if watchlist_data.get("date") != today_str():
+        log.info("Watchlist is stale (not from today) — skipping recheck.")
+        return
+
+    items = watchlist_data.get("items", [])
+    if not items:
+        log.info("Watchlist is empty — nothing to recheck.")
+        return
+
+    alert_state = load_alert_state()
+    alerted = set(alert_state.get("alerted", []))
+
+    log.info("Rechecking %s watchlist stocks for intraday signals.", len(items))
+
+    new_alerts = []
+    for item in items:
+        symbol = item["symbol"]
+        if symbol in alerted:
+            continue
+        try:
+            signal = analyze_intraday(symbol, item, model_weights=model_weights)
+        except Exception as e:
+            log.debug("Intraday error %s: %s", symbol, e)
+            continue
+
+        if signal and signal["buy_signal"]:
+            tg_send(build_buy_alert_message(signal, item))
+            record_new_alert(signal, item)
+            alerted.add(symbol)
+            new_alerts.append(symbol)
+
+    if new_alerts:
+        alert_state["alerted"] = sorted(alerted)
+        save_alert_state(alert_state)
+        log.info("Sent buy alerts for: %s", ", ".join(new_alerts))
+    else:
+        log.info("No new buy signals this recheck.")
+
+
+# ============================================================
+# COMMAND: eod_finalize  (once, shortly after market close)
+# ============================================================
+
+def check_post_stop_recovery():
+    """
+    For trades that hit stop-loss, checks a few days later whether price
+    would have gone on to reach target1/target2 anyway. This is purely
+    informational — it does NOT change the recorded outcome, since the
+    stop was the real decision at the time. But it lets us measure,
+    empirically, how often "stopped out then reversed" actually happens —
+    the exact pattern you flagged — rather than reacting to one anecdote.
+    """
+    history = load_alert_history()
+    today = today_str()
+    changed = False
+    RECOVERY_CHECK_DAYS = 3
+
+    for rec in history:
+        if rec.get("outcome") != "STOPLOSS_HIT" or rec.get("post_stop_checked"):
+            continue
+
+        days_since_exit = _trading_days_pending(rec.get("date", today), today)
+        if days_since_exit < RECOVERY_CHECK_DAYS:
+            continue  # not enough time elapsed yet to judge fairly
+
+        symbol = rec["symbol"]
+        try:
+            daily = yf_daily(symbol)
+            if daily is None or daily.empty:
+                rec["post_stop_checked"] = True
+                changed = True
+                continue
+
+            exit_ref = rec.get("exit_time") or rec["date"]
+            exit_dt = pd.to_datetime(exit_ref)
+            try:
+                exit_dt = exit_dt.tz_localize(None)
+            except TypeError:
+                pass
+
+            bars_after = daily.loc[pd.to_datetime(daily.index) > exit_dt].iloc[:RECOVERY_CHECK_DAYS]
+
+            if not bars_after.empty and rec.get("exit_price"):
+                highest_after = float(bars_after["High"].max())
+                rec["post_stop_would_hit_target1"] = bool(highest_after >= rec["target1"])
+                rec["post_stop_would_hit_target2"] = bool(highest_after >= rec["target2"])
+                rec["post_stop_recovery_pct"] = round(
+                    ((highest_after - rec["exit_price"]) / rec["exit_price"]) * 100, 2
+                )
+
+            rec["post_stop_checked"] = True
+            changed = True
+        except Exception as e:
+            log.debug("Post-stop recovery check failed for %s: %s", symbol, e)
+
+    if changed:
+        save_alert_history(history)
+    return history
+
+
+def cmd_eod_finalize():
+    if now_ist().weekday() >= 5:
+        log.info("Weekend — skipping EOD finalize.")
+        return
+
+    log.info("Finalizing today's still-pending alert outcomes.")
+    history = update_pending_outcomes(finalize_eod=True)
+    history = check_post_stop_recovery()
+
+    today = today_str()
+    today_records = [r for r in history if r.get("date") == today]
+    still_open_total = [r for r in history if r.get("outcome") == "PENDING"]
+
+    if not today_records and not still_open_total:
+        log.info("No alerts recorded today, and nothing still open.")
+        return
+
+    counts = {}
+    for r in today_records:
+        counts[r["outcome"]] = counts.get(r["outcome"], 0) + 1
+
+    wins = counts.get("TARGET1_HIT", 0) + counts.get("TARGET2_HIT", 0)
+    losses = counts.get("STOPLOSS_HIT", 0)
+    timed_out = counts.get("NO_TARGET_TIMEOUT", 0)
+    still_pending_today = counts.get("PENDING", 0)
+    total = len(today_records)
+
+    msg = f"📊 *End-of-Day Alert Report — {today}*\n" + ("━" * 20) + "\n"
+
+    if total:
+        avg_mfe = sum(r["max_favorable_pct"] for r in today_records) / total
+        avg_mae = sum(r["max_adverse_pct"] for r in today_records) / total
+        msg += (
+            f"Today's alerts: {total}\n"
+            f"🎯 Target hit: {wins}\n"
+            f"🛑 Stop-loss hit: {losses}\n"
+            f"⏳ Still open (carrying to tomorrow): {still_pending_today}\n"
+            f"⌛ Timed out (no target after {MAX_HOLDING_DAYS} days): {timed_out}\n\n"
+            f"📈 Avg best move reached: +{avg_mfe:.2f}%\n"
+            f"📉 Avg worst drawdown reached: -{avg_mae:.2f}%\n\n"
+        )
+    else:
+        msg += "No new alerts today.\n\n"
+
+    if still_open_total:
+        msg += f"📦 Total open positions across all days: {len(still_open_total)}\n\n"
+
+    checked_stops = [r for r in history if r.get("post_stop_checked") and r.get("outcome") == "STOPLOSS_HIT"]
+    if len(checked_stops) >= 10:
+        would_recover = sum(1 for r in checked_stops if r.get("post_stop_would_hit_target1"))
+        recovery_rate = would_recover / len(checked_stops) * 100
+        msg += (
+            f"🔁 Of {len(checked_stops)} stopped-out trades checked, "
+            f"{recovery_rate:.0f}% would have gone on to hit T1 anyway within "
+            f"{3} days — informational only, doesn't change what actually happened.\n\n"
+        )
+
+    msg += "This data feeds the weekly self-learning retrain."
+    tg_send(msg)
+    log.info("EOD finalize complete: %s (total open: %s)", counts, len(still_open_total))
+
+
+# ============================================================
+# COMMAND: retrain  (weekly, off-market)
+# ============================================================
+
+def cmd_retrain():
+    log.info("Starting weekly retrain of scoring weights.")
+    history = load_alert_history()
+
+    resolved = [
+        r for r in history
+        if r.get("outcome") in ("TARGET1_HIT", "TARGET2_HIT", "STOPLOSS_HIT", "NO_TARGET_TIMEOUT")
+        and r.get("features")
+    ]
+
+    excluded_old = 0
+    if RETRAIN_MIN_DATE:
+        before = len(resolved)
+        resolved = [r for r in resolved if r.get("date", "") >= RETRAIN_MIN_DATE]
+        excluded_old = before - len(resolved)
+        if excluded_old:
+            log.info(
+                "Excluded %s pre-%s alerts from training (logic changed since then).",
+                excluded_old, RETRAIN_MIN_DATE
+            )
+
+    n = len(resolved)
+    if n < MIN_SAMPLES_FOR_LEARNING:
+        msg = (
+            f"🧠 *Self-Learning Retrain*\n"
+            f"Only {n} resolved alerts so far (need {MIN_SAMPLES_FOR_LEARNING} minimum).\n"
+            + (f"({excluded_old} older alerts excluded — pre-dates a logic fix.)\n" if excluded_old else "")
+            + f"Still using the fixed heuristic scoring until enough data accumulates."
+        )
+        tg_send(msg)
+        log.info("Not enough samples yet: %s/%s", n, MIN_SAMPLES_FOR_LEARNING)
+        return
+
+    try:
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.preprocessing import StandardScaler
+    except ImportError:
+        log.error("scikit-learn is not installed — cannot retrain. Add 'scikit-learn' to requirements.txt.")
+        tg_send("⚠️ Retrain failed: scikit-learn is missing from requirements.txt.")
+        return
+
+    X = []
+    y = []
+    for r in resolved:
+        row = [r["features"].get(name, 0.0) for name in FEATURE_NAMES]
+        X.append(row)
+        # "Win" = reached either target before stop-loss.
+        y.append(1 if r["outcome"] in ("TARGET1_HIT", "TARGET2_HIT") else 0)
+
+    X = pd.DataFrame(X, columns=FEATURE_NAMES).fillna(0.0).values
+    y = pd.Series(y).values
+
+    if len(set(y)) < 2:
+        msg = (
+            "🧠 *Self-Learning Retrain*\n"
+            f"All {n} resolved alerts have the same outcome so far — "
+            "can't fit a model until there's a mix of wins and losses."
+        )
+        tg_send(msg)
+        log.info("Retrain skipped: only one outcome class present.")
+        return
+
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+
+    model = LogisticRegression(max_iter=1000, C=1.0)
+    model.fit(X_scaled, y)
+
+    train_accuracy = model.score(X_scaled, y)
+    win_rate = sum(y) / len(y) * 100
+
+    weights = {
+        "trained_at": now_ist().isoformat(),
+        "n_samples": n,
+        "features": FEATURE_NAMES,
+        "mean": scaler.mean_.tolist(),
+        "scale": scaler.scale_.tolist(),
+        "coef": model.coef_[0].tolist(),
+        "intercept": float(model.intercept_[0]),
+        "train_accuracy": round(train_accuracy, 3),
+    }
+    save_json(MODEL_WEIGHTS_FILE, weights)
+
+    # Report the most influential features (by absolute coefficient).
+    ranked = sorted(
+        zip(FEATURE_NAMES, model.coef_[0]),
+        key=lambda x: abs(x[1]),
+        reverse=True
+    )[:5]
+    top_features_text = "\n".join(
+        f"  {'+' if c > 0 else '-'} {name}" for name, c in ranked
+    )
+
+    blend_note = (
+        f"Blend influence: {min(100, max(0, (n - MIN_SAMPLES_FOR_LEARNING) / max(1, (LEARNING_FULL_INFLUENCE_SAMPLES - MIN_SAMPLES_FOR_LEARNING)) * 100)):.0f}% "
+        f"(reaches 100% at {LEARNING_FULL_INFLUENCE_SAMPLES} samples)"
+    )
+
+    msg = (
+        f"🧠 *Self-Learning Retrain Complete*\n"
+        f"━━━━━━━━━━━━━━━━━━━━\n"
+        f"Samples used: {n}\n"
+        f"Historical win rate: {win_rate:.1f}%\n"
+        f"Model fit on training data: {train_accuracy*100:.1f}%\n"
+        f"{blend_note}\n\n"
+        f"Top influential factors:\n{top_features_text}"
+    )
+    tg_send(msg)
+    log.info("Retrain complete. n=%s, train_accuracy=%.3f", n, train_accuracy)
+
+
+# ============================================================
+# MAIN
 # ============================================================
 
 def validate_environment():
     if not BOT_TOKEN:
-        log.warning(
-            "BOT_TOKEN is not set. Telegram alerts are disabled."
-        )
-
+        log.warning("BOT_TOKEN is not set. Telegram alerts are disabled.")
     if not CHAT_ID:
-        log.warning(
-            "CHAT_ID is not set. Telegram alerts are disabled."
-        )
-
-
-def build_universe():
-    global UNIVERSE
-
-    UNIVERSE = get_all_nse_stocks()
-
-    if not UNIVERSE:
-        raise RuntimeError("NSE universe is empty.")
+        log.warning("CHAT_ID is not set. Telegram alerts are disabled.")
 
 
 def main():
     print("=" * 72)
-    print("ð¤ NSE AI BREAKOUT BOT V2")
-    print("=" * 72)
-    print("Render/Flask removed.")
-    print("Morning chart + catalyst analysis enabled.")
-    print("Continuous intraday breakout monitoring enabled.")
-    print("Continuous new-stock universe scan enabled.")
+    print("NSE AI BREAKOUT BOT — GitHub Actions Edition")
     print("=" * 72)
 
     validate_environment()
-    load_state()
-    build_universe()
-    register_commands()
+
+    command = sys.argv[1] if len(sys.argv) > 1 else "scan"
 
     if bot:
         try:
@@ -1687,67 +3040,23 @@ def main():
         except Exception as e:
             log.warning("Telegram connection test failed: %s", e)
 
-    # --------------------------------------------------------
-    # Startup behaviour
-    # --------------------------------------------------------
-    n = now_ist()
-
-    # If the process starts after morning-scan time but before
-    # market close, run today's scan immediately.
-    if (
-        n.weekday() < 5
-        and n.time() >= dt_time(
-            MORNING_SCAN_HOUR,
-            MORNING_SCAN_MINUTE
-        )
-        and STATE.get("morning_sent_date") != today_str()
-    ):
-        threading.Thread(
-            target=run_morning_scan,
-            daemon=True
-        ).start()
-
-    # Continuous universe scanner.
-    threading.Thread(
-        target=universe_monitor,
-        daemon=True
-    ).start()
-
-    # Continuous intraday scanner.
-    threading.Thread(
-        target=intraday_watcher,
-        daemon=True
-    ).start()
-
-    # Daily scheduler.
-    threading.Thread(
-        target=scheduler_loop,
-        daemon=True
-    ).start()
-
-    tg_send(
-        "â *NSE AI Breakout Bot V2 is ONLINE*\n"
-        "â¢ Broad NSE scan\n"
-        "â¢ Daily bullish pattern detection\n"
-        "â¢ Golden Cross / Double Bottom\n"
-        "â¢ News catalyst scoring\n"
-        "â¢ Morning watchlist\n"
-        "â¢ Intraday volume-spike breakout alerts\n"
-        "â¢ Continuous new-stock discovery\n"
-        "â¢ No Render/Flask dependency"
-    )
-
-    # Telegram polling must remain in the main thread.
-    if bot:
-        log.info("Telegram polling started.")
-        bot.infinity_polling(
-            timeout=30,
-            long_polling_timeout=30
-        )
+    if command == "scan":
+        cmd_scan()
+    elif command == "rescan":
+        cmd_rescan()
+    elif command == "market_open_update":
+        cmd_market_open_update()
+    elif command == "corporate_actions_check":
+        cmd_corporate_actions_check()
+    elif command == "recheck":
+        cmd_recheck()
+    elif command == "eod_finalize":
+        cmd_eod_finalize()
+    elif command == "retrain":
+        cmd_retrain()
     else:
-        # Keep process alive even without Telegram.
-        while True:
-            time.sleep(60)
+        print(f"Unknown command '{command}'. Use 'scan', 'market_open_update', 'corporate_actions_check', 'rescan', 'recheck', 'eod_finalize', or 'retrain'.")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
