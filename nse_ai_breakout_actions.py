@@ -130,6 +130,17 @@ RETRAIN_MIN_DATE = os.getenv("RETRAIN_MIN_DATE", "").strip()
 # trading days before giving up and marking it a timeout.
 MAX_HOLDING_DAYS = int(os.getenv("MAX_HOLDING_DAYS", "5"))
 
+# Widened from 1.5x — a stop this tight relative to daily ATR is prone to
+# getting clipped by ordinary intraday noise before a genuine setup has a
+# chance to work, exactly the "stopped out then reversed and rallied"
+# pattern. This is a real tradeoff, not a free fix: wider stops mean less
+# capital at risk per false signal, but more capital at risk when you're
+# genuinely wrong. Tune via env var once enough trades accumulate to see
+# which side of that tradeoff actually pays off empirically.
+SL_ATR_MULT = float(os.getenv("SL_ATR_MULT", "2.0"))
+TARGET1_ATR_MULT = float(os.getenv("TARGET1_ATR_MULT", "2.5"))
+TARGET2_ATR_MULT = float(os.getenv("TARGET2_ATR_MULT", "4.0"))
+
 # News
 NEWS_LOOKBACK_HOURS = int(os.getenv("NEWS_LOOKBACK_HOURS", "30"))
 MAX_NEWS_ITEMS = int(os.getenv("MAX_NEWS_ITEMS", "5"))
@@ -411,6 +422,54 @@ def get_all_nse_stocks():
     except Exception as e:
         log.exception("Universe loading failed: %s", e)
         return ["RELIANCE", "TCS", "HDFCBANK", "INFY", "ICICIBANK"]
+
+
+def get_symbol_company_map():
+    """
+    Fetches SYMBOL -> company name from the same NSE archives CSV used by
+    get_all_nse_stocks(). Needed to match news headlines (which mention
+    company names like "Man Industries") against our own ticker universe
+    (which only speaks in symbols like "MANINDS").
+    """
+    try:
+        session = requests.Session()
+        session.headers.update({"User-Agent": "Mozilla/5.0"})
+        session.get("https://www.nseindia.com", timeout=10)
+        resp = session.get(
+            "https://archives.nseindia.com/content/equities/EQUITY_L.csv",
+            timeout=15
+        )
+        if resp.status_code == 200 and "SYMBOL" in resp.text[:200]:
+            from io import StringIO
+            df = pd.read_csv(StringIO(resp.text))
+            name_col = "NAME OF COMPANY" if "NAME OF COMPANY" in df.columns else None
+            if name_col:
+                mapping = {}
+                for _, row in df.iterrows():
+                    symbol = str(row["SYMBOL"]).strip().upper()
+                    name = str(row[name_col]).strip()
+                    if re.fullmatch(r"[A-Z0-9&._-]+", symbol) and name and name.lower() != "nan":
+                        mapping[symbol] = name
+                if len(mapping) > 500:
+                    log.info("Loaded %s symbol-to-company mappings", len(mapping))
+                    return mapping
+    except Exception as e:
+        log.warning("Symbol-company map fetch failed: %s", e)
+    return {}
+
+
+def clean_company_name_for_matching(name):
+    """
+    Strips only the safest, most generic corporate suffixes — NOT words
+    like 'Industries' or 'Motors' that are often the actual distinctive
+    part of a brand name. Deliberately conservative: matching on the full
+    remaining phrase avoids the false-positive risk of matching on a
+    single generic word (e.g. just 'Man').
+    """
+    cleaned = re.sub(
+        r"\b(limited|ltd\.?|private|pvt\.?)\b", "", name, flags=re.IGNORECASE
+    )
+    return re.sub(r"\s+", " ", cleaned).strip()
 
 
 def get_nse_session():
@@ -1243,7 +1302,157 @@ def compute_news_score(symbol):
 
 
 # ============================================================
-# DAILY AI-STYLE ANALYSIS
+# CATALYST NEWS SCANNER — parallel news discovery, pre-market only
+# ============================================================
+# A stock with a genuinely big catalyst (order win, approval, contract)
+# may not show any technical signature yet — our per-symbol news check
+# never even LOOKS at it, since it only runs on stocks that already
+# passed technical filters. This scans broad catalyst-type queries once
+# daily (during the pre-market scan, not on every 5-min recheck) and
+# matches headlines back to our own universe by company name.
+#
+# Deliberately narrow, catalyst-specific queries — NOT a generic "stock
+# market news today" search — since that returns mostly noise/opinion
+# pieces with no real signal. Each query targets one concrete catalyst
+# type known to move a stock before its chart reacts.
+
+CATALYST_NEWS_QUERIES = [
+    '"bags order" OR "wins order" India NSE stock',
+    '"wins contract" OR "signs contract" India NSE stock',
+    '"gets approval" OR "receives approval" India NSE stock',
+    '"capacity expansion" India NSE stock',
+    '"signs agreement" OR "strategic partnership" India NSE stock',
+]
+
+NEWS_CANDIDATES_FILE = os.path.join(DATA_DIR, "news_candidates.json")
+CATALYST_SENTIMENT_MIN = int(os.getenv("CATALYST_SENTIMENT_MIN", "5"))  # matches "Bullish" threshold elsewhere
+CATALYST_MAX_DAY_CHANGE = float(os.getenv("CATALYST_MAX_DAY_CHANGE", "12"))  # don't chase one already fully priced in
+CATALYST_MAX_CANDIDATES = int(os.getenv("CATALYST_MAX_CANDIDATES", "10"))
+
+
+def fetch_catalyst_headlines(query):
+    try:
+        q = urllib.parse.quote(query)
+        url = f"https://news.google.com/rss/search?q={q}&hl=en-IN&gl=IN&ceid=IN:en"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            xml_data = response.read()
+        root = ET.fromstring(xml_data)
+        items = []
+        for item in root.findall(".//item")[:30]:
+            title = clean_text(item.findtext("title"))
+            if title:
+                items.append(title)
+        return items
+    except Exception as e:
+        log.debug("Catalyst query failed (%s): %s", query, e)
+        return []
+
+
+def match_headline_to_symbol(headline, symbol_company_map):
+    """
+    Conservative substring match: requires the company's FULL cleaned name
+    (not a single word from it) to appear in the headline. Avoids the
+    false-positive risk of e.g. matching "Man" alone against any headline
+    containing that common word.
+    """
+    headline_lower = headline.lower()
+    for symbol, company_name in symbol_company_map.items():
+        cleaned = clean_company_name_for_matching(company_name)
+        if len(cleaned) < 5:
+            continue  # too short/generic to match safely
+        if cleaned.lower() in headline_lower:
+            return symbol
+    return None
+
+
+def scan_news_catalysts(already_watchlisted_symbols):
+    """
+    Runs once, during the pre-market scan. Returns a list of candidates
+    with a genuine bullish catalyst but no confirmed technical setup yet.
+    These get saved separately and picked up by the existing rescan cycle
+    (which already runs every 30 min) to check for technical confirmation
+    later in the day — no new expensive workflow needed for that part.
+    """
+    log.info("Scanning for news catalysts (pre-technical)...")
+    symbol_company_map = get_symbol_company_map()
+    if not symbol_company_map:
+        log.warning("No symbol-company map available — skipping catalyst scan.")
+        return []
+
+    all_headlines = []
+    for query in CATALYST_NEWS_QUERIES:
+        all_headlines.extend(fetch_catalyst_headlines(query))
+        time.sleep(0.3)
+
+    log.info("Fetched %s catalyst headlines across %s queries", len(all_headlines), len(CATALYST_NEWS_QUERIES))
+
+    matched = {}  # symbol -> best (headline, score)
+    for headline in all_headlines:
+        symbol = match_headline_to_symbol(headline, symbol_company_map)
+        if not symbol or symbol in already_watchlisted_symbols:
+            continue
+        score, label = news_sentiment(headline)
+        if label != "Bullish" or score < CATALYST_SENTIMENT_MIN:
+            continue  # not all news is meaningful — require real conviction
+        if symbol not in matched or score > matched[symbol][1]:
+            matched[symbol] = (headline, score)
+
+    if not matched:
+        log.info("No qualifying catalyst matches found today.")
+        return []
+
+    log.info("Found %s candidate symbols with strong catalyst headlines", len(matched))
+
+    candidates = []
+    for symbol, (headline, score) in matched.items():
+        try:
+            info = get_info(symbol)
+            price = info.get("price", 0)
+            prev_close = info.get("prev_close", 0)
+            if price < MIN_PRICE or info.get("market_cap", 0) < MIN_MARKET_CAP_CR:
+                continue
+            day_change = ((price - prev_close) / prev_close * 100) if prev_close > 0 else 0
+            if day_change > CATALYST_MAX_DAY_CHANGE:
+                continue  # already fully priced in — same chasing risk as any extension guard
+            candidates.append({
+                "symbol": symbol,
+                "company": symbol_company_map.get(symbol, symbol),
+                "headline": sanitize_for_markdown(headline),
+                "sentiment_score": score,
+                "price": price,
+                "day_change": round(day_change, 2),
+                "discovered_date": today_str(),
+                "confirmed_technical": False,
+                "confirmed_date": None,
+            })
+        except Exception as e:
+            log.debug("Catalyst liquidity check failed for %s: %s", symbol, e)
+
+    candidates.sort(key=lambda c: c["sentiment_score"], reverse=True)
+    candidates = candidates[:CATALYST_MAX_CANDIDATES]
+
+    save_json(NEWS_CANDIDATES_FILE, {"date": today_str(), "items": candidates})
+    return candidates
+
+
+def format_news_catalyst_section(candidates):
+    if not candidates:
+        return ""
+    msg = "\n📰 *News-Driven Candidates (Pre-Technical)*\n"
+    msg += "Strong catalyst found, no confirmed breakout yet — being tracked.\n"
+    msg += ("━" * 20) + "\n"
+    for i, c in enumerate(candidates, 1):
+        msg += (
+            f"{i}. *{c['symbol']}* — {c['company']}\n"
+            f"💰 ₹{c['price']:.2f} | 📈 {c['day_change']:.2f}%\n"
+            f"📰 {c['headline']}\n"
+            f"━━━━━━━━━━━━━━━━\n"
+        )
+    return msg
+
+
+
 # ============================================================
 
 def analyze_daily(symbol, df):
@@ -1404,9 +1613,9 @@ def analyze_daily(symbol, df):
     ]
     setup = next(label for label, matched in setup_candidates if matched)
 
-    stop_loss = close - (1.5 * atr) if atr > 0 else close * 0.97
-    target1 = close + (2.0 * atr) if atr > 0 else close * 1.04
-    target2 = close + (3.5 * atr) if atr > 0 else close * 1.07
+    stop_loss = close - (SL_ATR_MULT * atr) if atr > 0 else close * 0.965
+    target1 = close + (TARGET1_ATR_MULT * atr) if atr > 0 else close * 1.04
+    target2 = close + (TARGET2_ATR_MULT * atr) if atr > 0 else close * 1.07
 
     return {
         "symbol": symbol,
@@ -1435,6 +1644,10 @@ def analyze_daily(symbol, df):
         "stop_loss": round(stop_loss, 2),
         "target1": round(target1, 2),
         "target2": round(target2, 2),
+        # A meaningful multi-week resistance level, used by the intraday
+        # engine so a "breakout" means clearing real resistance, not just
+        # ticking above the last hour's minor high.
+        "resistance_20d": float(x["High"].tail(20).max()),
     }
 
 
@@ -1704,6 +1917,22 @@ def merge_watchlist(existing_items, new_results):
 # MORNING REPORT
 # ============================================================
 
+def get_corp_action_note(symbol):
+    """
+    Cross-references the corporate actions radar's own data. Directly
+    answers "why did this stock already run up" when a bonus/dividend/
+    split/buyback is the real explanation — instead of the technical and
+    corporate-action systems staying siloed from each other.
+    """
+    actions = load_json(CORP_ACTIONS_FILE, {})
+    matches = [v for v in actions.values() if v.get("symbol") == symbol]
+    if not matches:
+        return None
+    matches.sort(key=lambda v: v.get("exDate", ""))
+    m = matches[0]
+    return f"{m.get('action_type', '')} — Ex-Date {m.get('exDate', '-')}"
+
+
 def format_morning_report(results):
     date = today_str()
 
@@ -1722,6 +1951,7 @@ def format_morning_report(results):
 
         patterns = ", ".join(t["patterns"]) if t["patterns"] else "None"
         headline = sanitize_for_markdown(n["headlines"][0]["title"]) if n.get("headlines") else "No recent news"
+        corp_note = get_corp_action_note(item["symbol"])
 
         msg += (
             f"*{i}. {item['symbol']}* — "
@@ -1734,7 +1964,8 @@ def format_morning_report(results):
             f"📊 RSI {t['rsi']} | ADX {t['adx']} | "
             f"MACD {'🟢' if t['macd_bullish'] else '🔴'}\n"
             f"📰 News ({n['label']}, {n['score']}/100): {headline}\n"
-            f"🎯 SL ₹{t['stop_loss']:.2f} | "
+            + (f"📢 Corporate Action: {corp_note}\n" if corp_note else "")
+            + f"🎯 SL ₹{t['stop_loss']:.2f} | "
             f"T1 ₹{t['target1']:.2f} | "
             f"T2 ₹{t['target2']:.2f}\n"
             f"━━━━━━━━━━━━━━━━\n"
@@ -1882,9 +2113,9 @@ def analyze_intraday(symbol, morning_item, model_weights=None):
         if avg_bar_volume > 0 else 0
     )
 
-    # Breakout level from today's recent bars and morning range.
+    # Breakout level from today's recent bars.
     lookback = min(12, len(day) - 1)
-    resistance = float(
+    intraday_resistance = float(
         day["High"].iloc[-lookback-1:-1].max()
     ) if lookback >= 2 else float(day["High"].iloc[:-1].max())
 
@@ -1904,7 +2135,12 @@ def analyze_intraday(symbol, morning_item, model_weights=None):
     body = abs(float(last["Close"] - last["Open"]))
     strong_body = body / range_size >= 0.55
 
-    breakout = price > resistance
+    # Require BOTH a fresh local high (immediate strength) AND clearing the
+    # actual 20-day resistance from the daily scan — breaking only the
+    # last hour's minor high isn't a meaningful breakout, it's noise.
+    resistance_20d = morning_item["technical"].get("resistance_20d", intraday_resistance)
+    resistance = max(intraday_resistance, resistance_20d)
+    breakout = price > intraday_resistance and price > resistance_20d
 
     # Score
     score = 0
@@ -2037,6 +2273,7 @@ def build_buy_alert_message(signal, watch_item):
     t = watch_item["technical"]
     n = watch_item["news"]
     headline = sanitize_for_markdown(n["headlines"][0]["title"]) if n.get("headlines") else "No recent news"
+    corp_note = get_corp_action_note(symbol)
 
     return (
         f"🚨 *AI BUY SIGNAL*\n"
@@ -2049,8 +2286,9 @@ def build_buy_alert_message(signal, watch_item):
         f"📐 Daily Setup: *{t['setup']}*\n"
         f"📊 Daily AI Score: *{watch_item['combined_score']}/100*\n"
         f"📈 RSI: {t['rsi']} | ADX: {t['adx']}\n"
-        f"📰 Catalyst ({n['label']}, {n['score']}/100): {headline}\n\n"
-        f"🎯 *Entry:* ₹{signal['price']:.2f}\n"
+        f"📰 Catalyst ({n['label']}, {n['score']}/100): {headline}\n"
+        + (f"📢 Corporate Action: {corp_note}\n" if corp_note else "")
+        + f"\n🎯 *Entry:* ₹{signal['price']:.2f}\n"
         f"🛑 *SL:* ₹{signal['sl']:.2f}\n"
         f"🚀 *T1:* ₹{signal['target1']:.2f}\n"
         f"🌟 *T2:* ₹{signal['target2']:.2f}\n\n"
@@ -2094,12 +2332,29 @@ def cmd_scan():
     # Fresh day: also reset the alert-dedup state.
     save_alert_state({"date": today_str(), "alerted": []})
 
+    watchlisted_symbols = {item["symbol"] for item in watchlist_items}
+    try:
+        catalyst_candidates = scan_news_catalysts(watchlisted_symbols)
+    except Exception as e:
+        log.warning("Catalyst news scan failed: %s", e)
+        catalyst_candidates = []
+
     if watchlist_items:
-        tg_long_send(format_morning_report(results))
+        report = format_morning_report(results)
+        report += format_news_catalyst_section(catalyst_candidates)
+        tg_long_send(report)
+    elif catalyst_candidates:
+        tg_long_send(
+            "📊 *NSE AI*\nNo stock passed all core filters today."
+            + format_news_catalyst_section(catalyst_candidates)
+        )
     else:
         tg_send("📊 *NSE AI*\nNo stock passed all core filters today.")
 
-    log.info("Morning scan complete. Watchlist size: %s", len(watchlist_items))
+    log.info(
+        "Morning scan complete. Watchlist size: %s, catalyst candidates: %s",
+        len(watchlist_items), len(catalyst_candidates)
+    )
 
 
 # ============================================================
@@ -2249,6 +2504,28 @@ def cmd_rescan():
     results = scan_universe(universe)
     merged, added = merge_watchlist(existing_items, results)
     save_watchlist(merged)
+
+    # If any of today's news-flagged candidates just showed up here, the
+    # loop closes naturally: the full-universe rescan already checks every
+    # stock, including ones we flagged on catalyst news alone. Mark them
+    # confirmed so the news-candidates file reflects reality.
+    if added:
+        news_data = load_json(NEWS_CANDIDATES_FILE, {})
+        if news_data.get("date") == today_str():
+            added_symbols = {item["symbol"] for item in added}
+            confirmed_now = []
+            for c in news_data.get("items", []):
+                if c["symbol"] in added_symbols and not c.get("confirmed_technical"):
+                    c["confirmed_technical"] = True
+                    c["confirmed_date"] = now_ist().isoformat()
+                    confirmed_now.append(c["symbol"])
+            if confirmed_now:
+                save_json(NEWS_CANDIDATES_FILE, news_data)
+                tg_send(
+                    "📰➡️📈 *News catalyst confirmed technically*\n"
+                    + "\n".join(f"• {s}" for s in confirmed_now)
+                    + "\n\nThese were flagged on news alone earlier — now showing a real breakout setup too."
+                )
 
     if added:
         top_new = sorted(added, key=lambda x: x["combined_score"], reverse=True)[:10]
@@ -2502,6 +2779,63 @@ def cmd_recheck():
 # COMMAND: eod_finalize  (once, shortly after market close)
 # ============================================================
 
+def check_post_stop_recovery():
+    """
+    For trades that hit stop-loss, checks a few days later whether price
+    would have gone on to reach target1/target2 anyway. This is purely
+    informational — it does NOT change the recorded outcome, since the
+    stop was the real decision at the time. But it lets us measure,
+    empirically, how often "stopped out then reversed" actually happens —
+    the exact pattern you flagged — rather than reacting to one anecdote.
+    """
+    history = load_alert_history()
+    today = today_str()
+    changed = False
+    RECOVERY_CHECK_DAYS = 3
+
+    for rec in history:
+        if rec.get("outcome") != "STOPLOSS_HIT" or rec.get("post_stop_checked"):
+            continue
+
+        days_since_exit = _trading_days_pending(rec.get("date", today), today)
+        if days_since_exit < RECOVERY_CHECK_DAYS:
+            continue  # not enough time elapsed yet to judge fairly
+
+        symbol = rec["symbol"]
+        try:
+            daily = yf_daily(symbol)
+            if daily is None or daily.empty:
+                rec["post_stop_checked"] = True
+                changed = True
+                continue
+
+            exit_ref = rec.get("exit_time") or rec["date"]
+            exit_dt = pd.to_datetime(exit_ref)
+            try:
+                exit_dt = exit_dt.tz_localize(None)
+            except TypeError:
+                pass
+
+            bars_after = daily.loc[pd.to_datetime(daily.index) > exit_dt].iloc[:RECOVERY_CHECK_DAYS]
+
+            if not bars_after.empty and rec.get("exit_price"):
+                highest_after = float(bars_after["High"].max())
+                rec["post_stop_would_hit_target1"] = bool(highest_after >= rec["target1"])
+                rec["post_stop_would_hit_target2"] = bool(highest_after >= rec["target2"])
+                rec["post_stop_recovery_pct"] = round(
+                    ((highest_after - rec["exit_price"]) / rec["exit_price"]) * 100, 2
+                )
+
+            rec["post_stop_checked"] = True
+            changed = True
+        except Exception as e:
+            log.debug("Post-stop recovery check failed for %s: %s", symbol, e)
+
+    if changed:
+        save_alert_history(history)
+    return history
+
+
 def cmd_eod_finalize():
     if now_ist().weekday() >= 5:
         log.info("Weekend — skipping EOD finalize.")
@@ -2509,6 +2843,7 @@ def cmd_eod_finalize():
 
     log.info("Finalizing today's still-pending alert outcomes.")
     history = update_pending_outcomes(finalize_eod=True)
+    history = check_post_stop_recovery()
 
     today = today_str()
     today_records = [r for r in history if r.get("date") == today]
@@ -2547,6 +2882,16 @@ def cmd_eod_finalize():
 
     if still_open_total:
         msg += f"📦 Total open positions across all days: {len(still_open_total)}\n\n"
+
+    checked_stops = [r for r in history if r.get("post_stop_checked") and r.get("outcome") == "STOPLOSS_HIT"]
+    if len(checked_stops) >= 10:
+        would_recover = sum(1 for r in checked_stops if r.get("post_stop_would_hit_target1"))
+        recovery_rate = would_recover / len(checked_stops) * 100
+        msg += (
+            f"🔁 Of {len(checked_stops)} stopped-out trades checked, "
+            f"{recovery_rate:.0f}% would have gone on to hit T1 anyway within "
+            f"{3} days — informational only, doesn't change what actually happened.\n\n"
+        )
 
     msg += "This data feeds the weekly self-learning retrain."
     tg_send(msg)
