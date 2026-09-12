@@ -44,6 +44,7 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, time as dt_time
+from email.utils import parsedate_to_datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import pandas as pd
@@ -137,12 +138,13 @@ MAX_HOLDING_DAYS = int(os.getenv("MAX_HOLDING_DAYS", "5"))
 # capital at risk per false signal, but more capital at risk when you're
 # genuinely wrong. Tune via env var once enough trades accumulate to see
 # which side of that tradeoff actually pays off empirically.
-SL_ATR_MULT = float(os.getenv("SL_ATR_MULT", "2.0"))
-TARGET1_ATR_MULT = float(os.getenv("TARGET1_ATR_MULT", "2.5"))
-TARGET2_ATR_MULT = float(os.getenv("TARGET2_ATR_MULT", "4.0"))
+SL_ATR_MULT = float(os.getenv("SL_ATR_MULT", "2.0"))  # fallback only when no structural support found
 
 # News
-NEWS_LOOKBACK_HOURS = int(os.getenv("NEWS_LOOKBACK_HOURS", "30"))
+# Now actually enforced (see fetch_google_news) — was declared but unused
+# before. 720h (30 days) balances "not multi-year-old garbage" against
+# many smaller NSE stocks simply not having news every single day.
+NEWS_LOOKBACK_HOURS = int(os.getenv("NEWS_LOOKBACK_HOURS", "720"))
 MAX_NEWS_ITEMS = int(os.getenv("MAX_NEWS_ITEMS", "5"))
 
 # Universe data workers
@@ -733,6 +735,88 @@ def get_info(symbol):
 # TECHNICAL INDICATORS
 # ============================================================
 
+def find_pivot_lows(df, window=3):
+    lows = df["Low"].values
+    out = []
+    for i in range(window, len(df) - window):
+        if lows[i] < lows[i - window:i].min() and lows[i] < lows[i + 1:i + window + 1].min():
+            out.append(i)
+    return out
+
+
+def find_pivot_highs(df, window=3):
+    highs = df["High"].values
+    out = []
+    for i in range(window, len(df) - window):
+        if highs[i] > highs[i - window:i].max() and highs[i] > highs[i + 1:i + window + 1].max():
+            out.append(i)
+    return out
+
+
+def find_nearest_support(df, current_price, lookback=60):
+    """
+    Nearest genuine swing low BELOW current price — used to anchor the
+    stop-loss to actual market structure rather than a flat ATR multiple.
+    Falls back to the plain lookback-window low if no clean pivot exists.
+    """
+    x = df.tail(min(lookback, len(df)))
+    pivots = find_pivot_lows(x, window=3)
+    candidates = [float(x["Low"].iloc[i]) for i in pivots if float(x["Low"].iloc[i]) <= current_price]
+    if not candidates:
+        return float(x["Low"].min())
+    return max(candidates)  # highest low still below price = the nearest one
+
+
+def find_nearest_resistance(df, current_price, lookback=60):
+    """Mirror of find_nearest_support, for resistance above current price."""
+    x = df.tail(min(lookback, len(df)))
+    pivots = find_pivot_highs(x, window=3)
+    candidates = [float(x["High"].iloc[i]) for i in pivots if float(x["High"].iloc[i]) >= current_price]
+    if not candidates:
+        return float(x["High"].max())
+    return min(candidates)  # lowest high still above price = the nearest one
+
+
+def calculate_compression_score(x):
+    """
+    Volatility-contraction (VCP-style) score: tightening range + shrinking
+    ATR + a sequence of shrinking daily ranges (5d < 10d < 20d) is the
+    classic pre-breakout signature — quiet coiling before a move, not
+    confirmation that a move already happened.
+    """
+    if len(x) < 30:
+        return 0.0
+
+    close = float(x["Close"].iloc[-1])
+    high20 = x["High"].tail(20)
+    low20 = x["Low"].tail(20)
+    range_pct = (float(high20.max()) - float(low20.min())) / max(close, 0.01) * 100
+
+    atr_now = float(x["ATR"].iloc[-1]) if pd.notna(x["ATR"].iloc[-1]) else 0
+    atr_prior = float(x["ATR"].iloc[-20]) if len(x) > 20 and pd.notna(x["ATR"].iloc[-20]) else atr_now
+    contraction = (atr_prior - atr_now) / atr_prior if atr_prior > 0 else 0
+
+    score = 0
+    if range_pct <= 12:
+        score += 40
+    elif range_pct <= 18:
+        score += 25
+    elif range_pct <= 25:
+        score += 10
+
+    if contraction > 0.15:
+        score += 30
+    elif contraction > 0.05:
+        score += 15
+
+    ranges = x["High"] - x["Low"]
+    r5, r10, r20 = ranges.tail(5).mean(), ranges.tail(10).mean(), ranges.tail(20).mean()
+    if r5 < r10 < r20:
+        score += 30
+
+    return round(min(100, score), 1)
+
+
 def dema(series, period):
     ema1 = series.ewm(span=period, adjust=False).mean()
     ema2 = ema1.ewm(span=period, adjust=False).mean()
@@ -1216,6 +1300,12 @@ def news_sentiment(text):
 def fetch_google_news(symbol):
     """
     Google News RSS. No API key required.
+
+    NEWS_LOOKBACK_HOURS existed as a config value but was never actually
+    enforced — meaning multi-year-old headlines could silently influence
+    today's sentiment score (confirmed in real output: some stocks were
+    scored partly off headlines from 2017-2020). Fetches a larger raw pool
+    first, then filters by actual publish date before taking the top N.
     """
     try:
         q = urllib.parse.quote(f"{symbol} NSE India stock")
@@ -1234,23 +1324,38 @@ def fetch_google_news(symbol):
 
         root = ET.fromstring(xml_data)
 
+        cutoff = datetime.utcnow() - timedelta(hours=NEWS_LOOKBACK_HOURS)
         items = []
 
-        for item in root.findall(".//item")[:MAX_NEWS_ITEMS]:
+        for item in root.findall(".//item")[:20]:  # fetch a larger raw pool before date-filtering
             title = clean_text(item.findtext("title"))
             link = clean_text(item.findtext("link"))
             pub = clean_text(item.findtext("pubDate"))
 
-            if title:
-                score, label = news_sentiment(title)
+            if not title:
+                continue
 
-                items.append({
-                    "title": title,
-                    "link": link,
-                    "published": pub,
-                    "score": score,
-                    "label": label,
-                })
+            if pub:
+                try:
+                    pub_dt = parsedate_to_datetime(pub)
+                    if pub_dt.tzinfo is not None:
+                        pub_dt = pub_dt.astimezone(tz=None).replace(tzinfo=None)
+                    if pub_dt < cutoff:
+                        continue  # too old to be a "current" catalyst
+                except Exception:
+                    pass  # unparseable date — keep it rather than silently drop
+
+            score, label = news_sentiment(title)
+            items.append({
+                "title": title,
+                "link": link,
+                "published": pub,
+                "score": score,
+                "label": label,
+            })
+
+            if len(items) >= MAX_NEWS_ITEMS:
+                break
 
         return items
 
@@ -1534,6 +1639,14 @@ def analyze_daily(symbol, df):
         score += 10
         reasons.append("Double Bottom")
 
+    compression_score = calculate_compression_score(x)
+    if compression_score >= 70:
+        score += 12
+        reasons.append("Tight Consolidation (Compression)")
+    elif compression_score >= 45:
+        score += 6
+        reasons.append("Moderate Compression")
+
     if inverse_hs:
         score += 11
         reasons.append("Inverse Head & Shoulders")
@@ -1556,7 +1669,7 @@ def analyze_daily(symbol, df):
 
     # Candles: up to 15
     if patterns:
-        score += min(15, len(patterns) * 5)
+        score += min(8, len(patterns) * 4)
         reasons.extend(patterns)
 
     # Momentum: 15
@@ -1613,9 +1726,28 @@ def analyze_daily(symbol, df):
     ]
     setup = next(label for label, matched in setup_candidates if matched)
 
-    stop_loss = close - (SL_ATR_MULT * atr) if atr > 0 else close * 0.965
-    target1 = close + (TARGET1_ATR_MULT * atr) if atr > 0 else close * 1.04
-    target2 = close + (TARGET2_ATR_MULT * atr) if atr > 0 else close * 1.07
+    # Stop-loss anchored to actual market structure (a real swing-low
+    # support), not just a generic volatility multiple — "if this breaks,
+    # I'm wrong" should mean something technically real. ATR is only a
+    # fallback when no sane nearby support exists. Targets are then set as
+    # multiples of the ACTUAL risk taken on this specific trade (R-multiples),
+    # which keeps a consistent reward:risk ratio across different stocks
+    # and volatility regimes, rather than an arbitrary flat ATR distance.
+    atr_stop = close - (SL_ATR_MULT * atr) if atr > 0 else close * 0.965
+    structural_support = find_nearest_support(x, close)
+    structural_stop = structural_support * 0.995
+
+    # Sanity bound: only trust the structural stop if it's both below price
+    # and not implausibly far away (a stale support from months back isn't
+    # a meaningful risk reference for this trade).
+    if close * 0.90 < structural_stop < close:
+        stop_loss = structural_stop
+    else:
+        stop_loss = atr_stop
+
+    risk = max(close - stop_loss, 0.01)
+    target1 = close + (2.0 * risk)
+    target2 = close + (3.5 * risk)
 
     return {
         "symbol": symbol,
@@ -1648,6 +1780,7 @@ def analyze_daily(symbol, df):
         # engine so a "breakout" means clearing real resistance, not just
         # ticking above the last hour's minor high.
         "resistance_20d": float(x["High"].tail(20).max()),
+        "compression_score": compression_score,
     }
 
 
@@ -1725,9 +1858,13 @@ def apply_core_filters(symbol, df, info=None):
         if prev_close > 0 else 0
     )
     volume_ratio = volume / volume_denominator if volume_denominator > 0 else 0
+    # Standard "% off 52-week high" convention (relative to the high
+    # itself, not current price) — matches how this is usually expressed
+    # in financial media/screeners. Matching Chartink exactly was never a
+    # hard requirement, just an earlier debugging benchmark.
     pct_from_high = (
-        ((high_52w / price) - 1) * 100
-        if price > 0 else 100
+        ((high_52w - price) / high_52w) * 100
+        if high_52w > 0 else 100
     )
 
     # Final precise filters using live info data
@@ -1801,8 +1938,8 @@ def analyze_candidate(symbol):
             core_score += 4
 
         combined = (
-            technical["score"] * 0.55
-            + news["score"] * 0.20
+            technical["score"] * 0.65
+            + news["score"] * 0.10
             + core_score * (25 / 25)
         )
 
@@ -1870,6 +2007,151 @@ def scan_universe(symbols):
     )
 
     return results
+
+
+# ============================================================
+# STAGE 1: PRE-BREAKOUT WATCH — separate from the main filters
+# ============================================================
+# The main core filter REQUIRES volume_ratio >= 1.5x just to qualify —
+# meaning it can only ever find stocks that have ALREADY started moving.
+# A genuine pre-breakout stock is quietly coiling: tight range, NORMAL
+# (not yet expanded) volume, sitting near — not at — resistance. This
+# needs its own filter with opposite volume logic, not a bolt-on to the
+# existing one.
+
+PREBREAKOUT_MIN_DAY_CHANGE = float(os.getenv("PREBREAKOUT_MIN_DAY_CHANGE", "-3"))
+PREBREAKOUT_MAX_DAY_CHANGE = float(os.getenv("PREBREAKOUT_MAX_DAY_CHANGE", "3"))
+PREBREAKOUT_MIN_VOL_RATIO = float(os.getenv("PREBREAKOUT_MIN_VOL_RATIO", "0.6"))
+PREBREAKOUT_MAX_VOL_RATIO = float(os.getenv("PREBREAKOUT_MAX_VOL_RATIO", "1.3"))
+PREBREAKOUT_MIN_DIST_PCT = float(os.getenv("PREBREAKOUT_MIN_DIST_PCT", "1.5"))
+PREBREAKOUT_MAX_DIST_PCT = float(os.getenv("PREBREAKOUT_MAX_DIST_PCT", "8.0"))
+PREBREAKOUT_MIN_COMPRESSION = float(os.getenv("PREBREAKOUT_MIN_COMPRESSION", "45"))
+PREBREAKOUT_MAX_CANDIDATES = int(os.getenv("PREBREAKOUT_MAX_CANDIDATES", "15"))
+PREBREAKOUT_WATCHLIST_FILE = os.path.join(DATA_DIR, "prebreakout_watchlist.json")
+
+
+def apply_prebreakout_filters(symbol, df, info=None):
+    if df is None or len(df) < 210:
+        return None
+
+    x = add_indicators(df)
+    last = x.iloc[-1]
+    price = float(last["Close"])
+    volume = float(last["Volume"])
+    avg_volume = float(x["Volume"].tail(21).mean())
+
+    if price < MIN_PRICE or avg_volume <= MIN_AVG_VOLUME:
+        return None
+
+    prev_close_daily = float(x["Close"].iloc[-2]) if len(x) >= 2 else price
+    day_change = ((price - prev_close_daily) / prev_close_daily) * 100 if prev_close_daily > 0 else 0
+    if not (PREBREAKOUT_MIN_DAY_CHANGE <= day_change <= PREBREAKOUT_MAX_DAY_CHANGE):
+        return None  # already moving today — that's the OTHER tier, not this one
+
+    elapsed_fraction = session_elapsed_fraction()
+    volume_denominator = avg_volume * elapsed_fraction if elapsed_fraction is not None else avg_volume
+    volume_ratio = volume / volume_denominator if volume_denominator > 0 else 0
+    if not (PREBREAKOUT_MIN_VOL_RATIO <= volume_ratio <= PREBREAKOUT_MAX_VOL_RATIO):
+        return None  # want NORMAL volume — already-expanded volume means it's not "pre" anymore
+
+    if not (last["DEMA10"] > last["DEMA50"] > last["DEMA200"]):
+        return None
+
+    if info is None:
+        info = get_info(symbol)
+    market_cap = info.get("market_cap", 0)
+    if market_cap < MIN_MARKET_CAP_CR:
+        return None
+
+    resistance = find_nearest_resistance(x, price)
+    dist_pct = ((resistance - price) / price) * 100 if price > 0 else 100
+    if not (PREBREAKOUT_MIN_DIST_PCT <= dist_pct <= PREBREAKOUT_MAX_DIST_PCT):
+        return None  # not close enough to matter yet, or already essentially there
+
+    compression = calculate_compression_score(x)
+    if compression < PREBREAKOUT_MIN_COMPRESSION:
+        return None  # not actually coiling — just an ordinary uptrend day
+
+    rsi = float(last["RSI"]) if pd.notna(last["RSI"]) else 50
+    dema_spread_50_200 = (last["DEMA50"] / last["DEMA200"] - 1) * 100 if last["DEMA200"] > 0 else 0
+
+    score = 0
+    score += min(35, compression * 0.35)
+    score += max(0, 25 - abs(dist_pct - 3) * 3)  # peak reward ~3% below resistance
+    if 45 <= rsi <= 62:
+        score += 15
+    if dema_spread_50_200 > 2:
+        score += 10  # established trend, not a stock that barely just crossed
+    if PREBREAKOUT_MIN_VOL_RATIO + 0.3 <= volume_ratio <= PREBREAKOUT_MAX_VOL_RATIO:
+        score += 15  # volume already gently building within the "still normal" band
+
+    return {
+        "symbol": symbol,
+        "price": price,
+        "day_change": round(day_change, 2),
+        "volume_ratio": round(volume_ratio, 2),
+        "market_cap": market_cap,
+        "resistance": round(resistance, 2),
+        "distance_to_resistance_pct": round(dist_pct, 2),
+        "compression_score": compression,
+        "rsi": round(rsi, 2),
+        "prebreakout_score": round(min(100, score), 1),
+    }
+
+
+def analyze_prebreakout_candidate(symbol):
+    try:
+        df = yf_daily(symbol)
+        result = apply_prebreakout_filters(symbol, df)
+        return result
+    except Exception as e:
+        log.debug("Pre-breakout analysis failed for %s: %s", symbol, e)
+        return None
+
+
+def scan_prebreakout_universe(symbols, exclude_symbols):
+    log.info("Starting Stage 1 pre-breakout scan: %s stocks", len(symbols))
+    candidates = []
+
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+        futures = {
+            executor.submit(analyze_prebreakout_candidate, s): s
+            for s in symbols if s not in exclude_symbols
+        }
+        completed = 0
+        for future in as_completed(futures):
+            completed += 1
+            try:
+                r = future.result()
+                if r:
+                    candidates.append(r)
+            except Exception:
+                pass
+            if completed % 200 == 0:
+                log.info("Pre-breakout progress: %s/%s | candidates=%s", completed, len(futures), len(candidates))
+
+    candidates.sort(key=lambda c: c["prebreakout_score"], reverse=True)
+    candidates = candidates[:PREBREAKOUT_MAX_CANDIDATES]
+
+    log.info("Pre-breakout scan complete: %s candidates", len(candidates))
+    save_json(PREBREAKOUT_WATCHLIST_FILE, {"date": today_str(), "items": candidates})
+    return candidates
+
+
+def format_prebreakout_section(candidates):
+    if not candidates:
+        return ""
+    msg = "\n🟡 *STAGE 1 — Pre-Breakout Watch*\n"
+    msg += "Tight consolidation near resistance, volume still normal — no move yet.\n"
+    msg += ("━" * 20) + "\n"
+    for i, c in enumerate(candidates, 1):
+        msg += (
+            f"{i}. *{c['symbol']}* — Score {c['prebreakout_score']}/100\n"
+            f"💰 ₹{c['price']:.2f} | 📏 {c['distance_to_resistance_pct']:.1f}% below ₹{c['resistance']:.2f}\n"
+            f"🧵 Compression {c['compression_score']:.0f}/100 | RSI {c['rsi']}\n"
+            f"━━━━━━━━━━━━━━━━\n"
+        )
+    return msg
 
 
 # ============================================================
@@ -1989,7 +2271,7 @@ FEATURE_NAMES = [
     "rsi", "adx", "daily_volume_ratio", "daily_score", "news_score",
     "combined_score", "intraday_score", "intraday_volume_ratio",
     "ema_alignment", "dema_alignment", "golden_cross", "double_bottom",
-    "inverse_hs", "cup_and_handle", "bull_flag",
+    "inverse_hs", "cup_and_handle", "bull_flag", "compression_score",
     "hh_hl", "near_breakout", "macd_bullish", "macd_cross",
     "obv_accumulation", "has_patterns", "move_since_morning_pct",
     "move_from_open_pct",
@@ -2015,6 +2297,7 @@ def build_feature_dict(morning_item, intraday_score, intraday_volume_ratio, move
         "inverse_hs": 1.0 if t.get("inverse_hs") else 0.0,
         "cup_and_handle": 1.0 if t.get("cup_and_handle") else 0.0,
         "bull_flag": 1.0 if t.get("bull_flag") else 0.0,
+        "compression_score": t.get("compression_score", 0.0),
         "hh_hl": 1.0 if t["hh_hl"] else 0.0,
         "near_breakout": 1.0 if t["near_breakout"] else 0.0,
         "macd_bullish": 1.0 if t["macd_bullish"] else 0.0,
@@ -2339,21 +2622,26 @@ def cmd_scan():
         log.warning("Catalyst news scan failed: %s", e)
         catalyst_candidates = []
 
+    try:
+        prebreakout_candidates = scan_prebreakout_universe(universe, watchlisted_symbols)
+    except Exception as e:
+        log.warning("Pre-breakout scan failed: %s", e)
+        prebreakout_candidates = []
+
+    extra_sections = format_news_catalyst_section(catalyst_candidates) + format_prebreakout_section(prebreakout_candidates)
+
     if watchlist_items:
         report = format_morning_report(results)
-        report += format_news_catalyst_section(catalyst_candidates)
+        report += extra_sections
         tg_long_send(report)
-    elif catalyst_candidates:
-        tg_long_send(
-            "📊 *NSE AI*\nNo stock passed all core filters today."
-            + format_news_catalyst_section(catalyst_candidates)
-        )
+    elif extra_sections:
+        tg_long_send("📊 *NSE AI*\nNo stock passed all core filters today." + extra_sections)
     else:
         tg_send("📊 *NSE AI*\nNo stock passed all core filters today.")
 
     log.info(
-        "Morning scan complete. Watchlist size: %s, catalyst candidates: %s",
-        len(watchlist_items), len(catalyst_candidates)
+        "Morning scan complete. Watchlist size: %s, catalyst candidates: %s, pre-breakout candidates: %s",
+        len(watchlist_items), len(catalyst_candidates), len(prebreakout_candidates)
     )
 
 
@@ -2525,6 +2813,17 @@ def cmd_rescan():
                     "📰➡️📈 *News catalyst confirmed technically*\n"
                     + "\n".join(f"• {s}" for s in confirmed_now)
                     + "\n\nThese were flagged on news alone earlier — now showing a real breakout setup too."
+                )
+
+        prebreakout_data = load_json(PREBREAKOUT_WATCHLIST_FILE, {})
+        if prebreakout_data.get("date") == today_str():
+            added_symbols = {item["symbol"] for item in added}
+            graduated = [c["symbol"] for c in prebreakout_data.get("items", []) if c["symbol"] in added_symbols]
+            if graduated:
+                tg_send(
+                    "🟡➡️🟢 *Stage 1 stock now breaking out*\n"
+                    + "\n".join(f"• {s}" for s in graduated)
+                    + "\n\nWas quietly consolidating on the watch list — now showing a real breakout with volume."
                 )
 
     if added:
