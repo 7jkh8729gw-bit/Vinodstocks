@@ -1672,10 +1672,15 @@ def analyze_daily(symbol, df):
         score += min(8, len(patterns) * 4)
         reasons.extend(patterns)
 
-    # Momentum: 15
+    # Momentum: 15 (+ slope bonuses)
     if 50 <= rsi <= 68:
         score += 6
         reasons.append("Healthy RSI")
+
+    rsi_5d_ago = float(x["RSI"].iloc[-6]) if len(x) >= 6 and pd.notna(x["RSI"].iloc[-6]) else rsi
+    if rsi > rsi_5d_ago:
+        score += 4
+        reasons.append("RSI Rising (Building Momentum)")
 
     if macd_cross:
         score += 6
@@ -1687,6 +1692,11 @@ def analyze_daily(symbol, df):
     if adx >= 20:
         score += 3
         reasons.append("ADX Trend Strength")
+
+    adx_5d_ago = float(x["ADX"].iloc[-6]) if len(x) >= 6 and pd.notna(x["ADX"].iloc[-6]) else adx
+    if adx > adx_5d_ago:
+        score += 4
+        reasons.append("ADX Rising (Strengthening Trend)")
 
     # Volume / accumulation: 15
     if volume_ratio >= 1.5:
@@ -2075,6 +2085,19 @@ def apply_prebreakout_filters(symbol, df, info=None):
     rsi = float(last["RSI"]) if pd.notna(last["RSI"]) else 50
     dema_spread_50_200 = (last["DEMA50"] / last["DEMA200"] - 1) * 100 if last["DEMA200"] > 0 else 0
 
+    # Silent accumulation: OBV building over 10 days while price stays flat —
+    # a classic leading signal (volume moving before price does). This is
+    # only meaningful HERE, not on the main watchlist, because Stage 1
+    # already guarantees flat price — so "OBV also rising" is a real
+    # differentiator within that population, not just confirming a move
+    # that already happened.
+    lookback_n = min(10, len(x) - 1)
+    price_n_ago = float(x["Close"].iloc[-1 - lookback_n])
+    obv_n_ago = float(x["OBV"].iloc[-1 - lookback_n])
+    obv_now = float(x["OBV"].iloc[-1])
+    price_change_10d_pct = ((price - price_n_ago) / price_n_ago) * 100 if price_n_ago > 0 else 0
+    silent_accumulation = obv_now > obv_n_ago and abs(price_change_10d_pct) < 4
+
     score = 0
     score += min(35, compression * 0.35)
     score += max(0, 25 - abs(dist_pct - 3) * 3)  # peak reward ~3% below resistance
@@ -2084,6 +2107,8 @@ def apply_prebreakout_filters(symbol, df, info=None):
         score += 10  # established trend, not a stock that barely just crossed
     if PREBREAKOUT_MIN_VOL_RATIO + 0.3 <= volume_ratio <= PREBREAKOUT_MAX_VOL_RATIO:
         score += 15  # volume already gently building within the "still normal" band
+    if silent_accumulation:
+        score += 15
 
     return {
         "symbol": symbol,
@@ -2095,6 +2120,7 @@ def apply_prebreakout_filters(symbol, df, info=None):
         "distance_to_resistance_pct": round(dist_pct, 2),
         "compression_score": compression,
         "rsi": round(rsi, 2),
+        "silent_accumulation": bool(silent_accumulation),
         "prebreakout_score": round(min(100, score), 1),
     }
 
@@ -2148,7 +2174,8 @@ def format_prebreakout_section(candidates):
         msg += (
             f"{i}. *{c['symbol']}* — Score {c['prebreakout_score']}/100\n"
             f"💰 ₹{c['price']:.2f} | 📏 {c['distance_to_resistance_pct']:.1f}% below ₹{c['resistance']:.2f}\n"
-            f"🧵 Compression {c['compression_score']:.0f}/100 | RSI {c['rsi']}\n"
+            f"🧵 Compression {c['compression_score']:.0f}/100 | RSI {c['rsi']}"
+            + (" | 🤫 Silent Accumulation" if c.get("silent_accumulation") else "") + "\n"
             f"━━━━━━━━━━━━━━━━\n"
         )
     return msg
@@ -2237,7 +2264,7 @@ def format_morning_report(results):
 
         msg += (
             f"*{i}. {item['symbol']}* — "
-            f"AI Score *{item['combined_score']}/100*\n"
+            f"Setup Strength Score *{item['combined_score']}/100*\n"
             f"💰 ₹{b['price']:.2f} | "
             f"📈 {b['day_change']:.2f}% | "
             f"📊 Vol {b['volume_ratio']:.2f}x\n"
@@ -2567,7 +2594,7 @@ def build_buy_alert_message(signal, watch_item):
         f"📊 Intraday Volume: *{signal['volume_ratio']:.2f}x*\n"
         f"🧠 Breakout Score: *{signal['score']}/100*\n\n"
         f"📐 Daily Setup: *{t['setup']}*\n"
-        f"📊 Daily AI Score: *{watch_item['combined_score']}/100*\n"
+        f"📊 Daily Setup Strength Score: *{watch_item['combined_score']}/100*\n"
         f"📈 RSI: {t['rsi']} | ADX: {t['adx']}\n"
         f"📰 Catalyst ({n['label']}, {n['score']}/100): {headline}\n"
         + (f"📢 Corporate Action: {corp_note}\n" if corp_note else "")
