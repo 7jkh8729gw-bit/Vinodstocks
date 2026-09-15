@@ -291,22 +291,22 @@
       "symbol": "QUADFUTURE",
       "base": {
         "symbol": "QUADFUTURE",
-        "price": 500.55,
-        "day_change": 4.72,
-        "volume": 2709767,
-        "avg_volume": 2764773,
-        "volume_ratio": 4.08,
+        "price": 501.75,
+        "day_change": 4.97,
+        "volume": 2874018,
+        "avg_volume": 2772594,
+        "volume_ratio": 3.27,
         "high_52w": 519.6,
-        "pct_from_high": 3.67,
-        "market_cap": 2002.2
+        "pct_from_high": 3.44,
+        "market_cap": 2007.0
       },
       "technical": {
         "symbol": "QUADFUTURE",
-        "close": 500.54998779296875,
-        "rsi": 72.86,
+        "close": 501.75,
+        "rsi": 73.03,
         "adx": 48.3,
         "atr": 28.48,
-        "volume_ratio": 0.94,
+        "volume_ratio": 0.99,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -335,9 +335,9 @@
           "ADX Rising (Strengthening Trend)",
           "OBV Accumulation"
         ],
-        "stop_loss": 443.59,
-        "target1": 614.48,
-        "target2": 699.92,
+        "stop_loss": 444.79,
+        "target1": 615.68,
+        "target2": 701.12,
         "resistance_20d": 519.5999755859375,
         "compression_score": 0
       },
@@ -370,7 +370,7 @@
       },
       "core_score": 23,
       "combined_score": 66.3,
-      "added_at": "2026-09-15T10:45:07.789377",
+      "added_at": "2026-09-15T11:14:54.895575",
       "signal_state": "WATCHING",
       "first_seen_price": 478.5,
       "first_seen_at": "2026-09-15T06:20:49.146308"
@@ -1001,22 +1001,22 @@
       "symbol": "AEGISVOPAK",
       "base": {
         "symbol": "AEGISVOPAK",
-        "price": 299.25,
-        "day_change": 1.44,
-        "volume": 1363855,
-        "avg_volume": 958756,
-        "volume_ratio": 6.06,
+        "price": 304.25,
+        "day_change": 3.14,
+        "volume": 1568702,
+        "avg_volume": 968511,
+        "volume_ratio": 5.15,
         "high_52w": 311.49,
-        "pct_from_high": 3.93,
-        "market_cap": 33156.65
+        "pct_from_high": 2.32,
+        "market_cap": 33710.64
       },
       "technical": {
         "symbol": "AEGISVOPAK",
-        "close": 299.25,
-        "rsi": 63.99,
+        "close": 304.25,
+        "rsi": 66.5,
         "adx": 22.68,
         "atr": 12.17,
-        "volume_ratio": 1.4,
+        "volume_ratio": 1.59,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1026,13 +1026,13 @@
         "bull_flag": false,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": false,
+        "breakout": true,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [],
-        "setup": "DOUBLE BOTTOM",
-        "score": 71,
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 85,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -1040,16 +1040,18 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
+          "Confirmed Breakout",
           "Healthy RSI",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
           "ADX Trend Strength",
           "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 274.9,
-        "target1": 347.95,
-        "target2": 384.47,
+        "stop_loss": 279.9,
+        "target1": 352.95,
+        "target2": 389.47,
         "resistance_20d": 306.95001220703125,
         "compression_score": 40
       },
@@ -1066,9 +1068,9 @@
           }
         ]
       },
-      "core_score": 23,
-      "combined_score": 74.7,
-      "added_at": "2026-09-15T10:43:53.940388",
+      "core_score": 25,
+      "combined_score": 85.8,
+      "added_at": "2026-09-15T11:13:40.535733",
       "signal_state": "WATCHING",
       "first_seen_price": 295.1,
       "first_seen_at": "2026-09-15T06:19:18.337478"
@@ -1165,22 +1167,22 @@
       "symbol": "RAYMOND",
       "base": {
         "symbol": "RAYMOND",
-        "price": 1072.6,
-        "day_change": 6.96,
-        "volume": 11048347,
-        "avg_volume": 3630417,
-        "volume_ratio": 12.68,
+        "price": 1088.5,
+        "day_change": 8.55,
+        "volume": 13163594,
+        "avg_volume": 3731143,
+        "volume_ratio": 11.12,
         "high_52w": 1122.0,
-        "pct_from_high": 4.4,
-        "market_cap": 7138.31
+        "pct_from_high": 2.99,
+        "market_cap": 7244.12
       },
       "technical": {
         "symbol": "RAYMOND",
-        "close": 1072.5999755859375,
-        "rsi": 84.08,
+        "close": 1088.5,
+        "rsi": 84.54,
         "adx": 45.61,
         "atr": 54.99,
-        "volume_ratio": 2.91,
+        "volume_ratio": 3.37,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1217,9 +1219,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 962.62,
-        "target1": 1292.57,
-        "target2": 1457.54,
+        "stop_loss": 978.52,
+        "target1": 1308.47,
+        "target2": 1473.44,
         "resistance_20d": 1122.0,
         "compression_score": 0
       },
@@ -1257,9 +1259,9 @@
           }
         ]
       },
-      "core_score": 20,
-      "combined_score": 93.4,
-      "added_at": "2026-09-15T10:45:09.973816",
+      "core_score": 22,
+      "combined_score": 95.4,
+      "added_at": "2026-09-15T11:14:56.753139",
       "signal_state": "WATCHING",
       "first_seen_price": 1088.8,
       "first_seen_at": "2026-09-15T09:46:26.779564"
@@ -1885,22 +1887,22 @@
       "symbol": "LOTUSDEV",
       "base": {
         "symbol": "LOTUSDEV",
-        "price": 216.0,
-        "day_change": 3.22,
-        "volume": 1549858,
-        "avg_volume": 1588387,
-        "volume_ratio": 4.11,
+        "price": 214.0,
+        "day_change": 2.26,
+        "volume": 1618570,
+        "avg_volume": 1591659,
+        "volume_ratio": 3.2,
         "high_52w": 219.73,
-        "pct_from_high": 1.7,
-        "market_cap": 10556.43
+        "pct_from_high": 2.61,
+        "market_cap": 10458.69
       },
       "technical": {
         "symbol": "LOTUSDEV",
-        "close": 216.0,
-        "rsi": 74.8,
+        "close": 214.0,
+        "rsi": 73.96,
         "adx": 27.07,
         "atr": 9.3,
-        "volume_ratio": 0.97,
+        "volume_ratio": 1.01,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1930,9 +1932,9 @@
           "ADX Rising (Strengthening Trend)",
           "OBV Accumulation"
         ],
-        "stop_loss": 197.39,
-        "target1": 253.21,
-        "target2": 281.12,
+        "stop_loss": 195.39,
+        "target1": 251.21,
+        "target2": 279.12,
         "resistance_20d": 219.72999572753906,
         "compression_score": 0
       },
@@ -1941,24 +1943,24 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "SRI LOTUS DEVLPRS N RTY L Share Price - Live NSE: LOTUSDEV Stock Price & Chart - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9mVWpodTEwdlRjTFNRTlBuckZ5d0NVLVJQT1RNXzltc2oySVRBdmQ2TU5xMThqN3dFU2x0dzAteHJfYkIzLUJiNXN0eTQxRUZ2YlZtT2NXMEdIeG9TLXpRMUFEbVh1NHFvNm5GVFNWbzJGZw?oc=5",
-            "published": "Fri, 11 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
             "title": "Sri Lotus Developers LOTUSDEV wins Versova redevelopment project - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPcDNOdFdYN1VCandiVXFyZnhnVkFHYlJrQ2s5czV5ZHFVS2l6dEFLaFhFQTJmUVh2Z0h1bFNJSDVNSXlneFV0MGV4YjZ3TUpYYWFTbW0td1NjeWtNaVVYQVk4ZnlWelEzOC1rWXc2WUhVMm9YUDl4ZnM4eTJWOE9YUC15cTktc2dJVHZSMGtIYWJjZERTZ0kwYnJCYUFxR0JNSzBpYkZkeGJ4VV9nTlJFN3Uxb2ZHM19NOEpWZkxEYjlLOWRxRTI0eU0xNjJrYUk?oc=5",
             "published": "Tue, 08 Sep 2026 07:23:00 GMT",
             "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "SRI LOTUS DEVLPRS N RTY L Share Price - Live NSE: LOTUSDEV Stock Price & Chart - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9mVWpodTEwdlRjTFNRTlBuckZ5d0NVLVJQT1RNXzltc2oySVRBdmQ2TU5xMThqN3dFU2x0dzAteHJfYkIzLUJiNXN0eTQxRUZ2YlZtT2NXMEdIeG9TLXpRMUFEbVh1NHFvNm5GVFNWbzJGZw?oc=5",
+            "published": "Fri, 11 Sep 2026 07:00:00 GMT",
+            "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 25,
       "combined_score": 73.2,
-      "added_at": "2026-09-15T10:44:47.306759",
+      "added_at": "2026-09-15T11:14:36.009254",
       "signal_state": "WATCHING",
       "first_seen_price": 219.73,
       "first_seen_at": "2026-09-15T10:15:35.480066"
