@@ -700,7 +700,11 @@
     "exit_price": 226.5,
     "exit_time": "2026-09-11T00:00:00",
     "max_favorable_pct": 1.82,
-    "max_adverse_pct": 5.03
+    "max_adverse_pct": 5.03,
+    "post_stop_would_hit_target1": false,
+    "post_stop_would_hit_target2": false,
+    "post_stop_recovery_pct": 7.41,
+    "post_stop_checked": true
   },
   {
     "date": "2026-09-10",
@@ -740,7 +744,11 @@
     "exit_price": 191.39,
     "exit_time": "2026-09-11T00:00:00",
     "max_favorable_pct": 0.37,
-    "max_adverse_pct": 4.34
+    "max_adverse_pct": 4.34,
+    "post_stop_would_hit_target1": false,
+    "post_stop_would_hit_target2": false,
+    "post_stop_recovery_pct": 0.32,
+    "post_stop_checked": true
   },
   {
     "date": "2026-09-10",
@@ -780,7 +788,11 @@
     "exit_price": 131.17,
     "exit_time": "2026-09-11T00:00:00",
     "max_favorable_pct": 2.15,
-    "max_adverse_pct": 5.35
+    "max_adverse_pct": 5.35,
+    "post_stop_would_hit_target1": false,
+    "post_stop_would_hit_target2": false,
+    "post_stop_recovery_pct": 1.5,
+    "post_stop_checked": true
   },
   {
     "date": "2026-09-10",
@@ -820,7 +832,8 @@
     "exit_price": 300.7,
     "exit_time": "2026-09-15T00:00:00",
     "max_favorable_pct": 2.2,
-    "max_adverse_pct": 4.33
+    "max_adverse_pct": 4.33,
+    "post_stop_checked": true
   },
   {
     "date": "2026-09-10",
@@ -860,7 +873,8 @@
     "exit_price": 376.58,
     "exit_time": "2026-09-15T00:00:00",
     "max_favorable_pct": 1.19,
-    "max_adverse_pct": 4.49
+    "max_adverse_pct": 4.49,
+    "post_stop_checked": true
   },
   {
     "date": "2026-09-11",
@@ -936,11 +950,11 @@
       "move_since_morning_pct": 2.625894064605471,
       "move_from_open_pct": 1.73
     },
-    "outcome": "PENDING",
-    "exit_price": null,
-    "exit_time": null,
+    "outcome": "STOPLOSS_HIT",
+    "exit_price": 227.12,
+    "exit_time": "2026-09-15T00:00:00",
     "max_favorable_pct": 2.39,
-    "max_adverse_pct": 4.13
+    "max_adverse_pct": 4.89
   },
   {
     "date": "2026-09-11",
