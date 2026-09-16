@@ -455,22 +455,22 @@
       "symbol": "PAYTM",
       "base": {
         "symbol": "PAYTM",
-        "price": 1735.0,
-        "day_change": 0.29,
-        "volume": 7799536,
-        "avg_volume": 4300757,
-        "volume_ratio": 23.45,
+        "price": 1737.8,
+        "day_change": 0.45,
+        "volume": 8864537,
+        "avg_volume": 4351471,
+        "volume_ratio": 12.95,
         "high_52w": 1855.5,
-        "pct_from_high": 6.49,
-        "market_cap": 111236.59
+        "pct_from_high": 6.34,
+        "market_cap": 111416.11
       },
       "technical": {
         "symbol": "PAYTM",
-        "close": 1735.0,
-        "rsi": 60.45,
+        "close": 1737.800048828125,
+        "rsi": 60.68,
         "adx": 42.56,
         "atr": 62.22,
-        "volume_ratio": 1.8,
+        "volume_ratio": 2.03,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -486,7 +486,7 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "GOLDEN CROSS",
-        "score": 53,
+        "score": 58,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -496,11 +496,12 @@
           "ADX Trend Strength",
           "ADX Rising (Strengthening Trend)",
           "Volume Expansion",
-          "OBV Accumulation"
+          "OBV Accumulation",
+          "Strong Volume"
         ],
         "stop_loss": 1586.23,
-        "target1": 2032.54,
-        "target2": 2255.7,
+        "target1": 2040.94,
+        "target2": 2268.3,
         "resistance_20d": 1855.5,
         "compression_score": 25
       },
@@ -518,8 +519,8 @@
         ]
       },
       "core_score": 23,
-      "combined_score": 63.0,
-      "added_at": "2026-09-16T09:44:51.272489",
+      "combined_score": 66.2,
+      "added_at": "2026-09-16T10:14:13.334942",
       "signal_state": "WATCHING",
       "first_seen_price": 1807.5,
       "first_seen_at": "2026-09-16T06:19:58.633548"
