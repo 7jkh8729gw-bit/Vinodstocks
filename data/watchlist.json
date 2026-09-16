@@ -455,22 +455,22 @@
       "symbol": "PAYTM",
       "base": {
         "symbol": "PAYTM",
-        "price": 1784.0,
-        "day_change": 3.12,
-        "volume": 13935136,
-        "avg_volume": 4592928,
-        "volume_ratio": 3.79,
+        "price": 1787.1,
+        "day_change": 3.3,
+        "volume": 14421530,
+        "avg_volume": 4616090,
+        "volume_ratio": 3.55,
         "high_52w": 1855.5,
-        "pct_from_high": 3.85,
-        "market_cap": 114378.15
+        "pct_from_high": 3.69,
+        "market_cap": 114576.9
       },
       "technical": {
         "symbol": "PAYTM",
-        "close": 1784.0,
-        "rsi": 64.13,
+        "close": 1787.0999755859375,
+        "rsi": 64.34,
         "adx": 42.56,
         "atr": 62.22,
-        "volume_ratio": 3.01,
+        "volume_ratio": 3.1,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -481,27 +481,28 @@
         "hh_hl": true,
         "near_breakout": false,
         "breakout": false,
-        "macd_bullish": false,
-        "macd_cross": false,
+        "macd_bullish": true,
+        "macd_cross": true,
         "obv_accumulation": true,
         "patterns": [],
         "setup": "GOLDEN CROSS",
-        "score": 58,
+        "score": 64,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Healthy RSI",
+          "MACD Bullish Crossover",
           "ADX Trend Strength",
           "ADX Rising (Strengthening Trend)",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1659.56,
-        "target1": 2032.89,
-        "target2": 2219.56,
+        "stop_loss": 1662.66,
+        "target1": 2035.99,
+        "target2": 2222.66,
         "resistance_20d": 1855.5,
         "compression_score": 25
       },
@@ -519,8 +520,8 @@
         ]
       },
       "core_score": 23,
-      "combined_score": 66.2,
-      "added_at": "2026-09-16T14:15:08.780636",
+      "combined_score": 70.1,
+      "added_at": "2026-09-16T14:45:10.283251",
       "signal_state": "WATCHING",
       "first_seen_price": 1807.5,
       "first_seen_at": "2026-09-16T06:19:58.633548"
@@ -1213,22 +1214,22 @@
       "symbol": "KOPRAN",
       "base": {
         "symbol": "KOPRAN",
-        "price": 263.11,
-        "day_change": 6.31,
-        "volume": 12119682,
-        "avg_volume": 1697726,
-        "volume_ratio": 8.95,
+        "price": 263.59,
+        "day_change": 6.5,
+        "volume": 12747905,
+        "avg_volume": 1727642,
+        "volume_ratio": 8.41,
         "high_52w": 274.78,
-        "pct_from_high": 4.25,
-        "market_cap": 1270.44
+        "pct_from_high": 4.07,
+        "market_cap": 1272.76
       },
       "technical": {
         "symbol": "KOPRAN",
-        "close": 263.1099853515625,
-        "rsi": 80.67,
+        "close": 263.5899963378906,
+        "rsi": 80.79,
         "adx": 34.65,
         "atr": 13.97,
-        "volume_ratio": 6.84,
+        "volume_ratio": 7.07,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1260,9 +1261,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 235.16,
-        "target1": 319.01,
-        "target2": 360.93,
+        "stop_loss": 235.64,
+        "target1": 319.49,
+        "target2": 361.41,
         "resistance_20d": 274.7799987792969,
         "compression_score": 0
       },
@@ -1295,7 +1296,7 @@
       },
       "core_score": 20,
       "combined_score": 75.9,
-      "added_at": "2026-09-16T14:14:50.509426",
+      "added_at": "2026-09-16T14:44:51.967286",
       "signal_state": "WATCHING",
       "first_seen_price": 256.1,
       "first_seen_at": "2026-09-16T12:45:28.436889"
@@ -1304,22 +1305,22 @@
       "symbol": "DIACABS",
       "base": {
         "symbol": "DIACABS",
-        "price": 388.45,
-        "day_change": 0.25,
-        "volume": 1242652,
-        "avg_volume": 981253,
-        "volume_ratio": 1.59,
+        "price": 397.0,
+        "day_change": 2.45,
+        "volume": 1346756,
+        "avg_volume": 986210,
+        "volume_ratio": 1.56,
         "high_52w": 399.0,
-        "pct_from_high": 2.64,
-        "market_cap": 23232.07
+        "pct_from_high": 0.5,
+        "market_cap": 23743.42
       },
       "technical": {
         "symbol": "DIACABS",
-        "close": 388.45001220703125,
-        "rsi": 71.97,
+        "close": 397.0,
+        "rsi": 74.07,
         "adx": 29.37,
         "atr": 17.59,
-        "volume_ratio": 1.28,
+        "volume_ratio": 1.38,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1348,9 +1349,9 @@
           "ADX Rising (Strengthening Trend)",
           "OBV Accumulation"
         ],
-        "stop_loss": 353.26,
-        "target1": 458.83,
-        "target2": 511.61,
+        "stop_loss": 361.81,
+        "target1": 467.38,
+        "target2": 520.16,
         "resistance_20d": 399.0,
         "compression_score": 10
       },
@@ -1383,7 +1384,7 @@
       },
       "core_score": 19,
       "combined_score": 61.8,
-      "added_at": "2026-09-16T14:14:24.401134",
+      "added_at": "2026-09-16T14:44:25.256874",
       "signal_state": "WATCHING",
       "first_seen_price": 392.0,
       "first_seen_at": "2026-09-16T12:45:02.137284"
@@ -1392,22 +1393,22 @@
       "symbol": "MOREPENLAB",
       "base": {
         "symbol": "MOREPENLAB",
-        "price": 114.44,
-        "day_change": 7.05,
-        "volume": 33202473,
-        "avg_volume": 21808518,
-        "volume_ratio": 1.91,
+        "price": 114.31,
+        "day_change": 6.93,
+        "volume": 34815524,
+        "avg_volume": 21885330,
+        "volume_ratio": 1.81,
         "high_52w": 122.55,
-        "pct_from_high": 6.62,
-        "market_cap": 6270.78
+        "pct_from_high": 6.72,
+        "market_cap": 6263.66
       },
       "technical": {
         "symbol": "MOREPENLAB",
-        "close": 114.44000244140625,
-        "rsi": 63.9,
+        "close": 114.30999755859375,
+        "rsi": 63.8,
         "adx": 55.3,
-        "atr": 7.09,
-        "volume_ratio": 1.48,
+        "atr": 7.1,
+        "volume_ratio": 1.55,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1423,18 +1424,19 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "GOLDEN CROSS",
-        "score": 37,
+        "score": 42,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Healthy RSI",
           "ADX Trend Strength",
+          "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 100.27,
-        "target1": 142.78,
-        "target2": 164.04,
+        "stop_loss": 100.12,
+        "target1": 142.69,
+        "target2": 163.98,
         "resistance_20d": 122.55000305175781,
         "compression_score": 0
       },
@@ -1452,8 +1454,8 @@
         ]
       },
       "core_score": 14,
-      "combined_score": 44.5,
-      "added_at": "2026-09-16T14:15:00.106231",
+      "combined_score": 47.8,
+      "added_at": "2026-09-16T14:45:01.134756",
       "signal_state": "WATCHING",
       "first_seen_price": 111.62,
       "first_seen_at": "2026-09-16T12:45:37.503594"
@@ -1523,6 +1525,196 @@
       "added_at": "2026-09-16T14:14:32.059583",
       "first_seen_price": 603.6,
       "first_seen_at": "2026-09-16T14:14:32.059583"
+    },
+    {
+      "symbol": "EMUDHRA",
+      "base": {
+        "symbol": "EMUDHRA",
+        "price": 659.3,
+        "day_change": 11.21,
+        "volume": 26442682,
+        "avg_volume": 1475092,
+        "volume_ratio": 20.43,
+        "high_52w": 710.1,
+        "pct_from_high": 7.15,
+        "market_cap": 5409.13
+      },
+      "technical": {
+        "symbol": "EMUDHRA",
+        "close": 659.2999877929688,
+        "rsi": 76.14,
+        "adx": 33.7,
+        "atr": 28.89,
+        "volume_ratio": 17.11,
+        "ema_alignment": false,
+        "dema_alignment": true,
+        "golden_cross": false,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": true,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": true,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "BREAKOUT",
+        "score": 73,
+        "reasons": [
+          "DEMA bullish alignment",
+          "Higher High / Higher Low",
+          "Cup and Handle",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish Crossover",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 601.52,
+        "target1": 774.86,
+        "target2": 861.53,
+        "resistance_20d": 677.0,
+        "compression_score": 0
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "eMudhra share price jumps 12% today, extends gains for second session | What's behind the rally? - livemint.com",
+            "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxOYm9fWVZyNEkxbGVFMS1Kdjl4cXRoZndCakp6SnFNZEJtV2lqa2pZa05PRXlJZTFKTi00QWkxYl9SdVN0dkxzNXg4bm8tVEYtby1HZF9ZZkthQmhYSXpLT25XUkNOakMyOVpFY3NxQmpSeE5mcGcydTVLc2V4dFZTUnJMUVhSTERueUE2WFFOUE9rOFRtWG9BLVNoTXZCRlV5cGMzMm5ZVWZSUDJaa3E4N0t1MHYtMlhPTEdWVGhNMDdrZmE0MzNKWEN0TVJkU2RGNzNuZ2JTYjJEVWpabWc3RVFZLVEzWmRNWEVGSjM3WERZQdIB9wFBVV95cUxOU0JhSjdKSVU1eHdFSm9wS0JUazlxR0hVLUZqOWt2T2ZmM3h4ZE9lbjJ4MGRqMWRLZHRiTnJNNF9CeFFHTC1mOVlCNnczUVluUHVKY2RGQl9OY2hnTklKSEMtdkpiZGFDQXQwYXUwSXEzYXJTaFEzb1BLLWlEaDJwLXNqQTJXTVpWbFBJMVVuYUpLV05maVMwR2VJMWtfazhNdW93T0JUVlM2VU44NFRnMm80aFIyWWIxcWpJYzRiSjEtWFdXV1R0VFktaUJUOUFBT0tMZFJlNU1vSmF5QUN6Ml9fSVhISUNfUklULUI3ZUMzOWctcFFz?oc=5",
+            "published": "Wed, 16 Sep 2026 04:16:28 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "eMudhra zooms 20% amid huge volumes in weak market; here's why - Business Standard",
+            "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOVHBmMzhFRnpLWUQyZ19mY2RXekhtbmtYREZwRjdfSmVGNHlWNkpXdlA2eG5PZlIyN3k5UHl3ejhwa2hGaVMwUkhGemFHbmRleFpKRzFuUjI2Q005UmtNa1pXY3hVTU5VMnhsSjBIcWVld2JVRWZrV2hUX2xPeW9CTm1JRVI0dFNiYXVRY1ppcldCSmhNMkl5T3REVVhPNE01OXFMM0NoQk5HMmhBdGZJNTExV19TSWJiMU5peC11ZTZaclYxZmYtWFh2ZHZXQ3k5WTJXT0VR0gHbAUFVX3lxTFBqcnZjWjdIQkRva3QwNkx3aGRRZkMzcmFxYkNNLXBoTkFfR29hdVVvWDMtNUg2YlVFNGJhOFd5RlloVlUxVUtkblFuNmNwSzRVc2xUNHBnZElqeHdiWDA2LVgxemtRQ1hmVllQTy1wWjJHaDNuLUZpQ0d2MlUwSE9RSWpuSzF1b1RfS3c0TC1LRUYyMUsxb0ZyRFBOOGs4dTYyNEt2X2lkYW10VF9RNzdqNHo2ZXJHYU5SeDVHcGMyZnBHT2ZsMDlMYm9KNnRscEdiU2ExbDh6T1I4VQ?oc=5",
+            "published": "Tue, 15 Sep 2026 09:35:19 GMT",
+            "score": -2,
+            "label": "Neutral"
+          },
+          {
+            "title": "eMudhra Shares Surge as Momentum Strengthens - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNTkJZZVVPdXJJWEozNnJlbV85S2dvS0ZJeWRIZTdWM1lmYXNGVGVkeEZVcGwtTThWdnBRVV9mV09mbGdzaWZTbDJqQVdIWVRQbHlhLWJydlcwMmRwSjZTN1IzR1BoNFBuSkVzTDV0cVBFb0FPaVo3Q195amViSU14VTVUWGFuQVJRZWJlRG13MTZ1eklBaWF4TnBGS1BOdF9hcHpSWWEyeF9BYkE?oc=5",
+            "published": "Tue, 15 Sep 2026 06:16:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Price Band Hitters, September 15, 2026 at 4:00 PM IST - HDFC Sky",
+            "link": "https://news.google.com/rss/articles/CBMieEFVX3lxTE5SQW5wRW5oVVl4WGpMV1N2Rmc4bkdqZjlTckU1YncyanZyeHUtYlVPQUhtdVdWaGNwSW5pMWgtbzF5TmdmQUlTS21EamZmUzRVZDgwaE5yN0JMVW5sV1Zod0ZTcHZmSUVyajBELWFWcmgzVUU3WXBtcw?oc=5",
+            "published": "Tue, 15 Sep 2026 11:12:49 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "eMudhra Ltd. Share Price Today - eMudhra Ltd. Stock Price Live NSE/BSE - CNBC TV18",
+            "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9vaVBRZU9HenEzd0dHQkZ3WmxpZmZzazJ1RXM1MG1CdlJhUjh0XzlEZ0JDWl83YjVxRnFkZkprbHUzdVhqMV9pMFhWXzBHVE8xckxqRjlxLVBmMmU5MDQzWGQ0LVB5d0hPZ0tYczJXNE40N25RcHc?oc=5",
+            "published": "Fri, 11 Sep 2026 10:22:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 69.5,
+      "added_at": "2026-09-16T14:44:27.310134",
+      "first_seen_price": 659.3,
+      "first_seen_at": "2026-09-16T14:44:27.310134"
+    },
+    {
+      "symbol": "POLICYBZR",
+      "base": {
+        "symbol": "POLICYBZR",
+        "price": 1819.0,
+        "day_change": 4.78,
+        "volume": 1500298,
+        "avg_volume": 1081213,
+        "volume_ratio": 1.58,
+        "high_52w": 1964.2,
+        "pct_from_high": 7.39,
+        "market_cap": 84055.97
+      },
+      "technical": {
+        "symbol": "POLICYBZR",
+        "close": 1819.0,
+        "rsi": 56.23,
+        "adx": 39.36,
+        "atr": 54.34,
+        "volume_ratio": 1.38,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": true,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": false,
+        "patterns": [],
+        "setup": "INVERSE HEAD & SHOULDERS",
+        "score": 53,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Double Bottom",
+          "Inverse Head & Shoulders",
+          "Healthy RSI",
+          "ADX Trend Strength"
+        ],
+        "stop_loss": 1787.42,
+        "target1": 1882.16,
+        "target2": 1929.54,
+        "resistance_20d": 1875.0,
+        "compression_score": 40
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "5 Fintech Stocks India 2026: Strong Future Roadmaps - Univest",
+            "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1NbExkMFFsdUNaOHBzb25QWXNoYlRTNDRWRkszZTBSYk1KNnpFT1YwZnZQMmlYeVNxWkpBdFp1V2VRNTdQbDdobGx4RzBqMm5YTDhMME9TQ096Z05MdURra2pKQk9KTEVYRlUxWTlZRkVCS0lmbW44?oc=5",
+            "published": "Wed, 26 Aug 2026 06:18:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "PB Fintech Ltd. Shareholding Pattern \u2013 Promoters, FIIs & DIIs - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPb2IzSVJOTURZMm5sc1U4c3FtOTNLMlo0SGxONW1RaHEtMW1kbW1NQXpGalBBYlVucWlZaUYzdHJLdHVBQjJoc2tiYUNCbGJEZnl0bHp1SjByR28xZ2VpSlJ6eTlpMUVGWVRvR25JaVNDNEpraVBMN2xJS0ZZcGIzOUZub2M?oc=5",
+            "published": "Fri, 04 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 Under the Radar Fintech Platforms Stocks Flying Past the Usual Names in India - Univest",
+            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOWDlORVh2Y3BRbXo0ZTd2NV85UWxaV05kV2RXdzA3MjRSYU5lVGJKMTlYNUNYbHowVERRNHZEYmloOXp2NmxVLVFNU284ZlFqblU4MW43OVZmVjdRWlhjd19CYzNPSWt2NFRIc2d1Slg1ZS16MzI1d0drcU9hcmp2Qmtmblo?oc=5",
+            "published": "Mon, 24 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 14,
+      "combined_score": 54.0,
+      "added_at": "2026-09-16T14:45:12.583225",
+      "first_seen_price": 1819.0,
+      "first_seen_at": "2026-09-16T14:45:12.583225"
     }
   ]
 }
