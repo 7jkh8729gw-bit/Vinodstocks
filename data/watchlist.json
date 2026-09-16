@@ -455,22 +455,22 @@
       "symbol": "PAYTM",
       "base": {
         "symbol": "PAYTM",
-        "price": 1750.0,
-        "day_change": 1.16,
-        "volume": 10197690,
-        "avg_volume": 4414954,
-        "volume_ratio": 9.62,
+        "price": 1743.8,
+        "day_change": 0.8,
+        "volume": 10971304,
+        "avg_volume": 4451793,
+        "volume_ratio": 7.83,
         "high_52w": 1855.5,
-        "pct_from_high": 5.69,
-        "market_cap": 112198.29
+        "pct_from_high": 6.02,
+        "market_cap": 111800.79
       },
       "technical": {
         "symbol": "PAYTM",
-        "close": 1750.0,
-        "rsi": 61.66,
+        "close": 1743.800048828125,
+        "rsi": 61.17,
         "adx": 42.56,
         "atr": 62.22,
-        "volume_ratio": 2.3,
+        "volume_ratio": 2.45,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -500,8 +500,8 @@
           "Strong Volume"
         ],
         "stop_loss": 1586.23,
-        "target1": 2077.54,
-        "target2": 2323.2,
+        "target1": 2058.94,
+        "target2": 2295.3,
         "resistance_20d": 1855.5,
         "compression_score": 25
       },
@@ -520,7 +520,7 @@
       },
       "core_score": 23,
       "combined_score": 66.2,
-      "added_at": "2026-09-16T10:45:29.213067",
+      "added_at": "2026-09-16T11:13:24.842039",
       "signal_state": "WATCHING",
       "first_seen_price": 1807.5,
       "first_seen_at": "2026-09-16T06:19:58.633548"
@@ -945,6 +945,171 @@
       "added_at": "2026-09-16T10:44:21.973527",
       "first_seen_price": 1350.9,
       "first_seen_at": "2026-09-16T10:44:21.973527"
+    },
+    {
+      "symbol": "NOCIL",
+      "base": {
+        "symbol": "NOCIL",
+        "price": 185.69,
+        "day_change": 1.14,
+        "volume": 704119,
+        "avg_volume": 1305757,
+        "volume_ratio": 1.71,
+        "high_52w": 204.5,
+        "pct_from_high": 9.2,
+        "market_cap": 3101.49
+      },
+      "technical": {
+        "symbol": "NOCIL",
+        "close": 185.69000244140625,
+        "rsi": 61.97,
+        "adx": 34.22,
+        "atr": 6.51,
+        "volume_ratio": 0.52,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "Hammer"
+        ],
+        "setup": "DOUBLE BOTTOM",
+        "score": 58,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Double Bottom",
+          "Hammer",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 176.12,
+        "target1": 204.84,
+        "target2": 219.2,
+        "resistance_20d": 200.49000549316406,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "NOCIL NSE:NOCIL Clarifies Volume Spurt to Exchanges - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQM0dTaWNpMm1zbUp5SW8ySGEzckU0N1p1S0tzVF9VRWg0bU9wS1BJc0V0Vm9XWkw1bE9PSW9BSFpXUUx1RGtxclJsQ0Fvb1BUdThyNFhTRnMyRjM5REZ5SXlEdkhrT3Q4U1F6ampZWE9BY3FwQVNyUlFVOVJqdlh1cDBsejQyNVBLUi14MFIwQlF2TklwdWlqalVZeVM1X25XczdXVkpmVzZsOFZteVZQOQ?oc=5",
+            "published": "Wed, 09 Sep 2026 07:08:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "NOCIL Jumps 7.5% to \u20b9185.07 on NSE: Rubber Chemicals Player Hits Resistance Zone - Institutional Flow Picks - siam.in",
+            "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPNnQ0R3R5UkZNZWM3c1k4QWc5a1F6ZnFjcnlMR293Q0hSem5qMjFETGJaV1lHT0FhZjZvWW0yNW1TOFR2aGNCQmlmakNjLVBpbUtHbU5LanpTRy1QRTJQTjA3d2NSQURQbmVZNjREbW5IT0NmNkZsR1loS1dSdFM3MWZaWXdWZ1hwbG5wQllEZjc4UHFwcGNoUkphTXd3MDZZd1hzU05aSHo4ejQxLVE5aGtHZzNWdDhDNlVR?oc=5",
+            "published": "Tue, 08 Sep 2026 22:48:11 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "3 Fundamentally Strong Petrochemical Stocks in India (2026) - Univest",
+            "link": "https://news.google.com/rss/articles/CBMifEFVX3lxTE1uclBhWEhZU3pQalRwS0RqS3NhclpPTWV1ZGJYQmU4Mm44UUlSOTNWVmZhQVZxWl9CemtVRWNhZUZqS1FDUllVejlveEg0eW9fNW52ZV9jY2ljMFFycG13YjZSTTNiTnpKQjNObWVtSzEwR3FTcl9SQnBkeE0?oc=5",
+            "published": "Thu, 20 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 14,
+      "combined_score": 57.2,
+      "added_at": "2026-09-16T11:13:19.360125",
+      "first_seen_price": 185.69,
+      "first_seen_at": "2026-09-16T11:13:19.360125"
+    },
+    {
+      "symbol": "SHILPAMED",
+      "base": {
+        "symbol": "SHILPAMED",
+        "price": 915.85,
+        "day_change": 0.42,
+        "volume": 611793,
+        "avg_volume": 1216418,
+        "volume_ratio": 1.6,
+        "high_52w": 980.1,
+        "pct_from_high": 6.56,
+        "market_cap": 17912.36
+      },
+      "technical": {
+        "symbol": "SHILPAMED",
+        "close": 915.8499755859375,
+        "rsi": 57.63,
+        "adx": 51.76,
+        "atr": 39.58,
+        "volume_ratio": 0.49,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS",
+        "score": 37,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Healthy RSI",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 836.69,
+        "target1": 1074.17,
+        "target2": 1192.91,
+        "resistance_20d": 980.0999755859375,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Shilpa Medicare AGM 2026: Voting Results and Dividend Declared - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxON0hZanN4WDhWaVJqTzY3eDZHd1ozU3JNcG5ZbEJLcXg2MFJ2M1RJdUUzcWstckhRQlZnVnZCVmJ2NFNSWDM0bDNFaE5mb1M3OW1INm1EU1NFSURVQkx1VHY4NklQOE9CclFTMWxWUWctZGdqMFlnNUVyQzFmR195VFE5elpCRFF6YmVscktSOEthM1g1UHpmNDUxSVpsVFMtYkw1YTNyaHdNalI0R1lKczFlM1pBRGdDNzFpMWpR?oc=5",
+            "published": "Sat, 12 Sep 2026 10:34:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Shilpa Medicare Ltd. (SHILPAMED) 52 Week High Streak: Second Straight Session at New Peak - Univest",
+            "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPTTJ4UFZZQnJWWGtBOWZzVlNDRVV5QnhVMmxDSlZpMVM2SXh6d2Uzd2IzMWZFM1F6Si0wX1otczFDMFhiSmxqMlVnOWw3VWNaVE00YVg4dUJOeEZkVTc2ZzI0U0xUcE84dS1ZeTFWd05JcWZZR0VsRFFmbWNxVEZIUThSQUlSNE9OQWt6Mw?oc=5",
+            "published": "Fri, 04 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 46.0,
+      "added_at": "2026-09-16T11:13:40.187570",
+      "first_seen_price": 915.85,
+      "first_seen_at": "2026-09-16T11:13:40.187570"
     }
   ]
 }
