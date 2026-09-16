@@ -455,22 +455,22 @@
       "symbol": "PAYTM",
       "base": {
         "symbol": "PAYTM",
-        "price": 1737.8,
-        "day_change": 0.45,
-        "volume": 8864537,
-        "avg_volume": 4351471,
-        "volume_ratio": 12.95,
+        "price": 1750.0,
+        "day_change": 1.16,
+        "volume": 10197690,
+        "avg_volume": 4414954,
+        "volume_ratio": 9.62,
         "high_52w": 1855.5,
-        "pct_from_high": 6.34,
-        "market_cap": 111416.11
+        "pct_from_high": 5.69,
+        "market_cap": 112198.29
       },
       "technical": {
         "symbol": "PAYTM",
-        "close": 1737.800048828125,
-        "rsi": 60.68,
+        "close": 1750.0,
+        "rsi": 61.66,
         "adx": 42.56,
         "atr": 62.22,
-        "volume_ratio": 2.03,
+        "volume_ratio": 2.3,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -500,8 +500,8 @@
           "Strong Volume"
         ],
         "stop_loss": 1586.23,
-        "target1": 2040.94,
-        "target2": 2268.3,
+        "target1": 2077.54,
+        "target2": 2323.2,
         "resistance_20d": 1855.5,
         "compression_score": 25
       },
@@ -520,7 +520,7 @@
       },
       "core_score": 23,
       "combined_score": 66.2,
-      "added_at": "2026-09-16T10:14:13.334942",
+      "added_at": "2026-09-16T10:45:29.213067",
       "signal_state": "WATCHING",
       "first_seen_price": 1807.5,
       "first_seen_at": "2026-09-16T06:19:58.633548"
@@ -859,6 +859,92 @@
       "added_at": "2026-09-16T06:19:38.146947",
       "first_seen_price": 562.9,
       "first_seen_at": "2026-09-16T06:19:38.146947"
+    },
+    {
+      "symbol": "FINCABLES",
+      "base": {
+        "symbol": "FINCABLES",
+        "price": 1350.9,
+        "day_change": 0.78,
+        "volume": 402110,
+        "avg_volume": 1093673,
+        "volume_ratio": 1.55,
+        "high_52w": 1498.0,
+        "pct_from_high": 9.82,
+        "market_cap": 20660.58
+      },
+      "technical": {
+        "symbol": "FINCABLES",
+        "close": 1350.9000244140625,
+        "rsi": 58.42,
+        "adx": 36.48,
+        "atr": 63.83,
+        "volume_ratio": 0.36,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 54,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Double Bottom",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 1238.48,
+        "target1": 1575.75,
+        "target2": 1744.38,
+        "resistance_20d": 1498.0,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "5 Cable Stocks India 2026: Strong Future Roadmaps - Univest",
+            "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE56SVhmelBXMEY3M1ZvTnZiY2lmdXNEcG1qa0dKeG1Bem9Ma1J2TTdHUkdBYkJvbUMtMFdGWk1XTXFWTGRXVVpYQTdoSm1PWGYtUVhPRHFRS3hYN1NZVUFsekpWMmQ0Z2tTTzlGc3FsblQ2QQ?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "Finolex Cables Ltd. Shareholding Pattern \u2013 Promoters, FIIs & DIIs - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPXzBLWmcxYTVGeEUxQl9VSFpzRzgwekFqOF9mUEZCV3dISVRhbVFlN0RjbTVvVWMyRXJ3UWlsa3l4aU1nN0FGeXoyWHRnYjRucEJhSWY4SE8wdXVXSFNnMGJSeUJqeURwU0JVUFc5Z19odERtVWEwQ2xpYV9OdWlyWXNnOE40bDZM?oc=5",
+            "published": "Fri, 04 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Finolex Cables Share Price News: Mid Cap Top Gainer Today - Univest",
+            "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPakxoZ3R2WkpuNkR3em9zODIyb0xZRmJBU1I3cE5GY3p2dUFxV3R4NTlHU0ZlWHNBeE1XVDRKV1pWdkx1VWdTQ0k0c0k0UlZzMk92NThhWFY1RFpWNlI1TVlPRHNMLWR1Yy1mYVZyY3liOUF2a0xDeU5mYzJsWXFzSw?oc=5",
+            "published": "Mon, 17 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 14,
+      "combined_score": 54.6,
+      "added_at": "2026-09-16T10:44:21.973527",
+      "first_seen_price": 1350.9,
+      "first_seen_at": "2026-09-16T10:44:21.973527"
     }
   ]
 }
