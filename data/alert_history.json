@@ -1216,10 +1216,10 @@
       "move_since_morning_pct": 2.5127566590601087,
       "move_from_open_pct": 5.76
     },
-    "outcome": "PENDING",
-    "exit_price": null,
-    "exit_time": null,
+    "outcome": "STOPLOSS_HIT",
+    "exit_price": 380.74,
+    "exit_time": "2026-09-17T00:00:00",
     "max_favorable_pct": 0.0,
-    "max_adverse_pct": 2.49
+    "max_adverse_pct": 5.44
   }
 ]
