@@ -1339,10 +1339,10 @@
       "move_since_morning_pct": 3.1378431466251913,
       "move_from_open_pct": 6.56
     },
-    "outcome": "PENDING",
-    "exit_price": null,
-    "exit_time": null,
-    "max_favorable_pct": 3.58,
+    "outcome": "TARGET1_HIT",
+    "exit_price": 146.06,
+    "exit_time": "2026-09-18T12:45:00",
+    "max_favorable_pct": 6.23,
     "max_adverse_pct": 1.14
   },
   {
@@ -1384,6 +1384,6 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 1.22,
-    "max_adverse_pct": 2.46
+    "max_adverse_pct": 2.82
   }
 ]
