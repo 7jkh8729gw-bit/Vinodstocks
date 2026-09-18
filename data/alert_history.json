@@ -1301,7 +1301,7 @@
     "outcome": "PENDING",
     "exit_price": null,
     "exit_time": null,
-    "max_favorable_pct": 0.7,
+    "max_favorable_pct": 1.19,
     "max_adverse_pct": 0.17
   },
   {
@@ -1342,7 +1342,48 @@
     "outcome": "PENDING",
     "exit_price": null,
     "exit_time": null,
-    "max_favorable_pct": 0.0,
+    "max_favorable_pct": 1.05,
     "max_adverse_pct": 1.14
+  },
+  {
+    "date": "2026-09-18",
+    "symbol": "QUADFUTURE",
+    "alert_time": "10:20:16",
+    "bar_time": "2026-09-18T10:15:00+05:30",
+    "entry_price": 547.45,
+    "sl": 512.99,
+    "target1": 590.53,
+    "target2": 619.25,
+    "features": {
+      "rsi": 78.74,
+      "adx": 53.83,
+      "daily_volume_ratio": 0.15,
+      "daily_score": 69,
+      "news_score": 50,
+      "combined_score": 71.8,
+      "intraday_score": 84.9,
+      "intraday_volume_ratio": 2.2689857206093733,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 1.0,
+      "inverse_hs": 0.0,
+      "cup_and_handle": 0.0,
+      "bull_flag": 0.0,
+      "compression_score": 0,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 1.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": 1.2577475644189908,
+      "move_from_open_pct": 5.42
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
