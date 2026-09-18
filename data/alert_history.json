@@ -1384,6 +1384,47 @@
     "exit_price": null,
     "exit_time": null,
     "max_favorable_pct": 1.22,
-    "max_adverse_pct": 2.82
+    "max_adverse_pct": 2.99
+  },
+  {
+    "date": "2026-09-18",
+    "symbol": "SHILPAMED",
+    "alert_time": "13:03:37",
+    "bar_time": "2026-09-18T13:00:00+05:30",
+    "entry_price": 1019.85,
+    "sl": 967.61,
+    "target1": 1085.14,
+    "target2": 1128.67,
+    "features": {
+      "rsi": 67.84,
+      "adx": 48.95,
+      "daily_volume_ratio": 0.66,
+      "daily_score": 58,
+      "news_score": 50,
+      "combined_score": 61.7,
+      "intraday_score": 95.8,
+      "intraday_volume_ratio": 3.199694716281966,
+      "ema_alignment": 1.0,
+      "dema_alignment": 1.0,
+      "golden_cross": 1.0,
+      "double_bottom": 0.0,
+      "inverse_hs": 0.0,
+      "cup_and_handle": 0.0,
+      "bull_flag": 0.0,
+      "compression_score": 10,
+      "hh_hl": 1.0,
+      "near_breakout": 1.0,
+      "macd_bullish": 0.0,
+      "macd_cross": 0.0,
+      "obv_accumulation": 1.0,
+      "has_patterns": 1.0,
+      "move_since_morning_pct": 1.9391249523651808,
+      "move_from_open_pct": 6.48
+    },
+    "outcome": "PENDING",
+    "exit_price": null,
+    "exit_time": null,
+    "max_favorable_pct": 0.0,
+    "max_adverse_pct": 0.0
   }
 ]
