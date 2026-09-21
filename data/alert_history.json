@@ -1220,7 +1220,11 @@
     "exit_price": 380.74,
     "exit_time": "2026-09-17T00:00:00",
     "max_favorable_pct": 0.0,
-    "max_adverse_pct": 5.44
+    "max_adverse_pct": 5.44,
+    "post_stop_would_hit_target1": false,
+    "post_stop_would_hit_target2": false,
+    "post_stop_recovery_pct": -0.46,
+    "post_stop_checked": true
   },
   {
     "date": "2026-09-17",
