@@ -5,22 +5,22 @@
       "symbol": "PFOCUS",
       "base": {
         "symbol": "PFOCUS",
-        "price": 354.8,
-        "day_change": 0.34,
-        "volume": 3587217,
-        "avg_volume": 1574917,
-        "volume_ratio": 3.16,
+        "price": 356.15,
+        "day_change": 0.72,
+        "volume": 3875300,
+        "avg_volume": 1724529,
+        "volume_ratio": 2.82,
         "high_52w": 367.0,
-        "pct_from_high": 3.32,
-        "market_cap": 27630.9
+        "pct_from_high": 2.96,
+        "market_cap": 27736.03
       },
       "technical": {
         "symbol": "PFOCUS",
-        "close": 354.79998779296875,
-        "rsi": 76.97,
-        "adx": 36.68,
-        "atr": 13.88,
-        "volume_ratio": 2.29,
+        "close": 356.1499938964844,
+        "rsi": 77.36,
+        "adx": 38.53,
+        "atr": 13.91,
+        "volume_ratio": 2.18,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -58,9 +58,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 327.04,
-        "target1": 410.32,
-        "target2": 451.96,
+        "stop_loss": 328.32,
+        "target1": 411.81,
+        "target2": 453.55,
         "resistance_20d": 362.0,
         "compression_score": 10
       },
@@ -105,9 +105,9 @@
           }
         ]
       },
-      "core_score": 23,
-      "combined_score": 93.0,
-      "added_at": "2026-09-22T13:45:23.592697",
+      "core_score": 22,
+      "combined_score": 92.0,
+      "added_at": "2026-09-22T14:14:39.696857",
       "signal_state": "WATCHING",
       "first_seen_price": 354.55,
       "first_seen_at": "2026-09-22T12:44:37.165900"
@@ -116,22 +116,22 @@
       "symbol": "ENGINERSIN",
       "base": {
         "symbol": "ENGINERSIN",
-        "price": 293.1,
-        "day_change": 2.59,
-        "volume": 14485763,
-        "avg_volume": 6239054,
-        "volume_ratio": 3.24,
+        "price": 297.75,
+        "day_change": 4.22,
+        "volume": 15444077,
+        "avg_volume": 6524331,
+        "volume_ratio": 2.98,
         "high_52w": 301.9,
-        "pct_from_high": 2.91,
-        "market_cap": 16473.46
+        "pct_from_high": 1.37,
+        "market_cap": 16726.38
       },
       "technical": {
         "symbol": "ENGINERSIN",
-        "close": 293.1000061035156,
-        "rsi": 70.65,
-        "adx": 33.27,
-        "atr": 10.73,
-        "volume_ratio": 2.31,
+        "close": 297.75,
+        "rsi": 72.61,
+        "adx": 33.29,
+        "atr": 10.43,
+        "volume_ratio": 2.3,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -142,14 +142,14 @@
         "hh_hl": true,
         "near_breakout": true,
         "breakout": true,
-        "macd_bullish": false,
-        "macd_cross": false,
+        "macd_bullish": true,
+        "macd_cross": true,
         "obv_accumulation": true,
         "patterns": [
           "3 White Soldiers"
         ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 92,
+        "score": 98,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -161,14 +161,15 @@
           "Confirmed Breakout",
           "3 White Soldiers",
           "RSI Rising (Building Momentum)",
+          "MACD Bullish Crossover",
           "ADX Trend Strength",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 271.64,
-        "target1": 336.02,
-        "target2": 368.21,
+        "stop_loss": 276.9,
+        "target1": 339.45,
+        "target2": 370.73,
         "resistance_20d": 301.8999938964844,
         "compression_score": 10
       },
@@ -185,177 +186,12 @@
           }
         ]
       },
-      "core_score": 25,
-      "combined_score": 89.8,
-      "added_at": "2026-09-22T13:44:40.578099",
+      "core_score": 22,
+      "combined_score": 90.7,
+      "added_at": "2026-09-22T14:13:48.981553",
       "signal_state": "WATCHING",
       "first_seen_price": 291.8,
       "first_seen_at": "2026-09-22T12:16:47.995409"
-    },
-    {
-      "symbol": "USHAMART",
-      "base": {
-        "symbol": "USHAMART",
-        "price": 532.15,
-        "day_change": 0.35,
-        "volume": 2107888,
-        "avg_volume": 982717,
-        "volume_ratio": 2.98,
-        "high_52w": 541.0,
-        "pct_from_high": 1.64,
-        "market_cap": 16198.66
-      },
-      "technical": {
-        "symbol": "USHAMART",
-        "close": 532.1500244140625,
-        "rsi": 66.09,
-        "adx": 13.55,
-        "atr": 15.34,
-        "volume_ratio": 2.07,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": true,
-        "macd_bullish": true,
-        "macd_cross": true,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 90,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Near Breakout",
-          "Confirmed Breakout",
-          "Healthy RSI",
-          "RSI Rising (Building Momentum)",
-          "MACD Bullish Crossover",
-          "ADX Rising (Strengthening Trend)",
-          "Volume Expansion",
-          "OBV Accumulation",
-          "Strong Volume"
-        ],
-        "stop_loss": 490.63,
-        "target1": 615.18,
-        "target2": 677.45,
-        "resistance_20d": 541.0,
-        "compression_score": 25
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Usha Martin Ltd. Shareholding Pattern \u2013 Promoters, FIIs & DIIs - Value Research",
-            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNVHV2ZUtjS2pFd2pFaGhSdnhuSGE5SnBzTm5zZG1lVlY0OVg2aWZDVkNXYnVrZlhYUEluX0xTTG56YnIxd0VDY3p0N1BKMHhYRHUyai1Bek16dk9BX2Fyd09vNHpPQ1RXcHlWVnVIdU9rMWwtT2ZidG9DQjAxWnlTQVJ5N1c?oc=5",
-            "published": "Sun, 30 Aug 2026 15:20:22 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 22,
-      "combined_score": 85.5,
-      "added_at": "2026-09-22T13:45:53.078348",
-      "signal_state": "WATCHING",
-      "first_seen_price": 532.1,
-      "first_seen_at": "2026-09-22T11:48:46.040145"
-    },
-    {
-      "symbol": "JSWINFRA",
-      "base": {
-        "symbol": "JSWINFRA",
-        "price": 368.8,
-        "day_change": 5.49,
-        "volume": 15048193,
-        "avg_volume": 3988788,
-        "volume_ratio": 5.24,
-        "high_52w": 375.5,
-        "pct_from_high": 1.78,
-        "market_cap": 85383.16
-      },
-      "technical": {
-        "symbol": "JSWINFRA",
-        "close": 368.79998779296875,
-        "rsi": 69.28,
-        "adx": 17.28,
-        "atr": 12.06,
-        "volume_ratio": 3.68,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": true,
-        "macd_bullish": true,
-        "macd_cross": true,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 88,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Near Breakout",
-          "Confirmed Breakout",
-          "3 White Soldiers",
-          "RSI Rising (Building Momentum)",
-          "MACD Bullish Crossover",
-          "ADX Rising (Strengthening Trend)",
-          "Volume Expansion",
-          "OBV Accumulation",
-          "Strong Volume"
-        ],
-        "stop_loss": 344.67,
-        "target1": 417.05,
-        "target2": 453.24,
-        "resistance_20d": 375.5,
-        "compression_score": 25
-      },
-      "news": {
-        "score": 55,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Stocks in news: Reliance Industries, Bank of Baroda, Power Grid, NATCO Pharma and JSW Infra - The Economic Times",
-            "link": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNdHRNMzRUcVZ0aWVZYXRyeExlZzlwRHV5SThuQWZCeldPZ21vYXRZYldXUEE4MFJiZzBJT05RVWR5NnBGMDRzOXp3T0swdld0N3hHTHFrRDZ4U1FiS292Tzl1U1FIRkxiYk1tQ1ZVb2NBWkV5SWEwSUtHc1NfcV96SGdzZFpRUnhMenlIUDlKeF9MSzdDWC1sV1ZiOElQc0JDUk1UWHlkZ0lzUHBreUxld2phQWt5ZFRFNFpVTTBwNG1najd0dFRGdG9CVnYwZHF0dVB6Y1VNQzd1dld2OGZnOW15ck80eXNvbUtkYUhjelRRWG_SAfgBQVVfeXFMTlBxOVVKUVQ5X2V1ejdEZ1ZQdE9Ca2tvOWtDSm9XWkVaX0ZmSHZlZTFDbDd2aTBHMGdJa2JFQ2plcUF5bnc1elktQ0NzTWhKVGxHOGpLTTRUUVNWeUxzNG1SVENhQzIyTW83eHlhNlczLUJFMEJ0NUIzTnpYaGRyc0pEeHVidVF0Z3BtM1hjeE92NTVTc1RlM0NHdTJGN0FYWnpPNVJrTnpfcEFlUVhPeEtFck80aUd6N0owYU1JVk5zdTA5R1RiZXlnOGNjZkt5bVpETDkwUlBpbGhwbm45bGhNQWNaS01SU1U4bktHWTNWVUFtTWtUeWU?oc=5",
-            "published": "Mon, 24 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "5 Port Stocks India 2026: Strong Future Roadmaps - Univest",
-            "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1Tamo1ZjBaSlUzVFMzWG5zRk95V2JGWlB0dWhOTzgtQVI3RFBpb3QxeEhaaUxHU3B3YnA5c056R1I5YmdLTlU0OE5PeHZOam1CSU41RXE2QnhtM2tlQXlIU3RRWXRqc0toVUlqbnZxenI?oc=5",
-            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
-            "score": 1,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 22,
-      "combined_score": 84.7,
-      "added_at": "2026-09-22T13:45:00.800087",
-      "signal_state": "WATCHING",
-      "first_seen_price": 373.7,
-      "first_seen_at": "2026-09-22T10:43:24.828452"
     },
     {
       "symbol": "SHAREINDIA",
@@ -670,6 +506,93 @@
       "added_at": "2026-09-22T06:18:15.815431",
       "first_seen_price": 2537.7,
       "first_seen_at": "2026-09-22T06:18:15.815431"
+    },
+    {
+      "symbol": "JSWINFRA",
+      "base": {
+        "symbol": "JSWINFRA",
+        "price": 368.45,
+        "day_change": 5.39,
+        "volume": 15300243,
+        "avg_volume": 4112845,
+        "volume_ratio": 4.67,
+        "high_52w": 375.5,
+        "pct_from_high": 1.88,
+        "market_cap": 85302.14
+      },
+      "technical": {
+        "symbol": "JSWINFRA",
+        "close": 368.45001220703125,
+        "rsi": 69.66,
+        "adx": 17.27,
+        "atr": 11.58,
+        "volume_ratio": 3.64,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 85,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 345.3,
+        "target1": 414.75,
+        "target2": 449.48,
+        "resistance_20d": 375.5,
+        "compression_score": 25
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Stocks in news: Reliance Industries, Bank of Baroda, Power Grid, NATCO Pharma and JSW Infra - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNdHRNMzRUcVZ0aWVZYXRyeExlZzlwRHV5SThuQWZCeldPZ21vYXRZYldXUEE4MFJiZzBJT05RVWR5NnBGMDRzOXp3T0swdld0N3hHTHFrRDZ4U1FiS292Tzl1U1FIRkxiYk1tQ1ZVb2NBWkV5SWEwSUtHc1NfcV96SGdzZFpRUnhMenlIUDlKeF9MSzdDWC1sV1ZiOElQc0JDUk1UWHlkZ0lzUHBreUxld2phQWt5ZFRFNFpVTTBwNG1najd0dFRGdG9CVnYwZHF0dVB6Y1VNQzd1dld2OGZnOW15ck80eXNvbUtkYUhjelRRWG_SAfgBQVVfeXFMTlBxOVVKUVQ5X2V1ejdEZ1ZQdE9Ca2tvOWtDSm9XWkVaX0ZmSHZlZTFDbDd2aTBHMGdJa2JFQ2plcUF5bnc1elktQ0NzTWhKVGxHOGpLTTRUUVNWeUxzNG1SVENhQzIyTW83eHlhNlczLUJFMEJ0NUIzTnpYaGRyc0pEeHVidVF0Z3BtM1hjeE92NTVTc1RlM0NHdTJGN0FYWnpPNVJrTnpfcEFlUVhPeEtFck80aUd6N0owYU1JVk5zdTA5R1RiZXlnOGNjZkt5bVpETDkwUlBpbGhwbm45bGhNQWNaS01SU1U4bktHWTNWVUFtTWtUeWU?oc=5",
+            "published": "Mon, 24 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 Port Stocks India 2026: Strong Future Roadmaps - Univest",
+            "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1Tamo1ZjBaSlUzVFMzWG5zRk95V2JGWlB0dWhOTzgtQVI3RFBpb3QxeEhaaUxHU3B3YnA5c056R1I5YmdLTlU0OE5PeHZOam1CSU41RXE2QnhtM2tlQXlIU3RRWXRqc0toVUlqbnZxenI?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 82.8,
+      "added_at": "2026-09-22T14:14:12.645923",
+      "signal_state": "WATCHING",
+      "first_seen_price": 373.7,
+      "first_seen_at": "2026-09-22T10:43:24.828452"
     },
     {
       "symbol": "OPTIEMUS",
@@ -1519,6 +1442,81 @@
       "first_seen_at": "2026-09-22T06:18:08.061658"
     },
     {
+      "symbol": "USHAMART",
+      "base": {
+        "symbol": "USHAMART",
+        "price": 532.1,
+        "day_change": 0.34,
+        "volume": 2287402,
+        "avg_volume": 1135914,
+        "volume_ratio": 2.52,
+        "high_52w": 542.6,
+        "pct_from_high": 1.94,
+        "market_cap": 16197.14
+      },
+      "technical": {
+        "symbol": "USHAMART",
+        "close": 532.0999755859375,
+        "rsi": 65.48,
+        "adx": 14.79,
+        "atr": 15.57,
+        "volume_ratio": 1.93,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 67,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 490.63,
+        "target1": 615.03,
+        "target2": 677.23,
+        "resistance_20d": 542.5999755859375,
+        "compression_score": 25
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Usha Martin Ltd. Shareholding Pattern \u2013 Promoters, FIIs & DIIs - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNVHV2ZUtjS2pFd2pFaGhSdnhuSGE5SnBzTm5zZG1lVlY0OVg2aWZDVkNXYnVrZlhYUEluX0xTTG56YnIxd0VDY3p0N1BKMHhYRHUyai1Bek16dk9BX2Fyd09vNHpPQ1RXcHlWVnVIdU9rMWwtT2ZidG9DQjAxWnlTQVJ5N1c?oc=5",
+            "published": "Sun, 30 Aug 2026 15:20:22 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 70.6,
+      "added_at": "2026-09-22T14:15:15.243547",
+      "signal_state": "WATCHING",
+      "first_seen_price": 532.1,
+      "first_seen_at": "2026-09-22T11:48:46.040145"
+    },
+    {
       "symbol": "SAMBHV",
       "base": {
         "symbol": "SAMBHV",
@@ -1753,131 +1751,34 @@
       "first_seen_at": "2026-09-22T09:43:46.624028"
     },
     {
-      "symbol": "RBLBANK",
+      "symbol": "JASH",
       "base": {
-        "symbol": "RBLBANK",
-        "price": 417.8,
-        "day_change": 3.83,
-        "volume": 4611657,
-        "avg_volume": 3548778,
-        "volume_ratio": 1.8,
-        "high_52w": 420.4,
-        "pct_from_high": 0.62,
-        "market_cap": 64827.62
+        "symbol": "JASH",
+        "price": 583.75,
+        "day_change": 1.36,
+        "volume": 1914677,
+        "avg_volume": 918280,
+        "volume_ratio": 2.62,
+        "high_52w": 603.0,
+        "pct_from_high": 3.19,
+        "market_cap": 3672.09
       },
       "technical": {
-        "symbol": "RBLBANK",
-        "close": 417.79998779296875,
-        "rsi": 66.49,
-        "adx": 21.5,
-        "atr": 9.48,
-        "volume_ratio": 1.28,
+        "symbol": "JASH",
+        "close": 583.75,
+        "rsi": 72.38,
+        "adx": 19.25,
+        "atr": 23.7,
+        "volume_ratio": 2.0,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": true,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": false,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": true,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "INVERSE HEAD & SHOULDERS",
-        "score": 68,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Inverse Head & Shoulders",
-          "Near Breakout",
-          "3 White Soldiers",
-          "Healthy RSI",
-          "RSI Rising (Building Momentum)",
-          "MACD Bullish Crossover",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 393.97,
-        "target1": 465.46,
-        "target2": 501.2,
-        "resistance_20d": 420.3999938964844,
-        "compression_score": 40
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "RBL Bank shares hit 52-week high as board approves framework for up to $1 billion bond issue; key things to know - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxNMVF3bm16THBQSGdKdFdtekwxcEpzSm9nYllpZ290eU14emM3T0xTck92dnp5MTA0R1NOVHRjSUdUT2RhczlZc1JtbE94TS1LYXVTVHo4TzJ1aWdfZkdwT0RjVG5MSmZBRzQ5NEU0MzZvdnVGc2dReXdJMEt3SWlyLWxNRUk3bkYxa0VmcG5aMHRoYS1WX2JVSUxmR3NQTlYwaVg4TFVSMVlSaVowNUZZZThqTFlXWjlWemhpVncxWnlkMWZKeVlJTXNKN2ZXZXdLNzN5MlhULTRicHVFSS10MjhyelVLNmFLUm5MWWowelY2STdlTTJWcDRqWmFiQQ?oc=5",
-            "published": "Mon, 07 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "RBL Bank ESOP Allotment: 8.31 Lakh Shares Issued in August 2026 - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPeGx3M3lCVzdEd0xlMnA1LTZyc2RWNURDcUNCUWNrMmF2VGJSMWtFbklTb0djUjQyY0VCSGxEbHMxa3U3MkUtQXYxMTd4ZlFMVkhKSnF2M183aVhKaDg1VnpqYXN4aTBUS1AzRS1Ud004eVc5ZXN3QXdZb2dXNWgwY1htM2h0VFRJcjVSYVNxbFpLb1dRRmdCQWx4Y0xUTWRMcWlEYUlfeEt2bzQtSEMzSlZvWk0?oc=5",
-            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Stocks to watch, Sept 3: RBL Bank, ICICI Bank, Persistent Systems, Page Industries, Syrma SGS, GCPL - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOLWV1R21QYjAtbFpycVhKS2xkalp3Vl8zemhsNUUtNERxVXYtcElJWVFxZ0sxZ29mUlpvSlNxSUc4TXdHdlpvc2NFTVZuSGRub2xuRGdpTHlfTW43VlZjb01wSXh5Rm90bFQwWkpVeVotbGRmYlgxdUNUQWhBTGp4WW9rYmdzRXRMY3g1Zk1aMTJMek1WOGI3a3pPTllWSTZ1WHc4a2Y3ck1nOXFhd0x5X0FGV21rYVlBYTI0YmtfSWVBb3pfanpXZ2ZkbmctOG5mNnJySTUyMmxKN01DZm9Xc0lKM0Mtdw?oc=5",
-            "published": "Wed, 02 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "RBL Bank shares rally 5%, hit 52-week high; lender mops up $3.4 billion from FCNR deposits - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQazByeXA5UEFOQmpIaEljRlQwallzUVhtbXhuZ3VyV2JBVWEwVXphMDg4cjNucU5pMldYTm5DejBBcUNXRjBQYkFZeGVtQWk5MjNRQTRHbEVBeWgtcHYyQWFrSG9YbnRMVVU2cnMyTTR3dC1IQ0ZvRGVhT2xWSjc5M0N3MGNSUFVKTTNleFRHQWdJaDJHbjlSLTViYkhVQzh6NVpMeDhlQVF2SmFIa0U4QXE0WFhCQXp6OFo1T1RZbzVOLUpvWk9XaTBEN2hoOFZfQy1nMm8za0ZmOFhFbEE?oc=5",
-            "published": "Wed, 02 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 19,
-      "combined_score": 68.2,
-      "added_at": "2026-09-22T13:45:29.865471",
-      "first_seen_price": 417.8,
-      "first_seen_at": "2026-09-22T13:45:29.865471"
-    },
-    {
-      "symbol": "SYRMA",
-      "base": {
-        "symbol": "SYRMA",
-        "price": 1768.6,
-        "day_change": 3.18,
-        "volume": 3367122,
-        "avg_volume": 2463926,
-        "volume_ratio": 1.9,
-        "high_52w": 1803.9,
-        "pct_from_high": 1.96,
-        "market_cap": 34067.65
-      },
-      "technical": {
-        "symbol": "SYRMA",
-        "close": 1768.5999755859375,
-        "rsi": 72.56,
-        "adx": 20.69,
-        "atr": 73.07,
-        "volume_ratio": 1.32,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": true,
+        "double_bottom": true,
+        "inverse_hs": false,
         "cup_and_handle": false,
         "bull_flag": false,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
@@ -1885,53 +1786,59 @@
         "patterns": [
           "3 White Soldiers"
         ],
-        "setup": "INVERSE HEAD & SHOULDERS",
-        "score": 66,
+        "setup": "DOUBLE BOTTOM",
+        "score": 65,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
-          "Inverse Head & Shoulders",
-          "Near Breakout",
+          "Double Bottom",
           "3 White Soldiers",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
-          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
           "OBV Accumulation"
         ],
-        "stop_loss": 1622.46,
-        "target1": 2060.88,
-        "target2": 2280.1,
-        "resistance_20d": 1803.9000244140625,
-        "compression_score": 10
+        "stop_loss": 536.35,
+        "target1": 678.55,
+        "target2": 749.64,
+        "resistance_20d": 603.0,
+        "compression_score": 0
       },
       "news": {
-        "score": 50,
+        "score": 60,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Why Syrma SGS Technology share price is rising today? Explained - TradingView",
-            "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPMVlyRjlFSnRIdWtlN1gtek1PX1dLRUVKNHQ0YUpvNTUyVnp1eE1wbFR2b2ltemo4VFByZVRoN1FFd3NfN0FqUTdqNERDUUUxVEwxWWxac0xWaExISXN1R0d3ckFKMnJoNDVMSGZiZW01a1UwZFdyRC1NNzRreDJoWXpyUmZ5S0N5WnlkMkhsQjI0blVIXy1iYzVNNm5fSE9BZlNGalE5ZFlyNGV1N0JfdldTSFZzN3pNNU5R?oc=5",
-            "published": "Thu, 17 Sep 2026 12:44:56 GMT",
+            "title": "Jash Engineering Q2 Preview: Revenue & Margin Trends - Univest",
+            "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQOVB0RnVzY3BET3hmUm85SFRNNWRrakRDdk5XUjRpWnRfeGVZcV82QUJfV1NpeU40bF9UUUNGUXk2QVBjM3FUUkMtVDlPX0RKY3h3cGstU00zYW1uRmFwRmFDc3Q4NVhNN1dtTUwzVDUwMEx0MWtwcHZPUTM4OU54YzdjWlMxVndKekEw?oc=5",
+            "published": "Wed, 16 Sep 2026 12:01:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Be Sure To Check Out Jash Engineering Limited (NSE:JASH) Before It Goes Ex-Dividend - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxQSy1NcF9aQ21XUEozbTNVZlc0cWU4NGs0ekhrRG5pTzVEU09ySzQzY19PdlpKQVlFMWVYUmJwcFd6SVNwcEtUT3gwVExKRS1rbUxRVUdGb3FHeExLT3lvanZ6UzdHM211RWo2VktXaXN3eVZOc1B3b2EwbUhFQ1liY2pFUkZmWVl0YzJ5QTkyNzU1VnVXMjE2TVBHbmt1M0lPQUZ4Q3Z0aTV1dVF5R2NYVG1DdU1YRTV4eWpteXY0NkVMVzdSS19IbzQ4OFNfcmREWEtwRkFBREh1SXJLZEhn0gHkAUFVX3lxTE55eFhPMU9yYlVWUExobXE2WDM5QXkwMWlSZjVpTmpJYVRIN3FwVVVEOGhDbXEwNHhWVmM2bkl3VF9YcmFUR25DM3M5R0VMVnRTdjF0b21FemVvOW41VTBrZF9XQVZXQkFHYnBNSDZlZGdhRzNaU2Z1SFVSNWc1YV9DdnQ2OWhCRTFqRHczMXJEOUNSLXFhcExRN3dLdmtaLS05cG51a1F4MURMRGpQOE05Q0tNYUw2Wm82amtNcGtiR2h3enVVa1FlM0Y1WXF3bFRmdDN0OFVCWG1YZzZKLXJsNnBXNw?oc=5",
+            "published": "Sat, 12 Sep 2026 02:39:22 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "SEMICON India 2026: Syrma, Tata Tech, Tata Elxsi, MosChip shares jump up to 10%; here is why - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNbXBkNksySEMwQWhZMGcyZUVHcUI5ME1pTmZpT2VEMVBRbkRRaTR0cXRISWx3b3dQal9ReHpXb20yME5ER2VWOGRfcGMyaXg0eTdNUGpUcWNTNC1TSnJXME45Q0xHYmJNZy1FZEVOS2tlZHdQUXBSQUNoM3pvNTd2cFBTNjJTY3J3ampNUVczMWZna201ZTRhMHVRQ3VyXzdObkcxTzdLN2pMdE5TVHZVYzlhT3BNdG01M3pQREQ3UlU5QnQ3ck92clB4aXRnMHk0S1loMHQwZURySHFpdXRVWXowblB2d2g0WjlNZ1MxZw?oc=5",
-            "published": "Thu, 17 Sep 2026 03:28:05 GMT",
+            "title": "5 Under the Radar Water and Wastewater Treatment Stocks in India 2026 - Univest",
+            "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOZ0U4Y3MxZ0EtSmRoTVBjd244Z3AxNmpzQUhzSVhsRDl6WHRUTjBCTThpeDZzblhrOXJURGVaeUFyTXpNdU1iZkRzQkFDY2NBajRPZV9QSVJjSm5YV3FKX3BZUW5GWmxfQnlvdzZPNnZIZzBlM0dLTHVRTDcydXlZaURSemVkbS1NRHI5ZWRaMkE?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 19,
-      "combined_score": 66.9,
-      "added_at": "2026-09-22T13:45:46.470989",
-      "signal_state": "WATCHING",
-      "first_seen_price": 1728.9,
-      "first_seen_at": "2026-09-22T06:19:37.098465"
+      "core_score": 20,
+      "combined_score": 68.2,
+      "added_at": "2026-09-22T14:14:10.117988",
+      "first_seen_price": 583.75,
+      "first_seen_at": "2026-09-22T14:14:10.117988"
     },
     {
       "symbol": "EMUDHRA",
@@ -2123,6 +2030,110 @@
       "first_seen_at": "2026-09-22T09:43:33.339345"
     },
     {
+      "symbol": "SMSPHARMA",
+      "base": {
+        "symbol": "SMSPHARMA",
+        "price": 485.8,
+        "day_change": 4.14,
+        "volume": 1689089,
+        "avg_volume": 1392550,
+        "volume_ratio": 1.52,
+        "high_52w": 494.45,
+        "pct_from_high": 1.75,
+        "market_cap": 4549.62
+      },
+      "technical": {
+        "symbol": "SMSPHARMA",
+        "close": 485.79998779296875,
+        "rsi": 71.58,
+        "adx": 30.56,
+        "atr": 23.42,
+        "volume_ratio": 1.16,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "DOUBLE BOTTOM",
+        "score": 65,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "3 White Soldiers",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 438.97,
+        "target1": 579.46,
+        "target2": 649.71,
+        "resistance_20d": 494.45001220703125,
+        "compression_score": 0
+      },
+      "news": {
+        "score": 40,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "SMS Pharmaceuticals AGM Date Change: What Investors Should Know - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQcm9KTjBraUxhSDZhSjk4Rmwzekt1c1ZmY3ZDaHF0M3pRaHVxbGhHWEdFSnp1THRzQU9qaFdNRFZLZmRpTVdUYjY1Zld1Q09RVWYtdjVSUUY3Nk5aVVJ5bDJ6aU5aN1ZFUkR1ZnJUcjZrdGVnV0FocHBuZEdKMkpZUWpDSFhWcXUzTDZ0a0VlVzFZWGxNVENXdG5MNnRUWldPSGFhUDY0WFNoRndvR000b2NqWDQ2dkRkV1hYcFVmd1ZZUQ?oc=5",
+            "published": "Thu, 27 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMS Pharmaceuticals Share Price - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5fRWlEX0JOMGtBcXNpZkZKOGh6MzZWVS0xdTVqRXJhel9YT0FqN1BRZkZqUmltdTJJSWRLbDNiQm1tN3JfNzZWSnBibi1uRWJCLWNHUThoT0hPYmpaSFpnSm1saDlfYmlDenF0Umlqcw?oc=5",
+            "published": "Fri, 18 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMS Pharmaceuticals (SMSPHARMA.NS) Falls 11.5% to \u20b9410.15 \u2014 Support Tested Near \u20b9389.64 - Passive Flow - siam.in",
+            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQQjIxdUp2OGZPaUxMZ2JIOFF2bFRUWXJtNUhxVExfTTc5blY1WWtJdDA1RGsyX0FjWVpIekpRak1MeTY0MlVJOHhUaFZEWHBsWWtZc2Y0Sm1ib2lwRERkVmFSa2dua3NQRFJrdjN1bmc4X1FobjBvbTF5RWtoUDRwNFROR0xNeTdOc04zTXFTTWxFWkxKM0lEOEhGVlBWME4xQ2haM3I1dzdjSWNBYlg5MFBxRGU4Z1RaYmE1Ng?oc=5",
+            "published": "Tue, 15 Sep 2026 12:30:38 GMT",
+            "score": -2,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMS Pharmaceuticals Share Price: Fresh 52-Week High Update - Univest",
+            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOc3JKcXl1NFVUbmw3Ti1kSUNLYVlzeS1vdHZ1Zmc0d0JISlJaQnBqSy14Q3BvMi16SS10YU1wMUJxazJrdFdyVTR5clMzZW8yazRYMVBmZ1FWblljMGs1aGZPV3M5WVIxLWFpa09MQjE4X1BmZTY0Nk5TX3A3NUhHZ0RCdlBQd1lwMW01OUwyV2Q0UQ?oc=5",
+            "published": "Fri, 11 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Here's Why We Think SMS Pharmaceuticals (NSE:SMSPHARMA) Might Deserve Your Attention Today - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxObmxVTVJabGt2SnV3XzREOGZyTFNmR3RrQlNBWG1UVllaYy0zZ3dBWDN6c2dfcWk0TWZtWW9iNjNKSDFsMWlFeUtqTnV0dE1HZWxnLXVacWZlYldSRnZRTmVtMzljdWU2QU9OS0lTaWFnZGN3QVdhZHRORXNuLTJnbW5QZ1BfVnlwaU4teC1jbmZfclRSZU1welN3OEZEcEUzbEZ3RmlZdTZyME5CR3VnSjZ1RTA5LUtZR2RpLUUxQlE0bDlWb2RESVpjWnY2LVhCekRobnNHWFdwMC01REZPbFZTTXFHM3h0UjhadERPd0dJSUkx0gH6AUFVX3lxTE9menprNTMxS01LZWhQQXFtM2liVXJkRERtVFBrN2xTUU5uaVNLRnAyRkE2LUFfQUo0c0E2cnZUeXF4Z053WlpNcnV6R1k1ZFZmVlRmSHVRWGpPQzE4dEJuNVhjVHRCcVVJd2xwelZiQ1o3dHdCd2RUd24wSWNIYmxtNXFzWjVhSmdSekdEU055MlNpSFpRaWdjeUcycXNSdlE5dDBkanVsSVZicWViTDZ6NGZzakdKMkgybU9HdTNtVXU3YWhGTXc1ckFJc0NpTjllMzVhcTdEQkswWHl2d0pzMmY1d01fWFlOSXhMZVFoWVM2RWhRYWFRZkE?oc=5",
+            "published": "Mon, 14 Sep 2026 00:24:26 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 65.2,
+      "added_at": "2026-09-22T14:15:00.069776",
+      "first_seen_price": 485.8,
+      "first_seen_at": "2026-09-22T14:15:00.069776"
+    },
+    {
       "symbol": "WELSPUNLIV",
       "base": {
         "symbol": "WELSPUNLIV",
@@ -2197,6 +2208,168 @@
       "signal_state": "WATCHING",
       "first_seen_price": 219.5,
       "first_seen_at": "2026-09-22T09:44:54.782307"
+    },
+    {
+      "symbol": "SYRMA",
+      "base": {
+        "symbol": "SYRMA",
+        "price": 1765.8,
+        "day_change": 3.02,
+        "volume": 3517968,
+        "avg_volume": 2522521,
+        "volume_ratio": 1.74,
+        "high_52w": 1803.9,
+        "pct_from_high": 2.11,
+        "market_cap": 34013.72
+      },
+      "technical": {
+        "symbol": "SYRMA",
+        "close": 1765.800048828125,
+        "rsi": 71.39,
+        "adx": 21.09,
+        "atr": 73.1,
+        "volume_ratio": 1.34,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": true,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "INVERSE HEAD & SHOULDERS",
+        "score": 62,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Inverse Head & Shoulders",
+          "Near Breakout",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 1619.61,
+        "target1": 2058.18,
+        "target2": 2277.47,
+        "resistance_20d": 1803.9000244140625,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Why Syrma SGS Technology share price is rising today? Explained - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxPMVlyRjlFSnRIdWtlN1gtek1PX1dLRUVKNHQ0YUpvNTUyVnp1eE1wbFR2b2ltemo4VFByZVRoN1FFd3NfN0FqUTdqNERDUUUxVEwxWWxac0xWaExISXN1R0d3ckFKMnJoNDVMSGZiZW01a1UwZFdyRC1NNzRreDJoWXpyUmZ5S0N5WnlkMkhsQjI0blVIXy1iYzVNNm5fSE9BZlNGalE5ZFlyNGV1N0JfdldTSFZzN3pNNU5R?oc=5",
+            "published": "Thu, 17 Sep 2026 12:44:56 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SEMICON India 2026: Syrma, Tata Tech, Tata Elxsi, MosChip shares jump up to 10%; here is why - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNbXBkNksySEMwQWhZMGcyZUVHcUI5ME1pTmZpT2VEMVBRbkRRaTR0cXRISWx3b3dQal9ReHpXb20yME5ER2VWOGRfcGMyaXg0eTdNUGpUcWNTNC1TSnJXME45Q0xHYmJNZy1FZEVOS2tlZHdQUXBSQUNoM3pvNTd2cFBTNjJTY3J3ampNUVczMWZna201ZTRhMHVRQ3VyXzdObkcxTzdLN2pMdE5TVHZVYzlhT3BNdG01M3pQREQ3UlU5QnQ3ck92clB4aXRnMHk0S1loMHQwZURySHFpdXRVWXowblB2d2g0WjlNZ1MxZw?oc=5",
+            "published": "Thu, 17 Sep 2026 03:28:05 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 64.3,
+      "added_at": "2026-09-22T14:15:06.789538",
+      "signal_state": "WATCHING",
+      "first_seen_price": 1728.9,
+      "first_seen_at": "2026-09-22T06:19:37.098465"
+    },
+    {
+      "symbol": "INDSWFTLAB",
+      "base": {
+        "symbol": "INDSWFTLAB",
+        "price": 404.9,
+        "day_change": 7.07,
+        "volume": 1810723,
+        "avg_volume": 1072678,
+        "volume_ratio": 2.12,
+        "high_52w": 417.0,
+        "pct_from_high": 2.9,
+        "market_cap": 3522.81
+      },
+      "technical": {
+        "symbol": "INDSWFTLAB",
+        "close": 404.8999938964844,
+        "rsi": 68.75,
+        "adx": 42.17,
+        "atr": 21.79,
+        "volume_ratio": 1.63,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 62,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "RSI Rising (Building Momentum)",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 361.32,
+        "target1": 492.07,
+        "target2": 557.44,
+        "resistance_20d": 417.0,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Ind-Swift Laboratories (INDSWFTLAB.NS) Gains 1.59% to \u20b9372.7; Stock Holds Above Key Support Amid Range-Bound Trading - Weekly Profile - siam.in",
+            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPRWtDUzIzX0d3ODlZZk8tUktBWF9Xb3ZjRW5YcEtjYjhDaTBvbWVCdS1DWFFBUE9reDZySnQ3T1Z6dllkSmYyYThnbUMxei1mRmNnU0FlblNMZUNlRVZHVjJxNEZoczRqdXRUQXpBVDItdkllQ0dVZlB0cEpJYU56ZXh3dzRMVzZBT2pEalBYYlRvQWJLTG9Gck9rS0tlaVl3VW12WjIzUG1aZ0VUSDhXU2ZnaFk3ZnhKRjAxeUJFRmJhanpQaGdRbkVqMkhpSDVOMDVYaGxBTFl6eFpyaTRVMlBiUFk?oc=5",
+            "published": "Thu, 03 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Ind-Swift Laboratories Share Price: One-Year High Update - Univest",
+            "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNcTMxWXBKQldGSlFSUDZuX1ktczBuWjdlMnEyRFY1Y2FpU1dqeTYxcnpEWnZvWFBJSHlDaURLNVRLb3FldWVZRjBoTVBGTUlraGdwVW5rMzBfQlIwV0lGbjNWZVVWSXhaNllrNGtRZWdna3dKdkQxQnNwVFZnQlRUcjc5RTNzZFZhbEpuWWExVFRnOGxPTEE?oc=5",
+            "published": "Tue, 08 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 64.3,
+      "added_at": "2026-09-22T14:14:06.914004",
+      "signal_state": "WATCHING",
+      "first_seen_price": 409.65,
+      "first_seen_at": "2026-09-22T13:44:56.442345"
     },
     {
       "symbol": "GOODLUCK",
@@ -2586,184 +2759,6 @@
       "added_at": "2026-09-22T06:18:12.844365",
       "first_seen_price": 2270.1,
       "first_seen_at": "2026-09-22T06:18:12.844365"
-    },
-    {
-      "symbol": "RATNAVEER",
-      "base": {
-        "symbol": "RATNAVEER",
-        "price": 335.95,
-        "day_change": 0.36,
-        "volume": 2181417,
-        "avg_volume": 6082498,
-        "volume_ratio": 4.64,
-        "high_52w": 341.1,
-        "pct_from_high": 1.51,
-        "market_cap": 2819.51
-      },
-      "technical": {
-        "symbol": "RATNAVEER",
-        "close": 335.95001220703125,
-        "rsi": 72.15,
-        "adx": 41.63,
-        "atr": 20.31,
-        "volume_ratio": 0.37,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": false,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "GOLDEN CROSS",
-        "score": 48,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Near Breakout",
-          "RSI Rising (Building Momentum)",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 295.33,
-        "target1": 417.2,
-        "target2": 478.13,
-        "resistance_20d": 341.1000061035156,
-        "compression_score": 10
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Ratnaveer Precision Engineering share price hits 52-week high | What's behind the rally? - Livemint",
-            "link": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPR0lCUW1NeUVaVEpNS3MtbHBOdHJSTWZzWml0S2Z2QTZBN0llcFdOQ1drdVRMTjVUNFV1MjdMa1ZPdkxfUk9ZXzVPTEgzVDd2bm5DWE83bVFvYWhicG02VE16TU1ZVUxVcnBybnlkckZlcUxfam8wNFdVeWNSVEt3TGROMXdtaGtfTUV6VFNwTGtyQWtIY2tDa3RWaF9ETjU3cVYteGZpQy1WZHFZMHdHWmN5SjJBVFRhVjgxWUdKa3BNVVAzdW1Ga3BkaUxuS1RxQ093b2xEX3c3SEpkSDdMejlEdldPcVI3ZnfSAe8BQVVfeXFMT2xqR1JiRlhXUmdXRWthYmVuUVRLS2xTWFJoaXN1Ujk4UjNrME1IeDdvQ0o4YWVzY2F0a1o1bTBHeTVRQ2RxVHNyckdUSlNybGU0M19QcWRaOGxLN2hCN0w4M2pDdnpTU1ZoWkNHZThDX2Qzek9HejdkV3lSMEYwa0FsNWN3VXpzeW5MN1kza1pnOHhmbERzWERMb1pMbFZwYzN1NWttV1JxZGU5Zkg2U1hkcnpBY1I4S3lCblFfOFQyNGZYb3hibEplMV82T3Y5eU5Jb1JHcGVldHljWGYwMV9xSmdaaEJta25QRFhLTlk?oc=5",
-            "published": "Thu, 17 Sep 2026 08:30:53 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Stock Market News: Shares of THIS company jumped 9 percent amid heavy trading volume, check details here - India.com",
-            "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQVEJXMkZxWUNRbE1BQWg2Q1B0a1hmTy0xTldVa1RpWUJENDU0eE82YjZjaVFIaFNTZlpjS3UzcFM1S2hUX1RjdUpFRlg4aFIyVElLV1p0ZWVPUlp3ME0tUlNfa3hkN2J0STRUMm9rTThicXprRnV3ZVIyY3R1Q2VzMmdwNmsxQmROZ3lVYTh1RVdkMXZjOGhVM2ZUeUVmUnVtSGt0VUprbGZXUFlZbTRjUXp2N3V5aXlWcnR1VmkwcnA5dGd5TUpJUXVXWE9FZFEyQlFJSzRVcmpqbFpEWmJJc1ktZXNKcHMyM2h2YVpVenV4S3RBM2E3WEtBb2V1YXNNdElXcdIBigJBVV95cUxPalBud1dyTXh2cVhuZFdXTnpoWTNqRF9ieVNwRnJxOVBqSThWWjctQmdOWEozajhYeXRYY05OZlVJZm9FSXhJTk1ncmFGYkxLLS1wR01XcXluUTgzeWVUWWVmUUVwc0Y3UWR0LUltQXQtenQxQ0tncURJWElEbHNuMGg2eUFIZnU1VUcxaUEwWGkyNUFmZU1Db0Z3UUFDdUVQSnFQSlRIX0hYLXV0WktiVG96RlJPVWVZeEVPUkg3RkhIM29VVmVxTGhBekhHc2JtUGF2ZFZtSVRic05ZSWNtYWJoNzFCSk1UWVZsM0NTUkpBLVBmYW8tNC1IZmZvR0dJSmJkMjd3RGlaUQ?oc=5",
-            "published": "Thu, 17 Sep 2026 09:16:53 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Press Release Distribution India - Business Wire India",
-            "link": "https://news.google.com/rss/articles/CBMizwJBVV95cUxOYVp3LXNUU2JnaVMwOGF2QWc1aHJncHJoRHRUMVQ4RmN3N1FtcVZXckxBUDRQeDBQazRQTFNlRFM2bzR4eUhsTXBpemVWeXlzN1g1TWJIMmZXcnU0VnhuRWpuZGkyOFJRTUtrVm1Bb01jRmNMN0xyWU9BR0c5bTN6ZTI0dHFqSnEzM0ZFMzhZTlJHajNNblpaQzV0b09FRFNYUnZZMXF4SEU5ZDhCVkgtY2M1SmFLaVQ3ZTZoTDFMeDZpRldxTXg3bkhtVExPMmxpTzdUUWVrQ19MbXRHQjU3Y0UtdDJ2NC1qekFxLTdzUDVLSDg2ZjBpT0hSSGpBMXpWQlAwbGtrNmgwYTJKa2ZsTXBWQVpQbWlMMEhIc3RwMUw3WjdIWlJtLVBIWW1mb0ZZSVhrSE5FbkRaQURUWGVuaHRLMHVwM3pycTNDdDctOA?oc=5",
-            "published": "Wed, 09 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Ratnaveer Precision Rights Issue 2026 Date, Price, Allotment, Ratio - IPO Watch",
-            "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBzSmJ4eEViRDZGR0hLdXZ5ZFRrcXd1b3dsLWNEcWR3ZnE5aE1WY1o4REpva1N2X0VfalVnQlBaZFdiSGF5aGdxUmFHY1BLM3QzbHBseC1pRzFZWmpmeWlFeUZmQWRhaGlOeEE?oc=5",
-            "published": "Sat, 29 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Press Release Distribution India - Business Wire India",
-            "link": "https://news.google.com/rss/articles/CBMigwJBVV95cUxOSHhUWV8yTmw2UFJSc2wzV3pjUTEzcWMxS3I2UXNYdmJ3UHZ2TmxPemxkY0o4TURaSWxhWjBtaFV0QkpZdllWUW9jWExtMVA3Y3hpMEQzbWE0ZmdibWZDelVUSDQ2X1o4RE9wRTAtaFN4R2xHZ0xGNjk4THB2c3dqYS1Lc2luMzdFV1F2VGVyZWtQRTFOcnlJTWRjQmVadURWVExRUmhtZng0dGJVWGtlZ3o1bGhuMFZBN2xBSFk5V29uXzJ4N0ZVZjlQVlV3S2lZUDRGQWJHaGRaX0l5QXpncnN2WGRmTXFFSHE5YUx1ekxGVVRhblpaT01TUlFiamxRRnFZ?oc=5",
-            "published": "Wed, 02 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 25,
-      "combined_score": 61.2,
-      "added_at": "2026-09-22T09:44:28.377689",
-      "first_seen_price": 335.95,
-      "first_seen_at": "2026-09-22T09:44:28.377689"
-    },
-    {
-      "symbol": "INDSWFTLAB",
-      "base": {
-        "symbol": "INDSWFTLAB",
-        "price": 409.65,
-        "day_change": 8.33,
-        "volume": 1705193,
-        "avg_volume": 1051951,
-        "volume_ratio": 2.26,
-        "high_52w": 417.0,
-        "pct_from_high": 1.76,
-        "market_cap": 3562.38
-      },
-      "technical": {
-        "symbol": "INDSWFTLAB",
-        "close": 409.6499938964844,
-        "rsi": 69.3,
-        "adx": 45.18,
-        "atr": 22.63,
-        "volume_ratio": 1.57,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": true,
-        "macd_bullish": false,
-        "macd_cross": false,
-        "obv_accumulation": false,
-        "patterns": [],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 57,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Near Breakout",
-          "Confirmed Breakout",
-          "RSI Rising (Building Momentum)",
-          "ADX Trend Strength",
-          "Volume Expansion"
-        ],
-        "stop_loss": 364.39,
-        "target1": 500.17,
-        "target2": 568.06,
-        "resistance_20d": 417.0,
-        "compression_score": 10
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Ind-Swift Laboratories (INDSWFTLAB.NS) Gains 1.59% to \u20b9372.7; Stock Holds Above Key Support Amid Range-Bound Trading - Weekly Profile - siam.in",
-            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPRWtDUzIzX0d3ODlZZk8tUktBWF9Xb3ZjRW5YcEtjYjhDaTBvbWVCdS1DWFFBUE9reDZySnQ3T1Z6dllkSmYyYThnbUMxei1mRmNnU0FlblNMZUNlRVZHVjJxNEZoczRqdXRUQXpBVDItdkllQ0dVZlB0cEpJYU56ZXh3dzRMVzZBT2pEalBYYlRvQWJLTG9Gck9rS0tlaVl3VW12WjIzUG1aZ0VUSDhXU2ZnaFk3ZnhKRjAxeUJFRmJhanpQaGdRbkVqMkhpSDVOMDVYaGxBTFl6eFpyaTRVMlBiUFk?oc=5",
-            "published": "Thu, 03 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Ind-Swift Laboratories Share Price: One-Year High Update - Univest",
-            "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNcTMxWXBKQldGSlFSUDZuX1ktczBuWjdlMnEyRFY1Y2FpU1dqeTYxcnpEWnZvWFBJSHlDaURLNVRLb3FldWVZRjBoTVBGTUlraGdwVW5rMzBfQlIwV0lGbjNWZVVWSXhaNllrNGtRZWdna3dKdkQxQnNwVFZnQlRUcjc5RTNzZFZhbEpuWWExVFRnOGxPTEE?oc=5",
-            "published": "Tue, 08 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 19,
-      "combined_score": 61.1,
-      "added_at": "2026-09-22T13:44:56.442345",
-      "first_seen_price": 409.65,
-      "first_seen_at": "2026-09-22T13:44:56.442345"
     }
   ]
 }
