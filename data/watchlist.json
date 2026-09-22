@@ -111,25 +111,105 @@
       "first_seen_at": "2026-09-22T12:44:37.165900"
     },
     {
+      "symbol": "ENGINERSIN",
+      "base": {
+        "symbol": "ENGINERSIN",
+        "price": 293.35,
+        "day_change": 2.68,
+        "volume": 13378818,
+        "avg_volume": 6186342,
+        "volume_ratio": 3.42,
+        "high_52w": 301.9,
+        "pct_from_high": 2.83,
+        "market_cap": 16487.51
+      },
+      "technical": {
+        "symbol": "ENGINERSIN",
+        "close": 293.3500061035156,
+        "rsi": 70.74,
+        "adx": 33.27,
+        "atr": 10.73,
+        "volume_ratio": 2.15,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": true,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 92,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Inverse Head & Shoulders",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "3 White Soldiers",
+          "RSI Rising (Building Momentum)",
+          "ADX Trend Strength",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 271.89,
+        "target1": 336.27,
+        "target2": 368.46,
+        "resistance_20d": 301.8999938964844,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Interested In Engineers India's (NSE:ENGINERSIN) Upcoming \u20b92.50 Dividend? You Have Three Days Left - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPZkdUT3c5VGt4Yml0SFNTR0pNNWhVOEZhZUxTQlM1aDBWamdzLWlSQjdRUVE0ZWIxRFBBWEtOWVFQNklyV0djRklXcFc4TWxMdHY1UnY1VFRmdkhlY3Fnb01PVGpzMUEtT00wT1N6NUUyenlLQ1U0YktPclctT3hEVkw2cDZDZk1MVGdYWmc3U1pmeE9nSlc5TFBiVVp4aUhTZlhsLTdKX0Qwd3FhQnVKRFBYaXE1ZWRjY3ViUFBrYnJ4bDhwQVN3elZXaXZsNXRKYXhJZEdUVDVGeGViY0N3TXgzMNIB6AFBVV95cUxPR05nWUo3aWJ4cUZFRHBtVUkyaE9qRzBZUklwWEQ4VnFzTHpoUGlNTWRrLW5OMEhpc2gzbTh6UlhsczVCbjMxczA3cnE5aWhBdW1oNlFZRjU2enliaWN5X3R5Z2N1SVdSM1ltcjZfc1c1dG5DUGdVbGExM2JaNk45VFVpaFNOTmU1ZjJNUzJSZkVXSUpjR29rU3U4VXZVb00zci1LMklYRTFRTGg5c2w2MDdwUGtoX3NoSTdQSGtCbWdvb3VjLUhDVlFYejNQWWdiNGtzTEdqRld2TFJiWk16eF9OcXBjbDA0?oc=5",
+            "published": "Sun, 20 Sep 2026 02:21:29 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 25,
+      "combined_score": 89.8,
+      "added_at": "2026-09-22T13:12:28.034436",
+      "signal_state": "WATCHING",
+      "first_seen_price": 291.8,
+      "first_seen_at": "2026-09-22T12:16:47.995409"
+    },
+    {
       "symbol": "USHAMART",
       "base": {
         "symbol": "USHAMART",
-        "price": 532.2,
-        "day_change": 0.36,
-        "volume": 1931092,
-        "avg_volume": 974298,
-        "volume_ratio": 3.54,
+        "price": 531.8,
+        "day_change": 0.28,
+        "volume": 2078429,
+        "avg_volume": 981314,
+        "volume_ratio": 3.34,
         "high_52w": 541.0,
-        "pct_from_high": 1.63,
-        "market_cap": 16200.18
+        "pct_from_high": 1.7,
+        "market_cap": 16188.01
       },
       "technical": {
         "symbol": "USHAMART",
-        "close": 532.2000122070312,
-        "rsi": 66.11,
+        "close": 531.7999877929688,
+        "rsi": 65.98,
         "adx": 13.55,
         "atr": 15.34,
-        "volume_ratio": 1.92,
+        "volume_ratio": 2.05,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -145,7 +225,7 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 85,
+        "score": 90,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -159,11 +239,12 @@
           "MACD Bullish Crossover",
           "ADX Rising (Strengthening Trend)",
           "Volume Expansion",
-          "OBV Accumulation"
+          "OBV Accumulation",
+          "Strong Volume"
         ],
         "stop_loss": 490.63,
-        "target1": 615.33,
-        "target2": 677.68,
+        "target1": 614.13,
+        "target2": 675.88,
         "resistance_20d": 541.0,
         "compression_score": 25
       },
@@ -181,8 +262,8 @@
         ]
       },
       "core_score": 25,
-      "combined_score": 85.2,
-      "added_at": "2026-09-22T12:45:06.738188",
+      "combined_score": 88.5,
+      "added_at": "2026-09-22T13:13:27.423882",
       "signal_state": "WATCHING",
       "first_seen_price": 532.1,
       "first_seen_at": "2026-09-22T11:48:46.040145"
@@ -191,22 +272,22 @@
       "symbol": "JSWINFRA",
       "base": {
         "symbol": "JSWINFRA",
-        "price": 369.75,
-        "day_change": 5.76,
-        "volume": 14373298,
-        "avg_volume": 3956650,
-        "volume_ratio": 6.52,
+        "price": 368.95,
+        "day_change": 5.53,
+        "volume": 14681021,
+        "avg_volume": 3971304,
+        "volume_ratio": 5.85,
         "high_52w": 375.5,
-        "pct_from_high": 1.53,
-        "market_cap": 85603.11
+        "pct_from_high": 1.74,
+        "market_cap": 85417.9
       },
       "technical": {
         "symbol": "JSWINFRA",
-        "close": 369.75,
-        "rsi": 69.61,
+        "close": 368.95001220703125,
+        "rsi": 69.33,
         "adx": 17.28,
         "atr": 12.06,
-        "volume_ratio": 3.54,
+        "volume_ratio": 3.61,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -241,9 +322,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 345.62,
-        "target1": 418.0,
-        "target2": 454.19,
+        "stop_loss": 344.82,
+        "target1": 417.2,
+        "target2": 453.39,
         "resistance_20d": 375.5,
         "compression_score": 25
       },
@@ -259,7 +340,7 @@
             "label": "Neutral"
           },
           {
-            "title": "5 Port Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "title": "5 Port Stocks India 2026: Strong Future Roadmaps - Univest",
             "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1Tamo1ZjBaSlUzVFMzWG5zRk95V2JGWlB0dWhOTzgtQVI3RFBpb3QxeEhaaUxHU3B3YnA5c056R1I5YmdLTlU0OE5PeHZOam1CSU41RXE2QnhtM2tlQXlIU3RRWXRqc0toVUlqbnZxenI?oc=5",
             "published": "Tue, 25 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -269,7 +350,7 @@
       },
       "core_score": 22,
       "combined_score": 84.7,
-      "added_at": "2026-09-22T12:44:12.926003",
+      "added_at": "2026-09-22T13:12:44.009249",
       "signal_state": "WATCHING",
       "first_seen_price": 373.7,
       "first_seen_at": "2026-09-22T10:43:24.828452"
@@ -485,85 +566,6 @@
       "first_seen_at": "2026-09-22T06:19:48.468610"
     },
     {
-      "symbol": "ENGINERSIN",
-      "base": {
-        "symbol": "ENGINERSIN",
-        "price": 292.05,
-        "day_change": 2.22,
-        "volume": 12103065,
-        "avg_volume": 6125592,
-        "volume_ratio": 3.56,
-        "high_52w": 301.9,
-        "pct_from_high": 3.26,
-        "market_cap": 16420.07
-      },
-      "technical": {
-        "symbol": "ENGINERSIN",
-        "close": 292.04998779296875,
-        "rsi": 70.25,
-        "adx": 33.27,
-        "atr": 10.73,
-        "volume_ratio": 1.97,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": true,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": true,
-        "macd_bullish": false,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 87,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Inverse Head & Shoulders",
-          "Near Breakout",
-          "Confirmed Breakout",
-          "3 White Soldiers",
-          "RSI Rising (Building Momentum)",
-          "ADX Trend Strength",
-          "Volume Expansion",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 270.59,
-        "target1": 334.97,
-        "target2": 367.16,
-        "resistance_20d": 301.8999938964844,
-        "compression_score": 10
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Interested In Engineers India's (NSE:ENGINERSIN) Upcoming \u20b92.50 Dividend? You Have Three Days Left - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPZkdUT3c5VGt4Yml0SFNTR0pNNWhVOEZhZUxTQlM1aDBWamdzLWlSQjdRUVE0ZWIxRFBBWEtOWVFQNklyV0djRklXcFc4TWxMdHY1UnY1VFRmdkhlY3Fnb01PVGpzMUEtT00wT1N6NUUyenlLQ1U0YktPclctT3hEVkw2cDZDZk1MVGdYWmc3U1pmeE9nSlc5TFBiVVp4aUhTZlhsLTdKX0Qwd3FhQnVKRFBYaXE1ZWRjY3ViUFBrYnJ4bDhwQVN3elZXaXZsNXRKYXhJZEdUVDVGeGViY0N3TXgzMNIB6AFBVV95cUxPR05nWUo3aWJ4cUZFRHBtVUkyaE9qRzBZUklwWEQ4VnFzTHpoUGlNTWRrLW5OMEhpc2gzbTh6UlhsczVCbjMxczA3cnE5aWhBdW1oNlFZRjU2enliaWN5X3R5Z2N1SVdSM1ltcjZfc1c1dG5DUGdVbGExM2JaNk45VFVpaFNOTmU1ZjJNUzJSZkVXSUpjR29rU3U4VXZVb00zci1LMklYRTFRTGg5c2w2MDdwUGtoX3NoSTdQSGtCbWdvb3VjLUhDVlFYejNQWWdiNGtzTEdqRld2TFJiWk16eF9OcXBjbDA0?oc=5",
-            "published": "Sun, 20 Sep 2026 02:21:29 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 23,
-      "combined_score": 84.6,
-      "added_at": "2026-09-22T12:43:53.020761",
-      "signal_state": "WATCHING",
-      "first_seen_price": 291.8,
-      "first_seen_at": "2026-09-22T12:16:47.995409"
-    },
-    {
       "symbol": "AVALON",
       "base": {
         "symbol": "AVALON",
@@ -760,85 +762,6 @@
       "added_at": "2026-09-22T11:12:59.875365",
       "first_seen_price": 673.4,
       "first_seen_at": "2026-09-22T11:12:59.875365"
-    },
-    {
-      "symbol": "EDELWEISS",
-      "base": {
-        "symbol": "EDELWEISS",
-        "price": 142.08,
-        "day_change": 1.83,
-        "volume": 10402646,
-        "avg_volume": 9073928,
-        "volume_ratio": 2.07,
-        "high_52w": 144.19,
-        "pct_from_high": 1.46,
-        "market_cap": 13448.32
-      },
-      "technical": {
-        "symbol": "EDELWEISS",
-        "close": 142.0800018310547,
-        "rsi": 64.51,
-        "adx": 23.56,
-        "atr": 5.98,
-        "volume_ratio": 1.12,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": true,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": true,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "INVERSE HEAD & SHOULDERS",
-        "score": 85,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Inverse Head & Shoulders",
-          "Near Breakout",
-          "3 White Soldiers",
-          "Healthy RSI",
-          "RSI Rising (Building Momentum)",
-          "MACD Bullish Crossover",
-          "ADX Trend Strength",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 130.12,
-        "target1": 166.0,
-        "target2": 183.94,
-        "resistance_20d": 144.19000244140625,
-        "compression_score": 25
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Edelweiss Europe Dynamic Equity Off-shore Fund(G)-Direct Plan - univest.in",
-            "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxONGxTZTRZUlBlSkE4SHMwQ0JLQjFjWkpablRaMGFJRUQ1My1VZEFOUWtzUEVYLUpnOU8zZmVrTnB6eXVCcTkxZ0hENWNNR2t3dVlHVDQ5eTRfUjhRSUxZUlJtd29NRERONVdYM3FLbHd3WWlmS3EwOFhWYTFhcWFJclQ5eEhpdzg4dlpHN29CN0xHMmsxQVpv?oc=5",
-            "published": "Mon, 21 Sep 2026 19:41:09 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 22,
-      "combined_score": 82.2,
-      "added_at": "2026-09-22T12:43:51.289730",
-      "signal_state": "WATCHING",
-      "first_seen_price": 140.93,
-      "first_seen_at": "2026-09-22T09:43:43.112473"
     },
     {
       "symbol": "NRBBEARING",
@@ -1115,6 +1038,85 @@
       "signal_state": "WATCHING",
       "first_seen_price": 1943.0,
       "first_seen_at": "2026-09-22T06:19:38.609414"
+    },
+    {
+      "symbol": "EDELWEISS",
+      "base": {
+        "symbol": "EDELWEISS",
+        "price": 141.58,
+        "day_change": 1.48,
+        "volume": 10697363,
+        "avg_volume": 9087962,
+        "volume_ratio": 1.86,
+        "high_52w": 144.19,
+        "pct_from_high": 1.81,
+        "market_cap": 13401.0
+      },
+      "technical": {
+        "symbol": "EDELWEISS",
+        "close": 141.5800018310547,
+        "rsi": 64.12,
+        "adx": 23.56,
+        "atr": 5.98,
+        "volume_ratio": 1.15,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": true,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": true,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "INVERSE HEAD & SHOULDERS",
+        "score": 85,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Inverse Head & Shoulders",
+          "Near Breakout",
+          "3 White Soldiers",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish Crossover",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 129.62,
+        "target1": 165.5,
+        "target2": 183.44,
+        "resistance_20d": 144.19000244140625,
+        "compression_score": 25
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Edelweiss Europe Dynamic Equity Off-shore Fund(G)-Direct Plan - Univest",
+            "link": "https://news.google.com/rss/articles/CBMilwFBVV95cUxONGxTZTRZUlBlSkE4SHMwQ0JLQjFjWkpablRaMGFJRUQ1My1VZEFOUWtzUEVYLUpnOU8zZmVrTnB6eXVCcTkxZ0hENWNNR2t3dVlHVDQ5eTRfUjhRSUxZUlJtd29NRERONVdYM3FLbHd3WWlmS3EwOFhWYTFhcWFJclQ5eEhpdzg4dlpHN29CN0xHMmsxQVpv?oc=5",
+            "published": "Mon, 21 Sep 2026 19:41:09 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 79.2,
+      "added_at": "2026-09-22T13:12:26.539637",
+      "signal_state": "WATCHING",
+      "first_seen_price": 140.93,
+      "first_seen_at": "2026-09-22T09:43:43.112473"
     },
     {
       "symbol": "AUROPHARMA",
@@ -1414,22 +1416,22 @@
       "symbol": "ACMESOLAR",
       "base": {
         "symbol": "ACMESOLAR",
-        "price": 460.55,
-        "day_change": 0.38,
-        "volume": 2385221,
-        "avg_volume": 2362434,
-        "volume_ratio": 1.82,
+        "price": 460.25,
+        "day_change": 0.32,
+        "volume": 2634590,
+        "avg_volume": 2374309,
+        "volume_ratio": 1.76,
         "high_52w": 476.9,
-        "pct_from_high": 3.43,
-        "market_cap": 32528.25
+        "pct_from_high": 3.49,
+        "market_cap": 32507.06
       },
       "technical": {
         "symbol": "ACMESOLAR",
-        "close": 460.54998779296875,
-        "rsi": 73.63,
+        "close": 460.25,
+        "rsi": 73.57,
         "adx": 29.1,
         "atr": 18.12,
-        "volume_ratio": 1.01,
+        "volume_ratio": 1.11,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1460,9 +1462,9 @@
           "ADX Rising (Strengthening Trend)",
           "OBV Accumulation"
         ],
-        "stop_loss": 424.31,
-        "target1": 533.03,
-        "target2": 587.39,
+        "stop_loss": 424.01,
+        "target1": 532.73,
+        "target2": 587.09,
         "resistance_20d": 476.8999938964844,
         "compression_score": 10
       },
@@ -1499,7 +1501,7 @@
             "label": "Neutral"
           },
           {
-            "title": "5 Solar Stocks in India 2026: Strong Future Roadmaps - univest.in",
+            "title": "5 Solar Stocks in India 2026: Strong Future Roadmaps - Univest",
             "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE0zRnloWkZUUFhQU3dEY2xHS0hmOHBhTWZ5dS1jMHluRlhQR2Zyd0lwWEFkLXFWaS1zLU1KNURPTE9KdzJncE9oUjM2MjUycGlXYmFsMHdUc3ZXakpDRUVuOWNZUWRmU1ZQWkhUMlNVNHNvZw?oc=5",
             "published": "Wed, 26 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -1509,7 +1511,7 @@
       },
       "core_score": 17,
       "combined_score": 71.9,
-      "added_at": "2026-09-22T12:43:27.603882",
+      "added_at": "2026-09-22T13:12:06.364971",
       "signal_state": "WATCHING",
       "first_seen_price": 435.25,
       "first_seen_at": "2026-09-22T06:18:08.061658"
@@ -1598,22 +1600,22 @@
       "symbol": "SYRMA",
       "base": {
         "symbol": "SYRMA",
-        "price": 1772.7,
-        "day_change": 3.42,
-        "volume": 3128523,
-        "avg_volume": 2452564,
-        "volume_ratio": 2.29,
+        "price": 1770.4,
+        "day_change": 3.28,
+        "volume": 3243519,
+        "avg_volume": 2458040,
+        "volume_ratio": 2.08,
         "high_52w": 1803.9,
-        "pct_from_high": 1.73,
-        "market_cap": 34146.63
+        "pct_from_high": 1.86,
+        "market_cap": 34102.33
       },
       "technical": {
         "symbol": "SYRMA",
-        "close": 1772.699951171875,
-        "rsi": 72.77,
+        "close": 1770.4000244140625,
+        "rsi": 72.66,
         "adx": 20.69,
         "atr": 73.07,
-        "volume_ratio": 1.23,
+        "volume_ratio": 1.28,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1645,9 +1647,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 1626.56,
-        "target1": 2064.98,
-        "target2": 2284.2,
+        "stop_loss": 1624.26,
+        "target1": 2062.68,
+        "target2": 2281.9,
         "resistance_20d": 1803.9000244140625,
         "compression_score": 10
       },
@@ -1673,7 +1675,7 @@
       },
       "core_score": 22,
       "combined_score": 69.9,
-      "added_at": "2026-09-22T12:44:59.570530",
+      "added_at": "2026-09-22T13:13:21.696362",
       "signal_state": "WATCHING",
       "first_seen_price": 1728.9,
       "first_seen_at": "2026-09-22T06:19:37.098465"
@@ -2101,22 +2103,22 @@
       "symbol": "GOODLUCK",
       "base": {
         "symbol": "GOODLUCK",
-        "price": 537.6,
-        "day_change": 2.4,
-        "volume": 614665,
-        "avg_volume": 613485,
-        "volume_ratio": 1.81,
+        "price": 534.4,
+        "day_change": 1.79,
+        "volume": 638776,
+        "avg_volume": 614634,
+        "volume_ratio": 1.64,
         "high_52w": 557.37,
-        "pct_from_high": 3.55,
-        "market_cap": 5360.71
+        "pct_from_high": 4.12,
+        "market_cap": 5328.8
       },
       "technical": {
         "symbol": "GOODLUCK",
-        "close": 537.5999755859375,
-        "rsi": 67.08,
+        "close": 534.4000244140625,
+        "rsi": 66.28,
         "adx": 24.82,
         "atr": 21.04,
-        "volume_ratio": 0.98,
+        "volume_ratio": 1.01,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2150,8 +2152,8 @@
           "OBV Accumulation"
         ],
         "stop_loss": 504.83,
-        "target1": 603.14,
-        "target2": 652.3,
+        "target1": 593.54,
+        "target2": 637.9,
         "resistance_20d": 541.25,
         "compression_score": 40
       },
@@ -2191,7 +2193,7 @@
       },
       "core_score": 17,
       "combined_score": 64.2,
-      "added_at": "2026-09-22T12:43:59.715868",
+      "added_at": "2026-09-22T13:12:33.577682",
       "signal_state": "WATCHING",
       "first_seen_price": 525.9,
       "first_seen_at": "2026-09-22T10:43:13.500041"
@@ -2487,109 +2489,6 @@
       "first_seen_at": "2026-09-22T06:18:12.844365"
     },
     {
-      "symbol": "SMSPHARMA",
-      "base": {
-        "symbol": "SMSPHARMA",
-        "price": 481.4,
-        "day_change": 3.19,
-        "volume": 1537591,
-        "avg_volume": 1285621,
-        "volume_ratio": 2.15,
-        "high_52w": 494.45,
-        "pct_from_high": 2.64,
-        "market_cap": 4508.41
-      },
-      "technical": {
-        "symbol": "SMSPHARMA",
-        "close": 481.3999938964844,
-        "rsi": 70.75,
-        "adx": 29.97,
-        "atr": 24.5,
-        "volume_ratio": 1.14,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": true,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": false,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "DOUBLE BOTTOM",
-        "score": 56,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Double Bottom",
-          "Near Breakout",
-          "3 White Soldiers",
-          "MACD Bullish",
-          "ADX Trend Strength"
-        ],
-        "stop_loss": 432.4,
-        "target1": 579.39,
-        "target2": 652.89,
-        "resistance_20d": 494.45001220703125,
-        "compression_score": 0
-      },
-      "news": {
-        "score": 40,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "SMS Pharmaceuticals AGM Date Change: What Investors Should Know - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQcm9KTjBraUxhSDZhSjk4Rmwzekt1c1ZmY3ZDaHF0M3pRaHVxbGhHWEdFSnp1THRzQU9qaFdNRFZLZmRpTVdUYjY1Zld1Q09RVWYtdjVSUUY3Nk5aVVJ5bDJ6aU5aN1ZFUkR1ZnJUcjZrdGVnV0FocHBuZEdKMkpZUWpDSFhWcXUzTDZ0a0VlVzFZWGxNVENXdG5MNnRUWldPSGFhUDY0WFNoRndvR000b2NqWDQ2dkRkV1hYcFVmd1ZZUQ?oc=5",
-            "published": "Thu, 27 Aug 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "SMS Pharmaceuticals Share Price - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5fRWlEX0JOMGtBcXNpZkZKOGh6MzZWVS0xdTVqRXJhel9YT0FqN1BRZkZqUmltdTJJSWRLbDNiQm1tN3JfNzZWSnBibi1uRWJCLWNHUThoT0hPYmpaSFpnSm1saDlfYmlDenF0Umlqcw?oc=5",
-            "published": "Fri, 18 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "SMS Pharmaceuticals (SMSPHARMA.NS) Falls 11.5% to \u20b9410.15 \u2014 Support Tested Near \u20b9389.64 - Passive Flow - siam.in",
-            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQQjIxdUp2OGZPaUxMZ2JIOFF2bFRUWXJtNUhxVExfTTc5blY1WWtJdDA1RGsyX0FjWVpIekpRak1MeTY0MlVJOHhUaFZEWHBsWWtZc2Y0Sm1ib2lwRERkVmFSa2dua3NQRFJrdjN1bmc4X1FobjBvbTF5RWtoUDRwNFROR0xNeTdOc04zTXFTTWxFWkxKM0lEOEhGVlBWME4xQ2haM3I1dzdjSWNBYlg5MFBxRGU4Z1RaYmE1Ng?oc=5",
-            "published": "Tue, 15 Sep 2026 12:30:38 GMT",
-            "score": -2,
-            "label": "Neutral"
-          },
-          {
-            "title": "SMS Pharmaceuticals Share Price: Fresh 52-Week High Update - univest.in",
-            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOc3JKcXl1NFVUbmw3Ti1kSUNLYVlzeS1vdHZ1Zmc0d0JISlJaQnBqSy14Q3BvMi16SS10YU1wMUJxazJrdFdyVTR5clMzZW8yazRYMVBmZ1FWblljMGs1aGZPV3M5WVIxLWFpa09MQjE4X1BmZTY0Nk5TX3A3NUhHZ0RCdlBQd1lwMW01OUwyV2Q0UQ?oc=5",
-            "published": "Fri, 11 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Here's Why We Think SMS Pharmaceuticals (NSE:SMSPHARMA) Might Deserve Your Attention Today - simplywall.st",
-            "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxObmxVTVJabGt2SnV3XzREOGZyTFNmR3RrQlNBWG1UVllaYy0zZ3dBWDN6c2dfcWk0TWZtWW9iNjNKSDFsMWlFeUtqTnV0dE1HZWxnLXVacWZlYldSRnZRTmVtMzljdWU2QU9OS0lTaWFnZGN3QVdhZHRORXNuLTJnbW5QZ1BfVnlwaU4teC1jbmZfclRSZU1welN3OEZEcEUzbEZ3RmlZdTZyME5CR3VnSjZ1RTA5LUtZR2RpLUUxQlE0bDlWb2RESVpjWnY2LVhCekRobnNHWFdwMC01REZPbFZTTXFHM3h0UjhadERPd0dJSUkx0gH6AUFVX3lxTE9menprNTMxS01LZWhQQXFtM2liVXJkRERtVFBrN2xTUU5uaVNLRnAyRkE2LUFfQUo0c0E2cnZUeXF4Z053WlpNcnV6R1k1ZFZmVlRmSHVRWGpPQzE4dEJuNVhjVHRCcVVJd2xwelZiQ1o3dHdCd2RUd24wSWNIYmxtNXFzWjVhSmdSekdEU055MlNpSFpRaWdjeUcycXNSdlE5dDBkanVsSVZicWViTDZ6NGZzakdKMkgybU9HdTNtVXU3YWhGTXc1ckFJc0NpTjllMzVhcTdEQkswWHl2d0pzMmY1d01fWFlOSXhMZVFoWVM2RWhRYWFRZkE?oc=5",
-            "published": "Mon, 14 Sep 2026 00:24:26 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 22,
-      "combined_score": 62.4,
-      "added_at": "2026-09-22T12:44:53.978945",
-      "signal_state": "WATCHING",
-      "first_seen_price": 475.25,
-      "first_seen_at": "2026-09-22T09:44:38.814451"
-    },
-    {
       "symbol": "RATNAVEER",
       "base": {
         "symbol": "RATNAVEER",
@@ -2687,6 +2586,109 @@
       "added_at": "2026-09-22T09:44:28.377689",
       "first_seen_price": 335.95,
       "first_seen_at": "2026-09-22T09:44:28.377689"
+    },
+    {
+      "symbol": "SMSPHARMA",
+      "base": {
+        "symbol": "SMSPHARMA",
+        "price": 481.15,
+        "day_change": 3.14,
+        "volume": 1559054,
+        "avg_volume": 1286643,
+        "volume_ratio": 1.91,
+        "high_52w": 494.45,
+        "pct_from_high": 2.69,
+        "market_cap": 4506.07
+      },
+      "technical": {
+        "symbol": "SMSPHARMA",
+        "close": 481.1499938964844,
+        "rsi": 70.71,
+        "adx": 29.97,
+        "atr": 24.5,
+        "volume_ratio": 1.16,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": false,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "DOUBLE BOTTOM",
+        "score": 56,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "3 White Soldiers",
+          "MACD Bullish",
+          "ADX Trend Strength"
+        ],
+        "stop_loss": 432.15,
+        "target1": 579.14,
+        "target2": 652.64,
+        "resistance_20d": 494.45001220703125,
+        "compression_score": 0
+      },
+      "news": {
+        "score": 40,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "SMS Pharmaceuticals AGM Date Change: What Investors Should Know - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQcm9KTjBraUxhSDZhSjk4Rmwzekt1c1ZmY3ZDaHF0M3pRaHVxbGhHWEdFSnp1THRzQU9qaFdNRFZLZmRpTVdUYjY1Zld1Q09RVWYtdjVSUUY3Nk5aVVJ5bDJ6aU5aN1ZFUkR1ZnJUcjZrdGVnV0FocHBuZEdKMkpZUWpDSFhWcXUzTDZ0a0VlVzFZWGxNVENXdG5MNnRUWldPSGFhUDY0WFNoRndvR000b2NqWDQ2dkRkV1hYcFVmd1ZZUQ?oc=5",
+            "published": "Thu, 27 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMS Pharmaceuticals Share Price - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5fRWlEX0JOMGtBcXNpZkZKOGh6MzZWVS0xdTVqRXJhel9YT0FqN1BRZkZqUmltdTJJSWRLbDNiQm1tN3JfNzZWSnBibi1uRWJCLWNHUThoT0hPYmpaSFpnSm1saDlfYmlDenF0Umlqcw?oc=5",
+            "published": "Fri, 18 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMS Pharmaceuticals (SMSPHARMA.NS) Falls 11.5% to \u20b9410.15 \u2014 Support Tested Near \u20b9389.64 - Passive Flow - siam.in",
+            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQQjIxdUp2OGZPaUxMZ2JIOFF2bFRUWXJtNUhxVExfTTc5blY1WWtJdDA1RGsyX0FjWVpIekpRak1MeTY0MlVJOHhUaFZEWHBsWWtZc2Y0Sm1ib2lwRERkVmFSa2dua3NQRFJrdjN1bmc4X1FobjBvbTF5RWtoUDRwNFROR0xNeTdOc04zTXFTTWxFWkxKM0lEOEhGVlBWME4xQ2haM3I1dzdjSWNBYlg5MFBxRGU4Z1RaYmE1Ng?oc=5",
+            "published": "Tue, 15 Sep 2026 12:30:38 GMT",
+            "score": -2,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMS Pharmaceuticals Share Price: Fresh 52-Week High Update - Univest",
+            "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOc3JKcXl1NFVUbmw3Ti1kSUNLYVlzeS1vdHZ1Zmc0d0JISlJaQnBqSy14Q3BvMi16SS10YU1wMUJxazJrdFdyVTR5clMzZW8yazRYMVBmZ1FWblljMGs1aGZPV3M5WVIxLWFpa09MQjE4X1BmZTY0Nk5TX3A3NUhHZ0RCdlBQd1lwMW01OUwyV2Q0UQ?oc=5",
+            "published": "Fri, 11 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Here's Why We Think SMS Pharmaceuticals (NSE:SMSPHARMA) Might Deserve Your Attention Today - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxObmxVTVJabGt2SnV3XzREOGZyTFNmR3RrQlNBWG1UVllaYy0zZ3dBWDN6c2dfcWk0TWZtWW9iNjNKSDFsMWlFeUtqTnV0dE1HZWxnLXVacWZlYldSRnZRTmVtMzljdWU2QU9OS0lTaWFnZGN3QVdhZHRORXNuLTJnbW5QZ1BfVnlwaU4teC1jbmZfclRSZU1welN3OEZEcEUzbEZ3RmlZdTZyME5CR3VnSjZ1RTA5LUtZR2RpLUUxQlE0bDlWb2RESVpjWnY2LVhCekRobnNHWFdwMC01REZPbFZTTXFHM3h0UjhadERPd0dJSUkx0gH6AUFVX3lxTE9menprNTMxS01LZWhQQXFtM2liVXJkRERtVFBrN2xTUU5uaVNLRnAyRkE2LUFfQUo0c0E2cnZUeXF4Z053WlpNcnV6R1k1ZFZmVlRmSHVRWGpPQzE4dEJuNVhjVHRCcVVJd2xwelZiQ1o3dHdCd2RUd24wSWNIYmxtNXFzWjVhSmdSekdEU055MlNpSFpRaWdjeUcycXNSdlE5dDBkanVsSVZicWViTDZ6NGZzakdKMkgybU9HdTNtVXU3YWhGTXc1ckFJc0NpTjllMzVhcTdEQkswWHl2d0pzMmY1d01fWFlOSXhMZVFoWVM2RWhRYWFRZkE?oc=5",
+            "published": "Mon, 14 Sep 2026 00:24:26 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 59.4,
+      "added_at": "2026-09-22T13:13:17.059495",
+      "signal_state": "WATCHING",
+      "first_seen_price": 475.25,
+      "first_seen_at": "2026-09-22T09:44:38.814451"
     },
     {
       "symbol": "PRECWIRE",
