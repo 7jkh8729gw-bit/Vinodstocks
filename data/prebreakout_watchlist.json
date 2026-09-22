@@ -1,12 +1,12 @@
 {
-  "date": "2026-09-21",
+  "date": "2026-09-22",
   "items": [
     {
       "symbol": "CUB",
       "price": 235.7899932861328,
       "day_change": 1.71,
       "volume_ratio": 0.99,
-      "market_cap": 23361.771596021605,
+      "market_cap": 23277.555346078,
       "resistance": 245.38,
       "distance_to_resistance_pct": 4.07,
       "compression_score": 55,
@@ -17,15 +17,41 @@
     {
       "symbol": "TIRUMALCHM",
       "price": 158.5399932861328,
-      "day_change": 2.82,
-      "volume_ratio": 1.06,
-      "market_cap": 1911.2435980584687,
+      "day_change": 1.92,
+      "volume_ratio": 1.2,
+      "market_cap": 1889.66473245,
       "resistance": 163.7,
       "distance_to_resistance_pct": 3.25,
       "compression_score": 100,
-      "rsi": 49.39,
+      "rsi": 49.77,
       "silent_accumulation": false,
       "prebreakout_score": 89.2
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "price": 412.5,
+      "day_change": -0.96,
+      "volume_ratio": 1.2,
+      "market_cap": 412628.77204144,
+      "resistance": 420.5,
+      "distance_to_resistance_pct": 1.94,
+      "compression_score": 70,
+      "rsi": 51.25,
+      "silent_accumulation": false,
+      "prebreakout_score": 86.3
+    },
+    {
+      "symbol": "MANINFRA",
+      "price": 125.63999938964844,
+      "day_change": -0.06,
+      "volume_ratio": 1.08,
+      "market_cap": 4901.97765523,
+      "resistance": 131.0,
+      "distance_to_resistance_pct": 4.27,
+      "compression_score": 55,
+      "rsi": 64.28,
+      "silent_accumulation": false,
+      "prebreakout_score": 65.5
     }
   ]
 }
