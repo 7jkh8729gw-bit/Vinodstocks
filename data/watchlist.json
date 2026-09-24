@@ -83,22 +83,22 @@
       "symbol": "AARTIPHARM",
       "base": {
         "symbol": "AARTIPHARM",
-        "price": 942.85,
-        "day_change": 0.62,
-        "volume": 515986,
-        "avg_volume": 733431,
-        "volume_ratio": 1.74,
+        "price": 941.1,
+        "day_change": 0.44,
+        "volume": 537766,
+        "avg_volume": 734468,
+        "volume_ratio": 1.52,
         "high_52w": 957.3,
-        "pct_from_high": 1.51,
-        "market_cap": 8549.75
+        "pct_from_high": 1.69,
+        "market_cap": 8533.88
       },
       "technical": {
         "symbol": "AARTIPHARM",
-        "close": 942.8499755859375,
-        "rsi": 71.1,
+        "close": 941.0999755859375,
+        "rsi": 70.91,
         "adx": 25.53,
         "atr": 39.72,
-        "volume_ratio": 0.69,
+        "volume_ratio": 0.72,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -129,9 +129,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 863.42,
-        "target1": 1101.72,
-        "target2": 1220.87,
+        "stop_loss": 861.67,
+        "target1": 1099.97,
+        "target2": 1219.12,
         "resistance_20d": 957.2999877929688,
         "compression_score": 10
       },
@@ -157,7 +157,7 @@
       },
       "core_score": 19,
       "combined_score": 63.9,
-      "added_at": "2026-09-24T11:47:16.453802",
+      "added_at": "2026-09-24T12:16:39.166924",
       "signal_state": "WATCHING",
       "first_seen_price": 940.1,
       "first_seen_at": "2026-09-24T06:18:24.489620"
@@ -520,23 +520,23 @@
       "symbol": "RAYMONDREL",
       "base": {
         "symbol": "RAYMONDREL",
-        "price": 710.5,
-        "day_change": 6.04,
-        "volume": 12982285,
-        "avg_volume": 1795001,
-        "volume_ratio": 17.73,
+        "price": 712.0,
+        "day_change": 6.27,
+        "volume": 13926949,
+        "avg_volume": 1839985,
+        "volume_ratio": 15.6,
         "high_52w": 734.9,
-        "pct_from_high": 3.32,
-        "market_cap": 4728.48
+        "pct_from_high": 3.12,
+        "market_cap": 4737.8
       },
       "technical": {
         "symbol": "RAYMONDREL",
-        "close": 710.5,
-        "rsi": 74.79,
+        "close": 712.0,
+        "rsi": 74.94,
         "adx": 24.7,
         "atr": 32.31,
-        "volume_ratio": 6.91,
-        "ema_alignment": false,
+        "volume_ratio": 7.23,
+        "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
@@ -553,8 +553,9 @@
           "3 White Soldiers"
         ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 91,
+        "score": 99,
         "reasons": [
+          "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
@@ -571,9 +572,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 645.88,
-        "target1": 839.74,
-        "target2": 936.67,
+        "stop_loss": 647.38,
+        "target1": 841.24,
+        "target2": 938.17,
         "resistance_20d": 717.0,
         "compression_score": 0
       },
@@ -582,7 +583,7 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Raymond Realty (NSE:RAYMONDREL): Why Did Its Board Approve a Rs 409 Crore Preferential Issue? - kalkine.co.in",
+            "title": "Raymond Realty (NSE:RAYMONDREL): Why Did Its Board Approve a Rs 409 Crore Preferential Issue? - Kalkine India",
             "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPQUVqMU9DWnBJZ0hEWmVrX0ZMb0hSbFdmOFpMZWxNY0NBNjZkSEloZUIwbGtva2pXWlZBMUdwZTdtbHd0Zkd2Z0toeWlGVjh5OHNQdS16OXhRUFpCTEpTVEFZc05rX1psaVhtZTV2aUV0Tjl4TmRVQi1sZnY5blJEMjRRSkN4eUZrRm94UnZ6RmlRcy1BU1dmRFhud2prR3BoZkNwT1J3VzNXTTNjMkdWNnQzU0drWkZqMUZNSXI1dXdIbnp5LWNSdkRFbUpYNHQxb2c?oc=5",
             "published": "Fri, 11 Sep 2026 12:36:00 GMT",
             "score": 0,
@@ -591,8 +592,8 @@
         ]
       },
       "core_score": 20,
-      "combined_score": 84.2,
-      "added_at": "2026-09-24T11:48:39.375833",
+      "combined_score": 89.4,
+      "added_at": "2026-09-24T12:17:48.750211",
       "signal_state": "WATCHING",
       "first_seen_price": 671.45,
       "first_seen_at": "2026-09-24T06:19:37.753560"
@@ -1330,22 +1331,22 @@
       "symbol": "VINCOFE",
       "base": {
         "symbol": "VINCOFE",
-        "price": 187.8,
-        "day_change": 1.68,
-        "volume": 2735271,
-        "avg_volume": 3204674,
-        "volume_ratio": 2.08,
+        "price": 187.0,
+        "day_change": 1.25,
+        "volume": 2804743,
+        "avg_volume": 3207982,
+        "volume_ratio": 1.79,
         "high_52w": 191.35,
-        "pct_from_high": 1.86,
-        "market_cap": 2736.03
+        "pct_from_high": 2.27,
+        "market_cap": 2724.37
       },
       "technical": {
         "symbol": "VINCOFE",
-        "close": 187.8000030517578,
-        "rsi": 65.82,
+        "close": 187.0,
+        "rsi": 65.33,
         "adx": 30.54,
         "atr": 8.21,
-        "volume_ratio": 0.84,
+        "volume_ratio": 0.86,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1375,9 +1376,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 171.37,
-        "target1": 220.65,
-        "target2": 245.3,
+        "stop_loss": 170.57,
+        "target1": 219.85,
+        "target2": 244.5,
         "resistance_20d": 191.35000610351562,
         "compression_score": 25
       },
@@ -1393,14 +1394,14 @@
             "label": "Neutral"
           },
           {
-            "title": "Vintage Coffee and Beverages VINCOFE Trading Window Closure - kalkine.co.in",
+            "title": "Vintage Coffee and Beverages VINCOFE Trading Window Closure - Kalkine India",
             "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNLVQxLVVMWVludTRkdldXY2dodXIwM1dBTVlpN3FzN3FVb0pPcGlESzVqZE9vT0lIa3hScHlPelU1YUY1dkQycjRVWTF6bmNqdWtqTjUzdjAyS2x0MFF6YVF3MHg0Z05yTEFueF82bWR2Y2xEQkpJdkpsY3ZGN1JweW9XckVuSzJ6WXFxcUNZbGp1QlA1NUR2LXZ3OUF2WVBBZDFQUjN4cGM2LTRUaUdUY0JTdnYzQW5HVzVXdW5ONUlJQjcwYklfTkUxRHlGYjdvbDJjeUdKSnl1dw?oc=5",
             "published": "Tue, 22 Sep 2026 08:03:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Vintage Coffee VINCOFE: Burman Capital Plant Visit Sep 2026 - kalkine.co.in",
+            "title": "Vintage Coffee VINCOFE: Burman Capital Plant Visit Sep 2026 - Kalkine India",
             "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMXhUVDY3Q3ZIcFVjQ05wbTMtR3VrMXJOY185U1ZZOHJSVXlXLUFta2p4V1JUdVBSNDRVMm1HMTBBcDhxSWp2ZDl4N2p4V09QbDF4clRycTgteUhtYks0UUNkeWVleTEzczk1LXdlMGdjaG9uMWg5ZXMteG96c0Q4bkFsSjIwbmVMRVVhMTJiVXFCOXlmSnZfZU5sUTFUVWJ3UTdIcFRKUTl5X0VZc1lhdHR1czlhT2tVcHhudVZlY21jVEhoVWlpU3paZy1LMTlUMVQ0cg?oc=5",
             "published": "Thu, 10 Sep 2026 09:43:00 GMT",
             "score": 0,
@@ -1408,9 +1409,9 @@
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 73.5,
-      "added_at": "2026-09-24T11:49:10.240879",
+      "core_score": 19,
+      "combined_score": 70.5,
+      "added_at": "2026-09-24T12:18:12.523053",
       "signal_state": "WATCHING",
       "first_seen_price": 187.93,
       "first_seen_at": "2026-09-24T09:45:19.770762"
@@ -1419,22 +1420,22 @@
       "symbol": "MCX",
       "base": {
         "symbol": "MCX",
-        "price": 3430.0,
-        "day_change": 1.66,
-        "volume": 2420190,
-        "avg_volume": 1811909,
-        "volume_ratio": 3.27,
+        "price": 3433.8,
+        "day_change": 1.77,
+        "volume": 2530892,
+        "avg_volume": 1817180,
+        "volume_ratio": 2.87,
         "high_52w": 3480.0,
-        "pct_from_high": 1.44,
-        "market_cap": 87298.33
+        "pct_from_high": 1.33,
+        "market_cap": 87395.05
       },
       "technical": {
         "symbol": "MCX",
-        "close": 3430.0,
-        "rsi": 64.51,
+        "close": 3433.800048828125,
+        "rsi": 64.69,
         "adx": 22.94,
         "atr": 103.75,
-        "volume_ratio": 1.35,
+        "volume_ratio": 1.4,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1468,8 +1469,8 @@
           "OBV Accumulation"
         ],
         "stop_loss": 3149.77,
-        "target1": 3990.46,
-        "target2": 4410.8,
+        "target1": 4001.86,
+        "target2": 4427.9,
         "resistance_20d": 3460.0,
         "compression_score": 40
       },
@@ -1478,9 +1479,9 @@
         "label": "No recent news",
         "headlines": []
       },
-      "core_score": 25,
-      "combined_score": 74.4,
-      "added_at": "2026-09-24T11:48:21.183730",
+      "core_score": 22,
+      "combined_score": 71.4,
+      "added_at": "2026-09-24T12:17:32.578415",
       "signal_state": "WATCHING",
       "first_seen_price": 3405.0,
       "first_seen_at": "2026-09-24T09:44:35.966227"
@@ -1489,22 +1490,22 @@
       "symbol": "SHYAMMETL",
       "base": {
         "symbol": "SHYAMMETL",
-        "price": 1120.0,
-        "day_change": 1.55,
-        "volume": 718278,
-        "avg_volume": 663868,
-        "volume_ratio": 2.65,
+        "price": 1111.0,
+        "day_change": 0.73,
+        "volume": 741342,
+        "avg_volume": 664966,
+        "volume_ratio": 2.3,
         "high_52w": 1148.0,
-        "pct_from_high": 2.44,
-        "market_cap": 31172.57
+        "pct_from_high": 3.22,
+        "market_cap": 30922.08
       },
       "technical": {
         "symbol": "SHYAMMETL",
-        "close": 1120.0,
-        "rsi": 66.65,
+        "close": 1111.0,
+        "rsi": 64.89,
         "adx": 19.28,
         "atr": 31.68,
-        "volume_ratio": 1.06,
+        "volume_ratio": 1.09,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1534,8 +1535,8 @@
           "MACD Bullish"
         ],
         "stop_loss": 1047.93,
-        "target1": 1264.13,
-        "target2": 1372.23,
+        "target1": 1237.13,
+        "target2": 1331.73,
         "resistance_20d": 1148.0,
         "compression_score": 40
       },
@@ -1544,7 +1545,7 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Shyam Metalics ESG Rating 53 by CRISIL \u2013 NSE:SHYAMMETL - kalkine.co.in",
+            "title": "Shyam Metalics ESG Rating 53 by CRISIL \u2013 NSE:SHYAMMETL - Kalkine India",
             "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOMUVUR0d0dmUwTVRfb3VLNEV2cE1rTGN5V0RSLXI3NHBkTVBiUzRES2xqYWNUSmJlUHFpbXdkOW5wZWdfRlZCVk1yNGtPNW9UR0RBSzd5U3ltWDc1SExjcjFVVUNwWVZlRjRRbHB0cXR5cF91NWVZQ3NDXzI2RWJvdHlFMVd5R1N4V0VUZHU3dVBBcTF6WGRTX3lHcXFrS0VQNEVJcW9rVzNodVp0UlAzbnd2dFpWWTFpZDFBRlZpbTVtenBZZzZ5VDdXQTZjUQ?oc=5",
             "published": "Wed, 16 Sep 2026 05:13:00 GMT",
             "score": 0,
@@ -1559,9 +1560,9 @@
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 73.0,
-      "added_at": "2026-09-24T11:48:51.165305",
+      "core_score": 20,
+      "combined_score": 71.0,
+      "added_at": "2026-09-24T12:17:57.410921",
       "signal_state": "WATCHING",
       "first_seen_price": 1135.0,
       "first_seen_at": "2026-09-24T09:45:03.413014"
@@ -1837,22 +1838,22 @@
       "symbol": "INDORAMA",
       "base": {
         "symbol": "INDORAMA",
-        "price": 104.59,
-        "day_change": 4.59,
-        "volume": 1964927,
-        "avg_volume": 2646396,
-        "volume_ratio": 1.82,
+        "price": 104.49,
+        "day_change": 4.49,
+        "volume": 2019647,
+        "avg_volume": 2649002,
+        "volume_ratio": 1.57,
         "high_52w": 112.3,
-        "pct_from_high": 6.87,
-        "market_cap": 2730.98
+        "pct_from_high": 6.95,
+        "market_cap": 2728.37
       },
       "technical": {
         "symbol": "INDORAMA",
-        "close": 104.58999633789062,
-        "rsi": 79.53,
+        "close": 104.48999786376953,
+        "rsi": 79.48,
         "adx": 60.72,
         "atr": 7.33,
-        "volume_ratio": 0.71,
+        "volume_ratio": 0.73,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1880,9 +1881,9 @@
           "ADX Rising (Strengthening Trend)",
           "OBV Accumulation"
         ],
-        "stop_loss": 89.93,
-        "target1": 133.9,
-        "target2": 155.88,
+        "stop_loss": 89.83,
+        "target1": 133.8,
+        "target2": 155.78,
         "resistance_20d": 112.30000305175781,
         "compression_score": 0
       },
@@ -1922,7 +1923,7 @@
       },
       "core_score": 17,
       "combined_score": 53.9,
-      "added_at": "2026-09-24T11:48:04.530298",
+      "added_at": "2026-09-24T12:17:17.986374",
       "signal_state": "WATCHING",
       "first_seen_price": 103.42,
       "first_seen_at": "2026-09-24T09:44:19.857371"
@@ -2388,22 +2389,22 @@
       "symbol": "GNA",
       "base": {
         "symbol": "GNA",
-        "price": 641.55,
-        "day_change": 7.84,
-        "volume": 2845436,
-        "avg_volume": 594079,
-        "volume_ratio": 11.82,
+        "price": 638.25,
+        "day_change": 7.29,
+        "volume": 3958784,
+        "avg_volume": 647096,
+        "volume_ratio": 12.61,
         "high_52w": 644.0,
-        "pct_from_high": 0.38,
-        "market_cap": 2754.23
+        "pct_from_high": 0.89,
+        "market_cap": 2741.13
       },
       "technical": {
         "symbol": "GNA",
-        "close": 641.5499877929688,
-        "rsi": 75.92,
+        "close": 638.25,
+        "rsi": 75.47,
         "adx": 19.98,
         "atr": 26.75,
-        "volume_ratio": 4.68,
+        "volume_ratio": 5.96,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2435,9 +2436,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 588.05,
-        "target1": 748.55,
-        "target2": 828.8,
+        "stop_loss": 584.75,
+        "target1": 745.25,
+        "target2": 825.5,
         "resistance_20d": 644.0,
         "compression_score": 10
       },
@@ -2470,7 +2471,7 @@
       },
       "core_score": 22,
       "combined_score": 79.7,
-      "added_at": "2026-09-24T11:47:52.087976",
+      "added_at": "2026-09-24T12:17:09.594878",
       "signal_state": "WATCHING",
       "first_seen_price": 622.45,
       "first_seen_at": "2026-09-24T10:43:06.944071"
@@ -2568,6 +2569,82 @@
       "added_at": "2026-09-24T10:43:06.976503",
       "first_seen_price": 1480.0,
       "first_seen_at": "2026-09-24T10:43:06.976503"
+    },
+    {
+      "symbol": "ABDL",
+      "base": {
+        "symbol": "ABDL",
+        "price": 692.5,
+        "day_change": 5.5,
+        "volume": 3119067,
+        "avg_volume": 501905,
+        "volume_ratio": 12.88,
+        "high_52w": 711.7,
+        "pct_from_high": 2.7,
+        "market_cap": 19367.13
+      },
+      "technical": {
+        "symbol": "ABDL",
+        "close": 692.5,
+        "rsi": 71.31,
+        "adx": 19.61,
+        "atr": 23.16,
+        "volume_ratio": 6.06,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": true,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS + BREAKOUT",
+        "score": 81,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Confirmed Breakout",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 646.18,
+        "target1": 785.13,
+        "target2": 854.61,
+        "resistance_20d": 702.5,
+        "compression_score": 25
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "India Sugar Import Shock Puts Allied Blenders And Globus Spirits In Focus - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOYlV4MFdaM29HUWp5MzJkVFc2OFNBMHI4THVVM2JoWnVDUVphY09iYnFJell2Z05hUllkRlA3SUh1anVtbTZUTDVQRTJGS3dfeU5iWHIxZUFrclJGZHNNQUlDajUtdmFraXR4LTlYVDZuWExjY1loU19hV2ZqNTV2Q3ZDc05MMXdzTmYyWV90LTI2V2djckkxT0xEVUtJVHp1c0IyRjJ1eENUUjNSbTY2cWMxV3VMbjJZd29XRzFTLW16cTJrQ1cwMGNBZmVuQjdtLVhiNmYxZEhXUnFZYmlXeEI2VTB5TUpsT1UtcEkyRTI3aWlfU0Z4b0Jn0gH_AUFVX3lxTE4zUHlPdEJmdU1QVDhMbl9HMjc4WnJHcE93ZkNROTA4TkNwNDJOWWJTNVppZ0VfbnNmWWpTVE85QXBUM2xjbWx4NW9lTU9TazF3VnBNSTBoUExHZEtiZDBULXFVRWpiTlhuWDNBbUhnUEpDUW5qbFFQdC1TUjRGN0dUQVRJQVhlNmNqd1lVbmExUHRUdWdDOTdOT0RTZTI2UDlXbVdlUUlLcDlsdmMyN0lNMV9VU21WZktsSGJfNFJETVNCd0RIeGVFT0owWmN6c0xzamxrV2FkUjQzUVlHZTRYREF3LUJDbkVTeF95THRmYURyMmhXRXd4azNYcFVpdw?oc=5",
+            "published": "Wed, 26 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 79.7,
+      "added_at": "2026-09-24T12:16:39.649819",
+      "first_seen_price": 692.5,
+      "first_seen_at": "2026-09-24T12:16:39.649819"
     }
   ]
 }
