@@ -83,22 +83,22 @@
       "symbol": "RAYMONDREL",
       "base": {
         "symbol": "RAYMONDREL",
-        "price": 701.85,
-        "day_change": 4.75,
-        "volume": 16171459,
-        "avg_volume": 1946867,
-        "volume_ratio": 10.38,
+        "price": 704.95,
+        "day_change": 5.22,
+        "volume": 16897699,
+        "avg_volume": 1981450,
+        "volume_ratio": 9.69,
         "high_52w": 734.9,
-        "pct_from_high": 4.5,
-        "market_cap": 4670.91
+        "pct_from_high": 4.08,
+        "market_cap": 4691.54
       },
       "technical": {
         "symbol": "RAYMONDREL",
-        "close": 701.8499755859375,
-        "rsi": 73.88,
+        "close": 704.9500122070312,
+        "rsi": 74.22,
         "adx": 24.7,
         "atr": 32.31,
-        "volume_ratio": 7.94,
+        "volume_ratio": 8.15,
         "ema_alignment": false,
         "dema_alignment": true,
         "golden_cross": true,
@@ -135,8 +135,8 @@
           "Strong Volume"
         ],
         "stop_loss": 637.89,
-        "target1": 829.76,
-        "target2": 925.69,
+        "target1": 839.06,
+        "target2": 939.64,
         "resistance_20d": 717.0,
         "compression_score": 0
       },
@@ -153,9 +153,9 @@
           }
         ]
       },
-      "core_score": 23,
-      "combined_score": 87.2,
-      "added_at": "2026-09-24T14:15:16.584649",
+      "core_score": 20,
+      "combined_score": 84.2,
+      "added_at": "2026-09-24T14:45:39.087802",
       "signal_state": "WATCHING",
       "first_seen_price": 671.45,
       "first_seen_at": "2026-09-24T06:19:37.753560"
@@ -349,22 +349,22 @@
       "symbol": "GNA",
       "base": {
         "symbol": "GNA",
-        "price": 618.8,
-        "day_change": 4.02,
-        "volume": 6490151,
-        "avg_volume": 767637,
-        "volume_ratio": 10.6,
+        "price": 623.8,
+        "day_change": 4.86,
+        "volume": 6687264,
+        "avg_volume": 777023,
+        "volume_ratio": 9.81,
         "high_52w": 648.0,
-        "pct_from_high": 4.51,
-        "market_cap": 2656.56
+        "pct_from_high": 3.73,
+        "market_cap": 2678.02
       },
       "technical": {
         "symbol": "GNA",
-        "close": 618.7999877929688,
-        "rsi": 72.44,
+        "close": 623.7999877929688,
+        "rsi": 73.29,
         "adx": 20.07,
         "atr": 27.04,
-        "volume_ratio": 8.21,
+        "volume_ratio": 8.35,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -397,9 +397,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 564.73,
-        "target1": 726.94,
-        "target2": 808.05,
+        "stop_loss": 569.73,
+        "target1": 731.94,
+        "target2": 813.05,
         "resistance_20d": 648.0,
         "compression_score": 10
       },
@@ -432,7 +432,7 @@
       },
       "core_score": 23,
       "combined_score": 82.6,
-      "added_at": "2026-09-24T14:14:14.698523",
+      "added_at": "2026-09-24T14:44:55.924783",
       "signal_state": "WATCHING",
       "first_seen_price": 622.45,
       "first_seen_at": "2026-09-24T10:43:06.944071"
@@ -525,22 +525,22 @@
       "symbol": "MCX",
       "base": {
         "symbol": "MCX",
-        "price": 3433.6,
-        "day_change": 1.77,
-        "volume": 3574032,
-        "avg_volume": 1866854,
-        "volume_ratio": 2.4,
+        "price": 3431.0,
+        "day_change": 1.69,
+        "volume": 3823533,
+        "avg_volume": 1878735,
+        "volume_ratio": 2.31,
         "high_52w": 3480.0,
-        "pct_from_high": 1.33,
-        "market_cap": 87389.96
+        "pct_from_high": 1.41,
+        "market_cap": 87323.78
       },
       "technical": {
         "symbol": "MCX",
-        "close": 3433.60009765625,
-        "rsi": 64.68,
+        "close": 3431.0,
+        "rsi": 64.56,
         "adx": 23.07,
         "atr": 104.96,
-        "volume_ratio": 1.93,
+        "volume_ratio": 2.05,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -558,7 +558,7 @@
           "3 White Soldiers"
         ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 90,
+        "score": 95,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -573,11 +573,12 @@
           "RSI Rising (Building Momentum)",
           "ADX Trend Strength",
           "Volume Expansion",
-          "OBV Accumulation"
+          "OBV Accumulation",
+          "Strong Volume"
         ],
         "stop_loss": 3149.77,
-        "target1": 4001.26,
-        "target2": 4427.0,
+        "target1": 3993.46,
+        "target2": 4415.3,
         "resistance_20d": 3477.0,
         "compression_score": 25
       },
@@ -595,8 +596,8 @@
         ]
       },
       "core_score": 22,
-      "combined_score": 85.5,
-      "added_at": "2026-09-24T14:14:51.598307",
+      "combined_score": 88.8,
+      "added_at": "2026-09-24T14:45:22.271794",
       "signal_state": "WATCHING",
       "first_seen_price": 3405.0,
       "first_seen_at": "2026-09-24T09:44:35.966227"
@@ -605,22 +606,22 @@
       "symbol": "CARBORUNIV",
       "base": {
         "symbol": "CARBORUNIV",
-        "price": 1304.0,
-        "day_change": 3.12,
-        "volume": 3165486,
-        "avg_volume": 522117,
-        "volume_ratio": 7.63,
+        "price": 1308.9,
+        "day_change": 3.51,
+        "volume": 3241606,
+        "avg_volume": 549124,
+        "volume_ratio": 6.73,
         "high_52w": 1368.9,
-        "pct_from_high": 4.74,
-        "market_cap": 24841.9
+        "pct_from_high": 4.38,
+        "market_cap": 24935.25
       },
       "technical": {
         "symbol": "CARBORUNIV",
-        "close": 1304.0,
-        "rsi": 73.99,
-        "adx": 23.87,
-        "atr": 55.59,
-        "volume_ratio": 5.83,
+        "close": 1308.9000244140625,
+        "rsi": 74.51,
+        "adx": 25.58,
+        "atr": 53.24,
+        "volume_ratio": 5.69,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -656,20 +657,28 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1192.83,
-        "target1": 1526.35,
-        "target2": 1693.11,
+        "stop_loss": 1202.43,
+        "target1": 1521.84,
+        "target2": 1681.55,
         "resistance_20d": 1368.9000244140625,
         "compression_score": 0
       },
       "news": {
-        "score": 0,
-        "label": "No recent news",
-        "headlines": []
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "NSE Share Price - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1YampiQS1ZVEFBaF9PbU1mcGROYjRFQzBtVXY2M1FYY3U0Vm0xSmhrbjFfT1g0NXVuVC1FbDhZUVRNbWdiRUFqaHhOVm16dmxibHBINA?oc=5",
+            "published": "Sat, 19 Sep 2026 03:00:03 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
       },
       "core_score": 23,
-      "combined_score": 80.2,
-      "added_at": "2026-09-24T14:13:49.281487",
+      "combined_score": 85.2,
+      "added_at": "2026-09-24T14:44:39.433768",
       "signal_state": "WATCHING",
       "first_seen_price": 1305.9,
       "first_seen_at": "2026-09-24T12:44:30.819913"
@@ -678,22 +687,22 @@
       "symbol": "ABDL",
       "base": {
         "symbol": "ABDL",
-        "price": 697.0,
-        "day_change": 6.19,
-        "volume": 4996430,
-        "avg_volume": 591303,
-        "volume_ratio": 10.63,
+        "price": 701.6,
+        "day_change": 6.89,
+        "volume": 5277283,
+        "avg_volume": 703230,
+        "volume_ratio": 8.55,
         "high_52w": 711.7,
-        "pct_from_high": 2.07,
-        "market_cap": 19495.8
+        "pct_from_high": 1.42,
+        "market_cap": 19624.46
       },
       "technical": {
         "symbol": "ABDL",
-        "close": 697.0,
-        "rsi": 72.12,
-        "adx": 19.66,
-        "atr": 23.29,
-        "volume_ratio": 8.21,
+        "close": 701.5999755859375,
+        "rsi": 73.46,
+        "adx": 20.17,
+        "atr": 22.89,
+        "volume_ratio": 7.23,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -707,9 +716,11 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [],
+        "patterns": [
+          "Morning Star"
+        ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 81,
+        "score": 88,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -718,16 +729,18 @@
           "Double Bottom",
           "Near Breakout",
           "Confirmed Breakout",
+          "Morning Star",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
+          "ADX Trend Strength",
           "ADX Rising (Strengthening Trend)",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 650.41,
-        "target1": 790.18,
-        "target2": 860.06,
+        "stop_loss": 655.81,
+        "target1": 793.17,
+        "target2": 861.85,
         "resistance_20d": 704.4000244140625,
         "compression_score": 25
       },
@@ -735,6 +748,13 @@
         "score": 50,
         "label": "Neutral",
         "headlines": [
+          {
+            "title": "Allied Blenders & Distillers (NSE: ABDL) Promoter Share Sale and MPS Compliance Update - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOX1FkZHFBV0VRcTF6eEh2RkNldHVQZGdnaktLdC05WEEwSjVMcW14OWoyV2hoY0g2R0k2cGRudGVBSFpKQ0JSZmg4X0ZDaGtYZEVJQUw3dDBMN1ZfaFRudFp6bEdMVEZ4VGdKeDVHU1NWaVUzQ0tHWFBibk92NHZUNnM5VmVuVGZXQmFNV1BRdzlta2ZPb3ppbEdTbzhkV2lkcmNiRTVnaFJJZ2ROeGtHUU1maFRSLUk5V3ZMOF9ISkhTQXBfMGYtWWwwRzREMGRLdkxfdmY2WmU?oc=5",
+            "published": "Tue, 22 Sep 2026 12:51:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
           {
             "title": "India Sugar Import Shock Puts Allied Blenders And Globus Spirits In Focus - simplywall.st",
             "link": "https://news.google.com/rss/articles/CBMi-gFBVV95cUxOYlV4MFdaM29HUWp5MzJkVFc2OFNBMHI4THVVM2JoWnVDUVphY09iYnFJell2Z05hUllkRlA3SUh1anVtbTZUTDVQRTJGS3dfeU5iWHIxZUFrclJGZHNNQUlDajUtdmFraXR4LTlYVDZuWExjY1loU19hV2ZqNTV2Q3ZDc05MMXdzTmYyWV90LTI2V2djckkxT0xEVUtJVHp1c0IyRjJ1eENUUjNSbTY2cWMxV3VMbjJZd29XRzFTLW16cTJrQ1cwMGNBZmVuQjdtLVhiNmYxZEhXUnFZYmlXeEI2VTB5TUpsT1UtcEkyRTI3aWlfU0Z4b0Jn0gH_AUFVX3lxTE4zUHlPdEJmdU1QVDhMbl9HMjc4WnJHcE93ZkNROTA4TkNwNDJOWWJTNVppZ0VfbnNmWWpTVE85QXBUM2xjbWx4NW9lTU9TazF3VnBNSTBoUExHZEtiZDBULXFVRWpiTlhuWDNBbUhnUEpDUW5qbFFQdC1TUjRGN0dUQVRJQVhlNmNqd1lVbmExUHRUdWdDOTdOT0RTZTI2UDlXbVdlUUlLcDlsdmMyN0lNMV9VU21WZktsSGJfNFJETVNCd0RIeGVFT0owWmN6c0xzamxrV2FkUjQzUVlHZTRYREF3LUJDbkVTeF95THRmYURyMmhXRXd4azNYcFVpdw?oc=5",
@@ -745,8 +765,8 @@
         ]
       },
       "core_score": 22,
-      "combined_score": 79.7,
-      "added_at": "2026-09-24T14:13:26.133813",
+      "combined_score": 84.2,
+      "added_at": "2026-09-24T14:44:23.875428",
       "signal_state": "WATCHING",
       "first_seen_price": 692.5,
       "first_seen_at": "2026-09-24T12:16:39.649819"
