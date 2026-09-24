@@ -83,22 +83,22 @@
       "symbol": "RAYMONDREL",
       "base": {
         "symbol": "RAYMONDREL",
-        "price": 702.25,
-        "day_change": 4.81,
-        "volume": 15588057,
-        "avg_volume": 1919086,
-        "volume_ratio": 11.24,
+        "price": 701.85,
+        "day_change": 4.75,
+        "volume": 16171459,
+        "avg_volume": 1946867,
+        "volume_ratio": 10.38,
         "high_52w": 734.9,
-        "pct_from_high": 4.44,
-        "market_cap": 4673.57
+        "pct_from_high": 4.5,
+        "market_cap": 4670.91
       },
       "technical": {
         "symbol": "RAYMONDREL",
-        "close": 702.25,
-        "rsi": 73.92,
+        "close": 701.8499755859375,
+        "rsi": 73.88,
         "adx": 24.7,
         "atr": 32.31,
-        "volume_ratio": 7.76,
+        "volume_ratio": 7.94,
         "ema_alignment": false,
         "dema_alignment": true,
         "golden_cross": true,
@@ -135,8 +135,8 @@
           "Strong Volume"
         ],
         "stop_loss": 637.89,
-        "target1": 830.96,
-        "target2": 927.49,
+        "target1": 829.76,
+        "target2": 925.69,
         "resistance_20d": 717.0,
         "compression_score": 0
       },
@@ -155,7 +155,7 @@
       },
       "core_score": 23,
       "combined_score": 87.2,
-      "added_at": "2026-09-24T13:46:33.297169",
+      "added_at": "2026-09-24T14:15:16.584649",
       "signal_state": "WATCHING",
       "first_seen_price": 671.45,
       "first_seen_at": "2026-09-24T06:19:37.753560"
@@ -349,22 +349,22 @@
       "symbol": "GNA",
       "base": {
         "symbol": "GNA",
-        "price": 619.75,
-        "day_change": 4.18,
-        "volume": 6214119,
-        "avg_volume": 754492,
-        "volume_ratio": 11.44,
+        "price": 618.8,
+        "day_change": 4.02,
+        "volume": 6490151,
+        "avg_volume": 767637,
+        "volume_ratio": 10.6,
         "high_52w": 648.0,
-        "pct_from_high": 4.36,
-        "market_cap": 2660.64
+        "pct_from_high": 4.51,
+        "market_cap": 2656.56
       },
       "technical": {
         "symbol": "GNA",
-        "close": 619.75,
-        "rsi": 72.6,
+        "close": 618.7999877929688,
+        "rsi": 72.44,
         "adx": 20.07,
         "atr": 27.04,
-        "volume_ratio": 8.0,
+        "volume_ratio": 8.21,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -397,9 +397,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 565.68,
-        "target1": 727.89,
-        "target2": 809.0,
+        "stop_loss": 564.73,
+        "target1": 726.94,
+        "target2": 808.05,
         "resistance_20d": 648.0,
         "compression_score": 10
       },
@@ -432,7 +432,7 @@
       },
       "core_score": 23,
       "combined_score": 82.6,
-      "added_at": "2026-09-24T13:45:54.085695",
+      "added_at": "2026-09-24T14:14:14.698523",
       "signal_state": "WATCHING",
       "first_seen_price": 622.45,
       "first_seen_at": "2026-09-24T10:43:06.944071"
@@ -525,22 +525,22 @@
       "symbol": "MCX",
       "base": {
         "symbol": "MCX",
-        "price": 3454.0,
-        "day_change": 2.37,
-        "volume": 3350923,
-        "avg_volume": 1856229,
-        "volume_ratio": 2.5,
+        "price": 3433.6,
+        "day_change": 1.77,
+        "volume": 3574032,
+        "avg_volume": 1866854,
+        "volume_ratio": 2.4,
         "high_52w": 3480.0,
-        "pct_from_high": 0.75,
-        "market_cap": 87909.17
+        "pct_from_high": 1.33,
+        "market_cap": 87389.96
       },
       "technical": {
         "symbol": "MCX",
-        "close": 3454.0,
-        "rsi": 65.58,
+        "close": 3433.60009765625,
+        "rsi": 64.68,
         "adx": 23.07,
         "atr": 104.96,
-        "volume_ratio": 1.82,
+        "volume_ratio": 1.93,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -576,19 +576,27 @@
           "OBV Accumulation"
         ],
         "stop_loss": 3149.77,
-        "target1": 4062.46,
-        "target2": 4518.8,
+        "target1": 4001.26,
+        "target2": 4427.0,
         "resistance_20d": 3477.0,
         "compression_score": 25
       },
       "news": {
-        "score": 0,
-        "label": "No recent news",
-        "headlines": []
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "NSE debut puts BSE under pressure; \u20b94.45 lakh crore valuation nearly 2x BSE, MCX, IEX combined - Fortune India",
+            "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOT1BMcEM3V2wxS1BaWXB0a0RBZEwyVTYxb2ZLaEk4ajBWRzV6YmZseEZkOURhMWNjdXhpaGtWTnNIWkZPSUJQeEMtVGVmOUZGRjNaWi1ELThDeERMa0pZUDhndlJxQ3A3QW1ZWXpPUUtqTzZDcWpILTlIMlJDcVdtcm12b3dGYWFocGZ3OWI1MHJFN3lmOWh6VzlpbElvZFlqc1FMcmhJSTZFd2xGa0o4dnZZbjJfNUdjN2ppSFVuckVzWGdWZ01nUmM1eHBhQQ?oc=5",
+            "published": "Thu, 24 Sep 2026 08:21:17 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
       },
       "core_score": 22,
-      "combined_score": 80.5,
-      "added_at": "2026-09-24T13:46:14.641794",
+      "combined_score": 85.5,
+      "added_at": "2026-09-24T14:14:51.598307",
       "signal_state": "WATCHING",
       "first_seen_price": 3405.0,
       "first_seen_at": "2026-09-24T09:44:35.966227"
@@ -597,22 +605,22 @@
       "symbol": "CARBORUNIV",
       "base": {
         "symbol": "CARBORUNIV",
-        "price": 1303.0,
-        "day_change": 3.04,
-        "volume": 3104063,
-        "avg_volume": 519192,
-        "volume_ratio": 8.3,
+        "price": 1304.0,
+        "day_change": 3.12,
+        "volume": 3165486,
+        "avg_volume": 522117,
+        "volume_ratio": 7.63,
         "high_52w": 1368.9,
-        "pct_from_high": 4.81,
-        "market_cap": 24822.85
+        "pct_from_high": 4.74,
+        "market_cap": 24841.9
       },
       "technical": {
         "symbol": "CARBORUNIV",
-        "close": 1303.0,
-        "rsi": 73.93,
+        "close": 1304.0,
+        "rsi": 73.99,
         "adx": 23.87,
         "atr": 55.59,
-        "volume_ratio": 5.75,
+        "volume_ratio": 5.83,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -648,28 +656,20 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 1191.83,
-        "target1": 1525.35,
-        "target2": 1692.11,
+        "stop_loss": 1192.83,
+        "target1": 1526.35,
+        "target2": 1693.11,
         "resistance_20d": 1368.9000244140625,
         "compression_score": 0
       },
       "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "NSE Share Price - Upstox",
-            "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1YampiQS1ZVEFBaF9PbU1mcGROYjRFQzBtVXY2M1FYY3U0Vm0xSmhrbjFfT1g0NXVuVC1FbDhZUVRNbWdiRUFqaHhOVm16dmxibHBINA?oc=5",
-            "published": "Sat, 19 Sep 2026 03:00:03 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
+        "score": 0,
+        "label": "No recent news",
+        "headlines": []
       },
       "core_score": 23,
-      "combined_score": 85.2,
-      "added_at": "2026-09-24T13:45:42.313976",
+      "combined_score": 80.2,
+      "added_at": "2026-09-24T14:13:49.281487",
       "signal_state": "WATCHING",
       "first_seen_price": 1305.9,
       "first_seen_at": "2026-09-24T12:44:30.819913"
@@ -680,9 +680,9 @@
         "symbol": "ABDL",
         "price": 697.0,
         "day_change": 6.19,
-        "volume": 4756003,
-        "avg_volume": 579854,
-        "volume_ratio": 11.39,
+        "volume": 4996430,
+        "avg_volume": 591303,
+        "volume_ratio": 10.63,
         "high_52w": 711.7,
         "pct_from_high": 2.07,
         "market_cap": 19495.8
@@ -693,7 +693,7 @@
         "rsi": 72.12,
         "adx": 19.66,
         "atr": 23.29,
-        "volume_ratio": 7.98,
+        "volume_ratio": 8.21,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -746,7 +746,7 @@
       },
       "core_score": 22,
       "combined_score": 79.7,
-      "added_at": "2026-09-24T13:45:30.640135",
+      "added_at": "2026-09-24T14:13:26.133813",
       "signal_state": "WATCHING",
       "first_seen_price": 692.5,
       "first_seen_at": "2026-09-24T12:16:39.649819"
