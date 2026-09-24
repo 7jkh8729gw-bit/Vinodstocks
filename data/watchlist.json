@@ -83,22 +83,22 @@
       "symbol": "AARTIPHARM",
       "base": {
         "symbol": "AARTIPHARM",
-        "price": 946.45,
-        "day_change": 1.01,
-        "volume": 476938,
-        "avg_volume": 731572,
-        "volume_ratio": 2.11,
+        "price": 942.85,
+        "day_change": 0.62,
+        "volume": 515986,
+        "avg_volume": 733431,
+        "volume_ratio": 1.74,
         "high_52w": 957.3,
-        "pct_from_high": 1.13,
-        "market_cap": 8582.39
+        "pct_from_high": 1.51,
+        "market_cap": 8549.75
       },
       "technical": {
         "symbol": "AARTIPHARM",
-        "close": 946.4500122070312,
-        "rsi": 71.5,
+        "close": 942.8499755859375,
+        "rsi": 71.1,
         "adx": 25.53,
         "atr": 39.72,
-        "volume_ratio": 0.64,
+        "volume_ratio": 0.69,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -107,7 +107,7 @@
         "cup_and_handle": false,
         "bull_flag": false,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
@@ -116,23 +116,22 @@
           "3 White Soldiers"
         ],
         "setup": "DOUBLE BOTTOM",
-        "score": 65,
+        "score": 59,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
           "3 White Soldiers",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 867.02,
-        "target1": 1105.32,
-        "target2": 1224.47,
+        "stop_loss": 863.42,
+        "target1": 1101.72,
+        "target2": 1220.87,
         "resistance_20d": 957.2999877929688,
         "compression_score": 10
       },
@@ -156,9 +155,9 @@
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 70.8,
-      "added_at": "2026-09-24T11:11:57.578624",
+      "core_score": 19,
+      "combined_score": 63.9,
+      "added_at": "2026-09-24T11:47:16.453802",
       "signal_state": "WATCHING",
       "first_seen_price": 940.1,
       "first_seen_at": "2026-09-24T06:18:24.489620"
@@ -521,23 +520,23 @@
       "symbol": "RAYMONDREL",
       "base": {
         "symbol": "RAYMONDREL",
-        "price": 711.9,
-        "day_change": 6.25,
-        "volume": 11592631,
-        "avg_volume": 1728827,
-        "volume_ratio": 21.31,
+        "price": 710.5,
+        "day_change": 6.04,
+        "volume": 12982285,
+        "avg_volume": 1795001,
+        "volume_ratio": 17.73,
         "high_52w": 734.9,
-        "pct_from_high": 3.13,
-        "market_cap": 4737.8
+        "pct_from_high": 3.32,
+        "market_cap": 4728.48
       },
       "technical": {
         "symbol": "RAYMONDREL",
-        "close": 711.9000244140625,
-        "rsi": 74.93,
+        "close": 710.5,
+        "rsi": 74.79,
         "adx": 24.7,
         "atr": 32.31,
-        "volume_ratio": 6.41,
-        "ema_alignment": true,
+        "volume_ratio": 6.91,
+        "ema_alignment": false,
         "dema_alignment": true,
         "golden_cross": true,
         "double_bottom": true,
@@ -554,9 +553,8 @@
           "3 White Soldiers"
         ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 99,
+        "score": 91,
         "reasons": [
-          "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
@@ -573,9 +571,9 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 647.28,
-        "target1": 841.14,
-        "target2": 938.07,
+        "stop_loss": 645.88,
+        "target1": 839.74,
+        "target2": 936.67,
         "resistance_20d": 717.0,
         "compression_score": 0
       },
@@ -584,7 +582,7 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Raymond Realty (NSE:RAYMONDREL): Why Did Its Board Approve a Rs 409 Crore Preferential Issue? - Kalkine India",
+            "title": "Raymond Realty (NSE:RAYMONDREL): Why Did Its Board Approve a Rs 409 Crore Preferential Issue? - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPQUVqMU9DWnBJZ0hEWmVrX0ZMb0hSbFdmOFpMZWxNY0NBNjZkSEloZUIwbGtva2pXWlZBMUdwZTdtbHd0Zkd2Z0toeWlGVjh5OHNQdS16OXhRUFpCTEpTVEFZc05rX1psaVhtZTV2aUV0Tjl4TmRVQi1sZnY5blJEMjRRSkN4eUZrRm94UnZ6RmlRcy1BU1dmRFhud2prR3BoZkNwT1J3VzNXTTNjMkdWNnQzU0drWkZqMUZNSXI1dXdIbnp5LWNSdkRFbUpYNHQxb2c?oc=5",
             "published": "Fri, 11 Sep 2026 12:36:00 GMT",
             "score": 0,
@@ -593,8 +591,8 @@
         ]
       },
       "core_score": 20,
-      "combined_score": 89.4,
-      "added_at": "2026-09-24T11:13:09.414876",
+      "combined_score": 84.2,
+      "added_at": "2026-09-24T11:48:39.375833",
       "signal_state": "WATCHING",
       "first_seen_price": 671.45,
       "first_seen_at": "2026-09-24T06:19:37.753560"
@@ -1332,22 +1330,22 @@
       "symbol": "VINCOFE",
       "base": {
         "symbol": "VINCOFE",
-        "price": 186.64,
-        "day_change": 1.05,
-        "volume": 2534339,
-        "avg_volume": 3195106,
-        "volume_ratio": 2.52,
+        "price": 187.8,
+        "day_change": 1.68,
+        "volume": 2735271,
+        "avg_volume": 3204674,
+        "volume_ratio": 2.08,
         "high_52w": 191.35,
-        "pct_from_high": 2.46,
-        "market_cap": 2719.13
+        "pct_from_high": 1.86,
+        "market_cap": 2736.03
       },
       "technical": {
         "symbol": "VINCOFE",
-        "close": 186.63999938964844,
-        "rsi": 65.11,
+        "close": 187.8000030517578,
+        "rsi": 65.82,
         "adx": 30.54,
         "atr": 8.21,
-        "volume_ratio": 0.78,
+        "volume_ratio": 0.84,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1377,9 +1375,9 @@
           "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 170.21,
-        "target1": 219.49,
-        "target2": 244.14,
+        "stop_loss": 171.37,
+        "target1": 220.65,
+        "target2": 245.3,
         "resistance_20d": 191.35000610351562,
         "compression_score": 25
       },
@@ -1395,14 +1393,14 @@
             "label": "Neutral"
           },
           {
-            "title": "Vintage Coffee and Beverages VINCOFE Trading Window Closure - Kalkine India",
+            "title": "Vintage Coffee and Beverages VINCOFE Trading Window Closure - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNLVQxLVVMWVludTRkdldXY2dodXIwM1dBTVlpN3FzN3FVb0pPcGlESzVqZE9vT0lIa3hScHlPelU1YUY1dkQycjRVWTF6bmNqdWtqTjUzdjAyS2x0MFF6YVF3MHg0Z05yTEFueF82bWR2Y2xEQkpJdkpsY3ZGN1JweW9XckVuSzJ6WXFxcUNZbGp1QlA1NUR2LXZ3OUF2WVBBZDFQUjN4cGM2LTRUaUdUY0JTdnYzQW5HVzVXdW5ONUlJQjcwYklfTkUxRHlGYjdvbDJjeUdKSnl1dw?oc=5",
             "published": "Tue, 22 Sep 2026 08:03:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "Vintage Coffee VINCOFE: Burman Capital Plant Visit Sep 2026 - Kalkine India",
+            "title": "Vintage Coffee VINCOFE: Burman Capital Plant Visit Sep 2026 - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMXhUVDY3Q3ZIcFVjQ05wbTMtR3VrMXJOY185U1ZZOHJSVXlXLUFta2p4V1JUdVBSNDRVMm1HMTBBcDhxSWp2ZDl4N2p4V09QbDF4clRycTgteUhtYks0UUNkeWVleTEzczk1LXdlMGdjaG9uMWg5ZXMteG96c0Q4bkFsSjIwbmVMRVVhMTJiVXFCOXlmSnZfZU5sUTFUVWJ3UTdIcFRKUTl5X0VZc1lhdHR1czlhT2tVcHhudVZlY21jVEhoVWlpU3paZy1LMTlUMVQ0cg?oc=5",
             "published": "Thu, 10 Sep 2026 09:43:00 GMT",
             "score": 0,
@@ -1412,7 +1410,7 @@
       },
       "core_score": 22,
       "combined_score": 73.5,
-      "added_at": "2026-09-24T11:13:27.266645",
+      "added_at": "2026-09-24T11:49:10.240879",
       "signal_state": "WATCHING",
       "first_seen_price": 187.93,
       "first_seen_at": "2026-09-24T09:45:19.770762"
@@ -1421,22 +1419,22 @@
       "symbol": "MCX",
       "base": {
         "symbol": "MCX",
-        "price": 3425.8,
-        "day_change": 1.54,
-        "volume": 2207977,
-        "avg_volume": 1801803,
-        "volume_ratio": 3.93,
+        "price": 3430.0,
+        "day_change": 1.66,
+        "volume": 2420190,
+        "avg_volume": 1811909,
+        "volume_ratio": 3.27,
         "high_52w": 3480.0,
-        "pct_from_high": 1.56,
-        "market_cap": 87191.44
+        "pct_from_high": 1.44,
+        "market_cap": 87298.33
       },
       "technical": {
         "symbol": "MCX",
-        "close": 3425.800048828125,
-        "rsi": 64.32,
+        "close": 3430.0,
+        "rsi": 64.51,
         "adx": 22.94,
         "atr": 103.75,
-        "volume_ratio": 1.24,
+        "volume_ratio": 1.35,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1470,8 +1468,8 @@
           "OBV Accumulation"
         ],
         "stop_loss": 3149.77,
-        "target1": 3977.86,
-        "target2": 4391.9,
+        "target1": 3990.46,
+        "target2": 4410.8,
         "resistance_20d": 3460.0,
         "compression_score": 40
       },
@@ -1482,7 +1480,7 @@
       },
       "core_score": 25,
       "combined_score": 74.4,
-      "added_at": "2026-09-24T11:12:57.023080",
+      "added_at": "2026-09-24T11:48:21.183730",
       "signal_state": "WATCHING",
       "first_seen_price": 3405.0,
       "first_seen_at": "2026-09-24T09:44:35.966227"
@@ -1491,22 +1489,22 @@
       "symbol": "SHYAMMETL",
       "base": {
         "symbol": "SHYAMMETL",
-        "price": 1120.5,
-        "day_change": 1.6,
-        "volume": 671689,
-        "avg_volume": 661650,
-        "volume_ratio": 3.23,
+        "price": 1120.0,
+        "day_change": 1.55,
+        "volume": 718278,
+        "avg_volume": 663868,
+        "volume_ratio": 2.65,
         "high_52w": 1148.0,
-        "pct_from_high": 2.4,
-        "market_cap": 31186.49
+        "pct_from_high": 2.44,
+        "market_cap": 31172.57
       },
       "technical": {
         "symbol": "SHYAMMETL",
-        "close": 1120.5,
-        "rsi": 66.74,
+        "close": 1120.0,
+        "rsi": 66.65,
         "adx": 19.28,
         "atr": 31.68,
-        "volume_ratio": 1.0,
+        "volume_ratio": 1.06,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1536,8 +1534,8 @@
           "MACD Bullish"
         ],
         "stop_loss": 1047.93,
-        "target1": 1265.63,
-        "target2": 1374.48,
+        "target1": 1264.13,
+        "target2": 1372.23,
         "resistance_20d": 1148.0,
         "compression_score": 40
       },
@@ -1546,14 +1544,14 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Shyam Metalics ESG Rating 53 by CRISIL \u2013 NSE:SHYAMMETL - Kalkine India",
+            "title": "Shyam Metalics ESG Rating 53 by CRISIL \u2013 NSE:SHYAMMETL - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOMUVUR0d0dmUwTVRfb3VLNEV2cE1rTGN5V0RSLXI3NHBkTVBiUzRES2xqYWNUSmJlUHFpbXdkOW5wZWdfRlZCVk1yNGtPNW9UR0RBSzd5U3ltWDc1SExjcjFVVUNwWVZlRjRRbHB0cXR5cF91NWVZQ3NDXzI2RWJvdHlFMVd5R1N4V0VUZHU3dVBBcTF6WGRTX3lHcXFrS0VQNEVJcW9rVzNodVp0UlAzbnd2dFpWWTFpZDFBRlZpbTVtenBZZzZ5VDdXQTZjUQ?oc=5",
             "published": "Wed, 16 Sep 2026 05:13:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "5 Ferro Alloys Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "title": "5 Ferro Alloys Stocks India 2026: Strong Future Roadmaps - Univest",
             "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBGNzMxd01qakNHbXJrTExIQUZXMjluRG9iRVcyNkpIY05kX0tubUZkNDRzZU4xTm43N3B6ZDl3ZEJrT2JINUk1Q2hTdjNLR3JoTlVWbFM4UTNnOWdPTk42SWFYSjZyaFcwdktDRHJJclZDMkFqZkgxWnYwNA?oc=5",
             "published": "Wed, 26 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -1561,9 +1559,9 @@
           }
         ]
       },
-      "core_score": 25,
-      "combined_score": 76.0,
-      "added_at": "2026-09-24T11:13:16.153811",
+      "core_score": 22,
+      "combined_score": 73.0,
+      "added_at": "2026-09-24T11:48:51.165305",
       "signal_state": "WATCHING",
       "first_seen_price": 1135.0,
       "first_seen_at": "2026-09-24T09:45:03.413014"
@@ -1839,22 +1837,22 @@
       "symbol": "INDORAMA",
       "base": {
         "symbol": "INDORAMA",
-        "price": 105.4,
-        "day_change": 5.4,
-        "volume": 1733957,
-        "avg_volume": 2635398,
-        "volume_ratio": 2.11,
+        "price": 104.59,
+        "day_change": 4.59,
+        "volume": 1964927,
+        "avg_volume": 2646396,
+        "volume_ratio": 1.82,
         "high_52w": 112.3,
-        "pct_from_high": 6.14,
-        "market_cap": 2752.13
+        "pct_from_high": 6.87,
+        "market_cap": 2730.98
       },
       "technical": {
         "symbol": "INDORAMA",
-        "close": 105.4000015258789,
-        "rsi": 79.89,
+        "close": 104.58999633789062,
+        "rsi": 79.53,
         "adx": 60.72,
         "atr": 7.33,
-        "volume_ratio": 0.63,
+        "volume_ratio": 0.71,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1882,9 +1880,9 @@
           "ADX Rising (Strengthening Trend)",
           "OBV Accumulation"
         ],
-        "stop_loss": 90.74,
-        "target1": 134.71,
-        "target2": 156.69,
+        "stop_loss": 89.93,
+        "target1": 133.9,
+        "target2": 155.88,
         "resistance_20d": 112.30000305175781,
         "compression_score": 0
       },
@@ -1907,7 +1905,7 @@
             "label": "Neutral"
           },
           {
-            "title": "5 Under the Radar Synthetic Fibers and Textile Intermediates Stocks in India 2026 - univest.in",
+            "title": "5 Under the Radar Synthetic Fibers and Textile Intermediates Stocks in India 2026 - Univest",
             "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQdmdubWVTekM5MVhCbGM5VkRNNGtnNXl6RGYxaW5NYjZWbGJWNHNzRjVSUEg1MlhGVDhpQWJZX29Ybk96cVllY0REcVdieGtBZU8tLUlUazRkWG9VUlpuNDQxazVub3hrd2VyQktwUEQ4NWU0eEpjZFZzWEJoZExIcjRWU1Z6dzJNRl8zdF9TWUc4bzNBeE1CeHdUWnVxeS1n?oc=5",
             "published": "Tue, 25 Aug 2026 07:00:00 GMT",
             "score": 0,
@@ -1924,7 +1922,7 @@
       },
       "core_score": 17,
       "combined_score": 53.9,
-      "added_at": "2026-09-24T11:12:40.768008",
+      "added_at": "2026-09-24T11:48:04.530298",
       "signal_state": "WATCHING",
       "first_seen_price": 103.42,
       "first_seen_at": "2026-09-24T09:44:19.857371"
@@ -2108,22 +2106,22 @@
       "symbol": "GODREJAGRO",
       "base": {
         "symbol": "GODREJAGRO",
-        "price": 684.0,
-        "day_change": 2.08,
-        "volume": 521593,
-        "avg_volume": 858976,
-        "volume_ratio": 1.95,
+        "price": 683.7,
+        "day_change": 2.04,
+        "volume": 548203,
+        "avg_volume": 860243,
+        "volume_ratio": 1.57,
         "high_52w": 727.0,
-        "pct_from_high": 5.91,
-        "market_cap": 13160.94
+        "pct_from_high": 5.96,
+        "market_cap": 13155.17
       },
       "technical": {
         "symbol": "GODREJAGRO",
-        "close": 684.0,
-        "rsi": 65.53,
+        "close": 683.7000122070312,
+        "rsi": 65.46,
         "adx": 32.11,
         "atr": 22.83,
-        "volume_ratio": 0.6,
+        "volume_ratio": 0.63,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2153,8 +2151,8 @@
           "OBV Accumulation"
         ],
         "stop_loss": 626.95,
-        "target1": 798.1,
-        "target2": 883.68,
+        "target1": 797.2,
+        "target2": 882.33,
         "resistance_20d": 698.4000244140625,
         "compression_score": 25
       },
@@ -2163,7 +2161,7 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Godrej Agrovet ESGS 2018 Stock Option Grant and Lapse - Kalkine India",
+            "title": "Godrej Agrovet ESGS 2018 Stock Option Grant and Lapse - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQQmRDMFpaNjZweWw4MWJGRzdFRG02VGdZMWt5cHVWc3VxT0x2bFpiNVhtd1FGOV9kdXVLaWh3T01YRlVfcE1NZ0ZMNVVPczZ4STRoS1lpaThLUGZ6anFxSUR4WWd6NWNyWURGUWl5T1Qzd211WFpDUzhmaHdaWU9PRE5MQkVDTmYyY3BDbjlhODFqbW82cWlhaFIxVEhQWG1BeHJlU3YwNDVNQWJZRGZiZVFZZVdWREtLVFhEYW9XVF9fa1pFYUpDZkk5WQ?oc=5",
             "published": "Wed, 23 Sep 2026 09:55:00 GMT",
             "score": 0,
@@ -2177,14 +2175,14 @@
             "label": "Neutral"
           },
           {
-            "title": "Godrej Agrovet (NSE:GODREJAGRO) and India's Agri Chain - Kalkine India",
+            "title": "Godrej Agrovet (NSE:GODREJAGRO) and India's Agri Chain - kalkine.co.in",
             "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPbTFNS0taOEtQelZJcTFtUVI1SllDUXJuWU1qN1J1Z3VIN2Q1ckgwYXNnYU0xTl9Kcm5LR19ZWld1WjhlV0xtdlJmR1VORGJpTWpFZ2NoeEw0VjRYXzJBWjFybG5hSlhIZWlxbVB4TUoybk9icnRsYTJJbkRwX2dwRi1abkdFZmNtclBvVmZsM2ZYdzdhQ3dCby1aanczcnhlSWI0enZn?oc=5",
             "published": "Thu, 10 Sep 2026 16:55:00 GMT",
             "score": 0,
             "label": "Neutral"
           },
           {
-            "title": "5 Poultry and Animal Feed Stocks India 2026: Future Roadmaps - univest.in",
+            "title": "5 Poultry and Animal Feed Stocks India 2026: Future Roadmaps - Univest",
             "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQVXltSGZWY21yMUk0NmpBTnI4M2VETUFsUU9VRVBZM3RBWEVSdzFNQjFVbUk3c095RmFjOXRXSGFKV3Q1d0g3bDFEQXVXZzEzY1lYSUNhRmV0YzQ2UTk4aHhDUHR4c1ZlT2hUb0llVms4bUc0LXpsSVlreHAyX3ZVZnJFOWk0VDdhakE?oc=5",
             "published": "Thu, 27 Aug 2026 07:00:00 GMT",
             "score": 0,
@@ -2201,7 +2199,7 @@
       },
       "core_score": 17,
       "combined_score": 67.8,
-      "added_at": "2026-09-24T11:12:31.614048",
+      "added_at": "2026-09-24T11:47:53.838561",
       "signal_state": "WATCHING",
       "first_seen_price": 684.45,
       "first_seen_at": "2026-09-24T10:13:14.547458"
@@ -2390,22 +2388,22 @@
       "symbol": "GNA",
       "base": {
         "symbol": "GNA",
-        "price": 630.95,
-        "day_change": 6.06,
-        "volume": 1946517,
-        "avg_volume": 551273,
-        "volume_ratio": 11.32,
-        "high_52w": 634.4,
-        "pct_from_high": 0.54,
-        "market_cap": 2708.72
+        "price": 641.55,
+        "day_change": 7.84,
+        "volume": 2845436,
+        "avg_volume": 594079,
+        "volume_ratio": 11.82,
+        "high_52w": 644.0,
+        "pct_from_high": 0.38,
+        "market_cap": 2754.23
       },
       "technical": {
         "symbol": "GNA",
-        "close": 630.9500122070312,
-        "rsi": 74.41,
-        "adx": 19.76,
-        "atr": 26.06,
-        "volume_ratio": 3.45,
+        "close": 641.5499877929688,
+        "rsi": 75.92,
+        "adx": 19.98,
+        "atr": 26.75,
+        "volume_ratio": 4.68,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -2421,7 +2419,7 @@
         "obv_accumulation": true,
         "patterns": [],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 77,
+        "score": 81,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -2432,14 +2430,15 @@
           "Confirmed Breakout",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
+          "ADX Rising (Strengthening Trend)",
           "Volume Expansion",
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 578.82,
-        "target1": 735.21,
-        "target2": 813.4,
-        "resistance_20d": 634.4000244140625,
+        "stop_loss": 588.05,
+        "target1": 748.55,
+        "target2": 828.8,
+        "resistance_20d": 644.0,
         "compression_score": 10
       },
       "news": {
@@ -2461,7 +2460,7 @@
             "label": "Neutral"
           },
           {
-            "title": "GNA Axles Share Price near 52-week high: price, valuation - univest.in",
+            "title": "GNA Axles Share Price near 52-week high: price, valuation - Univest",
             "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNdXFLU0ZjcHR5bFB2ZW0ySFdYYmJlbUFZZUlIUk0zRnVaUktEb3VOaDFBSmd2TEdPb25RVl9ocG9mbDBqMWUxTkZDdTlQTkYxR1pTY0tXQ0xXc1hUbHZySV9yZjNENXk0cUZaaVdFQlRUa0huN0NPaTdyVlZRSUw5djVPWFFsclFlTmln?oc=5",
             "published": "Wed, 23 Sep 2026 06:19:00 GMT",
             "score": 0,
@@ -2470,8 +2469,8 @@
         ]
       },
       "core_score": 22,
-      "combined_score": 77.1,
-      "added_at": "2026-09-24T11:12:31.284825",
+      "combined_score": 79.7,
+      "added_at": "2026-09-24T11:47:52.087976",
       "signal_state": "WATCHING",
       "first_seen_price": 622.45,
       "first_seen_at": "2026-09-24T10:43:06.944071"
