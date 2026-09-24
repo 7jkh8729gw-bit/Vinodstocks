@@ -83,22 +83,22 @@
       "symbol": "AARTIPHARM",
       "base": {
         "symbol": "AARTIPHARM",
-        "price": 940.1,
-        "day_change": 6.38,
-        "volume": 2945650,
-        "avg_volume": 729471,
-        "volume_ratio": 4.04,
+        "price": 953.3,
+        "day_change": 1.74,
+        "volume": 201906,
+        "avg_volume": 718475,
+        "volume_ratio": 3.76,
         "high_52w": 957.3,
-        "pct_from_high": 1.8,
-        "market_cap": 8524.81
+        "pct_from_high": 0.42,
+        "market_cap": 8644.51
       },
       "technical": {
         "symbol": "AARTIPHARM",
-        "close": 940.0999755859375,
-        "rsi": 70.79,
-        "adx": 24.72,
-        "atr": 40.18,
-        "volume_ratio": 3.96,
+        "close": 953.2999877929688,
+        "rsi": 72.23,
+        "adx": 25.53,
+        "atr": 39.54,
+        "volume_ratio": 0.27,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -108,15 +108,15 @@
         "bull_flag": false,
         "hh_hl": true,
         "near_breakout": true,
-        "breakout": true,
+        "breakout": false,
         "macd_bullish": true,
-        "macd_cross": true,
+        "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
           "3 White Soldiers"
         ],
-        "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 87,
+        "setup": "DOUBLE BOTTOM",
+        "score": 65,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
@@ -124,18 +124,15 @@
           "Higher High / Higher Low",
           "Double Bottom",
           "Near Breakout",
-          "Confirmed Breakout",
           "3 White Soldiers",
           "RSI Rising (Building Momentum)",
-          "MACD Bullish Crossover",
+          "MACD Bullish",
           "ADX Trend Strength",
-          "Volume Expansion",
-          "OBV Accumulation",
-          "Strong Volume"
+          "OBV Accumulation"
         ],
-        "stop_loss": 859.73,
-        "target1": 1100.84,
-        "target2": 1221.39,
+        "stop_loss": 874.22,
+        "target1": 1111.46,
+        "target2": 1230.07,
         "resistance_20d": 957.2999877929688,
         "compression_score": 10
       },
@@ -159,9 +156,10 @@
           }
         ]
       },
-      "core_score": 22,
-      "combined_score": 85.1,
-      "added_at": "2026-09-24T06:18:24.489620",
+      "core_score": 25,
+      "combined_score": 73.8,
+      "added_at": "2026-09-24T09:43:36.336819",
+      "signal_state": "WATCHING",
       "first_seen_price": 940.1,
       "first_seen_at": "2026-09-24T06:18:24.489620"
     },
@@ -523,22 +521,22 @@
       "symbol": "RAYMONDREL",
       "base": {
         "symbol": "RAYMONDREL",
-        "price": 671.45,
-        "day_change": 13.61,
-        "volume": 12802316,
-        "avg_volume": 1181094,
-        "volume_ratio": 10.84,
+        "price": 702.0,
+        "day_change": 4.78,
+        "volume": 4439882,
+        "avg_volume": 1388220,
+        "volume_ratio": 41.36,
         "high_52w": 734.9,
-        "pct_from_high": 8.63,
-        "market_cap": 4468.6
+        "pct_from_high": 4.48,
+        "market_cap": 4671.91
       },
       "technical": {
         "symbol": "RAYMONDREL",
-        "close": 671.4500122070312,
-        "rsi": 70.09,
-        "adx": 22.31,
-        "atr": 30.6,
-        "volume_ratio": 10.36,
+        "close": 702.0,
+        "rsi": 73.9,
+        "adx": 24.58,
+        "atr": 31.74,
+        "volume_ratio": 3.06,
         "ema_alignment": false,
         "dema_alignment": true,
         "golden_cross": true,
@@ -552,9 +550,11 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [],
+        "patterns": [
+          "3 White Soldiers"
+        ],
         "setup": "GOLDEN CROSS + BREAKOUT",
-        "score": 87,
+        "score": 91,
         "reasons": [
           "DEMA bullish alignment",
           "Golden Cross",
@@ -563,6 +563,7 @@
           "Inverse Head & Shoulders",
           "Near Breakout",
           "Confirmed Breakout",
+          "3 White Soldiers",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -572,9 +573,9 @@
           "Strong Volume"
         ],
         "stop_loss": 637.89,
-        "target1": 738.56,
-        "target2": 788.89,
-        "resistance_20d": 679.0,
+        "target1": 830.21,
+        "target2": 926.37,
+        "resistance_20d": 709.0,
         "compression_score": 0
       },
       "news": {
@@ -590,9 +591,10 @@
           }
         ]
       },
-      "core_score": 17,
-      "combined_score": 78.6,
-      "added_at": "2026-09-24T06:19:37.753560",
+      "core_score": 23,
+      "combined_score": 87.2,
+      "added_at": "2026-09-24T09:44:53.373691",
+      "signal_state": "WATCHING",
       "first_seen_price": 671.45,
       "first_seen_at": "2026-09-24T06:19:37.753560"
     },
@@ -1181,22 +1183,22 @@
       "symbol": "WELSPUNLIV",
       "base": {
         "symbol": "WELSPUNLIV",
-        "price": 223.77,
-        "day_change": 1.02,
-        "volume": 12078998,
-        "avg_volume": 4252429,
-        "volume_ratio": 2.84,
+        "price": 226.99,
+        "day_change": 1.56,
+        "volume": 1567549,
+        "avg_volume": 4214337,
+        "volume_ratio": 4.65,
         "high_52w": 233.0,
-        "pct_from_high": 3.96,
-        "market_cap": 21214.74
+        "pct_from_high": 2.58,
+        "market_cap": 21520.01
       },
       "technical": {
         "symbol": "WELSPUNLIV",
-        "close": 223.77000427246094,
-        "rsi": 76.92,
-        "adx": 43.59,
-        "atr": 7.42,
-        "volume_ratio": 2.78,
+        "close": 226.99000549316406,
+        "rsi": 78.57,
+        "adx": 43.82,
+        "atr": 7.51,
+        "volume_ratio": 0.36,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -1205,31 +1207,28 @@
         "cup_and_handle": false,
         "bull_flag": false,
         "hh_hl": true,
-        "near_breakout": true,
+        "near_breakout": false,
         "breakout": false,
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 71,
+        "score": 55,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
           "Double Bottom",
-          "Near Breakout",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
           "ADX Trend Strength",
-          "Volume Expansion",
-          "OBV Accumulation",
-          "Strong Volume"
+          "OBV Accumulation"
         ],
-        "stop_loss": 208.92,
-        "target1": 253.47,
-        "target2": 275.74,
+        "stop_loss": 211.98,
+        "target1": 257.02,
+        "target2": 279.54,
         "resistance_20d": 233.0,
         "compression_score": 10
       },
@@ -1238,7 +1237,7 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "5 Textile Stocks India 2026: Strong Future Roadmaps - Univest",
+            "title": "5 Textile Stocks India 2026: Strong Future Roadmaps - univest.in",
             "link": "https://news.google.com/rss/articles/CBMidEFVX3lxTE83OGxwYlFoSEt4c1dJSmYxVkhZSzByU0xHMHhiSmk5T2lIS1NZcUdWWGNXb1Y5TXFHd01IcFA1cUpBMnpFRXJvWjIyZ0NhWDJaM1NTRjI5cUlrOXFhc1YycmUzLWZuRHpUd3lpV2FJVjlhNlJt?oc=5",
             "published": "Tue, 25 Aug 2026 07:00:00 GMT",
             "score": 1,
@@ -1253,9 +1252,10 @@
           }
         ]
       },
-      "core_score": 20,
-      "combined_score": 71.7,
-      "added_at": "2026-09-24T06:20:05.028179",
+      "core_score": 25,
+      "combined_score": 66.2,
+      "added_at": "2026-09-24T09:45:22.321314",
+      "signal_state": "WATCHING",
       "first_seen_price": 223.77,
       "first_seen_at": "2026-09-24T06:20:05.028179"
     },
@@ -1326,6 +1326,774 @@
       "added_at": "2026-09-24T06:20:05.828507",
       "first_seen_price": 2329.7,
       "first_seen_at": "2026-09-24T06:20:05.828507"
+    },
+    {
+      "symbol": "VINCOFE",
+      "base": {
+        "symbol": "VINCOFE",
+        "price": 187.93,
+        "day_change": 1.75,
+        "volume": 1623712,
+        "avg_volume": 3151743,
+        "volume_ratio": 6.44,
+        "high_52w": 191.35,
+        "pct_from_high": 1.79,
+        "market_cap": 2737.49
+      },
+      "technical": {
+        "symbol": "VINCOFE",
+        "close": 187.92999267578125,
+        "rsi": 65.9,
+        "adx": 30.54,
+        "atr": 8.21,
+        "volume_ratio": 0.51,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": true,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 70,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish Crossover",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 171.5,
+        "target1": 220.78,
+        "target2": 245.43,
+        "resistance_20d": 191.35000610351562,
+        "compression_score": 25
+      },
+      "news": {
+        "score": 60,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Vintage Coffee to CCL Products: Coffee stocks surge on high global prices, supply concerns; what investors should know - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMihAJBVV95cUxOckpibnV3djJLQWJZYnpDb0hCLWM4MHdPSkI4R3dsM3hEdjJDSGJZeVpiSHlqell3MXh1dUZUMmtEUzlLRGhXbDlEUXVCY1lObG1OMFVmRDJTYkJXRUtmNmhGclVQcng3RFVwcHBPSi1Mck5iUFIwb2VaMlNLWDh5Rm1JdWxwYkJvaDNUdEF2M1JWNTg5RGYwVDVSX00yY1JOenZSY2t0bWNzMXlaNXRqQVJBbVNISDdfR0pGSW9JVjN2ZHFoVGNtaGdIMXpnaDdTQXlLZnBLakwzSzRuOXdpa25aa01VbXVrejAwWVQzRFhBTzBSTU96MWdyTVlQMFFNOGFjeA?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Vintage Coffee and Beverages VINCOFE Trading Window Closure - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNLVQxLVVMWVludTRkdldXY2dodXIwM1dBTVlpN3FzN3FVb0pPcGlESzVqZE9vT0lIa3hScHlPelU1YUY1dkQycjRVWTF6bmNqdWtqTjUzdjAyS2x0MFF6YVF3MHg0Z05yTEFueF82bWR2Y2xEQkpJdkpsY3ZGN1JweW9XckVuSzJ6WXFxcUNZbGp1QlA1NUR2LXZ3OUF2WVBBZDFQUjN4cGM2LTRUaUdUY0JTdnYzQW5HVzVXdW5ONUlJQjcwYklfTkUxRHlGYjdvbDJjeUdKSnl1dw?oc=5",
+            "published": "Tue, 22 Sep 2026 08:03:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Vintage Coffee VINCOFE: Burman Capital Plant Visit Sep 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMXhUVDY3Q3ZIcFVjQ05wbTMtR3VrMXJOY185U1ZZOHJSVXlXLUFta2p4V1JUdVBSNDRVMm1HMTBBcDhxSWp2ZDl4N2p4V09QbDF4clRycTgteUhtYks0UUNkeWVleTEzczk1LXdlMGdjaG9uMWg5ZXMteG96c0Q4bkFsSjIwbmVMRVVhMTJiVXFCOXlmSnZfZU5sUTFUVWJ3UTdIcFRKUTl5X0VZc1lhdHR1czlhT2tVcHhudVZlY21jVEhoVWlpU3paZy1LMTlUMVQ0cg?oc=5",
+            "published": "Thu, 10 Sep 2026 09:43:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 25,
+      "combined_score": 76.5,
+      "added_at": "2026-09-24T09:45:19.770762",
+      "first_seen_price": 187.93,
+      "first_seen_at": "2026-09-24T09:45:19.770762"
+    },
+    {
+      "symbol": "MCX",
+      "base": {
+        "symbol": "MCX",
+        "price": 3405.0,
+        "day_change": 0.92,
+        "volume": 1043777,
+        "avg_volume": 1746365,
+        "volume_ratio": 7.73,
+        "high_52w": 3480.0,
+        "pct_from_high": 2.16,
+        "market_cap": 86662.05
+      },
+      "technical": {
+        "symbol": "MCX",
+        "close": 3405.0,
+        "rsi": 63.33,
+        "adx": 22.76,
+        "atr": 102.04,
+        "volume_ratio": 0.6,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": true,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [
+          "3 White Soldiers"
+        ],
+        "setup": "DOUBLE BOTTOM",
+        "score": 76,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Cup and Handle",
+          "Near Breakout",
+          "3 White Soldiers",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 3149.77,
+        "target1": 3915.46,
+        "target2": 4298.3,
+        "resistance_20d": 3436.10009765625,
+        "compression_score": 40
+      },
+      "news": {
+        "score": 0,
+        "label": "No recent news",
+        "headlines": []
+      },
+      "core_score": 25,
+      "combined_score": 74.4,
+      "added_at": "2026-09-24T09:44:35.966227",
+      "first_seen_price": 3405.0,
+      "first_seen_at": "2026-09-24T09:44:35.966227"
+    },
+    {
+      "symbol": "SHYAMMETL",
+      "base": {
+        "symbol": "SHYAMMETL",
+        "price": 1135.0,
+        "day_change": 2.91,
+        "volume": 313658,
+        "avg_volume": 644600,
+        "volume_ratio": 6.08,
+        "high_52w": 1142.9,
+        "pct_from_high": 0.69,
+        "market_cap": 31590.06
+      },
+      "technical": {
+        "symbol": "SHYAMMETL",
+        "close": 1135.0,
+        "rsi": 69.22,
+        "adx": 19.14,
+        "atr": 31.32,
+        "volume_ratio": 0.48,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": true,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": false,
+        "patterns": [],
+        "setup": "INVERSE HEAD & SHOULDERS",
+        "score": 64,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Inverse Head & Shoulders",
+          "Near Breakout",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish"
+        ],
+        "stop_loss": 1047.93,
+        "target1": 1309.13,
+        "target2": 1439.73,
+        "resistance_20d": 1142.9000244140625,
+        "compression_score": 40
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Shyam Metalics ESG Rating 53 by CRISIL \u2013 NSE:SHYAMMETL - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOMUVUR0d0dmUwTVRfb3VLNEV2cE1rTGN5V0RSLXI3NHBkTVBiUzRES2xqYWNUSmJlUHFpbXdkOW5wZWdfRlZCVk1yNGtPNW9UR0RBSzd5U3ltWDc1SExjcjFVVUNwWVZlRjRRbHB0cXR5cF91NWVZQ3NDXzI2RWJvdHlFMVd5R1N4V0VUZHU3dVBBcTF6WGRTX3lHcXFrS0VQNEVJcW9rVzNodVp0UlAzbnd2dFpWWTFpZDFBRlZpbTVtenBZZzZ5VDdXQTZjUQ?oc=5",
+            "published": "Wed, 16 Sep 2026 05:13:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 Ferro Alloys Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBGNzMxd01qakNHbXJrTExIQUZXMjluRG9iRVcyNkpIY05kX0tubUZkNDRzZU4xTm43N3B6ZDl3ZEJrT2JINUk1Q2hTdjNLR3JoTlVWbFM4UTNnOWdPTk42SWFYSjZyaFcwdktDRHJJclZDMkFqZkgxWnYwNA?oc=5",
+            "published": "Wed, 26 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 25,
+      "combined_score": 72.1,
+      "added_at": "2026-09-24T09:45:03.413014",
+      "first_seen_price": 1135.0,
+      "first_seen_at": "2026-09-24T09:45:03.413014"
+    },
+    {
+      "symbol": "JSWINFRA",
+      "base": {
+        "symbol": "JSWINFRA",
+        "price": 364.95,
+        "day_change": 0.37,
+        "volume": 1414504,
+        "avg_volume": 4228373,
+        "volume_ratio": 4.33,
+        "high_52w": 375.5,
+        "pct_from_high": 2.81,
+        "market_cap": 84491.83
+      },
+      "technical": {
+        "symbol": "JSWINFRA",
+        "close": 364.95001220703125,
+        "rsi": 66.46,
+        "adx": 19.31,
+        "atr": 11.24,
+        "volume_ratio": 0.33,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 62,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Rising (Strengthening Trend)",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 329.94,
+        "target1": 434.97,
+        "target2": 487.48,
+        "resistance_20d": 375.5,
+        "compression_score": 25
+      },
+      "news": {
+        "score": 55,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "5 Port Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1Tamo1ZjBaSlUzVFMzWG5zRk95V2JGWlB0dWhOTzgtQVI3RFBpb3QxeEhaaUxHU3B3YnA5c056R1I5YmdLTlU0OE5PeHZOam1CSU41RXE2QnhtM2tlQXlIU3RRWXRqc0toVUlqbnZxenI?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 25,
+      "combined_score": 70.8,
+      "added_at": "2026-09-24T09:44:24.847500",
+      "first_seen_price": 364.95,
+      "first_seen_at": "2026-09-24T09:44:24.847500"
+    },
+    {
+      "symbol": "SAILIFE",
+      "base": {
+        "symbol": "SAILIFE",
+        "price": 1624.8,
+        "day_change": 0.86,
+        "volume": 206118,
+        "avg_volume": 862727,
+        "volume_ratio": 3.09,
+        "high_52w": 1697.0,
+        "pct_from_high": 4.25,
+        "market_cap": 34513.71
+      },
+      "technical": {
+        "symbol": "SAILIFE",
+        "close": 1624.800048828125,
+        "rsi": 63.85,
+        "adx": 30.08,
+        "atr": 49.01,
+        "volume_ratio": 0.23,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS",
+        "score": 47,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Moderate Compression",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "ADX Trend Strength",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 1486.93,
+        "target1": 1900.54,
+        "target2": 2107.35,
+        "resistance_20d": 1697.0,
+        "compression_score": 55
+      },
+      "news": {
+        "score": 65,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "Lenskart, Sai Life Sciences, Redington among six NIFTY 500 stocks touching all-time high on Sept 8; check full list - Upstox",
+            "link": "https://news.google.com/rss/articles/CBMigAJBVV95cUxQRUlNRFR3OEE4Y1d0R1BEU0pHcWRmQW1oVVhPenM0M283LXVvVHB0SmN5a1JtejFHMmFlbGZQdmJqZWx4QWNxU2ZlN1RiM0dxWndTLW1mVkdmTHFweERzSzFpektReG5jc1l4V2doUld1Tm1BS3dWLTNsQzBYTWVheWNKZVdpaWRkcnBGUExVcURHUkhuLWN0WW1MYjR1MGUza3U4Nm1XS1FwVVFCYVNLUVpWQU1lSV8zQ3RhTGU2d0dFdUVOZGVTUS1NeERleXJVU1hhRnF6RXVJN0lKN0pwSkUzRmVheDhuVWQ2N0V2eEhGVFl0a1d4UHdYVndvaVNl?oc=5",
+            "published": "Tue, 08 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Sai Life Science Yearly results, Financial Summary - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOMl90WEk3d3lxODlNQ2Q3NWhfX3BKQ0lDSFEzU29SeXF5cXFZRWNSa3EwXy1PalJZUi0yQWh4OHRaUW1XVzFXWEVJRV9YMnNqbm5ESWduU3B3MjNKekgxaGFhYjVHMDRqTDBZb0N4bXhOWWZyUjhEbnJ4MGQ1QVd2bUZlbmM0ZlMtdWtKejNCdw?oc=5",
+            "published": "Fri, 11 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Sai Life Sciences Share Price: Buy or Sell - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5vSURxeE5ndHk1c0UxeXJMRkttUEZYdE5MUHRpUUhEcFNUcVFsQzc2akVfbEJvZXpZNWZmWGRkMGRGMXlSa2t6RlI5dVR2UEswNUNBaF9vRG1TUDJvSDBjMWFMMWNRZDZUcF9LbWhHYjlQVGRFbDJYa25rYw?oc=5",
+            "published": "Thu, 03 Sep 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Sai Life Sciences Ltd Shareholding Pattern \u2013 Promoters, FIIs & DIIs - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNaVJiX2pIUkVUT3JkRE5DV2dEaUhPT2NYdUY1dmxlanNkblNwOHpmMTZqRVNSNnFHVUpKeHRBcThzc0Q4ZDA5UURQWExOTzZKdVk3Y19yb2tyRHlQU0Z2di1lTElxTm5IaVlpZnc3WkF1VXloX0xORXlHRFJFZkhUTlpDZGRBb1lJTWI5UnpB?oc=5",
+            "published": "Sat, 29 Aug 2026 13:14:03 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Do Sai Life Sciences' (NSE:SAILIFE) Earnings Warrant Your Attention? - simplywall.st",
+            "link": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQNmtRU1RwSGF2R1RGWGpoQ2xGcVlIRno4eEljNzU2RDRxQXBhNWRraUxGV0p6a2lYSnpQOTI3TC1vX3AtV2l0RnJISDJ0SWI2TXZlbWxnVWRSVTQ4NmhQTnAyT2h4WmhGMmJkT0RwVlZneWtsVTM4c0c0a3dKT29JSEhXOEVXUkZ5NklWY2N5WXRDcllpUHdwWWpBbDBBVWEwNk1MandSdXp3MjhjSVpmY3JCSDU4VTV6bjIzVkxkVW01NGhySnZ6cU8waUlIVzZtZTJWcEcwUFFaREJoVHRoZTFVdkdTNWlMcHhNR25Ea9IB9AFBVV95cUxPYTdwc29YRGt5NmVNUjllX0JsMkEzS1U4dUV5ZW5paElPVkZkVDF3SFpTbTQxT0xWemYwVTdsdjVhZzc1dlh6YTJRVkh3SVYxMHBhOEw2VTVVb09vWnhxeFpGQTBxUDNGbldOWDRnQl9ROUxvT3lnazJBNk1PV3FtRi1VRE9kUGQ4T0xzU29Db0daYjR2U2paQzYzTzAyS1p3MFBfcFNrUlBmd1pYSHFTR1dqUXpJcWVwc1JSQWlPSE9GWU9VZzJKNFJ6RkhFYjZ1MllWby1BQkVrNkFTZEduVEpPRGw5QkhjSlFwWU9LZWtlNUx0?oc=5",
+            "published": "Fri, 04 Sep 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 23,
+      "combined_score": 60.0,
+      "added_at": "2026-09-24T09:44:58.211957",
+      "first_seen_price": 1624.8,
+      "first_seen_at": "2026-09-24T09:44:58.211957"
+    },
+    {
+      "symbol": "CASTROLIND",
+      "base": {
+        "symbol": "CASTROLIND",
+        "price": 195.71,
+        "day_change": 1.28,
+        "volume": 421568,
+        "avg_volume": 2474570,
+        "volume_ratio": 2.28,
+        "high_52w": 207.2,
+        "pct_from_high": 5.55,
+        "market_cap": 19358.11
+      },
+      "technical": {
+        "symbol": "CASTROLIND",
+        "close": 195.7100067138672,
+        "rsi": 63.09,
+        "adx": 35.03,
+        "atr": 3.01,
+        "volume_ratio": 0.17,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS",
+        "score": 50,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Near Breakout",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 185.17,
+        "target1": 216.79,
+        "target2": 232.6,
+        "resistance_20d": 197.85000610351562,
+        "compression_score": 40
+      },
+      "news": {
+        "score": 60,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Castrol India Holds Steady at \u20b9186.42: Consolidation Signals Caution in the Lubricants Space - Counter Trend Trade - siam.in",
+            "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOdVEycjc0dkRabXJ0X3BOM3BVTkx6aDM1LTJaR0NwMXBfc2xOWXZzQm15aTJoUUo5b1ZSekFuQTF0aGk2bWxMaTBtQ2xiZnBEV2xjZ1BuaGJjblFIMnc5djUtQVJzM0JpcXdfdkFqRnFNeTctN3JWT2hUMjRvdTM1cGxucEJVNG55cXFtSnJmUkdSNzhiSVFOUTVwNlM3VENUbUlFSmlnZG5DcUluMXRISkU3cHRSNmtNN2FpbkZSX1RNWkVvSl83eUREVnJkZw?oc=5",
+            "published": "Thu, 03 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Castrol India CASTROLIND Lost Share Certificate Public Notice - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPX1Bhb3kzZmRXdmtCODUwU3dNQmxHdk0zelBYT2h6Y3F6YTFZbzB1c3lwbENQUkVlZWpHMjNFaFhLaU5MX21DVFRwYjJ6dndLVVQta0JPOWxibWhzZkpYVnpiSkVqVlpobGduYUx4SzZsQnpuS1ZiYmtSVnB5RzJqWC1SY3h3ZE03cVVHcVpDQUd2dmROcW9sTUR5NmtZTmZYMVB1UFgzNEpRWWx2eHNmLWxrSFNGc1JKZkZkWmVJcTlkSUpl?oc=5",
+            "published": "Wed, 16 Sep 2026 10:11:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Castrol India CASTROLIND Anand Rathi G-200 Summit 2026 Meet - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxQMWszRlB5SXFBcnh5TzhxT0RJRVkyUWNHRTh1bzdsR3BaNEo4WmFLNW9VOFM5ZVUyazJUVnV5MnJLR3l4MVVuNkhfc2t2TjE5SFVqdjZIRUljV2xFRWlNUHJkbVhYeEJPWkU0UGZYdmFBUHpQVlhkY3dQRnJNakhBMzZ0eHBMOUh3LVprb1RqNGFjODJWbElJYWdzWUtZQ1NJcURkZTJKSk1aa1JEbUhjbVo5ejFaYWNzU1VVVV9ERGpEZDZvNkdmYVdTOHJiLWk1X2dR?oc=5",
+            "published": "Fri, 11 Sep 2026 11:21:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Stocks To Buy or Sell Today, August 26, 2026: Bharti Airtel, HDFC Bank and NHPC Among Shares That May - LatestLY",
+            "link": "https://news.google.com/rss/articles/CBMigwJBVV95cUxPXzdWZDdrSnBxZ0pXbGpNcUZGaTBvV3B3NF9yNXl4TFpYb01EMG9ZdmtJSTV1enVTUWhnX1BES2tiMGJyTVpDaGcwV2NweTRiTVYtci1GUm9hVl9mNDlNUkZNcExlU3RLcXVMVVZOanUyV1cwNmJkNU03ZEgwODllaU4zZ3BGTFJMRzBpOTQ2N2gweTVnZS1NZVRPUVo2VTIyLWFxNUxBcTFJcXRWZ3k0czJ4bkhQaHlkTV9nc1VGLXVUeTVpNkRCYWZnRHh2ajRBakprR3RKS1gzSzFlU3pzOWdjSEtMemt2dXp2XzRBOFFKRFZoaWtIbXh0TUZLVjlHUGVr0gGIAkFVX3lxTE92a2VaR1FBNWpQS0dRVU5uU1dYS3hveXpHRTZJLV9CZTVPT21nWTBEdi01Wi1rLTNaRDlaaTJoY2RnelNYN3hScnZqS1FLWGw2VllMVmVlSndOZXlEQzgtSWZJRFJ3V3VCRzA4TnNMamdYTFZrSWQ5YUlXTkw5YU5iWnE4bkJwTjl0YW9Nc280YlRlcmlUR0ZBMVd5a0dYUWhJWEtPUzV3cjFWTXN1cmtVMTRjeGszOE1hVWprbWFhV3AzOVhjblcyNDhFZF9WUWNtdllSSEM5RjVoekZpNjFHNFlLSWZMYnNwU285VlVnWUJ2NlVFUF9iRE4tbFlhNnZXZXRNdXdwLQ?oc=5",
+            "published": "Wed, 26 Aug 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 20,
+      "combined_score": 58.5,
+      "added_at": "2026-09-24T09:43:53.303498",
+      "first_seen_price": 195.71,
+      "first_seen_at": "2026-09-24T09:43:53.303498"
+    },
+    {
+      "symbol": "INDORAMA",
+      "base": {
+        "symbol": "INDORAMA",
+        "price": 103.42,
+        "day_change": 3.42,
+        "volume": 880473,
+        "avg_volume": 2594756,
+        "volume_ratio": 4.39,
+        "high_52w": 112.3,
+        "pct_from_high": 7.91,
+        "market_cap": 2700.17
+      },
+      "technical": {
+        "symbol": "INDORAMA",
+        "close": 103.41999816894531,
+        "rsi": 78.79,
+        "adx": 60.72,
+        "atr": 7.22,
+        "volume_ratio": 0.32,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "GOLDEN CROSS",
+        "score": 49,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 88.97,
+        "target1": 132.32,
+        "target2": 153.99,
+        "resistance_20d": 112.30000305175781,
+        "compression_score": 0
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Indo Rama Synthetics (India) Ltd. Stock News - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQTEhtMV9taFR2SDNSMFpJV2ZtU0gtVVNZOXprM2E2T1hBRVVKUVI3c19QUHNkbnZENndxaUdQVXJtVUdVYVhlcmtzZnJZdkI4U213by1FYjkyNTY2QnpuTjRWcHdtS3UzQW5DajdRcnZjOGtoYXFoQ2g0SzJCZFBjWVotVDU0aWNYSXlGNUFn?oc=5",
+            "published": "Mon, 31 Aug 2026 04:45:05 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Indo Rama Synthetics (India) Ltd. Shareholding Pattern \u2013 Promoters, FIIs & DIIs - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQOE1MN2cxeTB3bGJ1cGdfSHNlcUh3VThKZnhUSm5vMG9vN0EzQUp2VExUS2JzYXdNZXFKaElTNXRCenl1NGVuVGE5aUw2TFZydFlqd2VHX0lidzg0eDU2bWl6dDdzbWFyZ2RsUFB5QkRKbFpfQ3hCanF1MGxvOW9KMGIwV1lZMlQ5TjFLMEFPZWcyMFZVWGV5eA?oc=5",
+            "published": "Fri, 04 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 Under the Radar Synthetic Fibers and Textile Intermediates Stocks in India 2026 - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQdmdubWVTekM5MVhCbGM5VkRNNGtnNXl6RGYxaW5NYjZWbGJWNHNzRjVSUEg1MlhGVDhpQWJZX29Ybk96cVllY0REcVdieGtBZU8tLUlUazRkWG9VUlpuNDQxazVub3hrd2VyQktwUEQ4NWU0eEpjZFZzWEJoZExIcjRWU1Z6dzJNRl8zdF9TWUc4bzNBeE1CeHdUWnVxeS1n?oc=5",
+            "published": "Tue, 25 Aug 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Indo Rama Synthetics (India) Ltd. Peer Comparison \u2013 Compare with Others - Value Research",
+            "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPQm80eDdNdDR0Uk5OeDN6ZmxkZkc1UUE4akhmbXJKSkNiUzE0N0h6NWduNlh5bThtRmFjNU9yaEZ1TnVucmR4dy1lcEU0c29mOFprUi16YjhkMFJ0VC1zX1lpeGhhU0ktVE8wOHZxZXBuMG8wZTUtQlNyX0lPb0M3V25Lbl80ZjBPTW9pVzdTb0hQLWJxbEROc1hJZWs?oc=5",
+            "published": "Sun, 30 Aug 2026 12:38:06 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 20,
+      "combined_score": 56.9,
+      "added_at": "2026-09-24T09:44:19.857371",
+      "first_seen_price": 103.42,
+      "first_seen_at": "2026-09-24T09:44:19.857371"
+    },
+    {
+      "symbol": "EMUDHRA",
+      "base": {
+        "symbol": "EMUDHRA",
+        "price": 650.4,
+        "day_change": 1.98,
+        "volume": 304282,
+        "avg_volume": 2080780,
+        "volume_ratio": 1.89,
+        "high_52w": 690.9,
+        "pct_from_high": 5.86,
+        "market_cap": 5336.11
+      },
+      "technical": {
+        "symbol": "EMUDHRA",
+        "close": 650.4000244140625,
+        "rsi": 67.57,
+        "adx": 42.08,
+        "atr": 32.57,
+        "volume_ratio": 0.14,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": true,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": false,
+        "patterns": [],
+        "setup": "CUP AND HANDLE",
+        "score": 47,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Cup and Handle",
+          "Healthy RSI",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)"
+        ],
+        "stop_loss": 585.25,
+        "target1": 780.69,
+        "target2": 878.41,
+        "resistance_20d": 681.5999755859375,
+        "compression_score": 0
+      },
+      "news": {
+        "score": 40,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "eMudhra Ltd. Share Price Today - eMudhra Ltd. Stock Price Live NSE/BSE - CNBC TV18",
+            "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9vaVBRZU9HenEzd0dHQkZ3WmxpZmZzazJ1RXM1MG1CdlJhUjh0XzlEZ0JDWl83YjVxRnFkZkprbHUzdVhqMV9pMFhWXzBHVE8xckxqRjlxLVBmMmU5MDQzWGQ0LVB5d0hPZ0tYczJXNE40N25RcHc?oc=5",
+            "published": "Mon, 21 Sep 2026 10:25:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "InvestingPro\u2019s Fair Value nails 67% gain on eMudhra in 6 months By Investing.com - Investing.com India",
+            "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNd19ZQVFtek9sX3Ric2pPaDdQWGtrbWdUNFpBUnpGdXZ1U0ktMjlwVWhEOFVicHZfa1FCVGJUakxmWE4wMmU2TkxpbS1tRl9OM1JTd3RmYXdZakl4X0RzWDdJM25DcFFBQ1VjbVNyYktYZGIwX0F0UUpUUzhraUsydHcyVlcwYmx5cE80SzI1NXpDMlR3VEF2ejB6a3VsNUZkSU1PQi1feTRmeTl3TUtXZnoxOWFGMlVxM2o5bDVn?oc=5",
+            "published": "Tue, 22 Sep 2026 15:29:58 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "eMudhra NSE:EMUDHRA Analyst Meet Alturas September 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOR0hmak1wc3o5WmNJM29TZzVjVkQyQjFSbFY1eFl1WmNaVVJuV3NZTWo3TlRWNG90X2ZzUTdOMllIdFJ5YTJyVnpkM2xRVlN1cmZLclA1UUtWY2RvdkFOUmNtZ1lKdklmMHBjZU4xZlB1VENuQW0yVXEyUXRUb2Zyem5UU05nNWZPM3BUdk44WGd5R1JGcWtpN0pGY2hlNVZyaFNmbWRTMGR6Q0pObzB3MzEzZzJtdnBNb2dRZzlWNHkwWk1DRWIzVWpxUlpwQUJT?oc=5",
+            "published": "Mon, 21 Sep 2026 11:25:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "eMudhra share price jumps 12% today, extends gains for second session | What's behind the rally? - livemint.com",
+            "link": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxOYm9fWVZyNEkxbGVFMS1Kdjl4cXRoZndCakp6SnFNZEJtV2lqa2pZa05PRXlJZTFKTi00QWkxYl9SdVN0dkxzNXg4bm8tVEYtby1HZF9ZZkthQmhYSXpLT25XUkNOakMyOVpFY3NxQmpSeE5mcGcydTVLc2V4dFZTUnJMUVhSTERueUE2WFFOUE9rOFRtWG9BLVNoTXZCRlV5cGMzMm5ZVWZSUDJaa3E4N0t1MHYtMlhPTEdWVGhNMDdrZmE0MzNKWEN0TVJkU2RGNzNuZ2JTYjJEVWpabWc3RVFZLVEzWmRNWEVGSjM3WERZQdIB9wFBVV95cUxOU0JhSjdKSVU1eHdFSm9wS0JUazlxR0hVLUZqOWt2T2ZmM3h4ZE9lbjJ4MGRqMWRLZHRiTnJNNF9CeFFHTC1mOVlCNnczUVluUHVKY2RGQl9OY2hnTklKSEMtdkpiZGFDQXQwYXUwSXEzYXJTaFEzb1BLLWlEaDJwLXNqQTJXTVpWbFBJMVVuYUpLV05maVMwR2VJMWtfazhNdW93T0JUVlM2VU44NFRnMm80aFIyWWIxcWpJYzRiSjEtWFdXV1R0VFktaUJUOUFBT0tMZFJlNU1vSmF5QUN6Ml9fSVhISUNfUklULUI3ZUMzOWctcFFz?oc=5",
+            "published": "Wed, 16 Sep 2026 04:16:28 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "eMudhra zooms 20% amid huge volumes in weak market; here's why - Business Standard",
+            "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOVHBmMzhFRnpLWUQyZ19mY2RXekhtbmtYREZwRjdfSmVGNHlWNkpXdlA2eG5PZlIyN3k5UHl3ejhwa2hGaVMwUkhGemFHbmRleFpKRzFuUjI2Q005UmtNa1pXY3hVTU5VMnhsSjBIcWVld2JVRWZrV2hUX2xPeW9CTm1JRVI0dFNiYXVRY1ppcldCSmhNMkl5T3REVVhPNE01OXFMM0NoQk5HMmhBdGZJNTExV19TSWJiMU5peC11ZTZaclYxZmYtWFh2ZHZXQ3k5WTJXT0VR0gHbAUFVX3lxTFBqcnZjWjdIQkRva3QwNkx3aGRRZkMzcmFxYkNNLXBoTkFfR29hdVVvWDMtNUg2YlVFNGJhOFd5RlloVlUxVUtkblFuNmNwSzRVc2xUNHBnZElqeHdiWDA2LVgxemtRQ1hmVllQTy1wWjJHaDNuLUZpQ0d2MlUwSE9RSWpuSzF1b1RfS3c0TC1LRUYyMUsxb0ZyRFBOOGs4dTYyNEt2X2lkYW10VF9RNzdqNHo2ZXJHYU5SeDVHcGMyZnBHT2ZsMDlMYm9KNnRscEdiU2ExbDh6T1I4VQ?oc=5",
+            "published": "Tue, 15 Sep 2026 09:35:19 GMT",
+            "score": -2,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 17,
+      "combined_score": 51.5,
+      "added_at": "2026-09-24T09:44:04.259789",
+      "first_seen_price": 650.4,
+      "first_seen_at": "2026-09-24T09:44:04.259789"
+    },
+    {
+      "symbol": "REDINGTON",
+      "base": {
+        "symbol": "REDINGTON",
+        "price": 403.0,
+        "day_change": 1.26,
+        "volume": 1272442,
+        "avg_volume": 6448035,
+        "volume_ratio": 2.55,
+        "high_52w": 419.5,
+        "pct_from_high": 3.93,
+        "market_cap": 31505.51
+      },
+      "technical": {
+        "symbol": "REDINGTON",
+        "close": 403.0,
+        "rsi": 63.67,
+        "adx": 42.06,
+        "atr": 15.66,
+        "volume_ratio": 0.19,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": false,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": false,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": false,
+        "patterns": [],
+        "setup": "GOLDEN CROSS",
+        "score": 32,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Healthy RSI",
+          "ADX Trend Strength"
+        ],
+        "stop_loss": 369.34,
+        "target1": 470.31,
+        "target2": 520.8,
+        "resistance_20d": 419.5,
+        "compression_score": 10
+      },
+      "news": {
+        "score": 70,
+        "label": "Bullish",
+        "headlines": [
+          {
+            "title": "iPhone Duo Launch Boosts Redington Shares: Stock Rises 5.33% as Apple Raises iPhone Prices in India - India Infoline",
+            "link": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPQUwwOXVHVVJMMVJYaGhwNS05TWxDWWI0aVlvSEdycVdVU2wtR2loZ0F4TVNwWFFhRUNEUFVmbUlPbDV6Ym82QTdjQVIyWlpsY3RMelJicVYyQWRpU01nUG1VLTlNTmpkazYyVXhhd0dvVFVFNTNCR0ZDYmNRYmVJRlJyWGcyS0R4OHhXajZqb0VPaXluS3FjLWVHUWJHUnByd21FQkcxcnc4YXg5dDV5Nkh1ZGtaVDVhLU82WkhmeGI0WThBVXBqODdKVkdsdHhkakpLaE9QdjRzZw?oc=5",
+            "published": "Thu, 10 Sep 2026 07:00:00 GMT",
+            "score": 3,
+            "label": "Neutral"
+          },
+          {
+            "title": "5 IT Hardware Stocks India 2026: Strong Future Roadmaps - univest.in",
+            "link": "https://news.google.com/rss/articles/CBMiekFVX3lxTE5tcndkT0taczNnc3VMdU5Hc1QzT01hYWtwUUQxdEdWcnc2YXdUTS1GTEVYX3dqX1YxM1pOVDA4endGN2VwN19XclBteWJLWkZCU2ljRWpGdGhMcjFQa0hMa0tEMVZhVGVHRDZxYzJqdDg1ZUFOeEJ5MFVn?oc=5",
+            "published": "Wed, 26 Aug 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 20,
+      "combined_score": 47.8,
+      "added_at": "2026-09-24T09:44:54.107231",
+      "first_seen_price": 403.0,
+      "first_seen_at": "2026-09-24T09:44:54.107231"
     }
   ]
 }
