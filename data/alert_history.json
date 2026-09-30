@@ -1676,9 +1676,9 @@
       "move_since_morning_pct": 1.3882002974714884,
       "move_from_open_pct": 2.05
     },
-    "outcome": "PENDING",
-    "exit_price": null,
-    "exit_time": null,
+    "outcome": "NO_TARGET_TIMEOUT",
+    "exit_price": 309.6,
+    "exit_time": "2026-09-30T00:00:00",
     "max_favorable_pct": 4.78,
     "max_adverse_pct": 3.83
   },
@@ -1717,10 +1717,10 @@
       "move_since_morning_pct": 1.4410621761657993,
       "move_from_open_pct": 4.42
     },
-    "outcome": "PENDING",
-    "exit_price": null,
-    "exit_time": null,
+    "outcome": "NO_TARGET_TIMEOUT",
+    "exit_price": 604.4,
+    "exit_time": "2026-09-30T00:00:00",
     "max_favorable_pct": 1.52,
-    "max_adverse_pct": 3.41
+    "max_adverse_pct": 3.75
   }
 ]
