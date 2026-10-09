@@ -1,30 +1,30 @@
 {
-  "date": "2026-10-08",
+  "date": "2026-10-09",
   "items": [
     {
-      "symbol": "SKYGOLD",
+      "symbol": "SMCGLOBAL",
       "base": {
-        "symbol": "SKYGOLD",
-        "price": 886.2,
-        "day_change": 0.83,
-        "volume": 2126178,
-        "avg_volume": 964228,
-        "volume_ratio": 4.86,
-        "high_52w": 901.8,
-        "pct_from_high": 1.73,
-        "market_cap": 13724.92
+        "symbol": "SMCGLOBAL",
+        "price": 119.62,
+        "day_change": 10.93,
+        "volume": 35148376,
+        "avg_volume": 13070110,
+        "volume_ratio": 5.9,
+        "high_52w": 123.0,
+        "pct_from_high": 2.75,
+        "market_cap": 2504.84
       },
       "technical": {
-        "symbol": "SKYGOLD",
-        "close": 886.2000122070312,
-        "rsi": 71.77,
-        "adx": 22.33,
-        "atr": 33.86,
-        "volume_ratio": 2.18,
+        "symbol": "SMCGLOBAL",
+        "close": 119.62000274658203,
+        "rsi": 78.34,
+        "adx": 59.26,
+        "atr": 7.72,
+        "volume_ratio": 2.57,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
-        "double_bottom": false,
+        "double_bottom": true,
         "inverse_hs": false,
         "cup_and_handle": false,
         "bull_flag": false,
@@ -35,17 +35,20 @@
         "macd_cross": false,
         "obv_accumulation": true,
         "patterns": [
-          "3 White Soldiers"
+          "Bullish Engulfing",
+          "Morning Star"
         ],
-        "setup": "GOLDEN CROSS",
-        "score": 69,
+        "setup": "DOUBLE BOTTOM",
+        "score": 83,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Higher High / Higher Low",
+          "Double Bottom",
           "Near Breakout",
-          "3 White Soldiers",
+          "Bullish Engulfing",
+          "Morning Star",
           "RSI Rising (Building Momentum)",
           "MACD Bullish",
           "ADX Trend Strength",
@@ -54,10 +57,113 @@
           "OBV Accumulation",
           "Strong Volume"
         ],
-        "stop_loss": 818.47,
-        "target1": 1021.65,
-        "target2": 1123.24,
-        "resistance_20d": 901.7999877929688,
+        "stop_loss": 104.17,
+        "target1": 150.51,
+        "target2": 173.68,
+        "resistance_20d": 123.0,
+        "compression_score": 0
+      },
+      "news": {
+        "score": 60,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "SMC Global Securities Ltd. (SMCGLOBAL) Share Price Hits Fresh 52-Week High on NSE - Univest",
+            "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNVDRkUU52ZUdPX3NmRmhTYnRONllqTXM0VU5XQVpoUmtlR1FyUkVJU0lvZ1o0Vk1sRTBJLWV3TExYdVhYdVFGZ2gydlZYMkRvM2RBajkyamJUMFhhQ1I3bWMyWFdRVEZsbFRrbmJ1Z0s1eks3MVlpeXZmTlNMUDdwd3E4ZVQwNW5sYVJjZXlEc3ZWbnhy?oc=5",
+            "published": "Tue, 06 Oct 2026 03:59:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "NSE vs BSE: Which stock to buy after world's biggest derivative exchange's shares' debut on Dalal Street? - TradingView",
+            "link": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxQVHpkUUItZGxienVJaGJ0TzgzSzZaRlUwUlRfR0ZoTVd4MXNWV09leXdfeUNJdFZ5cVppckp4eWFQS3JpbkFaTXFJOXNHODBsY3JnYUg4c0lERXZtNTBmcWxYUVlHTTM2SUk2M3pESlA2VmQtVEg5VVZ0T0txYWxYUzA5WEpQd1hNQmlvVUdYSlZEeml3NzRDZEdnM1dwUE1Fc2xuT3RhODlWMzh0S3dYYmY1cENNb1IyekdlOG9ycmxTX05jV09Gaml1TnVYeEw2aVJMa3U2dnpFNDlBbDBwV2JETXJDY1VRRUFFT1E4VE0?oc=5",
+            "published": "Thu, 24 Sep 2026 07:00:00 GMT",
+            "score": 2,
+            "label": "Neutral"
+          },
+          {
+            "title": "Sebi penalises SMC Global Securities for compliance lapses - The Economic Times",
+            "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOSzJFRmc2Slc3SnpDOGozM0xsaGhielpRSHdINFMxWmVWNWJMc1MyQm91UnhRNVU0cV94bU5IOUt4RnB3aEdrOFdOd2swTkRZUnhIN2luUXB4Nkc4NGIxNHY1RERXbWFxSnlQV3RaOTdyOXZhbi11dGpreGJGeG1qdkJjWkNKLS1pbDNmYm5OS1dNWkZJZG5sMjVVRGlsWl80U09idHlvaldMbkowMkhfZ0xBaXFrNHkzUlNIZ29QTnY4bHVRdjJMcVRRT3nSAdIBQVVfeXFMTk5XOFpJZ01IcWF2VjRPc1AtVzMta29vTHptZWdreXpscmt0WGJGOGxfamlIem5rUkVnY0lIMnZ2NEZVSThJSlgyT21yNkZMM3hSd3JKM01vWTR2U0VuVHE3M2NJd0UxdnN0LUlrQlh2TVBINlhEb1Z3UjNIWU9vdE53NGFRNWVOcWpyTkFxcWxrTmNwOFVCam1BeXlqU2pHWEQ5VDRzdnRld2FjTnRjMjRtOEZqdnVPanZkOEJZVlg5Rnd6ekpsSktoVkZESEQ4RWxB?oc=5",
+            "published": "Fri, 02 Oct 2026 11:31:34 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "NSE slips to 12th spot in list of most valuable Indian stocks; experts see more dip \u2014 check support, resistance, outlook - Livemint",
+            "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxOLUN2bGpaUURRUmVRSHNlTG9pWEw2VjA0Y1dudmMtdnhwMVdiTXBYZDdKUjNLajIxVTRsazRySHdpYkVQT1hEUXFyQ2JnSi1VTFFIUWlEUC1TYldoN3ZxRk5CSndDbEZqdmVlc1NKbF9GZVpka3FNU1NqVERBUU9RVEs5WGI4X0lPcmIyM0pCdWVTekQzczE0NFNYV1BaellMVGhXazl5TUhKeGNTWlhhMXA0SjhCLXN5R2dJd0tlbHlBWUNKUjVwSkcyRVRZRXNGbEhEQkxsYS1Kclpuekc5dy10Y1dPUENtLS1KNzg0TTJlSTBSYWxkZlZ1ZGZFQldLZ3ZUTU5xY1VEaWpQTE9lTHVFb9IBmAJBVV95cUxORk4xbjljaWN4VnRqZHFDdWotMXhIcUxnWFV3Y2VfOGZ3bTZWODRQRmdCWnZtbERkWXJaNWpxbjJVeUp5M0o4bGJTSjljbFV5eG5hWlg1N2VKLVI1QllLVl9fa1dBSU1hUVpCSTE4NjdZRHNTVFQxTUJFcWhDdnpDS1VyS091M0twQmhkMDlNUXlER0c4d25WcU5VRTRuVnU2cnpna0hJdzNhSWlyalVXRkdwdm1UenJTT28yQjZvZ3pUSFRNWHlMU1AtNVdGTVpGckVTYVZQSjloV3FGV05JSHJ1RkZXbnJmYlFYZ0puM0Fhb2hwNlp2UFBna1g1Uk9xZjVfVzE0aXhqUWwzRlpBYXJqTV9VU1lV?oc=5",
+            "published": "Tue, 29 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "SMC Global Securities (NSE:SMCGLOBAL) and PAC Acquire 26.68% Stake in S. K. Offset - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOSUpnQTNyU2VaTUFZNDZwdENuZzlsbENvOEFZY2JWYkU3X2g0Q1BWMkJ6Z0pXRmxIVno3eWlxSko3OVltZDdsbFdEZy1FNWVRQTA4Q1ZzWDhhbm9FcFVlU01MLUpIaWJ3R2NIRVZ1WkRkMDlJX3UyVUFMM0RKTXJKLUNYNzg0cHFUNEg5VG13dVNYMzViRDltY0ZCZGVDTFRXY3ZaQUZMbkNWSjUyLUp6LVpvVDhFd2xaelY1Yg?oc=5",
+            "published": "Thu, 01 Oct 2026 14:28:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 22,
+      "combined_score": 82.0,
+      "added_at": "2026-10-09T12:06:12.716069",
+      "first_seen_price": 119.62,
+      "first_seen_at": "2026-10-09T12:06:12.716069"
+    },
+    {
+      "symbol": "CYIENT",
+      "base": {
+        "symbol": "CYIENT",
+        "price": 1142.7,
+        "day_change": 5.35,
+        "volume": 3183330,
+        "avg_volume": 689050,
+        "volume_ratio": 10.25,
+        "high_52w": 1222.0,
+        "pct_from_high": 6.49,
+        "market_cap": 11895.69
+      },
+      "technical": {
+        "symbol": "CYIENT",
+        "close": 1142.699951171875,
+        "rsi": 61.63,
+        "adx": 27.21,
+        "atr": 49.36,
+        "volume_ratio": 4.5,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": false,
+        "breakout": false,
+        "macd_bullish": false,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 72,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Healthy RSI",
+          "RSI Rising (Building Momentum)",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "Volume Expansion",
+          "OBV Accumulation",
+          "Strong Volume"
+        ],
+        "stop_loss": 1043.98,
+        "target1": 1340.14,
+        "target2": 1488.22,
+        "resistance_20d": 1182.0,
         "compression_score": 25
       },
       "news": {
@@ -65,47 +171,128 @@
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Sky Gold and Diamonds (NSEI:SKYGOLD) Stock Forecast & Analyst Predictions - Simply Wall Street",
-            "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxQWE5iODliMjJBN0hNb1FKbXl1cTF3QjhrQ1E2NTdxVUVPd2ZoQU5oMWhNY0hudXBWVVhDOGdMMzRmTjczMFJ1NGpTbmp0elc1dU5aSTVvdUJINDlBTkdZSFR5aVFsSjBrMW9HRGktRFUwN2ZMSkRIUG5GY3hFcm1hNklxcVdMV3dkcUl3TFM2LWRCNXYzb3k4OVlNdTNZdw?oc=5",
-            "published": "Tue, 29 Sep 2026 07:00:00 GMT",
-            "score": 0,
-            "label": "Neutral"
-          },
-          {
-            "title": "Sky Gold and Diamonds (NSE:SKYGOLD): Why Was the Investor Meet on 9 September 2026 Cancelled? - Kalkine India",
-            "link": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNWW9mWk5wU0dQcmVMUWhMS01zRmpnX1EyaHZTczhIVEJiN3JtekNEQ1dtdDI0VWxBSGRFOHhTalFBeElUVWxrODhsN2ZpcmFLWkVyRVJRN3ExUTV4akttT2R1dVZtXzlmN3ZaOXg0VklIbU5sVkhDekRPRlJHa21LWDY3eDFUQ3ZJNnJRNnM5TV8tQlF1djVmdVdmd0FqRGFpb3FnU3FyOEZwT0hYZWI0ejh3QW1FcGR3SEdJM0hTRk9MekhPTVdQRDQ5clZPdXByM0E?oc=5",
-            "published": "Wed, 09 Sep 2026 07:00:00 GMT",
+            "title": "Cyient NSE:CYIENT JP Morgan Investor Meeting September 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOVExEckFGeWhXZGRrS3lpMks5TnlFbWY1bF9WUHVrRS1VeVF2SVQ3TlNsRnVLb3NfZWU1aXZqSDBwS05CZXRDME94TFZqVVNuLV9LX2xmQjFqalI5akxfUkc5NXBRVWc5TWZ2ODBMQ2tmc2FnWTZ6SkNGbkJWeVFaa1Q2eWxfVzRFV3ZDZjRCQWY2OTJGa1VDa2JfZ3ZOdGpWY2Z4dXYzbG9ZaHRlNFZEbUFYOW1IQ2RhSW1ZcTVMUQ?oc=5",
+            "published": "Thu, 17 Sep 2026 11:22:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
-      "core_score": 25,
-      "combined_score": 74.8,
-      "added_at": "2026-10-08T12:05:05.568078",
-      "first_seen_price": 886.2,
-      "first_seen_at": "2026-10-08T12:05:05.568078"
+      "core_score": 20,
+      "combined_score": 71.8,
+      "added_at": "2026-10-09T12:04:52.539578",
+      "first_seen_price": 1142.7,
+      "first_seen_at": "2026-10-09T12:04:52.539578"
     },
     {
-      "symbol": "NAZARA",
+      "symbol": "KOTAKBANK",
       "base": {
-        "symbol": "NAZARA",
-        "price": 388.5,
-        "day_change": 2.66,
-        "volume": 2160098,
-        "avg_volume": 1490473,
-        "volume_ratio": 3.22,
-        "high_52w": 401.9,
-        "pct_from_high": 3.33,
-        "market_cap": 14945.44
+        "symbol": "KOTAKBANK",
+        "price": 443.7,
+        "day_change": 2.0,
+        "volume": 15268056,
+        "avg_volume": 20574291,
+        "volume_ratio": 1.64,
+        "high_52w": 453.2,
+        "pct_from_high": 2.1,
+        "market_cap": 441387.5
       },
       "technical": {
-        "symbol": "NAZARA",
-        "close": 388.5,
-        "rsi": 62.81,
-        "adx": 21.72,
-        "atr": 12.96,
-        "volume_ratio": 1.4,
+        "symbol": "KOTAKBANK",
+        "close": 443.70001220703125,
+        "rsi": 69.14,
+        "adx": 33.44,
+        "atr": 9.78,
+        "volume_ratio": 0.73,
+        "ema_alignment": true,
+        "dema_alignment": true,
+        "golden_cross": true,
+        "double_bottom": true,
+        "inverse_hs": false,
+        "cup_and_handle": false,
+        "bull_flag": false,
+        "hh_hl": true,
+        "near_breakout": true,
+        "breakout": false,
+        "macd_bullish": true,
+        "macd_cross": false,
+        "obv_accumulation": true,
+        "patterns": [],
+        "setup": "DOUBLE BOTTOM",
+        "score": 65,
+        "reasons": [
+          "EMA bullish alignment",
+          "DEMA bullish alignment",
+          "Golden Cross",
+          "Higher High / Higher Low",
+          "Double Bottom",
+          "Near Breakout",
+          "RSI Rising (Building Momentum)",
+          "MACD Bullish",
+          "ADX Trend Strength",
+          "ADX Rising (Strengthening Trend)",
+          "OBV Accumulation"
+        ],
+        "stop_loss": 416.86,
+        "target1": 497.39,
+        "target2": 537.66,
+        "resistance_20d": 444.29998779296875,
+        "compression_score": 40
+      },
+      "news": {
+        "score": 50,
+        "label": "Neutral",
+        "headlines": [
+          {
+            "title": "Only 9% up since last MD but Jefferies sees 10% more in Kotak Mahindra Bank shares after Anup Saha's appointment - Livemint",
+            "link": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxQRVpfZW0yUTNLLXhiY0ttTTFZVnFsUUp5aWFFXzREU2lmdzlmUEpaRDZfS3kwQ2gwWEVzMmhEQkF1WGwxQU10dkQ5aElTUzUxc1k5Wk14U2pjMDhMUVhQTHNkUF9YY3d6eDFjZVdVcnliRHAzdXNRY0N0b1BNNW1WLWtLaGgyR3haMHBWMlhfbW1wQ05ldW5JaDk1SnUwMTlScWVtVTd3RWNScmxsRDFoOVQ0NExKV1RkYXFzY2pwWjhBUkR3bW5ocHFIN291OWtMTTQxZ2NTVWx0czRxWmRrbXAzOHQ0MGt3MWxRN3k0UUI4UW9FTDU0U2VvOTNtTVNjbjRLbjFrUF9LQTTSAZACQVVfeXFMTzZWZENwZ2ZvS1JzZ1d4MmRpdC1FSERieU12Y1d2cTk0NHh3cTBiRnZFcmlZb25jUUlwLUdtT3hrU1gzRVRRQkJJVDh3TlZHR196UVFsOF9lYlBGOHlIWFVHeGRsOTluWGV0eVZZZlkxOWpuNnliTVlVdG1wRWgxV1gza040VlhUbl8zcV80V1QwMGdua3hQaXEtVXNyNmk1aGp5ZFBuYXhuV1RFaDVtSXhqUUd2LUJWWWZuX3lBeTg0Y0Uxdy1VdkpIaVpHVTlDNEhWd1QwXzdUQTFLckRqQ0o3WnpzdmcxcGJPRERfMm5wZWJBNHhVQ3NHckhGVUQxTjNIN25DQUxUM1ZCbzIxZmc?oc=5",
+            "published": "Fri, 02 Oct 2026 10:31:54 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "NSE may surpass Infosys, Titan, Kotak Mahindra Bank, HCL Tech in m-cap on market debut - Business Today",
+            "link": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxNVEZtT2JQcFJzcFk2M2RpSldweE1qcmVveUhpbF84aG1fWUZiOHRzTm9xVFBzbDJ0RkMwV3F4Y2FGVWIweVd3REQ4VjdNNDR4Rk5RRldZcENOTkpqM3pZTk12bXZZSHVtU1hYXzQ2MXZtYzB3QTl3cVFaLXhJQjIycWxBNEhiZnRHR0tlZlBWRkdlaE0yUkY1WVAxZ3NZSUhrdmM0UXhIanhJUm5ieW9RN1dnWWRhdVp6b2ZEeHpmUWh5bEE3TGJteWFqSTREQ21jdGMta0Rra01kczE5SlNyS2NOeWp4cXdQQjVj0gHwAUFVX3lxTE1HY0s0eHM5RFFJc3BGY1F5Yk1fUVN4bjlRWXFHU1hjeGtBNVZSVGFTTWhjV0hUWnAteWpIUzRUUzB3UzVhNGh1NnRNWE9HLW9vODdrdHdrY09fQlJUZVdrQVZKb3g3a24tNjBNTG1laTNnOWxfUlNydDJneXZSNi1yMzRKUnBLelhXaDdPdUtoYjdhTUJXNnc2MmxOT0JicGV4RDRaZUJvQjV3azU0ZV9ubmw1R09ULWY5WFd2UHMxS3dmU0dSWlYwNXBIbzk2Nm9QeXY5Q1NJOVJsbmxlaTYxSmdGV1VzVjhVYmtkOTZ5bA?oc=5",
+            "published": "Thu, 24 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          },
+          {
+            "title": "Kotak Mahindra Bank ESOP Allotment of 2,25,250 Shares - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPdnp2YS1Ka3U1Y0lUbDg3ZWhtTXp3U3J6eFJzTUVoT0ZEbWI3UDJ0VXU0eVc4TFBzQlh1eXF2NW01Sl9mNkc0aEtLQzdMZmRRRDBzSnpCaTBZcXJFY3ptd2k5VUVHcVZpcEx1SWluTUJkTmJSU3hBRW1vMFpkSEdBODVjdlJuR2dZQ2syRTRMRGNUUWNiRWtHOWU0NDlraVl1UTlvV0ZWZjlCX0ZmTHlJVy1fU1laSFpiZGpRTmxHY0VsV201LWFnbjhtUGhlVDJBZ0dXeTk3bURqSXpwTkt4c2tibGFpU3BU?oc=5",
+            "published": "Sat, 19 Sep 2026 07:00:00 GMT",
+            "score": 0,
+            "label": "Neutral"
+          }
+        ]
+      },
+      "core_score": 19,
+      "combined_score": 66.2,
+      "added_at": "2026-10-09T12:05:28.838226",
+      "first_seen_price": 443.7,
+      "first_seen_at": "2026-10-09T12:05:28.838226"
+    },
+    {
+      "symbol": "BHEL",
+      "base": {
+        "symbol": "BHEL",
+        "price": 435.35,
+        "day_change": 0.78,
+        "volume": 8228377,
+        "avg_volume": 8522756,
+        "volume_ratio": 2.14,
+        "high_52w": 455.95,
+        "pct_from_high": 4.52,
+        "market_cap": 151591.63
+      },
+      "technical": {
+        "symbol": "BHEL",
+        "close": 435.3500061035156,
+        "rsi": 54.25,
+        "adx": 16.36,
+        "atr": 13.95,
+        "volume_ratio": 0.97,
         "ema_alignment": true,
         "dema_alignment": true,
         "golden_cross": true,
@@ -119,200 +306,57 @@
         "macd_bullish": true,
         "macd_cross": false,
         "obv_accumulation": true,
-        "patterns": [
-          "Bullish Engulfing"
-        ],
+        "patterns": [],
         "setup": "DOUBLE BOTTOM",
-        "score": 54,
+        "score": 51,
         "reasons": [
           "EMA bullish alignment",
           "DEMA bullish alignment",
           "Golden Cross",
           "Double Bottom",
-          "Bullish Engulfing",
           "Healthy RSI",
+          "RSI Rising (Building Momentum)",
           "MACD Bullish",
-          "ADX Trend Strength",
           "OBV Accumulation"
         ],
-        "stop_loss": 362.59,
-        "target1": 440.33,
-        "target2": 479.19,
-        "resistance_20d": 401.8999938964844,
+        "stop_loss": 415.26,
+        "target1": 475.52,
+        "target2": 505.65,
+        "resistance_20d": 455.95001220703125,
         "compression_score": 25
       },
       "news": {
-        "score": 50,
+        "score": 55,
         "label": "Neutral",
         "headlines": [
           {
-            "title": "Nazara Technologies (NSEI:NAZARA) Stock Forecast & Analyst Predictions - Simply Wall Street",
-            "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPWUVYbGF6YzZGbkdJaGVnVWdfUEVmQ1I0QzhuYUF3MFFiZlAycVlnb0lnYnlFdTFfNVhEaTRzNDg2bFBsX2pOS2hoemdHa2w3V1VuREZGY2VGSkt3RlVRTV96VnZQZnI5b3pYdFBuNHJFY0NWTDJoSHFiUHBRUXpSNUZFNzZkWk10dGc?oc=5",
-            "published": "Fri, 02 Oct 2026 07:00:00 GMT",
+            "title": "BHEL NSE:BHEL Special Window Physical Share Transfer 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOOGg1NGx0S21xMnJBOGEzUmR4WGY3ajhmUjlFbHNETjVpWk5GeTU1QUtLNmJfREZfOHhsYXd0WGZlaDBpN2ZLY2stSlRRNGIxc29DWHFsVzFZcDAwR1dOb0NMbHdHVFhMZTNLZVhwRGZQUlFFYjVxLVJaaWdFZlZ0dHZ0QUlSMnZSd2w5VWpNRmVmMkNoeWhBSmVWOENIVXZiTExhTVFBMTFTRmZ6ODhhOUFsd1VWcXlOS1UteE5B?oc=5",
+            "published": "Mon, 05 Oct 2026 11:27:00 GMT",
             "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 23,
-      "combined_score": 63.1,
-      "added_at": "2026-10-08T12:04:33.825032",
-      "first_seen_price": 388.5,
-      "first_seen_at": "2026-10-08T12:04:33.825032"
-    },
-    {
-      "symbol": "CUPID",
-      "base": {
-        "symbol": "CUPID",
-        "price": 353.15,
-        "day_change": 2.53,
-        "volume": 20280084,
-        "avg_volume": 24231245,
-        "volume_ratio": 1.87,
-        "high_52w": 357.0,
-        "pct_from_high": 1.08,
-        "market_cap": 47486.69
-      },
-      "technical": {
-        "symbol": "CUPID",
-        "close": 353.1499938964844,
-        "rsi": 77.04,
-        "adx": 24.14,
-        "atr": 13.88,
-        "volume_ratio": 0.81,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [
-          "3 White Soldiers"
-        ],
-        "setup": "GOLDEN CROSS",
-        "score": 59,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Near Breakout",
-          "3 White Soldiers",
-          "RSI Rising (Building Momentum)",
-          "MACD Bullish",
-          "ADX Trend Strength",
-          "ADX Rising (Strengthening Trend)",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 325.4,
-        "target1": 408.66,
-        "target2": 450.29,
-        "resistance_20d": 357.0,
-        "compression_score": 0
-      },
-      "news": {
-        "score": 50,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Stocks to watch: RIL, NSE, HDFC Bank, IRFC, Infosys, Cupid, Blue Dart, OMCs - Business Standard",
-            "link": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQRkJWcmRzYUZMUUp2a2FscFhZRmhXejhiMGJQNFB5dDNGaUhJb3V1MUJZTXNrNUZrZ0xrWmpKRmRXV2tTVzZ4N1FkeUhkSHpDLW1INnptR1ZTYXB2VlVDN3FTMHg2U0xBVC1DNVp1emVFTzJUWlJGYVU4ZmlxYmxfR3dTem1xREdIcDFkREwzSVlLcXRsNUtMajJhbGV2ajZBdGxrdTVsVGdpaWlrVllRRndoRHN3eWZ4N1o4WS1PNkVFcnA3di1XNDl3c191OEnSAdQBQVVfeXFMTktQazF5ZDQxTE1YbEtKOXNvbDBxSTAybElWMUJKaG1mUmVTcHk1OWhQenVpTFBlZUpqUWRxSkhJSDNreVZiem81aVpaWmYtaVlfZnpRRk5IZ3V3Q0tHVkxpR2lMalc1MFdMMzkxSkZHWlIzRUhUSEU3Yk5GUkJPZlpBYXhDalctQmhJYl82MFQ5R3BiWk9vS0xhZGREVWhrWUxHVDh1V2Y3ZnBSSW5uWE54MTVoN1NtYXNZZUdKbUdEYkZMMTVPcTdPTVhoMTJiZHMyS1Q?oc=5",
-            "published": "Thu, 01 Oct 2026 02:45:26 GMT",
-            "score": 0,
-            "label": "Neutral"
-          }
-        ]
-      },
-      "core_score": 19,
-      "combined_score": 62.4,
-      "added_at": "2026-10-08T12:03:35.203324",
-      "first_seen_price": 353.15,
-      "first_seen_at": "2026-10-08T12:03:35.203324"
-    },
-    {
-      "symbol": "E2E",
-      "base": {
-        "symbol": "E2E",
-        "price": 729.0,
-        "day_change": 0.79,
-        "volume": 697171,
-        "avg_volume": 632759,
-        "volume_ratio": 2.46,
-        "high_52w": 753.35,
-        "pct_from_high": 3.23,
-        "market_cap": 14977.88
-      },
-      "technical": {
-        "symbol": "E2E",
-        "close": 729.0,
-        "rsi": 73.41,
-        "adx": 17.7,
-        "atr": 35.36,
-        "volume_ratio": 1.13,
-        "ema_alignment": true,
-        "dema_alignment": true,
-        "golden_cross": true,
-        "double_bottom": false,
-        "inverse_hs": false,
-        "cup_and_handle": false,
-        "bull_flag": false,
-        "hh_hl": true,
-        "near_breakout": true,
-        "breakout": false,
-        "macd_bullish": true,
-        "macd_cross": false,
-        "obv_accumulation": true,
-        "patterns": [],
-        "setup": "GOLDEN CROSS",
-        "score": 48,
-        "reasons": [
-          "EMA bullish alignment",
-          "DEMA bullish alignment",
-          "Golden Cross",
-          "Higher High / Higher Low",
-          "Near Breakout",
-          "RSI Rising (Building Momentum)",
-          "MACD Bullish",
-          "OBV Accumulation"
-        ],
-        "stop_loss": 658.29,
-        "target1": 870.43,
-        "target2": 976.5,
-        "resistance_20d": 753.3499755859375,
-        "compression_score": 0
-      },
-      "news": {
-        "score": 40,
-        "label": "Neutral",
-        "headlines": [
-          {
-            "title": "Netweb Tech, E2E Networks, Black Box fall up to 7% as AI slowdown fears hit Indian stocks - Moneycontrol.com",
-            "link": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxNVXNuUm1ib3Z0RlFzSGJ6Rm1uUWltRFhBOTVTUXphZmhJSWhlN0xOeFpoRmFrT3RVWlBjRnFaUFFZaGFOcnhRUUZ2MkdJekFnNE94T0Vab3QyczFXT1czRUsxZndWQnQ1TGN6TXhEOW1pSXpmcy1ENmNWT1BzT05INlFyLTIzMUlfQXFTMUN4emk4YVM5TUt5WnRJdm9mSFFMa0szYzNzNE1jcEdJdU1wTHc5R2o2a25hY0hFUWtlRE1UYm92RzNpRXJBUnRSekZEY2lxMGxwRHJxNjRMOUlBZlBQWmTSAeoBQVVfeXFMTm9xYThFcVBoTEkxZkdwNm1qYUpsUkNhSUtnWnFmQm9EMUNZV0FYczlhNmhyaFJpaW5FVUF0WE9MbWdmTXJkYzVxVEp1LVpGdUtWTzNnVEdNSHU4OTJtUkNXM2lFbDZ2WXQ0bjZfdWFWX2lvLTk0cE0tUGhBckNzdTNreGpTbG01X3lNRjN0WFVCb0VMVHRFSnkyTmpEaGo0ZjhYZTc4WUktYU80NUYyQk9pSTdaeVpIUFZEUmVxTkk1S2stSjRZeWlmMjhHMVlpWkJkSjFvZVFCcUtxSy0zQmpPbF8wdHFsb3F3?oc=5",
-            "published": "Tue, 15 Sep 2026 07:00:00 GMT",
-            "score": -2,
             "label": "Neutral"
           },
           {
-            "title": "E2E Networks Ltd Share Price Today NSE/BSE Charts - Alice Blue",
-            "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1qUG5aaUJYZVJ6YlJkak5wTFg2dTN1SW1TVGlEam1HVlhzX3U4aUN3YWdqaU0zZ2hGM0Zpd3Z1bTRXdzB0VENNSTJ1djZId05MQU9mcGlDRHpkMGcwRHpJUVZudk8waGNFSzk4R1dlbw?oc=5",
-            "published": "Thu, 10 Sep 2026 18:43:22 GMT",
+            "title": "3 Fundamentally Strong PSU Stocks in India (September 2026): BEL, BHEL and Coal India Compared - Univest",
+            "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE96YlZ3c0RUeHBaVzM5bjlUazBDV3dNczFRU2phbEgxUU1zUTlPRU5ZRUlGakw4c0lHdkVtOTdFUnZRbktFVHZZODE1a1dFcWhTMkpNVFBvSFY1RTdtbmJjaW9pS0ZRTFhsTEFPX25wYw?oc=5",
+            "published": "Wed, 30 Sep 2026 07:00:00 GMT",
+            "score": 1,
+            "label": "Neutral"
+          },
+          {
+            "title": "BHEL NSE:BHEL Trading Window Closure October 2026 - Kalkine India",
+            "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNN2d3WG9Ra0hUSTRHNFJuZkFRdUVBaGRLRVMtY0ZqUEp3MnVZT3lZakFST1c0N1duQVFOWkVkSnB0N2pUQWozdEY4WDUyS01NOEhqM25Fc0VYRTVrVWxDVFF1UXBSaTk2cDZCSWVsTjE1OTRBazYwU3RZNmJVZkVKVDBUV0R3RmY5eS0yOFo5a1dXRGU1ZHdvT1ZwanVEWFpnSG93alBTRkRTUHU0UTlUU3VYdUhIS3RyRUZOYlpTZWN0anptUWk4?oc=5",
+            "published": "Tue, 29 Sep 2026 09:14:00 GMT",
             "score": 0,
             "label": "Neutral"
           }
         ]
       },
       "core_score": 20,
-      "combined_score": 55.2,
-      "added_at": "2026-10-08T12:03:41.574550",
-      "first_seen_price": 729.0,
-      "first_seen_at": "2026-10-08T12:03:41.574550"
+      "combined_score": 58.6,
+      "added_at": "2026-10-09T12:04:42.656204",
+      "first_seen_price": 435.35,
+      "first_seen_at": "2026-10-09T12:04:42.656204"
     }
   ]
 }
